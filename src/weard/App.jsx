@@ -50,7 +50,7 @@ const VideoHover = ({ src, poster, className }) => {
 const SHEET_URL =
   import.meta.env.VITE_SHEET_URL ||
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSe2hqUTFYnlYQVFXLmR0G2bI_APH9kkJqL7XJIvFIloG7QEjBAJqXkxGrUBYrvoaTg7jS-ucCQ1Uzj/pub?output=csv";
-const GEO_URL = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
+const GEO_URL = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json";
 
 // Accurate country flags
 const FLAG_SRC = {
@@ -682,19 +682,17 @@ const [position, setPosition] = useState({ coordinates: [0, 20], zoom: 1.4 });
               onMouseEnter={() => setHoverCountry(nm)}
               onMouseLeave={() => setHoverCountry(null)}
               style={{
-                default: {
-                  fill: active ? "#E8E9FF" : "#F3F4F6",
-                  stroke: "#D1D5DB",
-                  strokeWidth: 0.6,
-                  outline: "none",
-                  filter: active ? "drop-shadow(0 0 14px rgba(99,102,241,0.35))" : "none",
-                },
-                hover: {
-                  fill: "#E0E7FF",
-                  cursor: "pointer",
-                  filter: "drop-shadow(0 0 16px rgba(99,102,241,0.45))",
-                },
-                pressed: { fill: "#C7D2FE" },
+  default: {
+    fill: active ? "#E8E9FF" : "#F3F4F6",
+    stroke: "#D1D5DB",
+    strokeWidth: 0.6,
+    outline: "none",
+  },
+  hover: {
+    fill: "#E0E7FF",
+    cursor: "pointer",
+  },
+  pressed: { fill: "#C7D2FE" },
               }}
             />
           );
