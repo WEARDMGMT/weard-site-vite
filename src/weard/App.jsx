@@ -151,6 +151,7 @@ const STARTER_CREATORS = [
   video: MEDIA.creators.Josefine.video,
   bio: "Josefine is a Swedish–Thai fashion, beauty, and lifestyle creator whose content blends elegance and playfulness. Drawing on her dual heritage, she brings a unique cultural perspective to her work, curating standout looks and sharing authentic beauty insights that resonate with global audiences.",
   top_audience: ["Thailand", "Sweden"], // 👈 add this line
+},
 ];
 
 const CATEGORIES = [
