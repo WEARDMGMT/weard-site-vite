@@ -92,7 +92,7 @@ const WEARE_WORDS = ["DIFFERENT", "DISRUPTIVE", "DYNAMIC", "DISTINCT", "DRIVEN",
 
 const STARTER_CREATORS = [
   {
-     name: "Sophia Pricey",
+     name: "Sophia Price",
   category: "Fashion",
   instagram: "https://www.instagram.com/xsophiapriceyx",
   tiktok: "https://www.tiktok.com/@sophiapriceyyy",
@@ -103,8 +103,10 @@ const STARTER_CREATORS = [
   photo: MEDIA.creators.Sophia.poster,         // still frame before hover
   tags: ["Fashion", "Beauty", "Travel"],
   video: MEDIA.creators.Sophia.video,
-  bio: "Sophia Pricey is a Thai–British fashion, beauty and travel creator known for her effortless style and trend-setting content. With a natural flair for posing and a photographer's eye, she transforms playful ideas into polished, captivating visuals.",
-},
+  bio: "Sophia Pricey is a Thai–British fashion, beauty, and travel creator celebrated for her effortless style and trend-defining content. With a natural flair for posing and a photographer’s eye, she transforms playful ideas into polished, captivating visuals that resonate across global audiences.",
+  top_audience: ["United States", "Thailand"],   // 👈 add this line
+
+  },
 {
   name: "Amelie Wyg",
   category: "Fashion",
@@ -117,7 +119,9 @@ const STARTER_CREATORS = [
   photo: MEDIA.creators.Amy.poster,
   tags: ["Fashion", "Beauty", "Lifestyle"],
   video: MEDIA.creators.Amy.video,
-  bio: "Amy is a vibrant Thai–German fashion, beauty and lifestyle creator whose content radiates confidence and creativity. Her unique blend of cultures and eye for style make her stand out, whether she's curating outfits or sharing beauty tips.",
+  bio: "Amy is a Thai–German fashion, beauty, and lifestyle creator whose content radiates confidence and creativity. Blending cultural influences with a sharp eye for style, she captivates audiences whether she’s curating standout outfits or sharing beauty insights.",
+  top_audience: ["United States", "Thailand"],        // 👈 add this line
+
 },
    {name: "The Peacocks",
   category: "Family",
@@ -130,8 +134,10 @@ const STARTER_CREATORS = [
   photo: MEDIA.creators.Peacocks.poster,         // still frame before hover
   tags: ["Family", "Lifestyle", "Travel"],
   video: MEDIA.creators.Peacocks.video,
-  bio: "The Peacocks are a UK-based fashion and lifestyle duo known for their bold style, creative content, and strong connection with their audience. Their content blends streetwear, modern aesthetics, and lifestyle storytelling, making them a dynamic pair for brand collaborations.",
-},
+  bio: "Daniel and Ellen, known as The Peacocks, are a Northern Irish–Hong Kong duo now raising their family in Northern Ireland. Blending their love of family life, food, and culture, they create warm, engaging content that highlights Cantonese language, lifestyle, and music. From home cooking to classic Cantonese songs, their content brings heritage and everyday family moments together in a way that resonates with audiences worldwide.",
+  top_audience: ["United Kingdom", "United States", "China"], // 👈 add this line
+
+   },
 ];
 
 const CATEGORIES = [
@@ -442,7 +448,7 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
 // ======= HOME =======
 function Home({ onExploreRoster, onWorkWithUs }) {
   const slides = [
-    { title: "Creators That Deliver", subtitle: "Global talent. Results driven.", image: MEDIA.creators.Sophia.photo },
+    { title: "Creators That Deliver", subtitle: "Global Talent Shaping Our Culute.", image: MEDIA.creators.Sophia.photo },
     { title: "We Champion Our Creators", subtitle: "Full 360 support — from brief to reporting.", image: MEDIA.creators.Amy.photo },
   ];
   return (
@@ -454,7 +460,7 @@ function Home({ onExploreRoster, onWorkWithUs }) {
             WE ARE <RotatingWords words={WEARE_WORDS} />
           </h1>
          <p className="mt-5 text-base sm:text-lg text-neutral-700 dark:text-neutral-200 max-w-prose">
-  Global Influencer, Global Campaigns, Global Talent – We Champion Our Creators And Their Influence.
+  Global Influence. Global Campaigns. Global Talent. We Champion Our Creators And Amplify Their Voices.
 </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <button
@@ -539,9 +545,9 @@ function RotatingWords({ words }) {
 // ======= ABOUT =======
 function About() {
   const highlights = [
-    { title: "Global reach", body: "Social is global so is WEARD." },
-    { title: "Creator first", body: "Growth, longevity, and brand alignment — turning your influence into a lasting career." },
-    { title: "Creative Campaigns", body: "Bold concepts, fresh ideas, and lasting results." },
+    { title: "Global reach", body: "Social is global and so is WEARD. We connect creators and brands across cultures, borders, and audiences to deliver influence without limits." },
+    { title: "Creator first", body: "We champion growth, longevity, and authentic brand alignment... turning influence into sustainable, long-term careers." },
+    { title: "Creative Campaigns", body: "From bold concepts to fresh ideas, we craft campaigns that not only stand out but also leave a lasting impact." },
   ];
   return (
     <section className="max-w-7xl mx-auto px-4 py-12">
@@ -549,14 +555,11 @@ function About() {
         <div>
          <h2 className="text-4xl font-bold">What Is WEARD?</h2>
 <p className="mt-4 text-neutral-700 dark:text-neutral-300 max-w-2xl">
-  WEARD is shaking up the global creator economy. We aspire to represent a diverse roster of talented creators from every corner of the globe — connecting them with brands which share their vision, values, and audience, and amplify their voices and stories to new heights.
-</p>
+WEARD is here to redefine the global creator economy. We aspire to represent a diverse roster of creators from every culture and corner of the world, connecting them with brands that share their vision, values, and audiences, and amplifying their stories on a global stage.</p>
 <p className="mt-4 text-neutral-700 dark:text-neutral-300 max-w-2xl">
-  We’re not just here to make deals. We offer our talent full 360° management approach, creating long-term strategies, brand alignment, stand-out content to create impactful campaigns. 
-</p>
+We’re building more than deals. Our goal is to offer creators a 360° management approach that focuses on long-term strategies, authentic brand alignment, and stand-out content that drives meaningful impact.</p>
 <p className="mt-4 text-neutral-700 dark:text-neutral-300 max-w-2xl">
-  Our philosophy is simple: global creators, global reach, global impact. We blend creativity with commercial strategy, helping our talent thrive in a fast-changing digital world while safeguarding their voice, values, and rights. From the first spark of an idea to the final delivery, we’re partners in every step — championing creators, delivering results, and making work that leaves a lasting mark.
-</p>
+Our philosophy is simple: Global Creators. Global Reach. Global Impact. By blending cultural insight with commercial strategy, WEARD aims to help talent not only thrive in a fast-changing digital world but also shape it, while safeguarding their voice, values, and rights. From the first spark of an idea to the final delivery, our mission is to be a partner at every step, championing creators, celebrating diversity, and delivering campaigns that leave a lasting cultural mark.</p>
           <div className="mt-8 grid sm:grid-cols-3 gap-4">
             {highlights.map((h) => (
               <div
@@ -612,7 +615,7 @@ const [position, setPosition] = useState({ coordinates: [0, 20], zoom: 1.4 });
 
   return (
     <div className="mt-12">
-      <h3 className="text-[22px] sm:text-2xl font-semibold">Where are we?</h3>
+      <h3 className="text-[22px] sm:text-2xl font-semibold">Our Growing Reach</h3>
 <p className="mt-1 text-xs text-neutral-500">United Kingdom · United States · Hong Kong · Thailand</p>
       <div className="mt-6 grid lg:grid-cols-3 gap-6">
         {/* Map */}
@@ -923,7 +926,7 @@ useEffect(() => {
                 <div className="mt-4 grid sm:grid-cols-3 gap-3 text-sm">
                   <div className="mb-3 sm:col-span-3 text-sm">
                     <div className="font-semibold">Top Audience</div>
-                    <div className="text-neutral-600 dark:text-neutral-400">United States · Thailand</div>
+                    <div className="text-neutral-600 dark:text-neutral-400 hidden">United States · Thailand</div>
                   </div>
                   <a
                     href={p.instagram}
@@ -1005,27 +1008,27 @@ function HoverMedia({ photo, video, alt }) {
 // ======= BRANDS =======
 function Brands() {
   const logos = [
-    { name: "Beauty" },
-    { name: "Fashion" },
-    { name: "Travel" },
-    { name: "Tech" },
-    { name: "Food" }
+    { name: "Beauty – From skincare to luxury cosmetics, we partner with beauty brands to create content that inspires trust and authenticity." },
+    { name: "Fashion – Whether high street or high-end, we deliver style-driven campaigns that set trends and capture attention." },
+    { name: "Travel – Partnering with wanderlust-driven brands, we create immersive travel content that inspires audiences to explore." },
+    { name: "Tech – From lifestyle gadgets to cutting-edge innovation, we help brands translate tech into everyday relevance." },
+    { name: "Food – Bringing food culture to life through creators who spark cravings, conversations, and community." }
   ];
 
   const pillars = [
     {
-      title: "Fit",
-      desc: "Connecting brands with the perfect creators who share their vision, values, and audience — ensuring authentic, impactful partnerships.",
+      title: "Match",
+      desc: "We connect brands with creators who share their vision, values, and audience — building authentic partnerships that truly resonate.",
       icon: "🎯"
     },
     {
       title: "Creativity",
-      desc: "Transforming brand briefs into scroll-stopping campaigns, blending cultural trends with authentic storytellin.",
+      desc: "We turn brand briefs into scroll-stopping campaigns — blending cultural trends with authentic storytelling.",
       icon: "✨"
     },
     {
       title: "Results",
-      desc: "Clear, data-driven reporting that proves impact — from engagement rates to ROI.",
+      desc: "From engagement to ROI, we track and report on the growth that matters most.",
       icon: "📊"
     }
   ];
@@ -1057,7 +1060,7 @@ function Brands() {
 
       {/* Brand types */}
       <div className="mt-10 text-sm text-neutral-600 dark:text-neutral-400 max-w-prose">
-        From luxury fashion houses to beauty innovators and wanderlust-driven travel brands, every collaboration we create feels authentic to the creator and drives meaningful results for the brand. From first concept to campaign delivery, we prioritise creative synergy, audience relevance, and measurable performance that translates into lasting brand impact.
+        From luxury fashion houses to beauty innovators and travel brands, every collaboration we create feels authentic to the creator and meaningful for the brand. From first concept to campaign delivery, we prioritise creative synergy, cultural relevance, and measurable performance, ensuring lasting brand impact.
       </div>
 
       {/* Logo showcase */}
