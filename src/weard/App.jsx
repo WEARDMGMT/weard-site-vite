@@ -437,8 +437,10 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
                   key={n.k}
                   onClick={() => onNav(n.k)}
                   className={cn(
-                    "w-full text-left px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-indigo-500",
-                    active === n.k ? "border-transparent bg-gradient-to-r from-blue-500/10 to-purple-500/10" : "border-white/20"
+  "w-full text-left px-4 py-3 rounded-xl border transition focus:outline-none focus:ring-2 focus:ring-indigo-500",
+  active === n.k
+    ? "bg-white text-neutral-900 font-semibold border-white"
+    : "bg-neutral-800 text-neutral-200 border-white/15 hover:bg-neutral-800/80"
                   )}
                 >
                   {n.label}
