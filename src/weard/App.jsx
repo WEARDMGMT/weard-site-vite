@@ -357,6 +357,18 @@ export default function App() {
               <Contact />
             </motion.section>
           )}
+          {activePage === "contact" && (
+            <motion.section key="contact" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
+              <Contact />
+            </motion.section>
+          )}
+          {activePage === "privacy" && (
+            <motion.section
+            key="privacy" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}  exit={{ opacity: 0, y: -8 }}
+  >
+    <PrivacyPolicy />
+  </motion.section>
+)}
         </AnimatePresence>
       </main>
 
@@ -1085,7 +1097,72 @@ function Brands() {
     </section>
   );
 }
+function PrivacyPolicy() {
+  useEffect(() => {
+    document.title = "Privacy Policy • WEARD Management";
+    return () => { document.title = "WEARD Management"; };
+  }, []);
 
+  const updated = new Date().toLocaleDateString("en-GB", {
+    day: "2-digit", month: "long", year: "numeric",
+  });
+
+  return (
+    <section className="max-w-3xl mx-auto px-4 pt-10 pb-20">
+      <h1 className="text-3xl sm:text-4xl font-bold">Privacy Policy</h1>
+      <p className="mt-1 text-sm text-neutral-500">Last updated: {updated}</p>
+
+      <p className="mt-6 text-neutral-700 dark:text-neutral-300">
+        WEARD Management (“WEARD”, “we”, “our”, “us”) is committed to protecting your personal information and respecting your privacy.
+        This Privacy Policy explains what information we collect, how we use it, and your rights under data protection law, including the UK GDPR.
+      </p>
+
+      <h2 className="mt-8 text-xl font-semibold">Information We Collect</h2>
+      <ul className="mt-3 list-disc pl-6 space-y-2 text-neutral-700 dark:text-neutral-300">
+        <li>Your name, email address, and contact details if you contact us or work with us.</li>
+        <li>Basic business information when entering into contracts or collaborations.</li>
+        <li>Limited analytics data when you visit our website (e.g. cookies, browser type, pages visited).</li>
+      </ul>
+
+      <h2 className="mt-8 text-xl font-semibold">How We Use Your Information</h2>
+      <ul className="mt-3 list-disc pl-6 space-y-2 text-neutral-700 dark:text-neutral-300">
+        <li>Respond to enquiries and manage communications.</li>
+        <li>Carry out and manage collaborations, campaigns, or contracts.</li>
+        <li>Maintain business records as legally required.</li>
+        <li>Improve our website and services.</li>
+      </ul>
+      <p className="mt-3 text-neutral-700 dark:text-neutral-300">
+        We do not sell or share your personal data with third parties for marketing purposes.
+      </p>
+
+      <h2 className="mt-8 text-xl font-semibold">Data Retention</h2>
+      <p className="mt-3 text-neutral-700 dark:text-neutral-300">
+        We only retain your information for as long as is necessary for the purposes above, or as required by law.
+      </p>
+
+      <h2 className="mt-8 text-xl font-semibold">Your Rights</h2>
+      <p className="mt-3 text-neutral-700 dark:text-neutral-300">
+        Under the UK GDPR, you have the right to access, correct, delete, or object to the processing of your personal data,
+        and to request data portability.
+      </p>
+      <p className="mt-3 text-neutral-700 dark:text-neutral-300">
+        To exercise your rights, please contact us at{" "}
+        <a className="underline" href="mailto:info@weardmgmt.com">info@weardmgmt.com</a>.
+      </p>
+
+      <h2 className="mt-8 text-xl font-semibold">Cookies</h2>
+      <p className="mt-3 text-neutral-700 dark:text-neutral-300">
+        Our website may use cookies or similar technologies for analytics and functionality. You can disable cookies in your browser settings if you prefer.
+      </p>
+
+      <h2 className="mt-8 text-xl font-semibold">Contact Us</h2>
+      <p className="mt-3 text-neutral-700 dark:text-neutral-300">
+        If you have questions about this Privacy Policy or how we handle your data, contact{" "}
+        <a className="underline" href="mailto:info@weardmgmt.com">info@weardmgmt.com</a>.
+      </p>
+    </section>
+  );
+  }
 // ======= CONTACT =======
 function Contact() {
   const [mode, setMode] = useState("brand");
@@ -1279,6 +1356,9 @@ function Footer({ onNav }) {
           <button onClick={() => onNav("brands")} className="underline">
             Brands
           </button>
+           <button onClick={() => onNav("privacy")} className="underline">
+           Privacy
+           </button> {/* NEW */}
         </div>
       </div>
     </footer>
