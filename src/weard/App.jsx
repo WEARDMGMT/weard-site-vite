@@ -549,9 +549,9 @@ function HeroSlider({ slides }) {
             className="h-full w-full relative"
           >
             <div className="absolute inset-0">
-              <img src={avatar}
-  alt={p.name}
-  className="absolute inset-0 h-full w-full object-cover"
+              <img  src={slides[i].image}
+  alt={slides[i].title}
+  className="absolute inset-0 h-full w-full object-cover bg-neutral-900"
   loading="lazy"
   decoding="async" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/25 to-transparent" />
