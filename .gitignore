@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Logs
 logs
 *.log
@@ -137,3 +138,12 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+=======
+node_modules
+dist
+.DS_Store
+.env
+.env.*
+npm-debug.log*
+yarn-error.log*
+>>>>>>> c33d114 (Initial clean commit for WEARD site)
