@@ -357,11 +357,6 @@ export default function App() {
               <Contact />
             </motion.section>
           )}
-          {activePage === "contact" && (
-            <motion.section key="contact" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
-              <Contact />
-            </motion.section>
-          )}
           {activePage === "privacy" && (
             <motion.section
             key="privacy" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}  exit={{ opacity: 0, y: -8 }}
@@ -460,7 +455,7 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
 // ======= HOME =======
 function Home({ onExploreRoster, onWorkWithUs }) {
   const slides = [
-    { title: "Creators That Deliver", subtitle: "Global Talent Shaping Our Culute.", image: MEDIA.creators.Sophia.photo },
+    { title: "Creators That Deliver", subtitle: "Global Talent Shaping Our Culture.", image: MEDIA.creators.Sophia.photo },
     { title: "We Champion Our Creators", subtitle: "Full 360 support — from brief to reporting.", image: MEDIA.creators.Amy.photo },
   ];
   return (
