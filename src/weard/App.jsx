@@ -1033,7 +1033,10 @@ function HoverMedia({ photo, video, alt }) {
         muted
         loop
         playsInline
-        className={cn("absolute inset-0 h-full w-full object-cover transition-opacity duration-300", playing ? "opacity-100" : "opacity-0")}
+        preload="metadata"           // <— key change
+  controls={false}
+  disablePictureInPicture
+  className={cn("absolute inset-0 h-full w-full object-cover transition-opacity duration-300", playing ? "opacity-100" : "opacity-0")}
       />
     </div>
   );
