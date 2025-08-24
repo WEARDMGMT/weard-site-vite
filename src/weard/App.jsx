@@ -85,6 +85,11 @@ const MEDIA = {
       poster: "/media/creators/peacocks/peacocks-poster.jpg", // still frame before hover
       video: "/media/creators/peacocks/peacocks-hover.mp4",  // hover video
     },
+    Josefine: {
+    hero:   "/media/creators/josefine/josefine-hero.jpg",
+    poster: "/media/creators/josefine/josefine-poster.jpg",
+    video:  "/media/creators/josefine/josefine-hover.mp4",
+   },
   },
 };
 
@@ -150,8 +155,8 @@ const STARTER_CREATORS = [
   tags: ["Beauty", "Lifestyle"],
   video: MEDIA.creators.Josefine.video,
   bio: "Josefine is a Swedish–Thai fashion, beauty, and lifestyle creator whose content blends elegance and playfulness. Drawing on her dual heritage, she brings a unique cultural perspective to her work, curating standout looks and sharing authentic beauty insights that resonate with global audiences.",
-  top_audience: ["Thailand", "Sweden"], // 👈 add this line
-},
+  top_audience: ["Thailand", "Sweden"],
+}, // ← close Josefine
 ];
 
 const CATEGORIES = [
