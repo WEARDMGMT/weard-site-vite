@@ -138,6 +138,19 @@ const STARTER_CREATORS = [
   top_audience: ["United Kingdom", "United States", "China"], // 👈 add this line
 
    },
+     {name: "Josefine Uddman",
+  category: "Beauty",
+  instagram: "https://www.instagram.com/josefine.ku.ud/",
+  tiktok: "https://www.tiktok.com/@josefineuddman",
+  email: "josefine@weardmgmt.com",
+  instagram_followers: 8148,
+  tiktok_followers: 80200,
+  profile_image: MEDIA.creators.Josefine.hero,   // static profile image
+  photo: MEDIA.creators.Josefine.poster,         // still frame before hover
+  tags: ["Beauty", "Lifestyle"],
+  video: MEDIA.creators.Josefine.video,
+  bio: "Josefine is a Swedish–Thai fashion, beauty, and lifestyle creator whose content blends elegance and playfulness. Drawing on her dual heritage, she brings a unique cultural perspective to her work, curating standout looks and sharing authentic beauty insights that resonate with global audiences.",
+  top_audience: ["Thailand", "Sweden"], // 👈 add this line
 ];
 
 const CATEGORIES = [
