@@ -530,7 +530,11 @@ function HeroSlider({ slides }) {
             className="h-full w-full relative"
           >
             <div className="absolute inset-0">
-              <img src={slides[i].image} alt="hero" className="h-full w-full object-cover" loading="lazy" />
+              <img src={avatar}
+  alt={p.name}
+  className="absolute inset-0 h-full w-full object-cover"
+  loading="lazy"
+  decoding="async" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/25 to-transparent" />
             </div>
             <div className="relative z-10 max-w-7xl mx-auto px-4 h-full flex items-end pb-10">
@@ -627,7 +631,12 @@ Our philosophy is simple: Global Creators. Global Reach. Global Impact. By blend
 
 // ======= Flags =======
 const CountryFlagIcon = ({ country }) => (
-  <img src={FLAG_SRC[country]} alt={`${country} flag`} className="w-8 h-8 rounded-full ring-1 ring-black/10 object-cover" loading="lazy" />
+  <img
+  src={FLAG_SRC[country]}
+  alt={`${country} flag`}
+  className="w-8 h-8 rounded-full ring-1 ring-black/10 object-cover"
+  loading="lazy"
+  decoding="async"   // ✅ new/>
 );
 
 // ======= WHERE WE WORK (real map + glow) =======
@@ -836,6 +845,8 @@ function CreatorCard({ p }) {
 
   const defaultProfile = p.instagram || p.tiktok || undefined;
 useEffect(() => {
+  if (!open) return; // ✅ only inject when modal is open
+
   const data = {
     "@context": "https://schema.org",
     "@type": "Person",
@@ -845,12 +856,16 @@ useEffect(() => {
     "url": p.instagram || p.tiktok || undefined,
     "sameAs": [p.instagram, p.tiktok].filter(Boolean)
   };
-  const s = document.createElement('script');
-  s.type = 'application/ld+json';
+
+  const s = document.createElement("script");
+  s.type = "application/ld+json";
   s.text = JSON.stringify(data);
   document.head.appendChild(s);
-  return () => { document.head.removeChild(s); };
-}, [p]);
+
+  return () => {
+    if (s.parentNode) s.parentNode.removeChild(s);
+  };
+}, [open, p]);
   return (
     <div className="p-0 rounded-2xl border border-neutral-200 dark:border-neutral-800 overflow-hidden group">
       <a href={defaultProfile} target={defaultProfile ? "_blank" : undefined} rel={defaultProfile ? "noreferrer" : undefined} className="relative aspect-[9/16] w-full md:w-[220px] mx-auto block bg-neutral-100 dark:bg-neutral-900">
@@ -1022,10 +1037,14 @@ function HoverMedia({ photo, video, alt }) {
       onTouchStart={() => setPlaying((v) => !v)}
     >
       <img
-        src={photo}
-        alt={alt}
-        className={cn("absolute inset-0 h-full w-full object-cover transition-opacity duration-300", playing ? "opacity-0" : "opacity-100")}
-        loading="lazy"
+       src={photo}
+  alt={alt}
+  className={cn(
+    "absolute inset-0 h-full w-full object-cover transition-opacity duration-300",
+    playing ? "opacity-0" : "opacity-100"
+  )}
+  loading="lazy"
+  decoding="async"   // ✅ new
       />
       <video
         ref={vidRef}
