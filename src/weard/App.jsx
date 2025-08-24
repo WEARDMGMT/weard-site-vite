@@ -954,7 +954,13 @@ useEffect(() => {
                 <div className="mt-4 grid sm:grid-cols-3 gap-3 text-sm">
                   <div className="mb-3 sm:col-span-3 text-sm">
                     <div className="font-semibold">Top Audience</div>
-                    <div className="text-neutral-600 dark:text-neutral-400 hidden">United States · Thailand</div>
+                    {p.top_audience?.length ? (
+    <div className="text-neutral-600 dark:text-neutral-400">
+      {p.top_audience.join(" · ")}
+    </div>
+  ) : (
+    <div className="text-neutral-400 italic">Not available</div>
+  )}
                   </div>
                   <a
                     href={p.instagram}
