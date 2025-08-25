@@ -344,26 +344,6 @@ export default function App() {
     document.head.appendChild(s);
     return () => { document.head.removeChild(s); };
   }, []);
- // ✅ NEW: preconnect optimisation
-  useEffect(() => {
-    const urls = [
-      "https://flagcdn.com",
-      "https://cdn.jsdelivr.net",
-      "https://docs.google.com"
-    ];
-    const links = urls.map((href) => {
-      const l = document.createElement("link");
-      l.rel = "preconnect";
-      l.href = href;
-      l.crossOrigin = "";
-      document.head.appendChild(l);
-      return l;
-    });
-    return () => links.forEach((l) => document.head.removeChild(l));
-  }, []);
-
-  return (
-    <div className="min-h-screen bg-white …
   return (
     <div className="min-h-screen bg-white text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100 transition-colors">
       <Header onNav={navigate} active={activePage} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
