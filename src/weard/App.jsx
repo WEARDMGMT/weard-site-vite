@@ -546,7 +546,7 @@ useEffect(() => {
   alt={slides[i].title}
   width="1920"
   height="1080"
-  fetchpriority={i === 0 ? "high" : "auto"}   // ⭐ First image = high priority
+fetchPriority={i === 0 ? "high" : "auto"}
   loading={i === 0 ? "eager" : "lazy"}        // ⭐ First image eager, others lazy
   decoding="async"
   className="absolute inset-0 h-full w-full object-cover bg-neutral-900"
