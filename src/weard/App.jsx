@@ -516,6 +516,18 @@ function HeroSlider({ slides }) {
     t.current = setInterval(() => setI((p) => (p + 1) % slides.length), 5000);
     return () => clearInterval(t.current);
   }, [slides.length]);
+  // ⭐ NEW prefetch effect
+useEffect(() => {
+  const next = (i + 1) % slides.length;
+  const link = document.createElement("link");
+  link.rel = "prefetch";
+  link.as = "image";
+  link.href = slides[next].image;
+  document.head.appendChild(link);
+  return () => {
+    if (link.parentNode) link.parentNode.removeChild(link);
+  };
+  }, [i, slides]);
   return (
     <div className="relative">
       <div className="h-[50vh] sm:h-[58vh] md:h-[65vh] w-full overflow-hidden">
@@ -529,11 +541,16 @@ function HeroSlider({ slides }) {
             className="h-full w-full relative"
           >
             <div className="absolute inset-0">
-              <img  src={slides[i].image}
+             <img
+  src={slides[i].image}
   alt={slides[i].title}
+  width="1920"
+  height="1080"
+  fetchpriority={i === 0 ? "high" : "auto"}   // ⭐ First image = high priority
+  loading={i === 0 ? "eager" : "lazy"}        // ⭐ First image eager, others lazy
+  decoding="async"
   className="absolute inset-0 h-full w-full object-cover bg-neutral-900"
-  loading="lazy"
-  decoding="async" />
+/>
               <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/25 to-transparent" />
             </div>
             <div className="relative z-10 max-w-7xl mx-auto px-4 h-full flex items-end pb-10">
