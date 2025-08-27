@@ -86,9 +86,9 @@ const MEDIA = {
       video: "/media/creators/peacocks/peacocks-hover.mp4",  // hover video
     },
     Josefine: {
-    hero:   "/media/creators/josefine/josefine-hero.jpg",
-    poster: "/media/creators/josefine/josefine-poster.jpg",
-    video:  "/media/creators/josefine/josefine-hover.mp4",
+    hero:   "/media/creators/josefine/josefine-hero-v2.jpg",
+    poster: "/media/creators/josefine/josefine-poster-v2.jpg",
+    video:  "/media/creators/josefine/josefine-hover-v2.mp4",
    },
   },
 };
