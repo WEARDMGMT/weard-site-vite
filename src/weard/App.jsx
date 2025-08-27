@@ -150,10 +150,10 @@ const STARTER_CREATORS = [
   email: "josefine@weardmgmt.com",
   instagram_followers: 8148,
   tiktok_followers: 80200,
-  profile_image: MEDIA.creators.josefine-hero-v2.jpg,   // static profile image
-  photo: MEDIA.creators.josefine-poster-v2.jpg,         // still frame before hover
+  profile_image: MEDIA.creators.Josefine.hero, // static profile image
+  photo: MEDIA.creators.Josefine.poster,          // still frame before hover
   tags: ["Beauty", "Lifestyle"],
-  video: MEDIA.creators.josefine-hover-v2.mp4,
+  video: MEDIA.creators.Josefine.video,  
   bio: "Josefine is a Swedish–Thai fashion, beauty, and lifestyle creator whose content blends elegance and playfulness. Drawing on her dual heritage, she brings a unique cultural perspective to her work, curating standout looks and sharing authentic beauty insights that resonate with global audiences.",
   top_audience: ["Thailand", "Sweden"],
 }, // ← close Josefine
