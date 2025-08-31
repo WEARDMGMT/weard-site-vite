@@ -475,7 +475,7 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
 // ======= HOME =======
 function Home({ onExploreRoster, onWorkWithUs }) {
   const slides = [
-    { title: "Influence Differently", subtitle: "Global Talent Shaping Our Culture.", image: MEDIA.creators.Sophia.photo },
+    { title: "Influence Differentlyr", subtitle: "Global Talent Shaping Our Culture.", image: MEDIA.creators.Sophia.photo },
     { title: "WEARD. Because normal doesn’t trend", subtitle: "Full 360 support — from brief to reporting.", image: MEDIA.creators.Amy.photo },
   ];
   return (
