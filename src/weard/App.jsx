@@ -220,7 +220,7 @@ function CountTo({ to = 0, duration = 650, format = (x) => x.toLocaleString() })
 
 // CSV with quoted fields
 function parseCSV(csv) {
-  const lines = csv.trim().split(/\\r?\\n/);
+  const lines = csv.trim().split(/\r?\n/);
   const headers = lines.shift().split(",").map((h) => h.trim());
   return lines.map((line) => {
     const out = [];
