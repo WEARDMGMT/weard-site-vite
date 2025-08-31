@@ -475,8 +475,8 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
 // ======= HOME =======
 function Home({ onExploreRoster, onWorkWithUs }) {
   const slides = [
-    { title: "Influence Differently.", subtitle: "Global Talent Shaping Our Culture.", image: MEDIA.creators.Sophia.photo },
-    { title: "WEARD. Because Normal Doesn’t Trend", subtitle: "Full 360 support — from brief to reporting.", image: MEDIA.creators.Amy.photo },
+    { title: "Influence Differently", subtitle: "Global Talent Shaping Our Culture.", image: MEDIA.creators.Sophia.photo },
+    { title: "WEARD. Because normal doesn’t trend", subtitle: "Full 360 support — from brief to reporting.", image: MEDIA.creators.Amy.photo },
   ];
   return (
     <section className="relative overflow-hidden">
@@ -809,7 +809,8 @@ function Roster() {
             <CreatorCard p={p} />
           </motion.div>
         ))}
-       {/* Invite tile */}
+
+        {/* Invite tile */}
         <div className="p-6 rounded-2xl border border-dashed border-neutral-300 dark:border-neutral-700 flex flex-col items-start justify-between">
           <div>
             <h3 className="text-lg font-semibold">Join the Roster</h3>
