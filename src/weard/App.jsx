@@ -652,7 +652,8 @@ const CountryFlagIcon = ({ country }) => (
   alt={`${country} flag`}
   className="w-8 h-8 rounded-full ring-1 ring-black/10 object-cover"
   loading="lazy"
-  decoding="async"   // ✅ new/>
+  decoding="async" 
+     />
 );
 
 // ======= WHERE WE WORK (real map + glow) =======
