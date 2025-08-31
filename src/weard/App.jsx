@@ -475,8 +475,8 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
 // ======= HOME =======
 function Home({ onExploreRoster, onWorkWithUs }) {
   const slides = [
-    { title: "WEARD.", subtitle: "Shaping Culture Through Global Talent.", image: MEDIA.creators.Sophia.photo },
-    { title: "WEARD. Because Normal Doesn’t Trend", subtitle: "Influence Differently.", image: MEDIA.creators.Amy.photo },
+    { title: "WEARD.", subtitle: "Because Normal Doesn’t Trend.", image: MEDIA.creators.Sophia.photo },
+    { title: "WEARD.", subtitle: "Influence Differently.", image: MEDIA.creators.Amy.photo },
   ];
   return (
     <section className="relative overflow-hidden">
