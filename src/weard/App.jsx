@@ -809,8 +809,7 @@ function Roster() {
             <CreatorCard p={p} />
           </motion.div>
         ))}
-
-        {/* Invite tile */}
+       {/* Invite tile */}
         <div className="p-6 rounded-2xl border border-dashed border-neutral-300 dark:border-neutral-700 flex flex-col items-start justify-between">
           <div>
             <h3 className="text-lg font-semibold">Join the Roster</h3>
