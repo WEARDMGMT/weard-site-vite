@@ -810,18 +810,18 @@ function Roster() {
           </motion.div>
         ))}
 
-        {/* Invite tile */}
-        <div className="p-6 rounded-2xl border border-dashed border-neutral-300 dark:border-neutral-700 flex flex-col items-start justify-between">
-          <div>
-            <h3 className="text-lg font-semibold">Join the Roster</h3>
-            <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
-              We’re always looking for exciting new talent to represent across Fashion, Beauty, Lifestyle, Sport, Travel and Family. If you’re building something special, let’s talk.
-            </p>
-          </div>
-          <button onClick={() => window.weardNav?.("contact")} className="mt-6 inline-flex items-center gap-2 text-sm underline">
-            Submit your profile <ArrowRight size={14} />
-          </button>
-        </div>
+       {/* Invite tile */}
+<div className="p-6 rounded-2xl border border-dashed border-neutral-300 dark:border-neutral-700 flex flex-col items-start justify-between">
+  <div>
+    <h3 className="text-lg font-semibold">Join the Roster</h3>
+    <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
+      We’re always looking for exciting new talent to represent across Fashion, Beauty, Lifestyle, Sport, Travel and Family. If you’re building something special, let’s talk.
+    </p>
+  </div>
+  <button onClick={() => window.weardNav?.("contact")} className="mt-6 inline-flex items-center gap-2 text-sm underline">
+    Submit your profile <ArrowRight size={14} />
+  </button>
+</div>
       </motion.div>
     </section>
   );
