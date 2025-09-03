@@ -102,6 +102,7 @@ const STARTER_CREATORS = [
   instagram: "https://www.instagram.com/xsophiapriceyx",
   tiktok: "https://www.tiktok.com/@sophiapriceyyy",
   email: "sophia@weardmgmt.com",
+location: "Thailand",
   instagram_followers: 717000,
   tiktok_followers: 586600,
   profile_image: MEDIA.creators.Sophia.hero,   // static profile image
@@ -118,6 +119,7 @@ const STARTER_CREATORS = [
   instagram: "https://www.instagram.com/ameliewyg",
   tiktok: "https://www.tiktok.com/@ameliewyg",
   email: "amy@weardmgmt.com",
+  location: "Thailand",
   instagram_followers: 350000,
   tiktok_followers: 245000,
   profile_image: MEDIA.creators.Amy.hero,
@@ -133,6 +135,7 @@ const STARTER_CREATORS = [
   instagram: "https://www.instagram.com/itsthepeacocks",
   tiktok: "https://www.tiktok.com/@itsthepeacocks",
   email: "itsthepeacocks@weardmgmt.com",
+  location: "UK",
   instagram_followers: 133000,
   tiktok_followers: 68200,
   profile_image: MEDIA.creators.Peacocks.hero,   // static profile image
@@ -148,6 +151,7 @@ const STARTER_CREATORS = [
   instagram: "https://www.instagram.com/josefine.ku.ud/",
   tiktok: "https://www.tiktok.com/@josefineuddman",
   email: "josefine@weardmgmt.com",
+  location: "Thailand",
   instagram_followers: 8148,
   tiktok_followers: 80200,
   profile_image: MEDIA.creators.Josefine.hero, // static profile image
@@ -269,6 +273,7 @@ function useRosterHydration(initialCreators = STARTER_CREATORS) {
             instagram: r.instagram || "",
             tiktok: r.tiktok || "",
             email: r.email || "",
+            location: r.location || "",
             instagram_followers: cleanNum(r.instagram_followers),
             tiktok_followers: cleanNum(r.tiktok_followers),
             profile_image: r.profile_image || MEDIA.creators.Sophia.photo,
@@ -475,8 +480,8 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
 // ======= HOME =======
 function Home({ onExploreRoster, onWorkWithUs }) {
   const slides = [
-    { title: "WEARD", subtitle: "Because Normal Doesn’t Trend.", image: MEDIA.creators.Sophia.photo },
-    { title: "WEARD", subtitle: "Influences Differently.", image: MEDIA.creators.Amy.photo },
+    { title: "WEARD.", subtitle: "Because Normal Doesn’t Trend.", image: MEDIA.creators.Sophia.photo },
+    { title: "WEARD.", subtitle: "Influences Differently.", image: MEDIA.creators.Amy.photo },
   ];
   return (
     <section className="relative overflow-hidden">
@@ -899,6 +904,11 @@ useEffect(() => {
         ) : (
           <HoverMedia photo={p.photo} video={p.video} alt={p.name} />
         )}
+       {p.location && (
+  <span className="absolute right-2 top-2 rounded-full bg-white/90 px-2 py-1 text-[11px] font-medium shadow">
+    {p.location}
+  </span>
+)}
       </a>
       <div className="p-5">
         <div className="flex items-start justify-between gap-2">
