@@ -935,8 +935,13 @@ useEffect(() => {
   };
 }, [open, p]);
   return (
-    <div className="relative aspect-[9/16] w-full block overflow-hidden bg-neutral-100 dark:bg-neutral-900"
-      <a href={defaultProfile} target={defaultProfile ? "_blank" : undefined} rel={defaultProfile ? "noreferrer" : undefined} className="relative aspect-[9/16] w-full md:w-[220px] mx-auto block bg-neutral-100 dark:bg-neutral-900">
+   <div className="relative aspect-[9/16] w-full block overflow-hidden bg-neutral-100 dark:bg-neutral-900">
+    <a
+      href={defaultProfile}
+      target={defaultProfile ? "_blank" : undefined}
+      rel={defaultProfile ? "noreferrer" : undefined}
+      className="relative aspect-[9/16] w-full md:w-[220px] mx-auto block bg-neutral-100 dark:bg-neutral-900"
+    >
         {!hasHoverMedia ? (
           <img src={avatar} alt={p.name} className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
         ) : (
