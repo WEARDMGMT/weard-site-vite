@@ -778,17 +778,35 @@ const [position, setPosition] = useState({ coordinates: [0, 20], zoom: 1.4 });
 function Roster() {
   const creators = useRosterHydration();
   const [tab, setTab] = useState("All");
+  const [locationFilter, setLocationFilter] = useState("All");
+const locationOptions = useMemo(
+  () => ["All", ...Array.from(new Set((creators || []).map(c => c.location).filter(Boolean))).sort()],
+  [creators]
+);
   const tabs = useMemo(() => ["All", ...CATEGORIES.map((c) => c.label)], []);
-  const filtered = useMemo(
-    () => (tab === "All" ? creators : creators.filter((c) => {
-      const t = tab.toLowerCase();
+ const filtered = useMemo(() => {
+  let list = creators;
+
+  // Category filter
+  if (tab !== "All") {
+    const t = tab.toLowerCase();
+    list = list.filter((c) => {
       const catMatch = c.category && c.category.toLowerCase() === t;
       const tags = Array.isArray(c.tags) ? c.tags : [];
-      const tagMatch = tags.some((tag) => String(tag).toLowerCase() == t);
+      const tagMatch = tags.some((tag) => String(tag).toLowerCase() === t);
       return catMatch || tagMatch;
-    })),
-    [tab, creators]
-  );
+    });
+  }
+
+  // Location filter
+  if (locationFilter !== "All") {
+    list = list.filter(
+      (c) => (c.location || "").toLowerCase() === locationFilter.toLowerCase()
+    );
+  }
+
+  return list;
+}, [tab, locationFilter, creators]);
   return (
     <section className="max-w-7xl mx-auto px-4 pt-10 pb-20">
       <div className="flex items-center justify-between flex-wrap gap-4">
@@ -803,18 +821,38 @@ function Roster() {
     border-y border-neutral-200 dark:border-neutral-800
   "
 >
-  {tabs.map((t) => (
-    <button
-      key={t}
-      onClick={() => setTab(t)}
-      className={cn(
-        "px-4 py-2 rounded-full text-sm border focus:outline-none focus:ring-2 focus:ring-indigo-500",
-        tab === t ? cn("text-white", GRADIENT, "border-transparent") : "border-neutral-300 dark:border-neutral-700"
-      )}
-    >
-      {t}
-    </button>
-  ))}
+<div className="flex flex-wrap w-full items-center justify-between gap-2">
+  {/* Tabs group (left) */}
+  <div className="flex flex-wrap gap-2">
+    {tabs.map((t) => (
+      <button
+        key={t}
+        onClick={() => setTab(t)}
+        className={cn(
+          "px-4 py-2 rounded-full text-sm border focus:outline-none focus:ring-2 focus:ring-indigo-500",
+          tab === t
+            ? cn("text-white", GRADIENT, "border-transparent")
+            : "border-neutral-300 dark:border-neutral-700"
+        )}
+      >
+        {t}
+      </button>
+    ))}
+  </div>
+
+  {/* Location Dropdown (right) */}
+  <select
+    value={locationFilter}
+    onChange={(e) => setLocationFilter(e.target.value)}
+    className="rounded-full border px-3 py-1 text-sm"
+    aria-label="Filter by location"
+  >
+    {locationOptions.map((opt) => (
+      <option key={opt} value={opt}>
+        {opt}
+      </option>
+    ))}
+  </select>
 </div>
       </div>
       <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400">Meet Our Talent</p>
@@ -897,7 +935,7 @@ useEffect(() => {
   };
 }, [open, p]);
   return (
-    <div className="p-0 rounded-2xl border border-neutral-200 dark:border-neutral-800 overflow-hidden group">
+    <div className="relative aspect-[9/16] w-full block overflow-hidden bg-neutral-100 dark:bg-neutral-900"
       <a href={defaultProfile} target={defaultProfile ? "_blank" : undefined} rel={defaultProfile ? "noreferrer" : undefined} className="relative aspect-[9/16] w-full md:w-[220px] mx-auto block bg-neutral-100 dark:bg-neutral-900">
         {!hasHoverMedia ? (
           <img src={avatar} alt={p.name} className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
