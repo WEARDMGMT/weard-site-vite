@@ -487,7 +487,7 @@ function Home({ onExploreRoster, onWorkWithUs }) {
             WE ARE <RotatingWords words={WEARE_WORDS} />
           </h1>
          <p className="mt-5 text-base sm:text-lg text-neutral-700 dark:text-neutral-200 max-w-prose">
-  Global Influence. Global Campaigns. Global Talent. We Champion Our Creators And Amplify Their Voices.
+  Global Influence. Global Campaigns. Global Talent. <br> /> We Champion Our Creators And Amplify Their Voices.
 </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <button
