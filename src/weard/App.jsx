@@ -476,7 +476,7 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
 function Home({ onExploreRoster, onWorkWithUs }) {
   const slides = [
     { title: "WEARD.", subtitle: "Because Normal Doesn’t Trend.", image: MEDIA.creators.Sophia.photo },
-    { title: "WEARD.", subtitle: "Influence Differently.", image: MEDIA.creators.Amy.photo },
+    { title: "WEARD.", subtitle: "Influences Differently.", image: MEDIA.creators.Amy.photo },
   ];
   return (
     <section className="relative overflow-hidden">
@@ -486,7 +486,7 @@ function Home({ onExploreRoster, onWorkWithUs }) {
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight">
             WE ARE <RotatingWords words={WEARE_WORDS} />
           </h1>
-         <p className="mt-5 text-base sm:text-lg text-neutral-700 dark:text-neutral-200 max-w-prose">
+         <p className="mt-5 text-base sm:text-lg text-neutral-700 dark:text-neutral-200 max-w-prose text-center mx-auto">
   Global Influence. Global Campaigns. Global Talent.<br />
   We Champion Our Creators And Amplify Their Voices.
 </p>
