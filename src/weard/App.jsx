@@ -1250,8 +1250,23 @@ function PrivacyPolicy() {
 // ======= CONTACT =======
 function Contact() {
   const [mode, setMode] = useState("brand");
-  const [form, setForm] = useState({ brand: "", email: "", number: "", budget: "", outline: "" });
-  const [talent, setTalent] = useState({ name: "", email: "", number: "", ig: "", tt: "", other: "", category: "", notes: "" });
+  const [form, setForm] = useState({
+    brand: "",
+    email: "",
+    number: "",
+    budget: "",
+    outline: "",
+  });
+  const [talent, setTalent] = useState({
+    name: "",
+    email: "",
+    number: "",
+    ig: "",
+    tt: "",
+    other: "",
+    category: "",
+    notes: "",
+  });
 
   function handleBrandSubmit(e) {
     e.preventDefault();
@@ -1259,9 +1274,24 @@ function Contact() {
       alert("Please fill required fields.");
       return;
     }
-    const subject = `WEARD Brief - ${form.brand}`;
-    const body = `Brand: ${form.brand}\\nEmail: ${form.email}\\nNumber: ${form.number}\\nBudget: ${form.budget}\\n\\nOutline:\\n${form.outline}`;
-    window.location.href = `mailto:info@weardmgmt.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const subject = `WEARD Brief – ${form.brand}`;
+    const body =
+      `Brand: ${form.brand}\n` +
+      `Email: ${form.email}\n` +
+      `Number: ${form.number}\n` +
+      `Budget: ${form.budget}\n\n` +
+      `Outline:\n${form.outline}`;
+
+    try {
+      window.location.href = `mailto:info@weardmgmt.com?subject=${encodeURIComponent(
+        subject
+      )}&body=${encodeURIComponent(body)}`;
+    } catch {
+      navigator.clipboard?.writeText(`${subject}\n\n${body}`);
+      alert(
+        "We’ve copied your brief to the clipboard. Please paste it into an email to info@weardmgmt.com."
+      );
+    }
   }
 
   function handleTalentSubmit(e) {
@@ -1270,23 +1300,53 @@ function Contact() {
       alert("Please fill your name and email.");
       return;
     }
-    const subject = `Join the Roster - ${talent.name}`;
-    const body = `Name: ${talent.name}\\nEmail: ${talent.email}\\nNumber: ${talent.number}\\nInstagram: ${talent.ig}\\nTikTok: ${talent.tt}\\nOther: ${talent.other}\\nCategory: ${talent.category}\\n\\nNotes:\\n${talent.notes}`;
-    window.location.href = `mailto:info@weardmgmt.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const subject = `Join the Roster – ${talent.name}`;
+    const body =
+      `Name: ${talent.name}\n` +
+      `Email: ${talent.email}\n` +
+      `Number: ${talent.number}\n` +
+      `Instagram: ${talent.ig}\n` +
+      `TikTok: ${talent.tt}\n` +
+      `Other: ${talent.other}\n` +
+      `Category: ${talent.category}\n\n` +
+      `Notes:\n${talent.notes}`;
+
+    try {
+      window.location.href = `mailto:info@weardmgmt.com?subject=${encodeURIComponent(
+        subject
+      )}&body=${encodeURIComponent(body)}`;
+    } catch {
+      navigator.clipboard?.writeText(`${subject}\n\n${body}`);
+      alert(
+        "We’ve copied your message to the clipboard. Please paste it into an email to info@weardmgmt.com."
+      );
+    }
   }
 
   return (
     <section className="max-w-7xl mx-auto px-4 pt-10 pb-20" id="contact">
-      <div className="rounded-2xl overflow-hidden border border-black/10">
+      <div className="rounded-2xl overflow-hidden border border-black/10 shadow-sm">
+        {/* Header + mode switch */}
         <div className="bg-neutral-900 text-white px-6 py-6 flex items-center justify-between">
           <div>
             <h2 className="text-3xl sm:text-4xl font-bold">Contact</h2>
-            <p className="mt-1 text-sm text-white/80">Quick brief for brands, or join the roster as talent.</p>
+            <p className="mt-1 text-sm text-white/80">
+              Quick brief for brands, or join the roster as talent.
+            </p>
           </div>
-          <div className="inline-flex rounded-full border border-white/20 p-1" role="tablist" aria-label="Contact mode">
+
+          <div
+            className="inline-flex rounded-full border border-white/20 p-1"
+            role="tablist"
+            aria-label="Contact mode"
+          >
             <button
               onClick={() => setMode("brand")}
-              className={`px-3 py-1.5 rounded-full text-sm ${mode === "brand" ? "bg-white text-neutral-900" : "text-white/80"}`}
+              className={`px-3 py-1.5 rounded-full text-sm ${
+                mode === "brand"
+                  ? "bg-white text-neutral-900"
+                  : "text-white/80"
+              }`}
               role="tab"
               aria-selected={mode === "brand"}
             >
@@ -1294,7 +1354,11 @@ function Contact() {
             </button>
             <button
               onClick={() => setMode("talent")}
-              className={`px-3 py-1.5 rounded-full text-sm ${mode === "talent" ? "bg-white text-neutral-900" : "text-white/80"}`}
+              className={`px-3 py-1.5 rounded-full text-sm ${
+                mode === "talent"
+                  ? "bg-white text-neutral-900"
+                  : "text-white/80"
+              }`}
               role="tab"
               aria-selected={mode === "talent"}
             >
@@ -1302,111 +1366,209 @@ function Contact() {
             </button>
           </div>
         </div>
+
+        {/* Body */}
         <div className="bg-white dark:bg-neutral-950 px-6 py-6">
           {mode === "brand" ? (
             <form className="grid gap-4 max-w-2xl" onSubmit={handleBrandSubmit}>
-              <input
-                required
-                placeholder="Company / Brand"
-                className={INPUT_CLS}
-                value={form.brand}
-                onChange={(e) => setForm({ ...form, brand: e.target.value })}
-              />
-              <div className="grid sm:grid-cols-2 gap-4">
+              <label className="grid gap-1">
+                <span className="text-sm font-medium">
+                  Company / Brand <span className="text-red-500">*</span>
+                </span>
                 <input
                   required
-                  type="email"
-                  placeholder="Your Email"
+                  placeholder="e.g., Asda"
                   className={INPUT_CLS}
-                  value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  value={form.brand}
+                  onChange={(e) => setForm({ ...form, brand: e.target.value })}
                 />
-                <input
-                  placeholder="Your Number (optional)"
-                  className={INPUT_CLS}
-                  value={form.number}
-                  onChange={(e) => setForm({ ...form, number: e.target.value })}
-                />
+              </label>
+
+              <div className="grid sm:grid-cols-2 gap-4">
+                <label className="grid gap-1">
+                  <span className="text-sm font-medium">
+                    Your Email <span className="text-red-500">*</span>
+                  </span>
+                  <input
+                    required
+                    type="email"
+                    placeholder="name@company.com"
+                    className={INPUT_CLS}
+                    value={form.email}
+                    onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  />
+                </label>
+
+                <label className="grid gap-1">
+                  <span className="text-sm font-medium">Your Number (optional)</span>
+                  <input
+                    placeholder="+44 …"
+                    className={INPUT_CLS}
+                    value={form.number}
+                    onChange={(e) => setForm({ ...form, number: e.target.value })}
+                    inputMode="tel"
+                    pattern="^[0-9+()\-.\s]{6,}$"
+                    title="Please enter a valid phone number"
+                  />
+                </label>
               </div>
-              <input
-                placeholder="Budget Range (optional)"
-                className={INPUT_CLS}
-                value={form.budget}
-                onChange={(e) => setForm({ ...form, budget: e.target.value })}
-              />
-              <textarea
-                required
-                placeholder="Campaign outline, deliverables, timing"
-                className={`${INPUT_CLS} min-h-36`}
-                value={form.outline}
-                onChange={(e) => setForm({ ...form, outline: e.target.value })}
-              />
+
+              <label className="grid gap-1">
+                <span className="text-sm font-medium">Budget Range (optional)</span>
+                <input
+                  placeholder="e.g., £10k–£25k"
+                  className={INPUT_CLS}
+                  value={form.budget}
+                  onChange={(e) => setForm({ ...form, budget: e.target.value })}
+                />
+              </label>
+
+              <label className="grid gap-1">
+                <span className="text-sm font-medium">
+                  Campaign outline <span className="text-red-500">*</span>
+                </span>
+                <textarea
+                  required
+                  placeholder="Campaign goal, deliverables, timing…"
+                  className={`${INPUT_CLS} min-h-36`}
+                  value={form.outline}
+                  onChange={(e) => setForm({ ...form, outline: e.target.value })}
+                  maxLength={2000}
+                  aria-describedby="brand-outline-count"
+                />
+                <span
+                  id="brand-outline-count"
+                  className="text-xs text-neutral-400 self-end"
+                >
+                  {form.outline.length}/2000
+                </span>
+              </label>
+
               <div className="flex items-center gap-3">
                 <button className={BTN_PRIMARY_CLS}>Send Brief</button>
                 <a href="mailto:info@weardmgmt.com" className="text-sm underline">
                   Email instead
                 </a>
               </div>
+
+              {/* Upfront payment policy note */}
+              <p className="text-xs text-neutral-500 mt-2">
+                Note: For new campaigns, WEARD requires payment upfront before
+                campaign start to protect our talent.
+              </p>
             </form>
           ) : (
             <form className="grid gap-4 max-w-2xl" onSubmit={handleTalentSubmit}>
               <div className="grid sm:grid-cols-2 gap-4">
-                <input
-                  required
-                  placeholder="Full Name"
-                  className={INPUT_CLS}
-                  value={talent.name}
-                  onChange={(e) => setTalent({ ...talent, name: e.target.value })}
-                />
-                <input
-                  required
-                  type="email"
-                  placeholder="Your Email"
-                  className={INPUT_CLS}
-                  value={talent.email}
-                  onChange={(e) => setTalent({ ...talent, email: e.target.value })}
-                />
+                <label className="grid gap-1">
+                  <span className="text-sm font-medium">
+                    Full Name <span className="text-red-500">*</span>
+                  </span>
+                  <input
+                    required
+                    placeholder="e.g., Sophia Price"
+                    className={INPUT_CLS}
+                    value={talent.name}
+                    onChange={(e) => setTalent({ ...talent, name: e.target.value })}
+                  />
+                </label>
+
+                <label className="grid gap-1">
+                  <span className="text-sm font-medium">
+                    Your Email <span className="text-red-500">*</span>
+                  </span>
+                  <input
+                    required
+                    type="email"
+                    placeholder="you@email.com"
+                    className={INPUT_CLS}
+                    value={talent.email}
+                    onChange={(e) => setTalent({ ...talent, email: e.target.value })}
+                  />
+                </label>
               </div>
+
               <div className="grid sm:grid-cols-2 gap-4">
-                <input
-                  placeholder="Instagram URL"
-                  className={INPUT_CLS}
-                  value={talent.ig}
-                  onChange={(e) => setTalent({ ...talent, ig: e.target.value })}
-                />
-                <input
-                  placeholder="TikTok URL"
-                  className={INPUT_CLS}
-                  value={talent.tt}
-                  onChange={(e) => setTalent({ ...talent, tt: e.target.value })}
-                />
+                <label className="grid gap-1">
+                  <span className="text-sm font-medium">Instagram URL</span>
+                  <input
+                    placeholder="https://instagram.com/username"
+                    className={INPUT_CLS}
+                    value={talent.ig}
+                    onChange={(e) => setTalent({ ...talent, ig: e.target.value })}
+                  />
+                </label>
+
+                <label className="grid gap-1">
+                  <span className="text-sm font-medium">TikTok URL</span>
+                  <input
+                    placeholder="https://tiktok.com/@username"
+                    className={INPUT_CLS}
+                    value={talent.tt}
+                    onChange={(e) => setTalent({ ...talent, tt: e.target.value })}
+                  />
+                </label>
               </div>
-              <input
-                placeholder="Other (site/portfolio)"
-                className={INPUT_CLS}
-                value={talent.other}
-                onChange={(e) => setTalent({ ...talent, other: e.target.value })}
-              />
+
+              <label className="grid gap-1">
+                <span className="text-sm font-medium">Other (site/portfolio)</span>
+                <input
+                  placeholder="Link to portfolio, YouTube, etc."
+                  className={INPUT_CLS}
+                  value={talent.other}
+                  onChange={(e) => setTalent({ ...talent, other: e.target.value })}
+                />
+              </label>
+
               <div className="grid sm:grid-cols-2 gap-4">
-                <select className={INPUT_CLS} value={talent.category} onChange={(e) => setTalent({ ...talent, category: e.target.value })}>
-                  <option value="">Category</option>
-                  {CATEGORIES.map((c) => (
-                    <option key={c.key}>{c.label}</option>
-                  ))}
-                </select>
-                <input
-                  placeholder="Your Number (optional)"
-                  className={INPUT_CLS}
-                  value={talent.number}
-                  onChange={(e) => setTalent({ ...talent, number: e.target.value })}
-                />
+                <label className="grid gap-1">
+                  <span className="text-sm font-medium">Category</span>
+                  <select
+                    className={INPUT_CLS}
+                    value={talent.category}
+                    onChange={(e) =>
+                      setTalent({ ...talent, category: e.target.value })
+                    }
+                  >
+                    <option value="">Select…</option>
+                    {CATEGORIES.map((c) => (
+                      <option key={c.key}>{c.label}</option>
+                    ))}
+                  </select>
+                </label>
+
+                <label className="grid gap-1">
+                  <span className="text-sm font-medium">Your Number (optional)</span>
+                  <input
+                    placeholder="+44 …"
+                    className={INPUT_CLS}
+                    value={talent.number}
+                    onChange={(e) => setTalent({ ...talent, number: e.target.value })}
+                    inputMode="tel"
+                    pattern="^[0-9+()\-.\s]{6,}$"
+                    title="Please enter a valid phone number"
+                  />
+                </label>
               </div>
-              <textarea
-                placeholder="Notes (niche, availability, recent work)"
-                className={`${INPUT_CLS} min-h-36`}
-                value={talent.notes}
-                onChange={(e) => setTalent({ ...talent, notes: e.target.value })}
-              />
+
+              <label className="grid gap-1">
+                <span className="text-sm font-medium">Notes</span>
+                <textarea
+                  placeholder="Niche, availability, recent work…"
+                  className={`${INPUT_CLS} min-h-36`}
+                  value={talent.notes}
+                  onChange={(e) => setTalent({ ...talent, notes: e.target.value })}
+                  maxLength={1500}
+                  aria-describedby="talent-notes-count"
+                />
+                <span
+                  id="talent-notes-count"
+                  className="text-xs text-neutral-400 self-end"
+                >
+                  {talent.notes.length}/1500
+                </span>
+              </label>
+
               <div className="flex items-center gap-3">
                 <button className={BTN_PRIMARY_CLS}>Submit</button>
                 <a href="mailto:info@weardmgmt.com" className="text-sm underline">
@@ -1420,7 +1582,6 @@ function Contact() {
     </section>
   );
 }
-
 function Footer({ onNav }) {
   return (
     <footer className="border-t border-neutral-200 dark:border-neutral-800">
