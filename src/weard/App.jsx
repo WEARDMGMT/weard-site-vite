@@ -475,8 +475,8 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
 // ======= HOME =======
 function Home({ onExploreRoster, onWorkWithUs }) {
   const slides = [
-    { title: "WEARD.", subtitle: "Because Normal Doesn’t Trend.", image: MEDIA.creators.Sophia.photo },
-    { title: "WEARD.", subtitle: "Influences Differently.", image: MEDIA.creators.Amy.photo },
+    { title: "WEARD", subtitle: "Because Normal Doesn’t Trend.", image: MEDIA.creators.Sophia.photo },
+    { title: "WEARD", subtitle: "Influences Differently.", image: MEDIA.creators.Amy.photo },
   ];
   return (
     <section className="relative overflow-hidden">
