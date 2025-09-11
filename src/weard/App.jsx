@@ -2,10 +2,16 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Instagram, Mail, ExternalLink, ArrowRight, Globe, Menu, X, Sparkles } from "lucide-react";
 // Simple TikTok icon (outline) to match lucide style
-const TikTokIcon = (props) => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-    strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
-    <path d="M16 8.5c2.1 1.8 4 2 4 2V14c-2.2 0-4.2-1-6-2.5V16a6 6 0 1 1-6-6 6.5 6.5 0 0 0 3 .7"/>
+const TikTokIcon = ({ size = 16, className = "" }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 256 256"
+    width={size}
+    height={size}
+    className={className}
+    fill="currentColor"
+  >
+    <path d="M220.1 82.1c-26.4 0-47.8-21.4-47.8-47.8V28h-30v124.4c0 15.8-12.9 28.7-28.7 28.7s-28.7-12.9-28.7-28.7 12.9-28.7 28.7-28.7c5.5 0 10.6 1.6 14.9 4.2V101c-4.8-0.7-9.7-1.1-14.9-1.1-31.8 0-57.7 25.8-57.7 57.7s25.8 57.7 57.7 57.7 57.7-25.8 57.7-57.7V102c12.6 9.3 27.7 14.8 44.4 14.8V82.1z" />
   </svg>
 );
 
@@ -1060,7 +1066,7 @@ function CreatorCard({ p }) {
 
 
       {/* Meta panel */}
-     <div className="p-4">
+  <div className="p-4">
   <div className="flex items-start justify-between gap-3">
   <div /> {/* name now only appears on the media */}
   {defaultProfile && (
