@@ -870,18 +870,19 @@ function Roster() {
 
       <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400">Meet Our Talent</p>
 
-      <motion.div layout className="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filtered.map((p) => (
-          <motion.div
-            key={p.name}
-            initial={{ opacity: 0, y: 8 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.25 }}
-          >
-            <CreatorCard p={p} />
-          </motion.div>
-        ))}
+      <motion.div layout className="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+  {filtered.map((p) => (
+    <motion.div
+      key={p.name}
+      initial={{ opacity: 0, y: 8 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.25 }}
+      className="scale-[0.95]"   // smaller card
+    >
+      <CreatorCard p={p} />
+    </motion.div>
+  ))}
 
         {/* Invite tile */}
         <div className="p-6 rounded-2xl border border-dashed border-neutral-300 dark:border-neutral-700 flex flex-col items-start justify-between">
@@ -959,12 +960,12 @@ useEffect(() => {
   };
 }, [open, p]);
   return (
-    <div className="p-0 rounded-2xl border border-neutral-200 dark:border-neutral-800 overflow-hidden group">
+<div className="p-0 rounded-xl border border-neutral-200 dark:border-neutral-800 overflow-hidden group hover:shadow-md transition">
      <a
   href={defaultProfile}
   target={defaultProfile ? "_blank" : undefined}
   rel={defaultProfile ? "noreferrer" : undefined}
-  className="relative aspect-[9/16] w-full block bg-neutral-100 dark:bg-neutral-900"
+  className="relative aspect-[3/5] w-full block bg-neutral-100 dark:bg-neutral-900"
 >
         {!hasHoverMedia ? (
           <img src={avatar} alt={p.name} className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
@@ -977,7 +978,7 @@ useEffect(() => {
   </span>
 )}
       </a>
-      <div className="p-5">
+      <div className="p-4 sm:p-5">
         <div className="flex items-start justify-between gap-2">
           <div>
             <h3 className="font-semibold leading-tight">{p.name}</h3>
