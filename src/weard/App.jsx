@@ -183,7 +183,6 @@ video: MEDIA.creators.OliveTreeFamily.video,
   bio: "The Olive Tree Family is a lively and engaging Scottish household turning everyday life into authentic stories. From delicious food content and immersive experiences to travel adventures and comforting at-home moments, they create warm, relatable posts that resonate with families everywhere. Their thriving TikTok and Instagram community looks to them for genuine, family-friendly inspiration!",
   top_audience: ["United Kingdom"],
 },
-},
 ];
 
 const CATEGORIES = [
