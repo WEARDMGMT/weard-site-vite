@@ -967,94 +967,97 @@ function CreatorCard({ p }) {
   return (
     <div className="group rounded-2xl border border-neutral-200 dark:border-neutral-800 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition will-change-transform">
       {/* Cover link */}
-      <a
-        href={defaultProfile}
+<a
+  href={defaultProfile}
   target={defaultProfile ? "_blank" : undefined}
   rel={defaultProfile ? "noreferrer" : undefined}
+  aria-label={`Open ${p.name}'s profile`}
   className="relative block aspect-[3/5] bg-neutral-100 dark:bg-neutral-900"
   onMouseEnter={(e) => e.currentTarget.querySelector("video")?.play()}
   onMouseLeave={(e) => e.currentTarget.querySelector("video")?.pause()}
-/>
-        {/* Media */}
-        <img
-          src={p.photo || avatar}
-          alt={p.name}
-          className="absolute inset-0 h-full w-full object-cover"
-          loading="lazy"
-        />
-        {hasVideo && (
-          <video
-            src={p.video}
-            muted
-            playsInline
-            loop
-            preload="metadata"
-            className="absolute inset-0 h-full w-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-          />
-        )}
+>
+  {/* Base photo */}
+  <img
+    src={p.photo || avatar}
+    alt={p.name}
+    className="absolute inset-0 h-full w-full object-cover"
+    loading="lazy"
+    decoding="async"
+  />
 
-        {/* Overlays for legibility */}
-        <span className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/0 via-black/0 to-black/35" />
-        <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-black/0 to-black/0" />
+  {/* Hover video */}
+  {hasVideo && (
+    <video
+      src={p.video}
+      muted
+      playsInline
+      loop
+      preload="metadata"
+      className="absolute inset-0 h-full w-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+    />
+  )}
 
-        {/* Tags (top-left) */}
-        {Array.isArray(p.tags) && p.tags.length > 0 && (
-          <div className="absolute left-3 top-3 flex flex-wrap gap-2">
-            {p.tags.slice(0, 2).map((t) => (
-              <span
-                key={t}
-                className="px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide rounded-full text-black/90"
-                style={gradient}
-              >
-                {t}
-              </span>
-            ))}
-          </div>
-        )}
+  {/* Gradients */}
+  <span className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/0 via-black/0 to-black/45" />
+  <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-black/0 to-black/0" />
 
-        {/* Location (top-right) */}
-        {p.location && (
-          <span className="absolute right-3 top-3 px-2 py-1 text-[11px] font-semibold rounded-full bg-white/85 dark:bg-black/60 backdrop-blur">
-            {p.location}
-          </span>
-        )}
-
-        {/* Name + handle ON the media (bottom-left) */}
-        <iv className="absolute inset-x-0 bottom-0 p-4 sm:p-5">
-  <div className="rounded-xl px-3 py-2 sm:px-4 sm:py-3 bg-black/60 backdrop-blur">
-    <div className="text-white font-extrabold leading-tight text-lg sm:text-xl tracking-wide">
-      {p.name}
+  {/* Tags (top-left) */}
+  {Array.isArray(p.tags) && p.tags.length > 0 && (
+    <div className="absolute left-3 top-3 flex flex-wrap gap-2">
+      {p.tags.slice(0, 2).map((t) => (
+        <span
+          key={t}
+          className="px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide rounded-full text-black/90"
+          style={gradient}
+        >
+          {t}
+        </span>
+      ))}
     </div>
-    {handle && (
-      <div className="text-white/90 text-xs sm:text-sm">@{handle}</div>
+  )}
+
+  {/* Location (top-right) */}
+  {p.location && (
+    <span className="absolute right-3 top-3 px-2 py-1 text-[11px] font-semibold rounded-full bg-white/85 dark:bg-black/60 backdrop-blur">
+      {p.location}
+    </span>
+  )}
+
+  {/* Name + handle (bottom-left) */}
+  <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5">
+    <div className="rounded-xl px-3 py-2 sm:px-4 sm:py-3 bg-black/60 backdrop-blur">
+      <div className="text-white font-extrabold leading-[1.05] text-2xl sm:text-3xl tracking-tight">
+        {p.name}
+      </div>
+      {handle && <div className="text-white/90 text-xs sm:text-sm">@{handle}</div>}
+    </div>
+  </div>
+
+  {/* Platform icons (bottom-right) */}
+  <div className="absolute right-3 bottom-3 flex items-center gap-2">
+    {p.instagram && (
+      <button
+        type="button"
+        onClick={(e) => { e.preventDefault(); open(p.instagram); }}
+        className="h-9 w-9 rounded-full bg-white/90 hover:bg-white text-neutral-900 grid place-items-center shadow"
+        aria-label="Open Instagram"
+      >
+        <Instagram size={16} />
+      </button>
+    )}
+    {p.tiktok && (
+      <button
+        type="button"
+        onClick={(e) => { e.preventDefault(); open(p.tiktok); }}
+        className="h-9 w-9 rounded-full bg-white/90 hover:bg-white text-neutral-900 grid place-items-center shadow"
+        aria-label="Open TikTok"
+      >
+        <TikTokIcon />
+      </button>
     )}
   </div>
-</div>
+</a>
 
-        {/* Platform icons ON the media (bottom-right) */}
-        <div className="absolute right-3 bottom-3 flex items-center gap-2">
-          {p.instagram && (
-            <button
-              type="button"
-              onClick={(e) => { e.preventDefault(); open(p.instagram); }}
-              className="h-9 w-9 rounded-full bg-white/90 hover:bg-white text-neutral-900 grid place-items-center shadow"
-              aria-label="Open Instagram"
-            >
-              <Instagram size={16} />
-            </button>
-          )}
-          {p.tiktok && (
-            <button
-              type="button"
-              onClick={(e) => { e.preventDefault(); open(p.tiktok); }}
-              className="h-9 w-9 rounded-full bg-white/90 hover:bg-white text-neutral-900 grid place-items-center shadow"
-              aria-label="Open TikTok"
-            >
-              <TikTokIcon />
-            </button>
-          )}
-        </div>
-      </a>
 
       {/* Meta panel */}
       <div className="p-4">
