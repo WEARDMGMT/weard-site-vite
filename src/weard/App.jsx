@@ -109,7 +109,7 @@ const STARTER_CREATORS = [
   tiktok: "https://www.tiktok.com/@sophiapriceyyy",
   email: "sophia@weardmgmt.com",
 location: "Thailand",
-  instagram_followers: 718000,
+  instagram_followers: 720000,
   tiktok_followers: 613800,
   profile_image: MEDIA.creators.Sophia.hero,   // static profile image
   photo: MEDIA.creators.Sophia.poster,         // still frame before hover
