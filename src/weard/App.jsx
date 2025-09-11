@@ -948,193 +948,122 @@ function SocialStat({ label, icon: Icon, url, value }) {
 }
 
 function CreatorCard({ p }) {
-  const [open, setOpen] = useState(false);
   const avatar =
     p.profile_image ||
     `https://api.dicebear.com/8.x/initials/svg?seed=${encodeURIComponent(p.name)}&backgroundType=gradientLinear`;
-  const hasHoverMedia = p.photo && p.video;
+  const hasVideo = p.video;
+  const gradient = { backgroundImage: `linear-gradient(90deg, #4F46E5, #A855F7)` }; // WEARD blue→purple
 
   const ig = cleanNum(p.instagram_followers) ?? 0;
   const tt = cleanNum(p.tiktok_followers) ?? 0;
   const total = ig + tt;
 
   const defaultProfile = p.instagram || p.tiktok || undefined;
-useEffect(() => {
-  if (!open) return; // ✅ only inject when modal is open
 
-  const data = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": p.name,
-    "jobTitle": `${p.category} Creator`,
-    "email": p.email || undefined,
-    "url": p.instagram || p.tiktok || undefined,
-    "sameAs": [p.instagram, p.tiktok].filter(Boolean)
-  };
+  const handle = getUsernameFromUrl(p.instagram) || getUsernameFromUrl(p.tiktok);
 
-  const s = document.createElement("script");
-  s.type = "application/ld+json";
-  s.text = JSON.stringify(data);
-  document.head.appendChild(s);
-
-  return () => {
-    if (s.parentNode) s.parentNode.removeChild(s);
-  };
-}, [open, p]);
   return (
-<div className="p-0 rounded-xl border border-neutral-200 dark:border-neutral-800 overflow-hidden group hover:shadow-md transition">
-     <a
-  href={defaultProfile}
-  target={defaultProfile ? "_blank" : undefined}
-  rel={defaultProfile ? "noreferrer" : undefined}
-  className="relative aspect-[3/5] w-full block bg-neutral-100 dark:bg-neutral-900"
->
-        {!hasHoverMedia ? (
-          <img src={avatar} alt={p.name} className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
-        ) : (
-          <HoverMedia photo={p.photo} video={p.video} alt={p.name} />
+    <div className="group rounded-2xl border border-neutral-200 dark:border-neutral-800 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition will-change-transform">
+      <a
+        href={defaultProfile}
+        target={defaultProfile ? "_blank" : undefined}
+        rel={defaultProfile ? "noreferrer" : undefined}
+        className="relative block aspect-[3/5] bg-neutral-100 dark:bg-neutral-900"
+      >
+        {/* Image or video hover */}
+        <img
+          src={p.photo || avatar}
+          alt={p.name}
+          className="absolute inset-0 h-full w-full object-cover"
+          loading="lazy"
+        />
+        {hasVideo && (
+          <video
+            src={p.video}
+            muted
+            playsInline
+            loop
+            preload="metadata"
+            className="absolute inset-0 h-full w-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          />
         )}
-       {p.location && (
-  <span className="absolute right-2 top-2 rounded-full bg-white/90 px-2 py-1 text-[11px] font-medium shadow">
-    {p.location}
-  </span>
-)}
+
+        {/* Gradient overlays */}
+        <span className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/0 via-black/0 to-black/30" />
+        <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/35 via-black/0 to-black/0" />
+
+        {/* Tags (top-left) */}
+        {Array.isArray(p.tags) && p.tags.length > 0 && (
+          <div className="absolute left-3 top-3 flex flex-wrap gap-2">
+            {p.tags.slice(0, 2).map((t) => (
+              <span
+                key={t}
+                className="px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide rounded-full text-black/90"
+                style={gradient}
+              >
+                {t}
+              </span>
+            ))}
+          </div>
+        )}
+
+        {/* Location chip */}
+        {p.location && (
+          <span className="absolute right-3 top-3 px-2 py-1 text-[11px] font-semibold rounded-full bg-white/85 dark:bg-black/60 backdrop-blur">
+            {p.location}
+          </span>
+        )}
+
+        {/* Play icon on hover (no pause sign) */}
+        {hasVideo && (
+          <span
+            className="absolute inset-0 m-auto h-14 w-14 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+            style={gradient}
+          >
+            <svg viewBox="0 0 24 24" className="h-6 w-6 fill-black/85">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </span>
+        )}
       </a>
-      <div className="p-4 sm:p-5">
-        <div className="flex items-start justify-between gap-2">
+
+      <div className="p-4">
+        <div className="flex items-start justify-between gap-3">
           <div>
-            <h3 className="font-semibold leading-tight">{p.name}</h3>
-            <p className="text-xs text-neutral-500">{(getUsernameFromUrl(p.instagram) || getUsernameFromUrl(p.tiktok) || "").toLowerCase()}</p>
+            <h3 className="text-lg font-extrabold leading-tight">{p.name}</h3>
+            {handle && <p className="text-sm text-neutral-500">@{handle}</p>}
           </div>
-            <div className="flex items-center gap-3">
-            <a href={p.instagram || p.tiktok || "#"} target="_blank" rel="noreferrer" className="text-sm inline-flex items-center gap-1 underline">
-              View Profile <ExternalLink size={14} />
+          {defaultProfile && (
+            <a
+              href={defaultProfile}
+              target="_blank"
+              rel="noreferrer"
+              className="text-sm font-semibold underline underline-offset-4 hover:opacity-80 text-indigo-600"
+            >
+              View Profile ↗
             </a>
-            <button onClick={() => setOpen(true)} className="text-sm underline">
-              More
-            </button>
-          </div>
+          )}
         </div>
 
-        <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
-          <SocialStat
-            label="Instagram"
-            icon={Instagram}
-            url={p.instagram}
-            value={<CountTo to={ig} format={shortFormat} />}
-          />
-          <SocialStat
-            label="TikTok"
-            icon={TikTokIcon}
-            url={p.tiktok}
-            value={<CountTo to={tt} format={shortFormat} />}
-          />
+        <div className="mt-3 grid grid-cols-2 gap-2">
+          {ig > 0 && (
+            <div className="rounded-xl border border-neutral-200 dark:border-neutral-800 p-2.5">
+              <div className="text-xs text-neutral-500">Instagram</div>
+              <div className="text-base font-semibold"><CountTo to={ig} format={shortFormat} /></div>
+            </div>
+          )}
+          {tt > 0 && (
+            <div className="rounded-xl border border-neutral-200 dark:border-neutral-800 p-2.5">
+              <div className="text-xs text-neutral-500">TikTok</div>
+              <div className="text-base font-semibold"><CountTo to={tt} format={shortFormat} /></div>
+            </div>
+          )}
         </div>
 
         <div className="mt-2 text-xs text-neutral-500">
           Total: <span className="font-semibold text-neutral-700 dark:text-neutral-200"><CountTo to={total} format={(x) => x.toLocaleString()} /></span>
         </div>
-
-        {p.tags?.length ? (
-          <div className="mt-3 flex flex-wrap gap-2">
-            {p.tags.map((t) => (
-              <span key={t} className="px-2.5 py-1 rounded-full text-xs border border-neutral-200 dark:border-neutral-800">
-                {t}
-              </span>
-            ))}
-          </div>
-        ) : null}
-       {p.email && (
-  <a
-    href={`mailto:${p.email}`}
-    className="mt-4 flex flex-wrap items-center gap-2 text-sm underline break-all"
-  >
-    Email {p.name.split(" ")[0]} ({p.email}) <Mail size={14} aria-hidden="true" />
-  </a>
-)}
       </div>
-
-      {/* Modal */}
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] bg-black/50 grid place-items-center p-4"
-          >
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: 10, opacity: 0 }}
-              className="w-full max-w-xl rounded-2xl bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 overflow-hidden"
-              role="dialog"
-              aria-modal="true"
-            >
-              <div className="relative aspect-[9/16] w-full">
-                <VideoHover
-  src={p.video}
-  poster={p.photo}
-  className="absolute inset-0 w-full h-full object-cover"
-/>
-              </div>
-              <div className="p-5">
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <h3 className="text-xl font-semibold">{p.name}</h3>
-                    <p className="text-xs uppercase tracking-widest text-neutral-500">{p.category}</p>
-                  </div>
-                  <button onClick={() => setOpen(false)} className="px-3 py-1 rounded-lg border border-neutral-200 dark:border-neutral-800">
-                    Close
-                  </button>
-                </div>
-                <p className="mt-3 text-sm text-neutral-600 dark:text-neutral-400 whitespace-pre-line">
-                  {p.bio || "Add a 'bio' column in the Sheet to populate this section automatically."}
-                </p>
-                <div className="mt-4 grid sm:grid-cols-3 gap-3 text-sm">
-                  <div className="mb-3 sm:col-span-3 text-sm">
-                    <div className="font-semibold">Top Audience</div>
-                    {p.top_audience?.length ? (
-    <div className="text-neutral-600 dark:text-neutral-400">
-      {p.top_audience.join(" · ")}
-    </div>
-  ) : (
-    <div className="text-neutral-400 italic">Not available</div>
-  )}
-                  </div>
-                  <a
-                    href={p.instagram}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="px-3 py-2 rounded-xl border border-neutral-200 dark:border-neutral-800 inline-flex items-center justify-center gap-2"
-                  >
-                    <Instagram size={14} aria-hidden="true" />
-                    Instagram
-                  </a>
-                  <a
-                    href={p.tiktok}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="px-3 py-2 rounded-xl border border-neutral-200 dark:border-neutral-800 inline-flex items-center justify-center gap-2"
-                  >
-                    <TikTokIcon />
-                    TikTok
-                  </a>
-                  {p.email && (
-                    <a
-                      href={`mailto:${p.email}`}
-                      className="px-3 py-2 rounded-xl border border-neutral-200 dark:border-neutral-800 inline-flex items-center justify-center gap-2"
-                    >
-                      <Mail size={14} aria-hidden="true" />
-                      Email ({p.email})
-                    </a>
-                  )}
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }
