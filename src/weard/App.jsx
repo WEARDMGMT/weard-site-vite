@@ -983,7 +983,6 @@ useEffect(() => {
 }, [open, p]);
   return (
 <div className="p-0 rounded-xl border border-neutral-200 dark:border-neutral-800 overflow-hidden group hover:shadow-md transition">
-     <a
  <a
   href={defaultProfile}
   target={defaultProfile ? "_blank" : undefined}
