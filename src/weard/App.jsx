@@ -969,10 +969,12 @@ function CreatorCard({ p }) {
       {/* Cover link */}
       <a
         href={defaultProfile}
-        target={defaultProfile ? "_blank" : undefined}
-        rel={defaultProfile ? "noreferrer" : undefined}
-        className="relative block aspect-[3/5] bg-neutral-100 dark:bg-neutral-900"
-      >
+  target={defaultProfile ? "_blank" : undefined}
+  rel={defaultProfile ? "noreferrer" : undefined}
+  className="relative block aspect-[3/5] bg-neutral-100 dark:bg-neutral-900"
+  onMouseEnter={(e) => e.currentTarget.querySelector("video")?.play()}
+  onMouseLeave={(e) => e.currentTarget.querySelector("video")?.pause()}
+/>
         {/* Media */}
         <img
           src={p.photo || avatar}
@@ -1018,10 +1020,16 @@ function CreatorCard({ p }) {
         )}
 
         {/* Name + handle ON the media (bottom-left) */}
-        <div className="absolute left-3 bottom-3 rounded-xl bg-black/55 text-white backdrop-blur px-3 py-2">
-          <div className="text-sm font-bold leading-tight">{p.name}</div>
-          {handle && <div className="text-[11px] opacity-90">@{handle}</div>}
-        </div>
+        <iv className="absolute inset-x-0 bottom-0 p-4 sm:p-5">
+  <div className="rounded-xl px-3 py-2 sm:px-4 sm:py-3 bg-black/60 backdrop-blur">
+    <div className="text-white font-extrabold leading-tight text-lg sm:text-xl tracking-wide">
+      {p.name}
+    </div>
+    {handle && (
+      <div className="text-white/90 text-xs sm:text-sm">@{handle}</div>
+    )}
+  </div>
+</div>
 
         {/* Platform icons ON the media (bottom-right) */}
         <div className="absolute right-3 bottom-3 flex items-center gap-2">
@@ -1050,22 +1058,19 @@ function CreatorCard({ p }) {
 
       {/* Meta panel */}
       <div className="p-4">
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <h3 className="text-lg font-extrabold leading-tight">{p.name}</h3>
-            {handle && <p className="text-sm text-neutral-500">@{handle}</p>}
-          </div>
-          {defaultProfile && (
-            <a
-              href={defaultProfile}
-              target="_blank"
-              rel="noreferrer"
-              className="text-sm font-semibold underline underline-offset-4 hover:opacity-80 text-indigo-600"
-            >
-              View Profile ↗
-            </a>
-          )}
-        </div>
+        <<div className="flex items-start justify-between gap-3">
+  <div /> {/* name now only appears on the media */}
+  {defaultProfile && (
+    <a
+      href={defaultProfile}
+      target="_blank"
+      rel="noreferrer"
+      className="text-sm font-semibold underline underline-offset-4 hover:opacity-80 text-indigo-600"
+    >
+      View Profile ↗
+    </a>
+  )}
+</div>
 
         <div className="mt-3 grid grid-cols-2 gap-2">
           {ig > 0 && (
