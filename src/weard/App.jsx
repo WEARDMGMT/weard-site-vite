@@ -983,14 +983,19 @@ useEffect(() => {
 }, [open, p]);
   return (
 <div className="p-0 rounded-xl border border-neutral-200 dark:border-neutral-800 overflow-hidden group hover:shadow-md transition">
- <a
-  href={defaultProfile}
-  target={defaultProfile ? "_blank" : undefined}
-  rel={defaultProfile ? "noreferrer" : undefined}
+ <button
+  type="button"
+  onClick={() => setOpen(true)}
   className="relative aspect-[3/5] w-full block bg-neutral-100 dark:bg-neutral-900"
+  aria-label={`Open ${p.name} preview`}
 >
   {!hasHoverMedia ? (
-    <img src={avatar} alt={p.name} className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
+    <img
+      src={avatar}
+      alt={p.name}
+      className="absolute inset-0 h-full w-full object-cover"
+      loading="lazy"
+    />
   ) : (
     <HoverMedia photo={p.photo} video={p.video} alt={p.name} />
   )}
@@ -1013,13 +1018,41 @@ useEffect(() => {
     </div>
   )}
 
-  {/* Location chip (moved to bottom-right) */}
+  {/* Location chip */}
   {p.location && (
     <span className="absolute right-2 bottom-2 rounded-full bg-white/90 px-2 py-1 text-[11px] font-medium shadow">
       {p.location}
     </span>
   )}
-</a>
+
+  {/* External profile icon (only if a URL exists) */}
+  {defaultProfile && (
+    <a
+      href={defaultProfile}
+      target="_blank"
+      rel="noreferrer"
+      onClick={(e) => e.stopPropagation()} // prevent opening the modal when clicking the icon
+      className="absolute top-2 right-2 inline-flex items-center justify-center rounded-full bg-black/60 hover:bg-black/80 p-2"
+      aria-label={`Open ${p.name}'s profile in a new tab`}
+    >
+      {/* External-link icon */}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-4 w-4 text-white"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M18 13v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+        <path d="M15 3h6v6" />
+        <path d="M10 14 21 3" />
+      </svg>
+    </a>
+  )}
+</button>
        {p.email && (
   <a
     href={`mailto:${p.email}`}
