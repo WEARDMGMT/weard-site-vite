@@ -777,50 +777,108 @@ const [position, setPosition] = useState({ coordinates: [0, 20], zoom: 1.4 });
 // ======= ROSTER =======
 function Roster() {
   const creators = useRosterHydration();
+
+  // Category tabs
   const [tab, setTab] = useState("All");
   const tabs = useMemo(() => ["All", ...CATEGORIES.map((c) => c.label)], []);
-  const filtered = useMemo(
-    () => (tab === "All" ? creators : creators.filter((c) => {
+
+  // Region filter tabs
+  const [region, setRegion] = useState("All");
+  const regions = ["All", "UK", "Asia", "USA"];
+
+  // Filter creators
+  const filtered = useMemo(() => {
+    let data = creators;
+
+    // category filter
+    if (tab !== "All") {
       const t = tab.toLowerCase();
-      const catMatch = c.category && c.category.toLowerCase() === t;
-      const tags = Array.isArray(c.tags) ? c.tags : [];
-      const tagMatch = tags.some((tag) => String(tag).toLowerCase() == t);
-      return catMatch || tagMatch;
-    })),
-    [tab, creators]
-  );
+      data = data.filter((c) => {
+        const catMatch = c.category && c.category.toLowerCase() === t;
+        const tags = Array.isArray(c.tags) ? c.tags : [];
+        const tagMatch = tags.some((tag) => String(tag).toLowerCase() === t);
+        return catMatch || tagMatch;
+      });
+    }
+
+    // region filter
+    if (region !== "All") {
+      data = data.filter((c) => {
+        const loc = c.location?.toLowerCase() || "";
+        if (region === "UK") return loc.includes("uk") || loc.includes("united kingdom");
+        if (region === "USA") return loc.includes("usa") || loc.includes("united states");
+        if (region === "Asia")
+          return (
+            loc.includes("thailand") ||
+            loc.includes("hong kong") ||
+            loc.includes("china") ||
+            loc.includes("asia")
+          );
+        return true;
+      });
+    }
+
+    return data;
+  }, [tab, region, creators]);
+
   return (
     <section className="max-w-7xl mx-auto px-4 pt-10 pb-20">
       <div className="flex items-center justify-between flex-wrap gap-4">
         <h2 className="text-3xl sm:text-4xl font-bold">Roster</h2>
-      <div
-  className="
-    sticky top-0 z-10
-    -mx-4 px-4 py-3
-    flex flex-wrap gap-2
-    bg-white/90 dark:bg-neutral-950/90
-    backdrop-blur supports-[backdrop-filter]:bg-white/70
-    border-y border-neutral-200 dark:border-neutral-800
-  "
->
-  {tabs.map((t) => (
-    <button
-      key={t}
-      onClick={() => setTab(t)}
-      className={cn(
-        "px-4 py-2 rounded-full text-sm border focus:outline-none focus:ring-2 focus:ring-indigo-500",
-        tab === t ? cn("text-white", GRADIENT, "border-transparent") : "border-neutral-300 dark:border-neutral-700"
-      )}
-    >
-      {t}
-    </button>
-  ))}
-</div>
       </div>
+
+      {/* Category tabs */}
+      <div
+        className="
+          sticky top-0 z-10
+          -mx-4 px-4 py-3
+          flex flex-wrap gap-2
+          bg-white/90 dark:bg-neutral-950/90
+          backdrop-blur supports-[backdrop-filter]:bg-white/70
+          border-y border-neutral-200 dark:border-neutral-800
+        "
+      >
+        {tabs.map((t) => (
+          <button
+            key={t}
+            onClick={() => setTab(t)}
+            className={cn(
+              "px-4 py-2 rounded-full text-sm border focus:outline-none focus:ring-2 focus:ring-indigo-500",
+              tab === t ? cn("text-white", GRADIENT, "border-transparent") : "border-neutral-300 dark:border-neutral-700"
+            )}
+          >
+            {t}
+          </button>
+        ))}
+      </div>
+
+      {/* Region tabs */}
+      <div className="mt-4 flex flex-wrap gap-2">
+        {regions.map((r) => (
+          <button
+            key={r}
+            onClick={() => setRegion(r)}
+            className={cn(
+              "px-4 py-2 rounded-full text-sm border focus:outline-none focus:ring-2 focus:ring-indigo-500",
+              region === r ? cn("text-white", GRADIENT, "border-transparent") : "border-neutral-300 dark:border-neutral-700"
+            )}
+          >
+            {r}
+          </button>
+        ))}
+      </div>
+
       <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400">Meet Our Talent</p>
-      <motion.div layout className="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <motion.div layout className="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {filtered.map((p) => (
-          <motion.div key={p.name} initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.25 }}>
+          <motion.div
+            key={p.name}
+            initial={{ opacity: 0, y: 8 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.25 }}
+          >
             <CreatorCard p={p} />
           </motion.div>
         ))}
@@ -830,10 +888,14 @@ function Roster() {
           <div>
             <h3 className="text-lg font-semibold">Join the Roster</h3>
             <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
-              We’re always looking for exciting new talent to represent across Fashion, Beauty, Lifestyle, Sport, Travel and Family. If you’re building something special, let’s talk.
+              We’re always looking for exciting new talent to represent across Fashion, Beauty,
+              Lifestyle, Sport, Travel and Family. If you’re building something special, let’s talk.
             </p>
           </div>
-          <button onClick={() => window.weardNav?.("contact")} className="mt-6 inline-flex items-center gap-2 text-sm underline">
+          <button
+            onClick={() => window.weardNav?.("contact")}
+            className="mt-6 inline-flex items-center gap-2 text-sm underline"
+          >
             Submit your profile <ArrowRight size={14} />
           </button>
         </div>
