@@ -1060,8 +1060,8 @@ function CreatorCard({ p }) {
 
 
       {/* Meta panel */}
-      <div className="p-4">
-        <<div className="flex items-start justify-between gap-3">
+     <div className="p-4">
+  <div className="flex items-start justify-between gap-3">
   <div /> {/* name now only appears on the media */}
   {defaultProfile && (
     <a
