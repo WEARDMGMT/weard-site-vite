@@ -983,76 +983,67 @@ useEffect(() => {
 }, [open, p]);
   return (
 <div className="p-0 rounded-xl border border-neutral-200 dark:border-neutral-800 overflow-hidden group hover:shadow-md transition">
- <button
-  type="button"
-  onClick={() => setOpen(true)}
+     <a
+  href={defaultProfile}
+  target={defaultProfile ? "_blank" : undefined}
+  rel={defaultProfile ? "noreferrer" : undefined}
   className="relative aspect-[3/5] w-full block bg-neutral-100 dark:bg-neutral-900"
-  aria-label={`Open ${p.name} preview`}
 >
-  {!hasHoverMedia ? (
-    <img
-      src={avatar}
-      alt={p.name}
-      className="absolute inset-0 h-full w-full object-cover"
-      loading="lazy"
-    />
-  ) : (
-    <HoverMedia photo={p.photo} video={p.video} alt={p.name} />
-  )}
+        {!hasHoverMedia ? (
+          <img src={avatar} alt={p.name} className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
+        ) : (
+          <HoverMedia photo={p.photo} video={p.video} alt={p.name} />
+        )}
+       {p.location && (
+  <span className="absolute right-2 top-2 rounded-full bg-white/90 px-2 py-1 text-[11px] font-medium shadow">
+    {p.location}
+  </span>
+)}
+      </a>
+      <div className="p-4 sm:p-5">
+        <div className="flex items-start justify-between gap-2">
+          <div>
+            <h3 className="font-semibold leading-tight">{p.name}</h3>
+            <p className="text-xs text-neutral-500">{(getUsernameFromUrl(p.instagram) || getUsernameFromUrl(p.tiktok) || "").toLowerCase()}</p>
+          </div>
+            <div className="flex items-center gap-3">
+            <a href={p.instagram || p.tiktok || "#"} target="_blank" rel="noreferrer" className="text-sm inline-flex items-center gap-1 underline">
+              View Profile <ExternalLink size={14} />
+            </a>
+            <button onClick={() => setOpen(true)} className="text-sm underline">
+              More
+            </button>
+          </div>
+        </div>
 
-  {/* Subtle gradients */}
-  <span className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/0 via-black/0 to-black/35" />
-  <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/30 via-black/0 to-black/0" />
+        <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
+          <SocialStat
+            label="Instagram"
+            icon={Instagram}
+            url={p.instagram}
+            value={<CountTo to={ig} format={shortFormat} />}
+          />
+          <SocialStat
+            label="TikTok"
+            icon={TikTokIcon}
+            url={p.tiktok}
+            value={<CountTo to={tt} format={shortFormat} />}
+          />
+        </div>
 
-  {/* Pills at the top */}
-  {Array.isArray(p.tags) && p.tags.length > 0 && (
-    <div className="absolute left-3 right-3 top-3 flex flex-wrap gap-2">
-      {p.tags.slice(0, 2).map((t) => (
-        <span
-          key={t}
-          className="px-3 py-1 text-[11px] font-semibold rounded-lg bg-lime-300 text-black shadow"
-        >
-          {t.toUpperCase()}
-        </span>
-      ))}
-    </div>
-  )}
+        <div className="mt-2 text-xs text-neutral-500">
+          Total: <span className="font-semibold text-neutral-700 dark:text-neutral-200"><CountTo to={total} format={(x) => x.toLocaleString()} /></span>
+        </div>
 
-  {/* Location chip */}
-  {p.location && (
-    <span className="absolute right-2 bottom-2 rounded-full bg-white/90 px-2 py-1 text-[11px] font-medium shadow">
-      {p.location}
-    </span>
-  )}
-
-  {/* External profile icon (only if a URL exists) */}
-  {defaultProfile && (
-    <a
-      href={defaultProfile}
-      target="_blank"
-      rel="noreferrer"
-      onClick={(e) => e.stopPropagation()} // prevent opening the modal when clicking the icon
-      className="absolute top-2 right-2 inline-flex items-center justify-center rounded-full bg-black/60 hover:bg-black/80 p-2"
-      aria-label={`Open ${p.name}'s profile in a new tab`}
-    >
-      {/* External-link icon */}
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-4 w-4 text-white"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M18 13v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-        <path d="M15 3h6v6" />
-        <path d="M10 14 21 3" />
-      </svg>
-    </a>
-  )}
-</button>
+        {p.tags?.length ? (
+          <div className="mt-3 flex flex-wrap gap-2">
+            {p.tags.map((t) => (
+              <span key={t} className="px-2.5 py-1 rounded-full text-xs border border-neutral-200 dark:border-neutral-800">
+                {t}
+              </span>
+            ))}
+          </div>
+        ) : null}
        {p.email && (
   <a
     href={`mailto:${p.email}`}
@@ -1151,56 +1142,45 @@ useEffect(() => {
 function HoverMedia({ photo, video, alt }) {
   const [playing, setPlaying] = useState(false);
   const vidRef = useRef(null);
-
   useEffect(() => {
-    const v = vidRef.current;
-    if (!v) return;
+    if (!vidRef.current) return;
     try {
       if (playing) {
-        v.currentTime = 0;
-        const p = v.play();
-        if (p?.catch) p.catch(() => {});
+        vidRef.current.currentTime = 0;
+        const p = vidRef.current.play();
+        if (p && typeof p.catch === "function") p.catch(() => {});
       } else {
-        v.pause();
+        vidRef.current.pause();
       }
     } catch {}
   }, [playing]);
-
   return (
     <div
       className="absolute inset-0"
       onMouseEnter={() => setPlaying(true)}
       onMouseLeave={() => setPlaying(false)}
-      onTouchStart={() => setPlaying((x) => !x)}
-      onContextMenu={(e) => e.preventDefault()}
+      onTouchStart={() => setPlaying((v) => !v)}
     >
-      {/* Poster */}
       <img
-        src={photo}
-        alt={alt}
-        className={cn(
-          "absolute inset-0 h-full w-full object-cover transition-opacity duration-300",
-          playing ? "opacity-0" : "opacity-100"
-        )}
-        loading="lazy"
-        decoding="async"
+       src={photo}
+  alt={alt}
+  className={cn(
+    "absolute inset-0 h-full w-full object-cover transition-opacity duration-300",
+    playing ? "opacity-0" : "opacity-100"
+  )}
+  loading="lazy"
+  decoding="async"   // ✅ new
       />
-
-      {/* Video with no clickable controls & no overlay */}
       <video
         ref={vidRef}
         src={video}
         muted
         loop
         playsInline
-        preload="metadata"
-        controls={false}
-        controlsList="nodownload noplaybackrate nofullscreen"
-        disablePictureInPicture
-        className={cn(
-          "pointer-events-none absolute inset-0 h-full w-full object-cover transition-opacity duration-300",
-          playing ? "opacity-100" : "opacity-0"
-        )}
+        preload="metadata"           // <— key change
+  controls={false}
+  disablePictureInPicture
+  className={cn("absolute inset-0 h-full w-full object-cover transition-opacity duration-300", playing ? "opacity-100" : "opacity-0")}
       />
     </div>
   );
