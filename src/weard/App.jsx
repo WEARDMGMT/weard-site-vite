@@ -514,31 +514,29 @@ function Home({ onExploreRoster, onWorkWithUs }) {
   return (
     <section className="relative overflow-hidden">
       <HeroSlider slides={slides} />
-      <div className="max-w-7xl mx-auto px-4 pb-12 grid md:grid-cols-2 gap-10 items-center">
-        <div>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight">
-            WE ARE <RotatingWords words={WEARE_WORDS} />
-          </h1>
-         <p className="mt-5 text-base sm:text-lg text-neutral-700 dark:text-neutral-200 max-w-prose text-center mx-auto">
-  Global Influence. Global Campaigns. Global Talent.<br />
-  We Champion Our Creators And Amplify Their Voices.
-</p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <button
-              onClick={onExploreRoster}
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-neutral-300 dark:border-neutral-700 hover:-translate-y-0.5 transition focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            >
-              Explore Roster <ArrowRight size={16} />
-            </button>
-            <button
-              onClick={onWorkWithUs}
-              className={`inline-flex items-center gap-2 px-5 py-3 rounded-full text-white hover:-translate-y-0.5 transition focus:outline-none focus:ring-2 focus:ring-indigo-500 ${GRADIENT}`}
-            >
-              Work With Us <ArrowRight size={16} />
-            </button>
-          </div>
-        </div>
-      </div>
+     <div className="min-h-screen flex flex-col items-center justify-center px-4 text-center">
+  <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight">
+    WE ARE <RotatingWords words={WEARE_WORDS} />
+  </h1>
+  <p className="mt-5 text-base sm:text-lg text-neutral-700 dark:text-neutral-200 max-w-prose">
+    Global Influence. Global Campaigns. Global Talent.<br />
+    We Champion Our Creators And Amplify Their Voices.
+  </p>
+  <div className="mt-8 flex flex-wrap gap-3 justify-center">
+    <button
+      onClick={onExploreRoster}
+      className="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-neutral-300 dark:border-neutral-700 hover:-translate-y-0.5 transition focus:outline-none focus:ring-2 focus:ring-indigo-500"
+    >
+      Explore Roster <ArrowRight size={16} />
+    </button>
+    <button
+      onClick={onWorkWithUs}
+      className={`inline-flex items-center gap-2 px-5 py-3 rounded-full text-white hover:-translate-y-0.5 transition focus:outline-none focus:ring-2 focus:ring-indigo-500 ${GRADIENT}`}
+    >
+      Work With Us <ArrowRight size={16} />
+    </button>
+  </div>
+</div>
     </section>
   );
 }
