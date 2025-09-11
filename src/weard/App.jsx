@@ -90,6 +90,10 @@ const MEDIA = {
     poster: "/media/creators/josefine/josefine-poster-v2.jpg",
     video:  "/media/creators/josefine/josefine-hover-v2.mp4",
    },
+    profile_image: "/media/creators/theolivetreefamily/olivetreefamily-hero.jpg",
+photo: "/media/creators/theolivetreefamily/olivetreefamily-poster.jpg",
+video: "/media/creators/theolivetreefamily/olivetreefamily-hover.mp4",
+ },  
   },
 };
 
@@ -103,8 +107,8 @@ const STARTER_CREATORS = [
   tiktok: "https://www.tiktok.com/@sophiapriceyyy",
   email: "sophia@weardmgmt.com",
 location: "Thailand",
-  instagram_followers: 717000,
-  tiktok_followers: 586600,
+  instagram_followers: 718000,
+  tiktok_followers: 613800,
   profile_image: MEDIA.creators.Sophia.hero,   // static profile image
   photo: MEDIA.creators.Sophia.poster,         // still frame before hover
   tags: ["Fashion", "Beauty", "Travel"],
@@ -120,14 +124,14 @@ location: "Thailand",
   tiktok: "https://www.tiktok.com/@ameliewyg",
   email: "amy@weardmgmt.com",
   location: "Thailand",
-  instagram_followers: 350000,
-  tiktok_followers: 245000,
+  instagram_followers: 348000,
+  tiktok_followers: 252300,
   profile_image: MEDIA.creators.Amy.hero,
   photo: MEDIA.creators.Amy.poster,
   tags: ["Fashion", "Beauty", "Lifestyle"],
   video: MEDIA.creators.Amy.video,
   bio: "Amy is a Thai–German fashion, beauty, and lifestyle creator whose content radiates confidence and creativity. Blending cultural influences with a sharp eye for style, she captivates audiences whether she’s curating standout outfits or sharing beauty insights.",
-  top_audience: ["United States", "Thailand"],        // 👈 add this line
+  top_audience: ["United States", "Thailand"],    
 
 },
    {name: "The Peacocks",
@@ -152,15 +156,32 @@ location: "Thailand",
   tiktok: "https://www.tiktok.com/@josefineuddman",
   email: "josefine@weardmgmt.com",
   location: "Thailand",
-  instagram_followers: 8148,
-  tiktok_followers: 80200,
+  instagram_followers: 8610,
+  tiktok_followers: 81500,
   profile_image: MEDIA.creators.Josefine.hero, // static profile image
   photo: MEDIA.creators.Josefine.poster,          // still frame before hover
   tags: ["Beauty", "Lifestyle"],
   video: MEDIA.creators.Josefine.video,  
   bio: "Josefine is a Swedish–Thai fashion, beauty, and lifestyle creator whose content blends elegance and playfulness. Drawing on her dual heritage, she brings a unique cultural perspective to her work, curating standout looks and sharing authentic beauty insights that resonate with global audiences.",
   top_audience: ["Thailand", "Sweden"],
-}, // ← close Josefine
+}, 
+{
+  name: "The Olive Tree Family",
+  category: "Family",
+  instagram: "https://www.instagram.com/theolivetreefamily",
+  tiktok: "https://www.tiktok.com/@theolivetreefamily",
+  email: "theolivetreefamily@weardmgmt.com",
+  location: "UK",
+  instagram_followers: 50300,
+  tiktok_followers: 58600,
+  profile_image: MEDIA.creators.OliveTreeFamily.hero,
+  photo: MEDIA.creators.OliveTreeFamily.poster,
+  video: MEDIA.creators.OliveTreeFamily.video,
+  tags: ["Family", "Lifestyle", "Travel"],
+  bio: "The Olive Tree Family is a lively and engaging Scottish household turning everyday life into authentic stories. From delicious food content and immersive experiences to travel adventures and comforting at-home moments, they create warm, relatable posts that resonate with families everywhere. Their thriving TikTok and Instagram community looks to them for genuine, family-friendly inspiration!",
+  top_audience: ["United Kingdom"],
+},
+},
 ];
 
 const CATEGORIES = [
