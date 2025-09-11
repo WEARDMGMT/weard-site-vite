@@ -951,26 +951,29 @@ function CreatorCard({ p }) {
   const avatar =
     p.profile_image ||
     `https://api.dicebear.com/8.x/initials/svg?seed=${encodeURIComponent(p.name)}&backgroundType=gradientLinear`;
-  const hasVideo = p.video;
-  const gradient = { backgroundImage: `linear-gradient(90deg, #4F46E5, #A855F7)` }; // WEARD blue→purple
-
+  const hasVideo = Boolean(p.video);
   const ig = cleanNum(p.instagram_followers) ?? 0;
   const tt = cleanNum(p.tiktok_followers) ?? 0;
   const total = ig + tt;
-
   const defaultProfile = p.instagram || p.tiktok || undefined;
-
   const handle = getUsernameFromUrl(p.instagram) || getUsernameFromUrl(p.tiktok);
+
+  // brand gradient
+  const gradient = { backgroundImage: "linear-gradient(90deg,#4F46E5,#A855F7)" };
+
+  // helpers so we don’t nest anchors inside the <a> cover link
+  const open = (url) => url && window.open(url, "_blank", "noopener,noreferrer");
 
   return (
     <div className="group rounded-2xl border border-neutral-200 dark:border-neutral-800 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition will-change-transform">
+      {/* Cover link */}
       <a
         href={defaultProfile}
         target={defaultProfile ? "_blank" : undefined}
         rel={defaultProfile ? "noreferrer" : undefined}
         className="relative block aspect-[3/5] bg-neutral-100 dark:bg-neutral-900"
       >
-        {/* Image or video hover */}
+        {/* Media */}
         <img
           src={p.photo || avatar}
           alt={p.name}
@@ -988,9 +991,9 @@ function CreatorCard({ p }) {
           />
         )}
 
-        {/* Gradient overlays */}
-        <span className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/0 via-black/0 to-black/30" />
-        <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/35 via-black/0 to-black/0" />
+        {/* Overlays for legibility */}
+        <span className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/0 via-black/0 to-black/35" />
+        <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-black/0 to-black/0" />
 
         {/* Tags (top-left) */}
         {Array.isArray(p.tags) && p.tags.length > 0 && (
@@ -1007,26 +1010,45 @@ function CreatorCard({ p }) {
           </div>
         )}
 
-        {/* Location chip */}
+        {/* Location (top-right) */}
         {p.location && (
           <span className="absolute right-3 top-3 px-2 py-1 text-[11px] font-semibold rounded-full bg-white/85 dark:bg-black/60 backdrop-blur">
             {p.location}
           </span>
         )}
 
-        {/* Play icon on hover (no pause sign) */}
-        {hasVideo && (
-          <span
-            className="absolute inset-0 m-auto h-14 w-14 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-            style={gradient}
-          >
-            <svg viewBox="0 0 24 24" className="h-6 w-6 fill-black/85">
-              <path d="M8 5v14l11-7z" />
-            </svg>
-          </span>
-        )}
+        {/* Name + handle ON the media (bottom-left) */}
+        <div className="absolute left-3 bottom-3 rounded-xl bg-black/55 text-white backdrop-blur px-3 py-2">
+          <div className="text-sm font-bold leading-tight">{p.name}</div>
+          {handle && <div className="text-[11px] opacity-90">@{handle}</div>}
+        </div>
+
+        {/* Platform icons ON the media (bottom-right) */}
+        <div className="absolute right-3 bottom-3 flex items-center gap-2">
+          {p.instagram && (
+            <button
+              type="button"
+              onClick={(e) => { e.preventDefault(); open(p.instagram); }}
+              className="h-9 w-9 rounded-full bg-white/90 hover:bg-white text-neutral-900 grid place-items-center shadow"
+              aria-label="Open Instagram"
+            >
+              <Instagram size={16} />
+            </button>
+          )}
+          {p.tiktok && (
+            <button
+              type="button"
+              onClick={(e) => { e.preventDefault(); open(p.tiktok); }}
+              className="h-9 w-9 rounded-full bg-white/90 hover:bg-white text-neutral-900 grid place-items-center shadow"
+              aria-label="Open TikTok"
+            >
+              <TikTokIcon />
+            </button>
+          )}
+        </div>
       </a>
 
+      {/* Meta panel */}
       <div className="p-4">
         <div className="flex items-start justify-between gap-3">
           <div>
@@ -1061,13 +1083,15 @@ function CreatorCard({ p }) {
         </div>
 
         <div className="mt-2 text-xs text-neutral-500">
-          Total: <span className="font-semibold text-neutral-700 dark:text-neutral-200"><CountTo to={total} format={(x) => x.toLocaleString()} /></span>
+          Total:{" "}
+          <span className="font-semibold text-neutral-700 dark:text-neutral-200">
+            <CountTo to={ig + tt} format={(x) => x.toLocaleString()} />
+          </span>
         </div>
       </div>
     </div>
   );
 }
-
 function HoverMedia({ photo, video, alt }) {
   const [playing, setPlaying] = useState(false);
   const vidRef = useRef(null);
