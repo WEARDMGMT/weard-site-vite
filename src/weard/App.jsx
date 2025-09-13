@@ -1174,9 +1174,10 @@ function CreatorCard({ p }) {
     p.profile_image ||
     `https://api.dicebear.com/8.x/initials/svg?seed=${encodeURIComponent(p.name)}&backgroundType=gradientLinear`;
   const hasVideo = Boolean(p.video);
-  const ig = cleanNum(p.instagram_followers) ?? 0;
-  const tt = cleanNum(p.tiktok_followers) ?? 0;
-  const total = ig + tt;
+const ig = cleanNum(p.instagram_followers) ?? 0;
+const tt = cleanNum(p.tiktok_followers) ?? 0;
+const yts = cleanNum(p.youtube_subscribers) ?? 0;   // NEW
+const total = ig + tt + yts;   
   const defaultProfile = p.instagram || p.tiktok || undefined;
   const handle = getUsernameFromUrl(p.instagram) || getUsernameFromUrl(p.tiktok);
 
@@ -1312,7 +1313,7 @@ function CreatorCard({ p }) {
         <div className="mt-2 text-xs text-neutral-500">
           Combined Following:{" "}
           <span className="font-semibold text-neutral-700 dark:text-neutral-200">
-            <CountTo to={ig + tt} format={(x) => x.toLocaleString()} />
+<CountTo to={total} format={(x) => x.toLocaleString()} />
           </span>
         </div>
       </div>
