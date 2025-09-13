@@ -569,25 +569,28 @@ function CreatorProfile({ creator, onBack }) {
     );
   }
 
-  // Destructure fields from creator
-  const {
-    name,
-    tags = [],
-    photo,
-    video,
-    instagram,
-    tiktok,
-    email,
-    location,
-    bio,
-    instagram_followers,
-    tiktok_followers,
-    top_audience = [],
-  } = creator;
+ const {
+  name,
+  tags = [],
+  photo,
+  video,
+  instagram,
+  tiktok,
+  youtube,                 // NEW
+  email,
+  location,
+  bio,
+  instagram_followers,
+  tiktok_followers,
+  youtube_subscribers,     // NEW
+  top_audience = [],
+} = creator;
 
-  const ig = cleanNum(instagram_followers) ?? 0;
-  const tt = cleanNum(tiktok_followers) ?? 0;
-  const total = ig + tt;
+const ig = cleanNum(instagram_followers) ?? 0;
+const tt = cleanNum(tiktok_followers) ?? 0;
+const yt = cleanNum(youtube_subscribers) ?? 0;  // NEW
+const total = ig + tt + yt;                     // NEW
+
 
   return (
     <section className="max-w-7xl mx-auto px-4 pt-10 pb-20">
@@ -660,6 +663,17 @@ function CreatorProfile({ creator, onBack }) {
                 >
                   <Instagram size={16} />
                 </a>
+      {youtube && (
+  <a
+    className="h-9 w-9 rounded-full bg-neutral-100 dark:bg-neutral-800 grid place-items-center"
+    href={youtube}
+    target="_blank"
+    rel="noreferrer"
+    aria-label="Open YouTube"
+    title="YouTube"
+  >
+    <Youtube size={16} />
+  </a>
               )}
               {email && (
                 <a
@@ -690,7 +704,7 @@ function CreatorProfile({ creator, onBack }) {
           </div>
 
           {/* Stats */}
-        <div className="mt-8 grid grid-cols-2 gap-3">
+        <div className="mt-8 grid grid-cols-2 md:grid-cols-3 gap-3">
   <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4 text-center">
     <div className="text-2xl font-extrabold">
       <CountTo to={tt} format={shortFormat} />
@@ -702,6 +716,12 @@ function CreatorProfile({ creator, onBack }) {
       <CountTo to={ig} format={shortFormat} />
     </div>
     <div className="text-xs text-neutral-500 mt-1">Instagram Followers</div>
+  </div>
+  <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4 text-center">
+    <div className="text-2xl font-extrabold">
+      <CountTo to={yt} format={shortFormat} />
+    </div>
+    <div className="text-xs text-neutral-500 mt-1">YouTube Subscribers</div>
   </div>
 </div>
 
@@ -1278,27 +1298,37 @@ const handle =
 
   {/* Platform icons (bottom-right) */}
   <div className="absolute right-3 bottom-3 flex items-center gap-2">
-    {p.instagram && (
-      <button
-        type="button"
-        onClick={(e) => { e.preventDefault(); open(p.instagram); }}
-        className="h-9 w-9 rounded-full bg-white/90 hover:bg-white text-neutral-900 grid place-items-center shadow"
-        aria-label="Open Instagram"
-      >
-        <Instagram size={16} />
-      </button>
-    )}
-    {p.tiktok && (
-      <button
-        type="button"
-        onClick={(e) => { e.preventDefault(); open(p.tiktok); }}
-        className="h-9 w-9 rounded-full bg-white/90 hover:bg-white text-neutral-900 grid place-items-center shadow"
-        aria-label="Open TikTok"
-      >
-        <TikTokIcon />
-      </button>
-    )}
-  </div>
+  {p.instagram && (
+    <button
+      type="button"
+      onClick={(e) => { e.preventDefault(); open(p.instagram); }}
+      className="h-9 w-9 rounded-full bg-white/90 hover:bg-white text-neutral-900 grid place-items-center shadow"
+      aria-label="Open Instagram"
+    >
+      <Instagram size={16} />
+    </button>
+  )}
+  {p.tiktok && (
+    <button
+      type="button"
+      onClick={(e) => { e.preventDefault(); open(p.tiktok); }}
+      className="h-9 w-9 rounded-full bg-white/90 hover:bg-white text-neutral-900 grid place-items-center shadow"
+      aria-label="Open TikTok"
+    >
+      <TikTokIcon />
+    </button>
+  )}
+  {p.youtube && (
+    <button
+      type="button"
+      onClick={(e) => { e.preventDefault(); open(p.youtube); }}
+      className="h-9 w-9 rounded-full bg-white/90 hover:bg-white text-neutral-900 grid place-items-center shadow"
+      aria-label="Open YouTube"
+    >
+      <Youtube size={16} />
+    </button>
+  )}
+</div>
 </a>
 
 
@@ -1315,20 +1345,32 @@ const handle =
 </button>
 </div>
 
-        <div className="mt-3 grid grid-cols-2 gap-2">
-          {ig > 0 && (
-            <div className="rounded-xl border border-neutral-200 dark:border-neutral-800 p-2.5">
-              <div className="text-xs text-neutral-500">Instagram</div>
-              <div className="text-base font-semibold"><CountTo to={ig} format={shortFormat} /></div>
-            </div>
-          )}
-          {tt > 0 && (
-            <div className="rounded-xl border border-neutral-200 dark:border-neutral-800 p-2.5">
-              <div className="text-xs text-neutral-500">TikTok</div>
-              <div className="text-base font-semibold"><CountTo to={tt} format={shortFormat} /></div>
-            </div>
-          )}
-        </div>
+      <div className="mt-3 grid grid-cols-2 md:grid-cols-3 gap-2">
+  {ig > 0 && (
+    <div className="rounded-xl border border-neutral-200 dark:border-neutral-800 p-2.5">
+      <div className="text-xs text-neutral-500">Instagram</div>
+      <div className="text-base font-semibold">
+        <CountTo to={ig} format={shortFormat} />
+      </div>
+    </div>
+  )}
+  {tt > 0 && (
+    <div className="rounded-xl border border-neutral-200 dark:border-neutral-800 p-2.5">
+      <div className="text-xs text-neutral-500">TikTok</div>
+      <div className="text-base font-semibold">
+        <CountTo to={tt} format={shortFormat} />
+      </div>
+    </div>
+  )}
+  {yts > 0 && (
+    <div className="rounded-xl border border-neutral-200 dark:border-neutral-800 p-2.5">
+      <div className="text-xs text-neutral-500">YouTube</div>
+      <div className="text-base font-semibold">
+        <CountTo to={yts} format={shortFormat} />
+      </div>
+    </div>
+  )}
+</div>
 
         <div className="mt-2 text-xs text-neutral-500">
           Combined Following:{" "}
