@@ -704,28 +704,35 @@ const total = ig + tt + yt;                     // NEW
             <p>{bio}</p>
           </div>
 
-          {/* Stats */}
-        <div className="mt-8 grid grid-cols-2 md:grid-cols-3 gap-3">
-  <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4 text-center">
-    <div className="text-2xl font-extrabold">
-      <CountTo to={tt} format={shortFormat} />
+       {/* Stats */}
+<div className="mt-8 grid grid-cols-2 md:grid-cols-3 gap-3">
+  {tt > 0 && (
+    <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4 text-center">
+      <div className="text-2xl font-extrabold">
+        <CountTo to={tt} format={shortFormat} />
+      </div>
+      <div className="text-xs text-neutral-500 mt-1">TikTok Followers</div>
     </div>
-    <div className="text-xs text-neutral-500 mt-1">TikTok Followers</div>
-  </div>
-  <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4 text-center">
-    <div className="text-2xl font-extrabold">
-      <CountTo to={ig} format={shortFormat} />
-    </div>
-    <div className="text-xs text-neutral-500 mt-1">Instagram Followers</div>
-  </div>
-  <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4 text-center">
-    <div className="text-2xl font-extrabold">
-      <CountTo to={yt} format={shortFormat} />
-    </div>
-    <div className="text-xs text-neutral-500 mt-1">YouTube Subscribers</div>
-  </div>
-</div>
+  )}
 
+  {ig > 0 && (
+    <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4 text-center">
+      <div className="text-2xl font-extrabold">
+        <CountTo to={ig} format={shortFormat} />
+      </div>
+      <div className="text-xs text-neutral-500 mt-1">Instagram Followers</div>
+    </div>
+  )}
+
+  {yt > 0 && (
+    <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4 text-center">
+      <div className="text-2xl font-extrabold">
+        <CountTo to={yt} format={shortFormat} />
+      </div>
+      <div className="text-xs text-neutral-500 mt-1">YouTube Subscribers</div>
+    </div>
+  )}
+</div>
           {/* CTA */}
           <div className="mt-8 flex flex-wrap gap-3">
             <button
@@ -1215,7 +1222,7 @@ function CreatorCard({ p }) {
 const ig = cleanNum(p.instagram_followers) ?? 0;
 const tt = cleanNum(p.tiktok_followers) ?? 0;
 const yts = cleanNum(p.youtube_subscribers) ?? 0;
-const total = ig + tt + yts;
+const total = (ig > 0 ? ig : 0) + (tt > 0 ? tt : 0) + (yts > 0 ? yts : 0);
 
 const defaultProfile = p.instagram || p.tiktok || p.youtube || undefined;
 const handle =
