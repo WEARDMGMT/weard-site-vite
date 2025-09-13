@@ -299,23 +299,29 @@ function useRosterHydration(initialCreators = STARTER_CREATORS) {
         if (!res.ok) throw new Error(`Sheet fetch failed: ${res.status}`);
         const csv = await res.text();
         const rows = parseCSV(csv);
-        let mapped = rows
-          .filter((r) => r.name)
-          .map((r) => ({
-            name: r.name,
-            category: r.category || "Lifestyle",
-            instagram: r.instagram || "",
-            tiktok: r.tiktok || "",
-            email: r.email || "",
-            location: r.location || "",
-            instagram_followers: cleanNum(r.instagram_followers),
-            tiktok_followers: cleanNum(r.tiktok_followers),
-            profile_image: r.profile_image || MEDIA.creators.Sophia.photo,
-            tags: (r.tags || "").split("|").filter(Boolean),
-            photo: r.photo || MEDIA.creators.Sophia.photo,
-            video: r.video || MEDIA.creators.Sophia.video,
-            bio: r.bio || "",
-          }));
+        et mapped = rows
+  .filter((r) => r.name)
+  .map((r) => ({
+    name: r.name,
+    category: r.category || "Lifestyle",
+    instagram: r.instagram || "",
+    tiktok: r.tiktok || "",
+    youtube: r.youtube || "",                                  // NEW
+    email: r.email || "",
+    location: r.location || "",
+    instagram_followers: cleanNum(r.instagram_followers),
+    tiktok_followers: cleanNum(r.tiktok_followers),
+    youtube_subscribers: cleanNum(r.youtube_subscribers),      // NEW
+    profile_image: r.profile_image || MEDIA.creators.Sophia.photo,
+    tags: (r.tags || "").split("|").filter(Boolean),
+    photo: r.photo || MEDIA.creators.Sophia.photo,
+    video: r.video || MEDIA.creators.Sophia.video,
+    bio: r.bio || "",
+    top_audience: (r.top_audience || "")
+      .split("|")
+      .map(s => s.trim())
+      .filter(Boolean),
+  }));
 
         // Fallbacks for Sophia & Amelie if sheet doesn’t supply numbers
         mapped = mapped.map((c) => {
