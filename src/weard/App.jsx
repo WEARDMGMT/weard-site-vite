@@ -226,19 +226,30 @@ const shortFormat = (n) => {
 function getUsernameFromUrl(url) {
   if (!url) return null;
   try {
-    // Handles full URLs like https://www.instagram.com/username/ and TikTok variations
     const u = new URL(url);
-    let path = u.pathname || "";
-    path = path.replace(/\/+$/,""); // strip trailing slash
+    let path = (u.pathname || "").replace(/\/+$/, "");
     const parts = path.split("/").filter(Boolean);
-    if (parts.length) return parts[0].toLowerCase();
-    return null;
+    if (!parts.length) return null;
+
+    // YouTube: @handle preferred; else first segment (channel/c/custom)
+    if (/youtube\.com$/i.test(u.hostname)) {
+      const first = parts[0];
+      if (first.startsWith("@")) return first.slice(1).toLowerCase();
+      return first.toLowerCase();
+    }
+
+    // IG/TikTok (strip leading @)
+    const first = parts[0].replace(/^@/, "");
+    return first.toLowerCase();
   } catch {
-    // Handles plain strings that may not be valid URLs
-    const m = String(url).match(/(?:instagram\.com|tiktok\.com)\/(?:@)?([A-Za-z0-9_.]+)/i);
-    return m ? m[1].toLowerCase() : null;
+    // fallback for plain strings that may not be valid URLs
+    const m = String(url).match(
+      /(?:instagram\.com|tiktok\.com|youtube\.com)\/(?:@)?([A-Za-z0-9_.-]+)/i
+    );
+    return m ? m[1].toLowerCase().replace(/^@/, "") : null;
   }
 }
+
 function CountTo({ to = 0, duration = 650, format = (x) => x.toLocaleString() }) {
   const [v, setV] = useState(0);
   useEffect(() => {
@@ -299,29 +310,29 @@ function useRosterHydration(initialCreators = STARTER_CREATORS) {
         if (!res.ok) throw new Error(`Sheet fetch failed: ${res.status}`);
         const csv = await res.text();
         const rows = parseCSV(csv);
-        et mapped = rows
+let mapped = rows
   .filter((r) => r.name)
-  .map((r) => ({
-    name: r.name,
-    category: r.category || "Lifestyle",
-    instagram: r.instagram || "",
-    tiktok: r.tiktok || "",
-    youtube: r.youtube || "",                                  // NEW
-    email: r.email || "",
-    location: r.location || "",
-    instagram_followers: cleanNum(r.instagram_followers),
-    tiktok_followers: cleanNum(r.tiktok_followers),
-    youtube_subscribers: cleanNum(r.youtube_subscribers),      // NEW
-    profile_image: r.profile_image || MEDIA.creators.Sophia.photo,
-    tags: (r.tags || "").split("|").filter(Boolean),
-    photo: r.photo || MEDIA.creators.Sophia.photo,
-    video: r.video || MEDIA.creators.Sophia.video,
-    bio: r.bio || "",
-    top_audience: (r.top_audience || "")
-      .split("|")
-      .map(s => s.trim())
-      .filter(Boolean),
-  }));
+ .map((r) => ({
+  name: r.name,
+  category: r.category || "Lifestyle",
+  instagram: r.instagram || "",
+  tiktok: r.tiktok || "",
+  youtube: r.youtube || "",                          // NEW
+  email: r.email || "",
+  location: r.location || "",
+  instagram_followers: cleanNum(r.instagram_followers),
+  tiktok_followers: cleanNum(r.tiktok_followers),
+  youtube_subscribers: cleanNum(r.youtube_subscribers), // NEW
+  profile_image: r.profile_image || MEDIA.creators.Sophia.photo,
+  tags: (r.tags || "").split("|").filter(Boolean),
+  photo: r.photo || MEDIA.creators.Sophia.photo,
+  video: r.video || MEDIA.creators.Sophia.video,
+  bio: r.bio || "",
+  top_audience: (r.top_audience || "")
+    .split("|")
+    .map(s => s.trim())
+    .filter(Boolean),
+}))
 
         // Fallbacks for Sophia & Amelie if sheet doesn’t supply numbers
         mapped = mapped.map((c) => {
@@ -1182,11 +1193,14 @@ function CreatorCard({ p }) {
   const hasVideo = Boolean(p.video);
 const ig = cleanNum(p.instagram_followers) ?? 0;
 const tt = cleanNum(p.tiktok_followers) ?? 0;
-const yts = cleanNum(p.youtube_subscribers) ?? 0;   // NEW
-const total = ig + tt + yts;   
-  const defaultProfile = p.instagram || p.tiktok || undefined;
-  const handle = getUsernameFromUrl(p.instagram) || getUsernameFromUrl(p.tiktok);
+const yts = cleanNum(p.youtube_subscribers) ?? 0;
+const total = ig + tt + yts;
 
+const defaultProfile = p.instagram || p.tiktok || p.youtube || undefined;
+const handle =
+  getUsernameFromUrl(p.instagram) ||
+  getUsernameFromUrl(p.tiktok) ||
+  getUsernameFromUrl(p.youtube);
   // brand gradient
   const gradient = { backgroundImage: "linear-gradient(90deg,#4F46E5,#A855F7)" };
 
