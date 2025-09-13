@@ -344,19 +344,25 @@ function useRosterHydration(initialCreators = STARTER_CREATORS) {
 export default function App() {
   const [activePage, setActivePage] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [selectedCreator, setSelectedCreator] = useState(null);
   const navigate = (k) => {
     setActivePage(k);
     setMenuOpen(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // expose simple global nav so buttons can jump pages without prop drilling
-  useEffect(() => {
-    window.weardNav = (k) => navigate(k);
-    return () => {
-      delete window.weardNav;
-    };
-  }, []);
+  // expose simple global nav + openProfile
+useEffect(() => {
+  window.weardNav = (k) => navigate(k);
+  window.weardOpenProfile = (creator) => {
+    setSelectedCreator(creator);
+    navigate("profile");
+  };
+  return () => {
+    delete window.weardNav;
+    delete window.weardOpenProfile;
+  };
+}, []);
 
   useEffect(() => {
     const data = {
@@ -415,6 +421,20 @@ export default function App() {
     <PrivacyPolicy />
   </motion.section>
 )}
+          {activePage === "profile" && (
+  <motion.section
+    key="profile"
+    initial={{ opacity: 0, y: 8 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: -8 }}
+  >
+    <CreatorProfile
+      creator={selectedCreator}
+      onBack={() => navigate("roster")}
+    />
+  </motion.section>
+)}
+          
         </AnimatePresence>
       </main>
 
@@ -502,6 +522,204 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
         )}
       </AnimatePresence>
     </header>
+  );
+}
+function CreatorProfile({ creator, onBack }) {
+  // Set document title for SEO/nice browser tab text
+  useEffect(() => {
+    document.title = creator?.name
+      ? `${creator.name} • WEARD Management`
+      : "Profile • WEARD Management";
+    return () => { document.title = "WEARD Management"; };
+  }, [creator]);
+
+  // If no creator selected
+  if (!creator) {
+    return (
+      <section className="max-w-5xl mx-auto px-4 pt-10 pb-20">
+        <button onClick={onBack} className="text-sm underline">← Back to roster</button>
+        <h2 className="mt-6 text-2xl font-bold">Profile not found</h2>
+        <p className="mt-2 text-neutral-600 dark:text-neutral-400">
+          Please return to the roster and open a creator again.
+        </p>
+      </section>
+    );
+  }
+
+  // Destructure fields from creator
+  const {
+    name,
+    tags = [],
+    photo,
+    video,
+    instagram,
+    tiktok,
+    email,
+    location,
+    bio,
+    instagram_followers,
+    tiktok_followers,
+    top_audience = [],
+  } = creator;
+
+  const ig = cleanNum(instagram_followers) ?? 0;
+  const tt = cleanNum(tiktok_followers) ?? 0;
+  const total = ig + tt;
+
+  return (
+    <section className="max-w-7xl mx-auto px-4 pt-10 pb-20">
+      {/* Back button */}
+      <button
+        onClick={onBack}
+        className="inline-flex items-center gap-2 text-sm underline underline-offset-4 hover:opacity-80"
+      >
+        ← Back to Roster
+      </button>
+
+      <div className="mt-6 grid lg:grid-cols-2 gap-8 items-start">
+        {/* Media */}
+        <div className="rounded-3xl overflow-hidden border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 relative">
+          <div className="relative aspect-[4/5] sm:aspect-[3/4]">
+            <img
+              src={photo || creator.profile_image}
+              alt={name}
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+            {video && (
+              <video
+                src={video}
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                className="absolute inset-0 h-full w-full object-cover opacity-0 hover:opacity-100 transition-opacity duration-300"
+                onMouseEnter={(e) => e.currentTarget.play()}
+                onMouseLeave={(e) => e.currentTarget.pause()}
+              />
+            )}
+          </div>
+        </div>
+
+        {/* Meta */}
+        <div>
+          {/* Tags + socials */}
+          <div className="flex items-center gap-3 flex-wrap">
+            {tags.slice(0, 3).map((t) => (
+              <span
+                key={t}
+                className="px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide rounded-full text-black/90"
+                style={{ backgroundImage: "linear-gradient(90deg,#4F46E5,#A855F7)" }}
+              >
+                {t}
+              </span>
+            ))}
+            <div className="flex items-center gap-2 ml-auto">
+              {tiktok && (
+                <a
+                  className="h-9 w-9 rounded-full bg-neutral-100 dark:bg-neutral-800 grid place-items-center"
+                  href={tiktok}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Open TikTok"
+                  title="TikTok"
+                >
+                  <TikTokIcon />
+                </a>
+              )}
+              {instagram && (
+                <a
+                  className="h-9 w-9 rounded-full bg-neutral-100 dark:bg-neutral-800 grid place-items-center"
+                  href={instagram}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Open Instagram"
+                  title="Instagram"
+                >
+                  <Instagram size={16} />
+                </a>
+              )}
+              {email && (
+                <a
+                  className="h-9 px-3 rounded-full bg-neutral-100 dark:bg-neutral-800 grid place-items-center text-xs"
+                  href={`mailto:${email}`}
+                  aria-label="Email"
+                  title="Email"
+                >
+                  <Mail size={14} className="mr-1 inline" /> Email
+                </a>
+              )}
+            </div>
+          </div>
+
+          <h1 className="mt-4 text-4xl sm:text-5xl font-extrabold leading-[1.05] tracking-tight">
+            {name}
+          </h1>
+
+          <div className="mt-2 text-sm text-neutral-500">
+            {location && <span>{location}</span>}
+            {top_audience.length > 0 && (
+              <span className="ml-2">• Top audience: {top_audience.join(" · ")}</span>
+            )}
+          </div>
+
+          <div className="mt-4 text-neutral-700 dark:text-neutral-300 space-y-4">
+            <p>{bio}</p>
+          </div>
+
+          {/* Stats */}
+          <div className="mt-8 grid grid-cols-3 gap-3">
+            <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4 text-center">
+              <div className="text-2xl font-extrabold">
+                <CountTo to={tt} format={shortFormat} />
+              </div>
+              <div className="text-xs text-neutral-500 mt-1">TikTok Followers</div>
+            </div>
+            <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4 text-center">
+              <div className="text-2xl font-extrabold">
+                <CountTo to={ig} format={shortFormat} />
+              </div>
+              <div className="text-xs text-neutral-500 mt-1">Instagram Followers</div>
+            </div>
+            <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4 text-center">
+              <div className="text-2xl font-extrabold">
+                <CountTo to={total} format={(x) => x.toLocaleString()} />
+              </div>
+              <div className="text-xs text-neutral-500 mt-1">Total Reach</div>
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="mt-8 flex flex-wrap gap-3">
+            <button
+              className={BTN_PRIMARY_CLS}
+              onClick={() => window.weardNav?.("contact")}
+            >
+              Brief This Creator <ArrowRight size={16} />
+            </button>
+            {instagram && (
+              <a
+                href={instagram}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-neutral-300 dark:border-neutral-700"
+              >
+                View Instagram <ExternalLink size={14} />
+              </a>
+            )}
+            {tiktok && (
+              <a
+                href={tiktok}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-neutral-300 dark:border-neutral-700"
+              >
+                View TikTok <ExternalLink size={14} />
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -1067,16 +1285,13 @@ function CreatorCard({ p }) {
   <div className="p-4">
   <div className="flex items-start justify-between gap-3">
   <div /> {/* name now only appears on the media */}
-  {defaultProfile && (
-    <a
-      href={defaultProfile}
-      target="_blank"
-      rel="noreferrer"
-      className="text-sm font-semibold underline underline-offset-4 hover:opacity-80 text-indigo-600"
-    >
-      View Profile ↗
-    </a>
-  )}
+  <button
+  type="button"
+  onClick={() => window.weardOpenProfile?.(p)}
+  className="text-sm font-semibold underline underline-offset-4 hover:opacity-80 text-indigo-600"
+>
+  View Profile
+</button>
 </div>
 
         <div className="mt-3 grid grid-cols-2 gap-2">
