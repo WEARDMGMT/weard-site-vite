@@ -663,6 +663,7 @@ const total = ig + tt + yt;                     // NEW
                 >
                   <Instagram size={16} />
                 </a>
+      )}   
       {youtube && (
   <a
     className="h-9 w-9 rounded-full bg-neutral-100 dark:bg-neutral-800 grid place-items-center"
