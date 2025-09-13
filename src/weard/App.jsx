@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Instagram, Mail, ExternalLink, ArrowRight, Globe, Menu, X, Sparkles } from "lucide-react";
+import { Instagram, Mail, ExternalLink, ArrowRight, Globe, Menu, X, Sparkles, Youtube } from "lucide-react";
 // Simple TikTok icon (outline) to match lucide style
 const TikTokIcon = ({ size = 16, className = "" }) => (
   <svg
@@ -113,10 +113,12 @@ const STARTER_CREATORS = [
   category: "Fashion",
   instagram: "https://www.instagram.com/xsophiapriceyx",
   tiktok: "https://www.tiktok.com/@sophiapriceyyy",
+  youtube: "https://www.youtube.com/channel/UCKDFGIM9V-KRGxlISDODpPQ", 
   email: "sophia@weardmgmt.com",
 location: "Thailand",
   instagram_followers: 720000,
   tiktok_followers: 613800,
+  youtube_subscribers: 8310,                       
   profile_image: MEDIA.creators.Sophia.hero,   // static profile image
   photo: MEDIA.creators.Sophia.poster,         // still frame before hover
   tags: ["Fashion", "Beauty", "Travel"],
@@ -146,10 +148,12 @@ location: "Thailand",
   category: "Family",
   instagram: "https://www.instagram.com/itsthepeacocks",
   tiktok: "https://www.tiktok.com/@itsthepeacocks",
+  youtube: "https://www.youtube.com/@itsthepeacocks", 
   email: "itsthepeacocks@weardmgmt.com",
   location: "UK",
   instagram_followers: 133000,
   tiktok_followers: 68200,
+  youtube_subscribers: 1730,                       
   profile_image: MEDIA.creators.Peacocks.hero,   // static profile image
   photo: MEDIA.creators.Peacocks.poster,         // still frame before hover
   tags: ["Family", "Lifestyle", "Travel"],
@@ -178,10 +182,12 @@ location: "Thailand",
   category: "Family",
   instagram: "https://www.instagram.com/theolivetreefamily",
   tiktok: "https://www.tiktok.com/@theolivetreefamily",
+  youtube: "https://www.youtube.com/@theolivetreefamily", 
   email: "theolivetreefamily@weardmgmt.com",
   location: "UK",
   instagram_followers: 50300,
   tiktok_followers: 58600,
+  youtube_subscribers: 5220,                       
  profile_image: MEDIA.creators.OliveTreeFamily.hero,
 photo: MEDIA.creators.OliveTreeFamily.poster,
 video: MEDIA.creators.OliveTreeFamily.video,
@@ -1304,7 +1310,7 @@ function CreatorCard({ p }) {
         </div>
 
         <div className="mt-2 text-xs text-neutral-500">
-          Total:{" "}
+          Combined Following:{" "}
           <span className="font-semibold text-neutral-700 dark:text-neutral-200">
             <CountTo to={ig + tt} format={(x) => x.toLocaleString()} />
           </span>
