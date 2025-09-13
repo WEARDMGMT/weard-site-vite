@@ -121,7 +121,7 @@ location: "Thailand",
   photo: MEDIA.creators.Sophia.poster,         // still frame before hover
   tags: ["Fashion", "Beauty", "Travel"],
   video: MEDIA.creators.Sophia.video,
-  bio: "Sophia Pricey is a Thai–British fashion, beauty, and travel creator celebrated for her effortless style and trend-defining content. With a natural flair for posing and a photographer’s eye, she transforms playful ideas into polished, captivating visuals that resonate across global audiences.",
+  bio: "Sophia Pricey is a Thai–British fashion, beauty and travel content creator known for her trend-setting style and high-engagement global audience. She shares fashion hauls, beauty tutorials and aspirational travel content across Instagram and TikTok, reaching over 1.3 million followers. With a photographer’s eye and a playful yet polished aesthetic, Sophia delivers visually striking campaigns for brands seeking authentic, cross-cultural influence.",
   top_audience: ["United States", "Thailand"],   // 👈 add this line
 
   },
@@ -138,7 +138,7 @@ location: "Thailand",
   photo: MEDIA.creators.Amy.poster,
   tags: ["Fashion", "Beauty", "Lifestyle"],
   video: MEDIA.creators.Amy.video,
-  bio: "Amy is a Thai–German fashion, beauty, and lifestyle creator whose content radiates confidence and creativity. Blending cultural influences with a sharp eye for style, she captivates audiences whether she’s curating standout outfits or sharing beauty insights.",
+  bio: "Amy Wyg is a Thai–German fashion, beauty and lifestyle content creator whose work radiates confidence, creativity and cultural flair. Blending European and Asian influences with a sharp eye for style, she delivers trend-led fashion edits, skincare tips and aspirational lifestyle moments to an engaged global audience across Instagram and TikTok.",
   top_audience: ["United States", "Thailand"],    
 
 },
@@ -154,7 +154,7 @@ location: "Thailand",
   photo: MEDIA.creators.Peacocks.poster,         // still frame before hover
   tags: ["Family", "Lifestyle", "Travel"],
   video: MEDIA.creators.Peacocks.video,
-  bio: "Daniel and Ellen, known as The Peacocks, are a Northern Irish–Hong Kong duo now raising their family in Northern Ireland. Blending their love of family life, food, and culture, they create warm, engaging content that highlights Cantonese language, lifestyle, and music. From home cooking to classic Cantonese songs, their content brings heritage and everyday family moments together in a way that resonates with audiences worldwide.",
+  bio: "Daniel and Ellen, known online as The Peacocks, are a Northern Irish–Hong Kong family duo creating warm, culture-rich content from their home in Northern Ireland. Celebrating family life, food and Cantonese heritage, they share authentic recipes, classic songs and relatable parenting moments across Instagram and TikTok. Their mix of heritage storytelling, home cooking and everyday life resonates with audiences worldwide, making them a go-to for brands seeking cross-cultural, family-friendly influence.",
   top_audience: ["United Kingdom", "United States", "China"], // 👈 add this line
 
    },
@@ -170,7 +170,7 @@ location: "Thailand",
   photo: MEDIA.creators.Josefine.poster,          // still frame before hover
   tags: ["Beauty", "Lifestyle"],
   video: MEDIA.creators.Josefine.video,  
-  bio: "Josefine is a Swedish–Thai fashion, beauty, and lifestyle creator whose content blends elegance and playfulness. Drawing on her dual heritage, she brings a unique cultural perspective to her work, curating standout looks and sharing authentic beauty insights that resonate with global audiences.",
+  bio: "Josefine Uddman is a Swedish–Thai fashion, beauty and lifestyle content creator known for blending Scandinavian elegance with playful Asian influence. Drawing on her dual heritage, she shares trend-led outfits, skincare tips and authentic lifestyle insights across Instagram and TikTok, captivating a growing global audience and delivering culturally resonant campaigns for brands.",
   top_audience: ["Thailand", "Sweden"],
 }, 
 {
@@ -186,7 +186,7 @@ location: "Thailand",
 photo: MEDIA.creators.OliveTreeFamily.poster,
 video: MEDIA.creators.OliveTreeFamily.video,
   tags: ["Family", "Lifestyle", "Travel"],
-  bio: "The Olive Tree Family is a lively and engaging Scottish household turning everyday life into authentic stories. From delicious food content and immersive experiences to travel adventures and comforting at-home moments, they create warm, relatable posts that resonate with families everywhere. Their thriving TikTok and Instagram community looks to them for genuine, family-friendly inspiration!",
+  bio: "The Olive Tree Family is a lively and engaging Scottish household turning everyday life into authentic stories. From delicious family food content and immersive experiences to travel adventures and comforting at-home moments, they create warm, relatable posts that resonate with families across the UK and beyond. Their thriving TikTok and Instagram community looks to them for genuine, family-friendly inspiration and everyday lifestyle ideas.",
   top_audience: ["United Kingdom"],
 },
 ];
@@ -667,26 +667,20 @@ function CreatorProfile({ creator, onBack }) {
           </div>
 
           {/* Stats */}
-          <div className="mt-8 grid grid-cols-3 gap-3">
-            <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4 text-center">
-              <div className="text-2xl font-extrabold">
-                <CountTo to={tt} format={shortFormat} />
-              </div>
-              <div className="text-xs text-neutral-500 mt-1">TikTok Followers</div>
-            </div>
-            <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4 text-center">
-              <div className="text-2xl font-extrabold">
-                <CountTo to={ig} format={shortFormat} />
-              </div>
-              <div className="text-xs text-neutral-500 mt-1">Instagram Followers</div>
-            </div>
-            <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4 text-center">
-              <div className="text-2xl font-extrabold">
-                <CountTo to={total} format={(x) => x.toLocaleString()} />
-              </div>
-              <div className="text-xs text-neutral-500 mt-1">Total Reach</div>
-            </div>
-          </div>
+        <div className="mt-8 grid grid-cols-2 gap-3">
+  <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4 text-center">
+    <div className="text-2xl font-extrabold">
+      <CountTo to={tt} format={shortFormat} />
+    </div>
+    <div className="text-xs text-neutral-500 mt-1">TikTok Followers</div>
+  </div>
+  <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4 text-center">
+    <div className="text-2xl font-extrabold">
+      <CountTo to={ig} format={shortFormat} />
+    </div>
+    <div className="text-xs text-neutral-500 mt-1">Instagram Followers</div>
+  </div>
+</div>
 
           {/* CTA */}
           <div className="mt-8 flex flex-wrap gap-3">
