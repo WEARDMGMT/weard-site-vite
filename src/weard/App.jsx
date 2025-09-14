@@ -174,7 +174,7 @@ location: "Thailand",
   photo: MEDIA.creators.Josefine.poster,          // still frame before hover
   tags: ["Beauty", "Lifestyle"],
   video: MEDIA.creators.Josefine.video,  
-  bio: "Josefine Uddman is a Swedish–Thai fashion, beauty and lifestyle content creator known for blending Scandinavian elegance with playful Asian influence. Drawing on her dual heritage, she shares trend-led outfits, skincare tips and authentic lifestyle insights across Instagram and TikTok, captivating a growing global audience and delivering culturally resonant campaigns for brands.",
+  bio: "Josefine Uddman is a Swedish–Thai fashion, beauty and lifestyle creator whose content reflects a distinctive cross-cultural perspective. Known for her trend-led outfits, skincare routines and authentic lifestyle insights, she connects with a growing global audience across Instagram and TikTok, delivering impactful, culturally aware campaigns for leading brands.",
   top_audience: ["Thailand", "Sweden"],
 }, 
 {
