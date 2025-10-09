@@ -86,11 +86,6 @@ const MEDIA = {
       poster: "/media/creators/amy/amy-poster.jpg",// still frame before hover
       video:  "/media/creators/amy/amy-hover.mp4",  // hover video
     },
-      Peacocks: {
-      hero: "/media/creators/peacocks/peacocks-hero.jpg",   // main profile image
-      poster: "/media/creators/peacocks/peacocks-poster.jpg", // still frame before hover
-      video: "/media/creators/peacocks/peacocks-hover.mp4",  // hover video
-    },
     Josefine: {
     hero:   "/media/creators/josefine/josefine-hero-v2.jpg",
     poster: "/media/creators/josefine/josefine-poster-v2.jpg",
@@ -142,24 +137,6 @@ location: "Thailand",
   video: MEDIA.creators.Amy.video,
   bio: "Amy Wyg is a Thai–German fashion, beauty and lifestyle content creator whose work radiates confidence, creativity and cultural flair. Blending European and Asian influences with a sharp eye for style, she delivers trend-led fashion edits, skincare tips and aspirational lifestyle moments to an engaged global audience across Instagram and TikTok.",
   top_audience: ["United States", "Thailand"],    
-
-},
-   {name: "The Peacocks",
-  category: "Family",
-  instagram: "https://www.instagram.com/itsthepeacocks",
-  tiktok: "https://www.tiktok.com/@itsthepeacocks",
-  youtube: "https://www.youtube.com/@itsthepeacocks", 
-  email: "itsthepeacocks@weardmgmt.com",
-  location: "UK",
-  instagram_followers: 133000,
-  tiktok_followers: 68200,
-  youtube_subscribers: 1730,                       
-  profile_image: MEDIA.creators.Peacocks.hero,   // static profile image
-  photo: MEDIA.creators.Peacocks.poster,         // still frame before hover
-  tags: ["Family", "Lifestyle", "Travel"],
-  video: MEDIA.creators.Peacocks.video,
-  bio: "Daniel and Ellen, known online as The Peacocks, are a Northern Irish–Hong Kong family duo creating warm, culture-rich content from their home in Northern Ireland. Celebrating family life, food and Cantonese heritage, they share authentic recipes, classic songs and relatable parenting moments across Instagram and TikTok. Their mix of heritage storytelling, home cooking and everyday life resonates with audiences worldwide, making them a go-to for brands seeking cross-cultural, family-friendly influence.",
-  top_audience: ["United Kingdom", "United States", "China"], // 👈 add this line
 
    },
      {name: "Josefine Uddman",
