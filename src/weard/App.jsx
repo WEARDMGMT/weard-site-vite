@@ -1486,24 +1486,6 @@ function Brands() {
   );
 }
 
-  const pillars = [
-    {
-      title: "Match",
-      desc: "We connect brands with creators who share their vision, values, and audience — building authentic partnerships that truly resonate.",
-      icon: "🎯"
-    },
-    {
-      title: "Creativity",
-      desc: "We turn brand briefs into scroll-stopping campaigns — blending cultural trends with authentic storytelling.",
-      icon: "✨"
-    },
-    {
-      title: "Results",
-      desc: "From engagement to ROI, we track and report on the growth that matters most.",
-      icon: "📊"
-    }
-  ];
-
   return (
     <section className="max-w-7xl mx-auto px-4 pt-10 pb-20">
       <div className="flex items-center justify-between flex-wrap gap-4">
@@ -1532,21 +1514,6 @@ function Brands() {
       {/* Brand types */}
       <div className="mt-10 text-sm text-neutral-600 dark:text-neutral-400 max-w-prose">
         From luxury fashion houses to beauty innovators and travel brands, every collaboration we create feels authentic to the creator and meaningful for the brand. From first concept to campaign delivery, we prioritise creative synergy, cultural relevance, and measurable performance, ensuring lasting brand impact.
-      </div>
-
-      {/* Logo showcase */}
-      <div className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-6">
-        {logos.map((l) => (
-          <motion.div
-            key={l.name}
-            initial={{ opacity: 0, y: 8 }} 
-            whileInView={{ opacity: 1, y: 0 }} 
-            viewport={{ once: true }}
-            className="aspect-[3/2] rounded-2xl border border-neutral-200 dark:border-neutral-800 grid place-items-center text-center p-4 bg-white dark:bg-neutral-950 overflow-hidden"
-          >
-            <span className="font-semibold">{l.name}</span>
-          </motion.div>
-        ))}
       </div>
 
       {/* Closing */}
