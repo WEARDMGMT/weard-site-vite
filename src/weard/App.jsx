@@ -1413,16 +1413,78 @@ function HoverMedia({ photo, video, alt }) {
     </div>
   );
 }
+// --- Sliding logo marquee ---
+function LogoMarquee({ items, speed = 0.35 }) {
+  const track = React.useMemo(() => [...items, ...items], [items]);
 
+  const [prefersReduced, setReduced] = React.useState(false);
+  React.useEffect(() => {
+    const mq = window.matchMedia?.("(prefers-reduced-motion: reduce)");
+    setReduced(!!mq?.matches);
+    const onChange = e => setReduced(e.matches);
+    mq?.addEventListener?.("change", onChange);
+    return () => mq?.removeEventListener?.("change", onChange);
+  }, []);
+
+  return (
+    <div className="relative mt-8 select-none">
+      {/* soft fades at the edges */}
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-24 bg-gradient-to-r from-neutral-950 via-neutral-950/70 to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-24 bg-gradient-to-l from-neutral-950 via-neutral-950/70 to-transparent" />
+
+      <div className="overflow-hidden border border-neutral-800 rounded-2xl bg-neutral-900">
+        <motion.div
+          className="flex items-center gap-10 sm:gap-14 py-6 will-change-transform"
+          animate={prefersReduced ? {} : { x: [0, -1000] }}
+          transition={prefersReduced ? undefined : { repeat: Infinity, ease: "linear", duration: 40 / speed }}
+        >
+          {track.map((l, i) => (
+            <div key={i} className="shrink-0 h-10 sm:h-12 opacity-80 hover:opacity-100 transition" aria-label={l.name}>
+              <img src={l.src} alt={l.name} className="h-full w-auto" loading="lazy" decoding="async" />
+            </div>
+          ))}
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+// --- Brand logos list ---
+const BRAND_LOGOS = [
+  { name: "Tiger Mist",     src: "/media/logos/tiger-mist.png" },
+  { name: "Bella Barnett",  src: "/media/logos/bella-barnett.png" },
+  { name: "Mediheal",       src: "/media/logos/mediheal.png" },
+  { name: "Time Phoria",    src: "/media/logos/time-phoria.png" },
+  { name: "Disney+",        src: "/media/logos/disney.png" },
+  { name: "Amazon",         src: "/media/logos/amazon.png" },
+  { name: "BeautyPlus",     src: "/media/logos/beautyplus.png" },
+];
 // ======= BRANDS =======
 function Brands() {
-  const logos = [
-    { name: "Beauty – From skincare to luxury cosmetics, we partner with beauty brands to create content that inspires trust and authenticity." },
-    { name: "Fashion – Whether high street or high-end, we deliver style-driven campaigns that set trends and capture attention." },
-    { name: "Travel – Partnering with wanderlust-driven brands, we create immersive travel content that inspires audiences to explore." },
-    { name: "Tech – From lifestyle gadgets to cutting-edge innovation, we help brands translate tech into everyday relevance." },
-    { name: "Food – Bringing food culture to life through creators who spark cravings, conversations, and community." }
-  ];
+  return (
+    <section className="max-w-7xl mx-auto px-4 py-16">
+      <p className="uppercase tracking-widest text-sm text-neutral-500 font-semibold">
+        Trusted by leading brands
+      </p>
+
+      <h2 className="text-4xl font-bold mt-1">Brands</h2>
+
+      <p className="mt-3 text-lg text-neutral-400 max-w-prose">
+        From luxury fashion to family, food and tech — we partner with brands
+        to build campaigns that look great and perform even better.
+      </p>
+
+      {/* Animated sliding brand logos */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
+        <LogoMarquee items={BRAND_LOGOS} />
+      </motion.div>
+    </section>
+  );
+}
 
   const pillars = [
     {
