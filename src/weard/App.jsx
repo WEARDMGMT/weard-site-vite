@@ -898,7 +898,7 @@ Our philosophy is simple: Global Creators. Global Reach. Global Impact. By blend
             onClick={() => window.weardNav?.("contact")}
             className={`mt-8 inline-flex items-center gap-2 px-5 py-3 rounded-full text-white ${GRADIENT}`}
           >
-            Join the roster. <ArrowRight size={16} />
+            Join the roster <ArrowRight size={16} />
           </button>
         </div>
         <div className="rounded-3xl overflow-hidden border border-neutral-200 dark:border-neutral-800">
