@@ -1,7 +1,10 @@
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Instagram, Mail, ExternalLink, ArrowRight, Globe, Menu, X, Sparkles, Youtube } from "lucide-react";
+import {
+  Instagram, Mail, ExternalLink, ArrowRight, Globe, Menu, X, Sparkles, Youtube,
+  Play, Star, Quote
+} from "lucide-react";
 // Simple TikTok icon (outline) to match lucide style
 const TikTokIcon = ({ size = 16, className = "" }) => (
   <svg
@@ -1414,86 +1417,77 @@ function HoverMedia({ photo, video, alt }) {
     </div>
   );
 }
+// --- Brands helpers (logo marquee, cards, etc.) ------------------------------
+function SectionHeader({ eyebrow, title, subtitle }) {
+  return (
+    <div className="mb-6 md:mb-8">
+      {eyebrow && (
+        <div className="mb-2 inline-flex items-center gap-2 text-xs uppercase tracking-widest text-zinc-400">
+          <Star className="h-3.5 w-3.5" /> {eyebrow}
+        </div>
+      )}
+      <h2 className="text-2xl md:text-3xl font-semibold text-white">{title}</h2>
+      {subtitle && <p className="mt-2 text-zinc-300 max-w-2xl">{subtitle}</p>}
+    </div>
+  );
+}
+// Local brand logos (stored under /public/media/logos)
+const BRAND_LOGOS = [
+  { name: "Amazon",        logo: "/media/logos/amazon.png" },
+  { name: "BeautyPlus",    logo: "/media/logos/beautyplus.png" },
+  { name: "Bella Barnett", logo: "/media/logos/bella-barnett.png" },
+  { name: "Disney",        logo: "/media/logos/disney.png" },
+  { name: "Mediheal",      logo: "/media/logos/mediheal.png" },
+  { name: "Tiger Mist",    logo: "/media/logos/tiger-mist.png" },
+  { name: "Timephoria",    logo: "/media/logos/time-phoria.png" },
+];
+// To add more brands later: drop a PNG into /public/media/logos and add a line above.
 
-// ======= BRANDS =======
-function Brands() {
-  const logos = [
-    { name: "Beauty – From skincare to luxury cosmetics, we partner with beauty brands to create content that inspires trust and authenticity." },
-    { name: "Fashion – Whether high street or high-end, we deliver style-driven campaigns that set trends and capture attention." },
-    { name: "Travel – Partnering with wanderlust-driven brands, we create immersive travel content that inspires audiences to explore." },
-    { name: "Tech – From lifestyle gadgets to cutting-edge innovation, we help brands translate tech into everyday relevance." },
-    { name: "Food – Bringing food culture to life through creators who spark cravings, conversations, and community." }
-  ];
-
-  const pillars = [
-    {
-      title: "Match",
-      desc: "We connect brands with creators who share their vision, values, and audience — building authentic partnerships that truly resonate.",
-      icon: "🎯"
-    },
-    {
-      title: "Creativity",
-      desc: "We turn brand briefs into scroll-stopping campaigns — blending cultural trends with authentic storytelling.",
-      icon: "✨"
-    },
-    {
-      title: "Results",
-      desc: "From engagement to ROI, we track and report on the growth that matters most.",
-      icon: "📊"
-    }
-  ];
+function LogoMarquee() {
+  // duplicate the list for a seamless loop
+  const items = [...BRAND_LOGOS, ...BRAND_LOGOS, ...BRAND_LOGOS];
 
   return (
+    <div className="relative w-full overflow-hidden py-6 bg-zinc-900/50 border border-zinc-800 rounded-2xl">
+      {/* soft edge fades */}
+      <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-zinc-900 to-transparent pointer-events-none" />
+      <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-zinc-900 to-transparent pointer-events-none" />
+
+      {/* scrolling row */}
+      <div className="flex gap-10 animate-marquee will-change-transform">
+        {items.map((b, i) => (
+          <img
+            key={`${b.name}-${i}`}
+            src={b.logo}
+            alt={b.name}
+            className="h-8 opacity-80 hover:opacity-100 transition"
+            loading="lazy"
+            decoding="async"
+          />
+        ))}
+      </div>
+
+      {/* small label */}
+      <div className="pointer-events-none absolute -top-3 left-5 flex items-center gap-2 text-xs uppercase tracking-widest text-zinc-400">
+        <Sparkles className="h-3.5 w-3.5" /> Trusted by brands we love
+      </div>
+    </div>
+  );
+}
+
+// ======= BRANDS =======
+
+function Brands() {
+  return (
     <section className="max-w-7xl mx-auto px-4 pt-10 pb-20">
-      <div className="flex items-center justify-between flex-wrap gap-4">
-        <h2 className="text-3xl sm:text-4xl font-bold">Brands</h2>
-      </div>
-
-      {/* Intro */}
-      <p className="mt-3 text-lg text-neutral-600 dark:text-neutral-400 max-w-prose font-medium">
-        We partner with brands worldwide to create campaigns that fit perfectly, perform powerfully, and uphold shared values. Every collaboration is more than a transaction — it’s a strategic alliance built on creative vision, trust, and measurable results.
-      </p>
-
-      {/* Pillars */}
-      <div className="mt-10 grid sm:grid-cols-3 gap-6">
-        {pillars.map((p) => (
-          <div
-            key={p.title}
-            className="p-6 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 hover:shadow-lg transition"
-          >
-            <div className="text-4xl mb-4">{p.icon}</div>
-            <h3 className="text-lg font-semibold">{p.title}</h3>
-            <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">{p.desc}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Brand types */}
-      <div className="mt-10 text-sm text-neutral-600 dark:text-neutral-400 max-w-prose">
-        From luxury fashion houses to beauty innovators and travel brands, every collaboration we create feels authentic to the creator and meaningful for the brand. From first concept to campaign delivery, we prioritise creative synergy, cultural relevance, and measurable performance, ensuring lasting brand impact.
-      </div>
-
-      {/* Logo showcase */}
-      <div className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-6">
-        {logos.map((l) => (
-          <motion.div
-            key={l.name}
-            initial={{ opacity: 0, y: 8 }} 
-            whileInView={{ opacity: 1, y: 0 }} 
-            viewport={{ once: true }}
-            className="aspect-[3/2] rounded-2xl border border-neutral-200 dark:border-neutral-800 grid place-items-center text-center p-4 bg-white dark:bg-neutral-950 overflow-hidden"
-          >
-            <span className="font-semibold">{l.name}</span>
-          </motion.div>
-        ))}
-      </div>
-
-      {/* Closing */}
-      <p className="mt-10 text-lg text-neutral-600 dark:text-neutral-400 max-w-prose font-medium">
-        Our goal is simple. We create brand partnerships that not only look good, but work — delivering campaigns that inspire, engage and leave a lasting impression.
+      <h2 className="text-3xl sm:text-4xl font-bold">Brands</h2>
+      <p className="mt-4 text-neutral-600 dark:text-neutral-400">
+        This page is under construction — coming soon!
       </p>
     </section>
   );
+}
+   
 }
 function PrivacyPolicy() {
   useEffect(() => {
