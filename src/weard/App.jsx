@@ -1477,10 +1477,21 @@ function LogoMarquee() {
 // ======= BRANDS =======
 function Brands() {
   return (
-  <main className="min-h-screen bg-zinc-950 text-zinc-100 p-10">
-    <LogoMarquee />
-  </main>
-);
+    <main className="min-h-screen bg-zinc-950 text-zinc-100 p-10">
+      <style>{`
+        .animate-marquee { animation: marquee 25s linear infinite; }
+        @keyframes marquee {
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+      `}</style>
+
+      <LogoMarquee />
+    </main>
+  );
+}
+
+  
   const pillars = [
     {
       title: "Match",
