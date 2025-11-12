@@ -886,7 +886,7 @@ function About() {
     <section className="max-w-7xl mx-auto px-4 py-12">
       <div className="grid lg:grid-cols-2 gap-8 items-start">
         <div>
-         <h2 className="text-4xl font-bold">What Is WEARD??</h2>
+         <h2 className="text-4xl font-bold">What Is WEARD?</h2>
 <p className="mt-4 text-neutral-700 dark:text-neutral-300 max-w-2xl">
 WEARD is here to redefine the global creator economy. We aspire to represent a diverse roster of creators from every culture and corner of the world, connecting them with brands that share their vision, values, and audiences, and amplifying their stories on a global stage.</p>
 <p className="mt-4 text-neutral-700 dark:text-neutral-300 max-w-2xl">
