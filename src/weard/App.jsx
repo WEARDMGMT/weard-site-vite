@@ -101,6 +101,17 @@ const MEDIA = {
   },
 };
 
+// ======= BRAND LOGOS =======
+const BRAND_LOGOS = [
+  { src: "/media/logos/amazon.png", alt: "Amazon" },
+  { src: "/media/logos/beautyplus.png", alt: "BeautyPlus" },
+  { src: "/media/logos/bella-barnett.png", alt: "Bella Barnett" },
+  { src: "/media/logos/disney.png", alt: "Disney" },
+  { src: "/media/logos/mediheal.png", alt: "Mediheal" },
+  { src: "/media/logos/tiger-mist.png", alt: "Tiger Mist" },
+  { src: "/media/logos/time-phoria.png", alt: "Timephoria" },
+];
+
 const WEARE_WORDS = ["DIFFERENT", "DISRUPTIVE", "DYNAMIC", "DISTINCT", "DRIVEN", "DECISIVE", "DEFIANT"];
 
 const STARTER_CREATORS = [
@@ -1415,14 +1426,66 @@ function HoverMedia({ photo, video, alt }) {
   );
 }
 
+// ======= LOGO MARQUEE =======
+function LogoMarquee({ speedSec = 40, rowHeight = 40, gapPx = 56 }) {
+  const rows = [...BRAND_LOGOS, ...BRAND_LOGOS]; // duplicate for seamless loop
+
+  return (
+    <div className="relative overflow-hidden">
+      {/* edge fades */}
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-neutral-950 to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-neutral-950 to-transparent" />
+
+      <div className="group flex items-center">
+        <div
+          className="inline-flex items-center will-change-transform"
+          style={{
+            gap: `${gapPx}px`,
+            height: rowHeight,
+            animation: `weard-marquee ${speedSec}s linear infinite`,
+          }}
+        >
+          {rows.map((l, i) => (
+            <img
+              key={`${l.src}-${i}`}
+              src={l.src}
+              alt={l.alt}
+              height={rowHeight}
+              className="h-10 sm:h-12 w-auto opacity-80 hover:opacity-100 transition-opacity"
+              loading="lazy"
+              decoding="async"
+              style={{ height: rowHeight }}
+            />
+          ))}
+        </div>
+      </div>
+
+      <style>{`
+        @keyframes weard-marquee {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-50%); }
+        }
+        .group:hover > div { animation-play-state: paused; }
+        @media (prefers-reduced-motion: reduce) {
+          .group > div { animation: none !important; transform: translateX(0) !important; }
+        }
+      `}</style>
+    </div>
+  );
+}
+
 // ======= BRANDS =======
 function Brands() {
   return (
     <section className="max-w-7xl mx-auto px-4 pt-10 pb-20">
       <h2 className="text-3xl sm:text-4xl font-bold">Brands</h2>
-      <p className="mt-4 text-neutral-600 dark:text-neutral-400">
-        This page is under construction — coming soon!
+      <p className="mt-2 text-sm text-neutral-500">
+        Trusted by leading brands worldwide.
       </p>
+
+      <div className="mt-6 rounded-3xl border border-neutral-800 bg-neutral-900 p-4 sm:p-6">
+        <LogoMarquee speedSec={38} rowHeight={40} gapPx={64} />
+      </div>
     </section>
   );
 }
