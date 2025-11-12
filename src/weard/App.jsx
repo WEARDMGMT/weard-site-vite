@@ -1,4 +1,5 @@
 
+
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Instagram, Mail, ExternalLink, ArrowRight, Globe, Menu, X, Sparkles, Youtube } from "lucide-react";
@@ -1427,7 +1428,7 @@ function HoverMedia({ photo, video, alt }) {
 }
 
 // ======= LOGO MARQUEE =======
-<LogoMarquee speedSec={30} rowHeight={40} gapPx={64} />
+function LogoMarquee({ speedSec = 40, rowHeight = 40, gapPx = 56 }) {
   const rows = [...BRAND_LOGOS, ...BRAND_LOGOS]; // duplicate for seamless loop
 
   return (
@@ -1685,7 +1686,7 @@ function Contact() {
                 </span>
                 <input
                   required
-                  placeholder="e.g., name"
+                  placeholder="e.g., Weard Mgmt"
                   className={INPUT_CLS}
                   value={form.brand}
                   onChange={(e) => setForm({ ...form, brand: e.target.value })}
