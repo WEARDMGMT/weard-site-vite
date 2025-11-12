@@ -1443,11 +1443,21 @@ const BRAND_LOGOS = [
 // To add more brands later: drop a PNG into /public/media/logos and add a line above.
 
 function LogoMarquee() {
+   // CSS animation for scrolling
+  const marqueeStyle = `
+    .animate-marquee { animation: marquee 25s linear infinite; }
+    @keyframes marquee {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+  `;
   // duplicate the list for a seamless loop
   const items = [...BRAND_LOGOS, ...BRAND_LOGOS, ...BRAND_LOGOS];
 
   return (
     <div className="relative w-full overflow-hidden py-6 bg-zinc-900/50 border border-zinc-800 rounded-2xl">
+            <style>{marqueeStyle}</style>
+
       {/* soft edge fades */}
       <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-zinc-900 to-transparent pointer-events-none" />
       <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-zinc-900 to-transparent pointer-events-none" />
@@ -1478,14 +1488,6 @@ function LogoMarquee() {
 function Brands() {
   return (
     <main className="min-h-screen bg-zinc-950 text-zinc-100 p-10">
-      <style>{`
-        .animate-marquee { animation: marquee 25s linear infinite; }
-        @keyframes marquee {
-          0%   { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-      `}</style>
-
       <LogoMarquee />
     </main>
   );
