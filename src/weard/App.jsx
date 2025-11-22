@@ -1895,10 +1895,11 @@ function Footer({ onNav }) {
   return (
     <footer className="border-t border-neutral-200 dark:border-neutral-800">
       <div className="max-w-7xl mx-auto px-4 py-8 grid md:grid-cols-3 gap-6 items-center">
-        <div>
-          <div className={cn("font-black tracking-widest", TEXT_GRAD)}>WEARD</div>
-          <div className="text-xs uppercase tracking-[0.25em] text-neutral-500">Management</div>
-        </div>
+       <div>
+  <div className={cn("font-black tracking-widest", TEXT_GRAD)}>WEARD</div>
+  <div className="text-xs uppercase tracking-[0.25em] text-neutral-500">
+    Management
+  </div>
        <div className="text-sm text-neutral-600 dark:text-neutral-400 text-center col-span-3 md:col-span-1">
   <div>© {new Date().getFullYear()} WEARD Management. All rights reserved.</div>
   <div className="mt-1">Built for speed, ethics, and results.</div>
