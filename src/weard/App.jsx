@@ -1,6 +1,6 @@
 
 
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Instagram, Mail, ExternalLink, ArrowRight, Globe, Menu, X, Sparkles, Youtube } from "lucide-react";
 // Simple TikTok icon (outline) to match lucide style
@@ -17,8 +17,7 @@ const TikTokIcon = ({ size = 16, className = "" }) => (
   </svg>
 );
 
-import { ComposableMap, Geographies, Geography, Marker, ZoomableGroup } from "react-simple-maps";
-import { geoCentroid } from "d3-geo";
+const WorldMap = React.lazy(() => import("./WorldMap"));
 
 /**
  * WEARD Management - Vite + React + Tailwind
@@ -211,6 +210,35 @@ const shortFormat = (n) => {
   if (n < 1_000_000) return `${(n / 1_000).toFixed(n % 1000 === 0 ? 0 : 1)}K`;
   return `${(n / 1_000_000).toFixed(n % 1_000_000 === 0 ? 0 : 1)}M`;
 };
+
+// Lightweight intersection observer for lazy loading
+function useInView(options) {
+  const ref = useRef(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return undefined;
+
+    if (!("IntersectionObserver" in window)) {
+      setInView(true);
+      return () => {};
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          observer.disconnect();
+        }
+      });
+    }, options);
+
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [options]);
+
+  return [ref, inView];
+}
 
 
 function getUsernameFromUrl(url) {
@@ -559,27 +587,40 @@ function CreatorProfile({ creator, onBack }) {
     );
   }
 
- const {
-  name,
-  tags = [],
-  photo,
-  video,
-  instagram,
-  tiktok,
-  youtube,                 // NEW
-  email,
-  location,
-  bio,
-  instagram_followers,
-  tiktok_followers,
-  youtube_subscribers,     // NEW
-  top_audience = [],
-} = creator;
+  const {
+    name,
+    tags = [],
+    photo,
+    video,
+    instagram,
+    tiktok,
+    youtube, // NEW
+    email,
+    location,
+    bio,
+    instagram_followers,
+    tiktok_followers,
+    youtube_subscribers, // NEW
+    top_audience = [],
+  } = creator;
 
-const ig = cleanNum(instagram_followers) ?? 0;
-const tt = cleanNum(tiktok_followers) ?? 0;
-const yt = cleanNum(youtube_subscribers) ?? 0;  // NEW
-const total = ig + tt + yt;                     // NEW
+  const [mediaRef, mediaInView] = useInView({ rootMargin: "200px" });
+  const mediaVideoRef = useRef(null);
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+  useEffect(() => {
+    if (mediaInView && video) setShouldLoadVideo(true);
+  }, [mediaInView, video]);
+  const handleMediaEnter = () => {
+    if (!video) return;
+    setShouldLoadVideo(true);
+    mediaVideoRef.current?.play();
+  };
+  const handleMediaLeave = () => mediaVideoRef.current?.pause();
+
+  const ig = cleanNum(instagram_followers) ?? 0;
+  const tt = cleanNum(tiktok_followers) ?? 0;
+  const yt = cleanNum(youtube_subscribers) ?? 0; // NEW
+  const total = ig + tt + yt; // NEW
 
 
   return (
@@ -594,23 +635,30 @@ const total = ig + tt + yt;                     // NEW
 
       <div className="mt-6 grid lg:grid-cols-2 gap-8 items-start">
         {/* Media */}
-        <div className="rounded-3xl overflow-hidden border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 relative">
+        <div
+          ref={mediaRef}
+          className="rounded-3xl overflow-hidden border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 relative"
+        >
           <div className="relative aspect-[4/5] sm:aspect-[3/4]">
             <img
               src={photo || creator.profile_image}
               alt={name}
               className="absolute inset-0 h-full w-full object-cover"
+              loading="lazy"
+              decoding="async"
+              sizes="(max-width: 1024px) 100vw, 50vw"
             />
             {video && (
               <video
-                src={video}
+                ref={mediaVideoRef}
+                src={shouldLoadVideo ? video : undefined}
                 muted
                 loop
                 playsInline
-                preload="metadata"
+                preload="none"
                 className="absolute inset-0 h-full w-full object-cover opacity-0 hover:opacity-100 transition-opacity duration-300"
-                onMouseEnter={(e) => e.currentTarget.play()}
-                onMouseLeave={(e) => e.currentTarget.pause()}
+                onMouseEnter={handleMediaEnter}
+                onMouseLeave={handleMediaLeave}
               />
             )}
           </div>
@@ -801,17 +849,16 @@ function HeroSlider({ slides }) {
     t.current = setInterval(() => setI((p) => (p + 1) % slides.length), 5000);
     return () => clearInterval(t.current);
   }, [slides.length]);
-  // ⭐ NEW prefetch effect
-useEffect(() => {
-  const next = (i + 1) % slides.length;
-  const link = document.createElement("link");
-  link.rel = "prefetch";
-  link.as = "image";
-  link.href = slides[next].image;
-  document.head.appendChild(link);
-  return () => {
-    if (link.parentNode) link.parentNode.removeChild(link);
-  };
+  useEffect(() => {
+    const next = (i + 1) % slides.length;
+    const link = document.createElement("link");
+    link.rel = "prefetch";
+    link.as = "image";
+    link.href = slides[next].image;
+    document.head.appendChild(link);
+    return () => {
+      if (link.parentNode) link.parentNode.removeChild(link);
+    };
   }, [i, slides]);
   return (
     <div className="relative">
@@ -826,16 +873,16 @@ useEffect(() => {
             className="h-full w-full relative"
           >
             <div className="absolute inset-0">
-             <img
-  src={slides[i].image}
-  alt={slides[i].title}
-  width="1920"
-  height="1080"
-fetchPriority={i === 0 ? "high" : "auto"}
-  loading={i === 0 ? "eager" : "lazy"}        // ⭐ First image eager, others lazy
-  decoding="async"
-  className="absolute inset-0 h-full w-full object-cover bg-neutral-900"
-/>
+              <img
+                src={slides[i].image}
+                alt={slides[i].title}
+                width="1920"
+                height="1080"
+                fetchPriority={i === 0 ? "high" : "auto"}
+                loading={i === 0 ? "eager" : "lazy"}
+                decoding="async"
+                className="absolute inset-0 h-full w-full object-cover bg-neutral-900"
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/25 to-transparent" />
             </div>
             <div className="relative z-10 max-w-7xl mx-auto px-4 h-full flex items-end pb-10">
@@ -921,6 +968,7 @@ Our philosophy is simple: Global Creators. Global Reach. Global Impact. By blend
   loop
   muted
   playsInline
+  preload="metadata"
   className="w-full h-full object-cover"
 />
         </div>
@@ -950,79 +998,44 @@ function WhereWeWork() {
     { country: "Thailand", city: "Bangkok / Phuket", coords: [100.5018, 13.7563] },
   ];
   const [hoverCountry, setHoverCountry] = useState(null);
-const [position, setPosition] = useState({ coordinates: [0, 20], zoom: 1.4 });
+  const [position, setPosition] = useState({ coordinates: [0, 20], zoom: 1.4 });
+  const [mapRef, mapInView] = useInView({ rootMargin: "300px" });
 
   return (
     <div className="mt-12">
       <h3 className="text-[22px] sm:text-2xl font-semibold">Our Growing Reach</h3>
-<p className="mt-1 text-xs text-neutral-500">United Kingdom · United States · Hong Kong · Thailand</p>
+      <p className="mt-1 text-xs text-neutral-500">United Kingdom · United States · Hong Kong · Thailand</p>
       <div className="mt-6 grid lg:grid-cols-3 gap-6">
         {/* Map */}
-<div className="lg:col-span-2 p-2 sm:p-4 rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 shadow-inner">
-  <div className="relative w-full aspect-[2/1] sm:aspect-[21/9] rounded-2xl overflow-hidden">
-    <ComposableMap 
-  projectionConfig={{ scale: 200 }} // higher = more zoomed in at start
-  className="w-full h-full" 
-  style={{ width: "100%", height: "100%" }}
->
-  <ZoomableGroup 
-    center={position.coordinates}
-  zoom={position.zoom}
-  minZoom={1}
-  maxZoom={3}
-  translateExtent={[[-1000, -500], [1000, 500]]}
-  >
-    <Geographies geography={GEO_URL}>
-      {({ geographies }) =>
-        geographies.map((geo) => {
-          const nm = geo.properties.name;
-          const active = hoverCountry && nm.toLowerCase().includes(hoverCountry.toLowerCase());
-          return (
-            <Geography
-              key={geo.rsmKey}
-              geography={geo}
-              onMouseEnter={() => setHoverCountry(nm)}
-              onMouseLeave={() => setHoverCountry(null)}
-              style={{
-  default: {
-    fill: active ? "#E8E9FF" : "#F3F4F6",
-    stroke: "#D1D5DB",
-    strokeWidth: 0.6,
-    outline: "none",
-  },
-  hover: {
-    fill: "#E0E7FF",
-    cursor: "pointer",
-  },
-  pressed: { fill: "#C7D2FE" },
-              }}
-            />
-          );
-        })
-      }
-    </Geographies>
-
-        {offices.map((o) => (
-          <Marker key={o.country} coordinates={o.coords}
-              onClick={() => setPosition({ coordinates: o.coords, zoom: 2 })} // 👈 zoom + center
->
-            <g>
-              <circle r={9} fill="rgba(99,102,241,0.22)">
-                <animate attributeName="r" values="7;10;7" dur="2s" repeatCount="indefinite" />
-              </circle>
-              <circle r={3.2} fill="rgba(99,102,241,1)" />
-              {/* Label chip */}
-              <g transform="translate(10,-12)">
-                <rect rx="6" ry="6" width="110" height="18" fill="rgba(17,24,39,0.75)"></rect>
-                <text x="8" y="12" fontSize="10" fill="#fff">{o.city}</text>
-              </g>
-            </g>
-          </Marker>
-        ))}
-      </ZoomableGroup>
-    </ComposableMap>
-  </div>
-</div>
+        <div
+          ref={mapRef}
+          className="lg:col-span-2 p-2 sm:p-4 rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 shadow-inner"
+        >
+          <div className="relative w-full aspect-[2/1] sm:aspect-[21/9] rounded-2xl overflow-hidden">
+            {mapInView ? (
+              <Suspense
+                fallback={
+                  <div className="absolute inset-0 grid place-items-center text-sm text-neutral-500">
+                    Loading world map…
+                  </div>
+                }
+              >
+                <WorldMap
+                  geoUrl={GEO_URL}
+                  offices={offices}
+                  hoverCountry={hoverCountry}
+                  setHoverCountry={setHoverCountry}
+                  position={position}
+                  setPosition={setPosition}
+                />
+              </Suspense>
+            ) : (
+              <div className="absolute inset-0 grid place-items-center text-sm text-neutral-500">
+                Map ready when you scroll
+              </div>
+            )}
+          </div>
+        </div>
 
         {/* Office list */}
         <div className="grid gap-3">
@@ -1157,7 +1170,7 @@ function Roster() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.25 }}
-      className="scale-[0.95]"   // smaller card
+      className="h-full"
     >
       <CreatorCard p={p} />
     </motion.div>
@@ -1209,16 +1222,28 @@ function CreatorCard({ p }) {
     p.profile_image ||
     `https://api.dicebear.com/8.x/initials/svg?seed=${encodeURIComponent(p.name)}&backgroundType=gradientLinear`;
   const hasVideo = Boolean(p.video);
-const ig = cleanNum(p.instagram_followers) ?? 0;
-const tt = cleanNum(p.tiktok_followers) ?? 0;
-const yts = cleanNum(p.youtube_subscribers) ?? 0;
-const total = (ig > 0 ? ig : 0) + (tt > 0 ? tt : 0) + (yts > 0 ? yts : 0);
+  const videoRef = useRef(null);
+  const [mediaRef, mediaInView] = useInView({ rootMargin: "180px" });
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+  useEffect(() => {
+    if (mediaInView && hasVideo) setShouldLoadVideo(true);
+  }, [mediaInView, hasVideo]);
+  const handleEnter = () => {
+    if (!hasVideo) return;
+    setShouldLoadVideo(true);
+    videoRef.current?.play();
+  };
+  const handleLeave = () => videoRef.current?.pause();
+  const ig = cleanNum(p.instagram_followers) ?? 0;
+  const tt = cleanNum(p.tiktok_followers) ?? 0;
+  const yts = cleanNum(p.youtube_subscribers) ?? 0;
+  const total = (ig > 0 ? ig : 0) + (tt > 0 ? tt : 0) + (yts > 0 ? yts : 0);
 
-const defaultProfile = p.instagram || p.tiktok || p.youtube || undefined;
-const handle =
-  getUsernameFromUrl(p.instagram) ||
-  getUsernameFromUrl(p.tiktok) ||
-  getUsernameFromUrl(p.youtube);
+  const defaultProfile = p.instagram || p.tiktok || p.youtube || undefined;
+  const handle =
+    getUsernameFromUrl(p.instagram) ||
+    getUsernameFromUrl(p.tiktok) ||
+    getUsernameFromUrl(p.youtube);
   // brand gradient
   const gradient = { backgroundImage: "linear-gradient(90deg,#4F46E5,#A855F7)" };
 
@@ -1228,35 +1253,38 @@ const handle =
   return (
     <div className="group rounded-2xl border border-neutral-200 dark:border-neutral-800 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition will-change-transform">
       {/* Cover link */}
-<a
-  href={defaultProfile}
-  target={defaultProfile ? "_blank" : undefined}
-  rel={defaultProfile ? "noreferrer" : undefined}
-  aria-label={`Open ${p.name}'s profile`}
-  className="relative block aspect-[3/5] bg-neutral-100 dark:bg-neutral-900"
-  onMouseEnter={(e) => e.currentTarget.querySelector("video")?.play()}
-  onMouseLeave={(e) => e.currentTarget.querySelector("video")?.pause()}
->
-  {/* Base photo */}
-  <img
-    src={p.photo || avatar}
-    alt={p.name}
-    className="absolute inset-0 h-full w-full object-cover"
-    loading="lazy"
-    decoding="async"
-  />
+      <a
+        ref={mediaRef}
+        href={defaultProfile}
+        target={defaultProfile ? "_blank" : undefined}
+        rel={defaultProfile ? "noreferrer" : undefined}
+        aria-label={`Open ${p.name}'s profile`}
+        className="relative block aspect-[3/5] bg-neutral-100 dark:bg-neutral-900"
+        onMouseEnter={handleEnter}
+        onMouseLeave={handleLeave}
+      >
+        {/* Base photo */}
+        <img
+          src={p.photo || avatar}
+          alt={p.name}
+          className="absolute inset-0 h-full w-full object-cover"
+          loading="lazy"
+          decoding="async"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        />
 
-  {/* Hover video */}
-  {hasVideo && (
-    <video
-      src={p.video}
-      muted
-      playsInline
-      loop
-      preload="metadata"
-      className="absolute inset-0 h-full w-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-    />
-  )}
+        {/* Hover video */}
+        {hasVideo && (
+          <video
+            ref={videoRef}
+            src={shouldLoadVideo ? p.video : undefined}
+            muted
+            playsInline
+            loop
+            preload="none"
+            className="absolute inset-0 h-full w-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          />
+        )}
 
   {/* Gradients */}
   <span className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/0 via-black/0 to-black/45" />
@@ -1403,14 +1431,14 @@ function HoverMedia({ photo, video, alt }) {
       onTouchStart={() => setPlaying((v) => !v)}
     >
       <img
-       src={photo}
-  alt={alt}
-  className={cn(
-    "absolute inset-0 h-full w-full object-cover transition-opacity duration-300",
-    playing ? "opacity-0" : "opacity-100"
-  )}
-  loading="lazy"
-  decoding="async"   // ✅ new
+        src={photo}
+        alt={alt}
+        className={cn(
+          "absolute inset-0 h-full w-full object-cover transition-opacity duration-300",
+          playing ? "opacity-0" : "opacity-100"
+        )}
+        loading="lazy"
+        decoding="async"
       />
       <video
         ref={vidRef}
@@ -1418,10 +1446,13 @@ function HoverMedia({ photo, video, alt }) {
         muted
         loop
         playsInline
-        preload="metadata"           // <— key change
-  controls={false}
-  disablePictureInPicture
-  className={cn("absolute inset-0 h-full w-full object-cover transition-opacity duration-300", playing ? "opacity-100" : "opacity-0")}
+        preload="metadata"
+        controls={false}
+        disablePictureInPicture
+        className={cn(
+          "absolute inset-0 h-full w-full object-cover transition-opacity duration-300",
+          playing ? "opacity-100" : "opacity-0"
+        )}
       />
     </div>
   );
