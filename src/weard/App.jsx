@@ -1072,54 +1072,58 @@ function RotatingWords({ words }) {
 // ======= ABOUT =======
 function About() {
   const highlights = [
-    { title: "Global reach", body: "Social is global and so is WEARD. We connect creators and brands across cultures, borders, and audiences to deliver influence without limits." },
-    { title: "Creator first", body: "We champion growth, longevity, and authentic brand alignment... turning influence into sustainable, long-term careers." },
-    { title: "Creative Campaigns", body: "From bold concepts to fresh ideas, we craft campaigns that not only stand out but also leave a lasting impact." },
+    {
+      title: "Talent strategy",
+      body: "Full-service creator management from positioning and pricing to long-term brand alignment.",
+    },
+    {
+      title: "Campaign production",
+      body: "We handle creative direction, briefs, approvals, and delivery timelines across every platform.",
+    },
+    {
+      title: "Brand partnerships",
+      body: "We source, negotiate, and activate premium deals with brands that fit each creator’s voice.",
+    },
+    {
+      title: "Performance reporting",
+      body: "Post-campaign analytics, audience insights, and learnings to guide the next launch.",
+    },
   ];
   return (
     <section className="max-w-7xl mx-auto px-4 py-12">
-      <div className="grid lg:grid-cols-2 gap-8 items-start">
-        <div>
-         <h2 className="text-4xl font-bold">What Is WEARD?</h2>
-<p className="mt-4 text-neutral-700 dark:text-neutral-300 max-w-2xl">
-WEARD is here to redefine the global creator economy. We aspire to represent a diverse roster of creators from every culture and corner of the world, connecting them with brands that share their vision, values, and audiences, and amplifying their stories on a global stage.</p>
-<p className="mt-4 text-neutral-700 dark:text-neutral-300 max-w-2xl">
-We’re building more than deals. Our goal is to offer creators a 360° management approach that focuses on long-term strategies, authentic brand alignment, and stand-out content that drives meaningful impact.</p>
-<p className="mt-4 text-neutral-700 dark:text-neutral-300 max-w-2xl">
-Our philosophy is simple: Global Creators. Global Reach. Global Impact. By blending cultural insight with commercial strategy, WEARD aims to help talent not only thrive in a fast-changing digital world but also shape it, while safeguarding their voice, values, and rights. From the first spark of an idea to the final delivery, our mission is to be a partner at every step, championing creators, celebrating diversity, and delivering campaigns that leave a lasting cultural mark.</p>
-          <div className="mt-8 grid sm:grid-cols-3 gap-4">
-            {highlights.map((h) => (
-              <div
-                key={h.title}
-                className="p-5 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-gradient-to-br from-blue-500/0 via-indigo-500/0 to-purple-500/0 hover:from-blue-500/5 hover:to-purple-500/5 transition"
-              >
-                <div className="flex items-center gap-2">
-                  <Sparkles size={16} className={TEXT_GRAD} aria-hidden="true" />
-                  <h3 className="font-semibold text-base">{h.title}</h3>
-                </div>
-                <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">{h.body}</p>
-              </div>
-            ))}
-          </div>
-          <button
-            onClick={() => window.weardNav?.("contact")}
-            className={`mt-8 inline-flex items-center gap-2 px-5 py-3 rounded-full text-white ${GRADIENT}`}
-          >
-            Join the roster <ArrowRight size={16} />
-          </button>
-        </div>
-        <div className="rounded-3xl overflow-hidden border border-neutral-200 dark:border-neutral-800">
-          <video
-  src="/media/about/Animated_Logo_Announcement_WEARD.mp4"
-  autoPlay
-  loop
-  muted
-  playsInline
-  preload="metadata"
-  className="w-full h-full object-cover"
-/>
-        </div>
+      <div className="max-w-3xl">
+        <p className="text-xs uppercase tracking-[0.25em] text-neutral-400">
+          Influencer management, done differently
+        </p>
+        <h2 className="mt-4 text-4xl sm:text-5xl font-bold text-neutral-900">
+          Aesthetic campaigns backed by creator-first management.
+        </h2>
+        <p className="mt-4 text-neutral-700 dark:text-neutral-300 max-w-2xl">
+          WEARD blends boutique attention with global scale. From onboarding to campaign
+          delivery, we orchestrate every step so brands get standout creative and creators get
+          long-term momentum.
+        </p>
       </div>
+      <div className="mt-10 grid gap-6 sm:grid-cols-2">
+        {highlights.map((h) => (
+          <div
+            key={h.title}
+            className="p-6 rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white shadow-sm"
+          >
+            <div className="flex items-center gap-2">
+              <Sparkles size={16} className="text-neutral-900" aria-hidden="true" />
+              <h3 className="font-semibold text-lg text-neutral-900">{h.title}</h3>
+            </div>
+            <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">{h.body}</p>
+          </div>
+        ))}
+      </div>
+      <button
+        onClick={() => window.weardNav?.("contact")}
+        className={`mt-10 inline-flex items-center gap-2 px-5 py-3 rounded-full text-white ${GRADIENT}`}
+      >
+        Join the roster <ArrowRight size={16} />
+      </button>
       <WhereWeWork />
     </section>
   );
