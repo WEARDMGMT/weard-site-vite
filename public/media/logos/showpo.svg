@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 140" role="img" aria-labelledby="title">
+  <title id="title">Showpo</title>
+  <rect width="300" height="140" fill="white" />
+  <text
+    x="26"
+    y="88"
+    fill="#111"
+    font-size="56"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-weight="600"
+    letter-spacing="0.5"
+  >
+    Showpo.
+  </text>
+</svg>
