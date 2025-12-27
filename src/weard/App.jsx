@@ -644,12 +644,17 @@ function CreatorProfile({ creator, onBack }) {
   useEffect(() => {
     if (mediaInView && video) setShouldLoadVideo(true);
   }, [mediaInView, video]);
+  const [isMediaActive, setIsMediaActive] = useState(false);
   const handleMediaEnter = () => {
     if (!video) return;
     setShouldLoadVideo(true);
+    setIsMediaActive(true);
     mediaVideoRef.current?.play();
   };
-  const handleMediaLeave = () => mediaVideoRef.current?.pause();
+  const handleMediaLeave = () => {
+    setIsMediaActive(false);
+    mediaVideoRef.current?.pause();
+  };
 
   const ig = cleanNum(instagram_followers) ?? 0;
   const tt = cleanNum(tiktok_followers) ?? 0;
@@ -690,9 +695,13 @@ function CreatorProfile({ creator, onBack }) {
                 loop
                 playsInline
                 preload="none"
-                className="absolute inset-0 h-full w-full object-cover opacity-0 hover:opacity-100 transition-opacity duration-300"
+                className={`absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-300 ${
+                  isMediaActive ? "opacity-100" : "hover:opacity-100"
+                }`}
                 onMouseEnter={handleMediaEnter}
                 onMouseLeave={handleMediaLeave}
+                onTouchStart={handleMediaEnter}
+                onTouchEnd={handleMediaLeave}
               />
             )}
           </div>
@@ -1035,6 +1044,7 @@ function HeroCard({ src }) {
         muted
         loop
         playsInline
+        autoPlay
         preload="metadata"
         onError={() => setHasError(true)}
       />
@@ -1406,15 +1416,20 @@ function CreatorCard({ p }) {
   const videoRef = useRef(null);
   const [mediaRef, mediaInView] = useInView({ rootMargin: "180px" });
   const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+  const [isTouchPlaying, setIsTouchPlaying] = useState(false);
   useEffect(() => {
     if (mediaInView && hasVideo) setShouldLoadVideo(true);
   }, [mediaInView, hasVideo]);
   const handleEnter = () => {
     if (!hasVideo) return;
     setShouldLoadVideo(true);
+    setIsTouchPlaying(true);
     videoRef.current?.play();
   };
-  const handleLeave = () => videoRef.current?.pause();
+  const handleLeave = () => {
+    setIsTouchPlaying(false);
+    videoRef.current?.pause();
+  };
   const ig = cleanNum(p.instagram_followers) ?? 0;
   const tt = cleanNum(p.tiktok_followers) ?? 0;
   const yts = cleanNum(p.youtube_subscribers) ?? 0;
@@ -1443,6 +1458,8 @@ function CreatorCard({ p }) {
         className="relative block aspect-[3/5] bg-neutral-100 dark:bg-neutral-900"
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
+        onTouchStart={handleEnter}
+        onTouchEnd={handleLeave}
       >
         {/* Base photo */}
         <img
@@ -1463,7 +1480,9 @@ function CreatorCard({ p }) {
             playsInline
             loop
             preload="none"
-            className="absolute inset-0 h-full w-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            className={`absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-300 ${
+              isTouchPlaying ? "opacity-100" : "group-hover:opacity-100"
+            }`}
           />
         )}
 
