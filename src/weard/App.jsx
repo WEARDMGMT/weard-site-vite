@@ -115,12 +115,18 @@ const BRAND_LOGOS = [
 
 const WEARE_WORDS = ["DIFFERENT", "DISRUPTIVE", "DYNAMIC", "DISTINCT", "DRIVEN", "DECISIVE", "DEFIANT"];
 const HERO_VIDEOS = [
-  "/assets/videos/sophia.mp4",
-  "/assets/videos/amelie.mp4",
-  "/assets/videos/olivetree.mp4",
-  "/assets/videos/zophia.mp4",
-  "/assets/videos/clip5.mp4",
-  "/assets/videos/clip6.mp4",
+  "/assets/videos/video-01.mp4",
+  "/assets/videos/video-02.mp4",
+  "/assets/videos/video-03.mp4",
+  "/assets/videos/video-04.mp4",
+  "/assets/videos/video-05.mp4",
+  "/assets/videos/video-06.mp4",
+  "/assets/videos/video-07.mp4",
+  "/assets/videos/video-08.mp4",
+  "/assets/videos/video-09.mp4",
+  "/assets/videos/video-10.mp4",
+  "/assets/videos/video-11.mp4",
+  "/assets/videos/video-12.mp4",
 ];
 const HERO_LANES = [
   { seed: 0, speed: 54, pulse: 0.18 },
