@@ -132,6 +132,108 @@
   color: #fff;
 }
 
+.weard-logo-carousel {
+  position: relative;
+  overflow: hidden;
+  padding: 12px;
+  border-radius: 24px;
+  background: radial-gradient(500px 220px at 80% 10%, rgba(91, 33, 182, 0.35), transparent 60%),
+    radial-gradient(600px 280px at 10% 90%, rgba(37, 99, 235, 0.25), transparent 65%);
+}
+
+.weard-logo-carousel__edges {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.weard-logo-carousel__edge {
+  position: absolute;
+  inset-y: 0;
+  width: 80px;
+  z-index: 2;
+}
+
+.weard-logo-carousel__edge--left {
+  left: 0;
+  background: linear-gradient(90deg, rgba(3, 3, 3, 0.95), rgba(3, 3, 3, 0));
+}
+
+.weard-logo-carousel__edge--right {
+  right: 0;
+  background: linear-gradient(-90deg, rgba(3, 3, 3, 0.95), rgba(3, 3, 3, 0));
+}
+
+.weard-logo-carousel__lanes {
+  position: relative;
+  display: grid;
+  gap: 16px;
+  z-index: 1;
+}
+
+.weard-logo-carousel__lane {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  padding: 10px 0;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
+}
+
+.weard-logo-carousel__track {
+  display: inline-flex;
+  align-items: center;
+  gap: 28px;
+  height: var(--logo-row-height, 56px);
+  padding-inline: 10px;
+  animation: weard-logo-scroll var(--duration, 40s) linear infinite;
+  will-change: transform;
+}
+
+.weard-logo-carousel__card {
+  height: var(--logo-row-height, 56px);
+  padding: 10px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(8, 8, 8, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 14px 24px rgba(0, 0, 0, 0.35);
+}
+
+.weard-logo-carousel__logo {
+  height: calc(var(--logo-row-height, 56px) * 0.5);
+  width: auto;
+  opacity: 0.8;
+  filter: grayscale(1) brightness(0.95);
+  transition: opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease;
+}
+
+.weard-logo-carousel__card:hover .weard-logo-carousel__logo {
+  opacity: 1;
+  filter: grayscale(0) brightness(1.1);
+  transform: scale(1.04);
+}
+
+.weard-logo-carousel:hover .weard-logo-carousel__track {
+  animation-play-state: paused;
+}
+
+.weard-logo-carousel--paused .weard-logo-carousel__track {
+  animation-play-state: paused;
+}
+
+@keyframes weard-logo-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 @media (max-width: 900px) {
   .weard-hero__lanes {
     grid-template-columns: 1fr;
@@ -147,5 +249,16 @@
 
   .weard-hero__card {
     height: 88vh;
+  }
+
+  .weard-logo-carousel__edge {
+    width: 50px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .weard-logo-carousel__track {
+    animation: none;
+    transform: translateX(0);
   }
 }
