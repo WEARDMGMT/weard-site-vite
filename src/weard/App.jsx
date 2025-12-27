@@ -114,6 +114,25 @@ const BRAND_LOGOS = [
 ];
 
 const WEARE_WORDS = ["DIFFERENT", "DISRUPTIVE", "DYNAMIC", "DISTINCT", "DRIVEN", "DECISIVE", "DEFIANT"];
+const HERO_VIDEOS = [
+  "/assets/videos/video-01.mp4",
+  "/assets/videos/video-02.mp4",
+  "/assets/videos/video-03.mp4",
+  "/assets/videos/video-04.mp4",
+  "/assets/videos/video-05.mp4",
+  "/assets/videos/video-06.mp4",
+  "/assets/videos/video-07.mp4",
+  "/assets/videos/video-08.mp4",
+  "/assets/videos/video-09.mp4",
+  "/assets/videos/video-10.mp4",
+  "/assets/videos/video-11.mp4",
+  "/assets/videos/video-12.mp4",
+];
+const HERO_LANES = [
+  { seed: 0, speed: 54, pulse: 0.18 },
+  { seed: 2, speed: 68, pulse: 0.22 },
+  { seed: 4, speed: 46, pulse: 0.2 },
+];
 
 const STARTER_CREATORS = [
   {
@@ -809,92 +828,203 @@ function CreatorProfile({ creator, onBack }) {
 
 // ======= HOME =======
 function Home({ onExploreRoster, onWorkWithUs }) {
-  const slides = [
-    { title: "WEARD", subtitle: "Because Normal Doesn’t Trend.", image: MEDIA.creators.Sophia.photo },
-    { title: "WEARD", subtitle: "Influences Differently.", image: MEDIA.creators.Amy.photo },
-  ];
   return (
     <section className="relative overflow-hidden">
-      <HeroSlider slides={slides} />
-     <div className="min-h-screen flex flex-col items-center justify-center px-4 text-center">
-  <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight">
-    WE ARE <RotatingWords words={WEARE_WORDS} />
-  </h1>
-  <p className="mt-5 text-base sm:text-lg text-neutral-700 dark:text-neutral-200 max-w-prose">
-    Global Influence. Global Campaigns. Global Talent.<br />
-    We Champion Our Creators And Amplify Their Voices.
-  </p>
-  <div className="mt-8 flex flex-wrap gap-3 justify-center">
-    <button
-      onClick={onExploreRoster}
-      className="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-neutral-300 dark:border-neutral-700 hover:-translate-y-0.5 transition focus:outline-none focus:ring-2 focus:ring-indigo-500"
-    >
-      Explore Roster <ArrowRight size={16} />
-    </button>
-    <button
-      onClick={onWorkWithUs}
-      className={`inline-flex items-center gap-2 px-5 py-3 rounded-full text-white hover:-translate-y-0.5 transition focus:outline-none focus:ring-2 focus:ring-indigo-500 ${GRADIENT}`}
-    >
-      Work With Us <ArrowRight size={16} />
-    </button>
-  </div>
-</div>
+      <HeroCarousel onExploreRoster={onExploreRoster} onWorkWithUs={onWorkWithUs} />
+      <div className="min-h-screen flex flex-col items-center justify-center px-4 text-center">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight">
+          WE ARE <RotatingWords words={WEARE_WORDS} />
+        </h1>
+        <p className="mt-5 text-base sm:text-lg text-neutral-700 dark:text-neutral-200 max-w-prose">
+          Global Influence. Global Campaigns. Global Talent.<br />
+          We Champion Our Creators And Amplify Their Voices.
+        </p>
+        <div className="mt-8 flex flex-wrap gap-3 justify-center">
+          <button
+            onClick={onExploreRoster}
+            className="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-neutral-300 dark:border-neutral-700 hover:-translate-y-0.5 transition focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            Explore Roster <ArrowRight size={16} />
+          </button>
+          <button
+            onClick={onWorkWithUs}
+            className={`inline-flex items-center gap-2 px-5 py-3 rounded-full text-white hover:-translate-y-0.5 transition focus:outline-none focus:ring-2 focus:ring-indigo-500 ${GRADIENT}`}
+          >
+            Work With Us <ArrowRight size={16} />
+          </button>
+        </div>
+      </div>
     </section>
   );
 }
 
-function HeroSlider({ slides }) {
-  const [i, setI] = useState(0);
-  const t = useRef(null);
+function HeroCarousel({ onExploreRoster, onWorkWithUs }) {
+  const trackRefs = useRef([]);
+  const containerRef = useRef(null);
+
   useEffect(() => {
-    t.current = setInterval(() => setI((p) => (p + 1) % slides.length), 5000);
-    return () => clearInterval(t.current);
-  }, [slides.length]);
-  useEffect(() => {
-    const next = (i + 1) % slides.length;
-    const link = document.createElement("link");
-    link.rel = "prefetch";
-    link.as = "image";
-    link.href = slides[next].image;
-    document.head.appendChild(link);
-    return () => {
-      if (link.parentNode) link.parentNode.removeChild(link);
+    const state = HERO_LANES.map((lane, index) => {
+      const track = trackRefs.current[index];
+      const startOffset = ((lane.seed * 179) % 900) + Math.random() * 320;
+      return {
+        track,
+        speed: lane.speed,
+        pulse: lane.pulse,
+        phase: Math.random() * Math.PI * 2,
+        y: startOffset,
+        loopAt: 1,
+      };
+    });
+
+    const measureLoop = () => {
+      state.forEach((s) => {
+        if (s.track) {
+          s.loopAt = Math.max(1, s.track.scrollHeight / 2);
+        }
+      });
     };
-  }, [i, slides]);
+
+    measureLoop();
+
+    let resizeTimer;
+    const handleResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(measureLoop, 120);
+    };
+    window.addEventListener("resize", handleResize);
+
+    let last = performance.now();
+    let raf;
+    const normaliseY = (y, loopAt) => {
+      let next = y % loopAt;
+      if (next < 0) next += loopAt;
+      return next;
+    };
+
+    const tick = (now) => {
+      const dt = (now - last) / 1000;
+      last = now;
+
+      state.forEach((s) => {
+        if (!s.track) return;
+        const freq = 0.55 + s.pulse * 0.6;
+        const wobble =
+          1 +
+          Math.sin((now / 1000) * (Math.PI * 2) * freq + s.phase) * s.pulse;
+        s.y = normaliseY(s.y + s.speed * wobble * dt, s.loopAt);
+        s.track.style.transform = `translate3d(0, ${-s.y}px, 0)`;
+      });
+
+      raf = requestAnimationFrame(tick);
+    };
+
+    raf = requestAnimationFrame(tick);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      clearTimeout(resizeTimer);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!containerRef.current || !window.IntersectionObserver) return undefined;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const video = entry.target.querySelector("video");
+          if (!video) return;
+          if (entry.isIntersecting) {
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+          }
+        });
+      },
+      { threshold: 0.6 }
+    );
+
+    const cards = containerRef.current.querySelectorAll(".weard-hero__card");
+    cards.forEach((card) => observer.observe(card));
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="relative">
-      <div className="h-[50vh] sm:h-[58vh] md:h-[65vh] w-full overflow-hidden">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, scale: 1.02 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.6 }}
-            className="h-full w-full relative"
-          >
-            <div className="absolute inset-0">
-              <img
-                src={slides[i].image}
-                alt={slides[i].title}
-                width="1920"
-                height="1080"
-                fetchPriority={i === 0 ? "high" : "auto"}
-                loading={i === 0 ? "eager" : "lazy"}
-                decoding="async"
-                className="absolute inset-0 h-full w-full object-cover bg-neutral-900"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/25 to-transparent" />
-            </div>
-            <div className="relative z-10 max-w-7xl mx-auto px-4 h-full flex items-end pb-10">
-              <div className="text-white drop-shadow">
-                <h2 className="text-3xl sm:text-4xl font-bold">{slides[i].title}</h2>
-                <p className="mt-2 text-sm sm:text-base opacity-90">{slides[i].subtitle}</p>
+    <section className="weard-hero" ref={containerRef}>
+      <div className="weard-hero__lanes">
+        {HERO_LANES.map((lane, laneIndex) => {
+          const ordered = HERO_VIDEOS.map(
+            (_, i) => HERO_VIDEOS[(i + lane.seed) % HERO_VIDEOS.length]
+          );
+          return (
+            <div
+              key={lane.seed}
+              className="weard-hero__lane"
+              data-seed={lane.seed}
+              data-speed={lane.speed}
+              data-pulse={lane.pulse}
+            >
+              <div
+                className="weard-hero__track"
+                ref={(el) => {
+                  trackRefs.current[laneIndex] = el;
+                }}
+              >
+                {ordered.map((src, index) => (
+                  <HeroCard key={`${src}-${index}-a`} src={src} />
+                ))}
+                {ordered.map((src, index) => (
+                  <HeroCard key={`${src}-${index}-b`} src={src} />
+                ))}
               </div>
             </div>
-          </motion.div>
-        </AnimatePresence>
+          );
+        })}
       </div>
+
+      <div className="weard-hero__grain" />
+
+      <div className="weard-hero__overlay">
+        <div className="weard-hero__glass">
+          <h1>WEARD</h1>
+          <p>Because normal doesn’t trend.</p>
+          <div className="weard-hero__cta">
+            <button
+              onClick={onExploreRoster}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/30 text-sm hover:-translate-y-0.5 transition focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              Explore roster <ArrowRight size={16} />
+            </button>
+            <button
+              onClick={onWorkWithUs}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm text-white hover:-translate-y-0.5 transition focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600"
+            >
+              Work with us <ArrowRight size={16} />
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function HeroCard({ src }) {
+  const [hasError, setHasError] = useState(false);
+  return (
+    <div className="weard-hero__card">
+      <video
+        src={src}
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        onError={() => setHasError(true)}
+      />
+      {hasError && (
+        <div className="weard-hero__fallback">Add MP4 at: {src}</div>
+      )}
     </div>
   );
 }
