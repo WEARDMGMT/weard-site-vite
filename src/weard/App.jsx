@@ -1605,50 +1605,62 @@ function HoverMedia({ photo, video, alt }) {
   );
 }
 
-// ======= LOGO MARQUEE =======
-function LogoMarquee({ speedSec = 40, rowHeight = 40, gapPx = 56 }) {
-  const rows = [...BRAND_LOGOS, ...BRAND_LOGOS]; // duplicate for seamless loop
+// ======= LOGO CAROUSEL =======
+const LOGO_LANES = [
+  { id: "orbit-a", speedSec: 36, direction: "normal", offset: 0 },
+];
 
+function LogoCarousel({ rowHeight = 56 }) {
+  const [carouselRef, carouselInView] = useInView({ rootMargin: "200px" });
   return (
-    <div className="relative overflow-hidden">
-      {/* edge fades */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-neutral-950 to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-neutral-950 to-transparent" />
-
-      <div className="group flex items-center">
-        <div
-          className="inline-flex items-center will-change-transform"
-          style={{
-            gap: `${gapPx}px`,
-            height: rowHeight,
-            animation: `weard-marquee ${speedSec}s linear infinite`,
-          }}
-        >
-          {rows.map((l, i) => (
-            <img
-              key={`${l.src}-${i}`}
-              src={l.src}
-              alt={l.alt}
-              height={rowHeight}
-              className="h-10 sm:h-12 w-auto opacity-80 hover:opacity-100 transition-opacity"
-              loading="lazy"
-              decoding="async"
-              style={{ height: rowHeight }}
-            />
-          ))}
-        </div>
+    <div
+      ref={carouselRef}
+      className={cn(
+        "weard-logo-carousel",
+        !carouselInView && "weard-logo-carousel--paused"
+      )}
+      style={{ "--logo-row-height": `${rowHeight}px` }}
+    >
+      <div className="weard-logo-carousel__edges" aria-hidden="true">
+        <div className="weard-logo-carousel__edge weard-logo-carousel__edge--left" />
+        <div className="weard-logo-carousel__edge weard-logo-carousel__edge--right" />
       </div>
-
-      <style>{`
-        @keyframes weard-marquee {
-          from { transform: translateX(0); }
-          to   { transform: translateX(-50%); }
-        }
-        .group:hover > div { animation-play-state: paused; }
-        @media (prefers-reduced-motion: reduce) {
-          .group > div { animation: none !important; transform: translateX(0) !important; }
-        }
-      `}</style>
+      <div className="weard-logo-carousel__lanes">
+        {LOGO_LANES.map((lane, laneIndex) => {
+          const start = lane.offset % BRAND_LOGOS.length;
+          const ordered = [
+            ...BRAND_LOGOS.slice(start),
+            ...BRAND_LOGOS.slice(0, start),
+          ];
+          const rows = [...ordered, ...ordered];
+          return (
+            <div className="weard-logo-carousel__lane" key={lane.id}>
+              <div
+                className="weard-logo-carousel__track"
+                style={{
+                  "--duration": `${lane.speedSec}s`,
+                  animationDirection: lane.direction,
+                }}
+              >
+                {rows.map((logo, index) => (
+                  <div
+                    key={`${logo.src}-${laneIndex}-${index}`}
+                    className="weard-logo-carousel__card"
+                  >
+                    <img
+                      src={logo.src}
+                      alt={logo.alt}
+                      loading="lazy"
+                      decoding="async"
+                      className="weard-logo-carousel__logo"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
@@ -1663,7 +1675,7 @@ function Brands() {
       </p>
 
       <div className="mt-6 rounded-3xl border border-neutral-800 bg-neutral-900 p-4 sm:p-6">
-        <LogoMarquee speedSec={38} rowHeight={40} gapPx={64} />
+        <LogoCarousel />
       </div>
     </section>
   );
