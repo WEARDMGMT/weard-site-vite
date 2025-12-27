@@ -1075,27 +1075,32 @@ function About() {
     {
       title: "Talent strategy",
       body: "Full-service creator management from positioning and pricing to long-term brand alignment.",
+      accent: "from-blue-500/15 via-indigo-500/10 to-purple-500/15",
     },
     {
       title: "Campaign production",
       body: "We handle creative direction, briefs, approvals, and delivery timelines across every platform.",
+      accent: "from-purple-500/15 via-pink-500/10 to-orange-400/15",
     },
     {
       title: "Brand partnerships",
       body: "We source, negotiate, and activate premium deals with brands that fit each creator’s voice.",
+      accent: "from-emerald-500/15 via-teal-500/10 to-blue-500/15",
     },
     {
       title: "Performance reporting",
       body: "Post-campaign analytics, audience insights, and learnings to guide the next launch.",
+      accent: "from-amber-500/15 via-rose-500/10 to-purple-500/15",
     },
   ];
   return (
     <section className="max-w-7xl mx-auto px-4 py-12">
       <div className="max-w-3xl">
-        <p className="text-xs uppercase tracking-[0.25em] text-neutral-400">
+        <div className="inline-flex items-center gap-2 rounded-full border border-neutral-200/70 bg-white/80 px-4 py-1 text-[11px] uppercase tracking-[0.35em] text-neutral-500 shadow-sm">
+          <span className="h-2 w-2 rounded-full bg-emerald-400" aria-hidden="true" />
           Influencer management, done differently
-        </p>
-        <h2 className="mt-4 text-4xl sm:text-5xl font-bold text-neutral-900">
+        </div>
+        <h2 className="mt-5 text-4xl sm:text-5xl font-bold text-neutral-900">
           Aesthetic campaigns backed by creator-first management.
         </h2>
         <p className="mt-4 text-neutral-700 dark:text-neutral-300 max-w-2xl">
@@ -1103,18 +1108,43 @@ function About() {
           delivery, we orchestrate every step so brands get standout creative and creators get
           long-term momentum.
         </p>
+        <div className="mt-6 flex flex-wrap gap-3 text-xs text-neutral-500">
+          {["Strategy", "Creative", "Partnerships", "Reporting"].map((label) => (
+            <span
+              key={label}
+              className="rounded-full border border-neutral-200 bg-white/90 px-3 py-1 shadow-sm"
+            >
+              {label}
+            </span>
+          ))}
+        </div>
       </div>
       <div className="mt-10 grid gap-6 sm:grid-cols-2">
         {highlights.map((h) => (
           <div
             key={h.title}
-            className="p-6 rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white shadow-sm"
+            className="group relative overflow-hidden rounded-3xl border border-neutral-200/80 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
           >
+            <div
+              className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${h.accent} opacity-0 transition duration-300 group-hover:opacity-100`}
+            />
+            <div className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full bg-neutral-100/70 blur-2xl transition duration-300 group-hover:bg-white/80" />
             <div className="flex items-center gap-2">
-              <Sparkles size={16} className="text-neutral-900" aria-hidden="true" />
-              <h3 className="font-semibold text-lg text-neutral-900">{h.title}</h3>
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-neutral-200 bg-white/90 shadow-sm">
+                <Sparkles size={16} className="text-neutral-900" aria-hidden="true" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-lg text-neutral-900">{h.title}</h3>
+                <p className="text-[11px] uppercase tracking-[0.28em] text-neutral-400">
+                  WEARD service
+                </p>
+              </div>
             </div>
-            <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">{h.body}</p>
+            <p className="mt-3 text-sm text-neutral-600 dark:text-neutral-400">{h.body}</p>
+            <div className="mt-5 flex items-center gap-2 text-xs font-semibold text-neutral-500">
+              Explore details
+              <ArrowRight size={12} className="transition group-hover:translate-x-1" />
+            </div>
           </div>
         ))}
       </div>
