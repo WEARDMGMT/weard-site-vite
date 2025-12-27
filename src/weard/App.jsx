@@ -217,6 +217,16 @@ const CATEGORIES = [
 
 // ======= UTIL =======
 const cn = (...c) => c.filter(Boolean).join(" ");
+const shuffleWithSeed = (items, seed = 0) => {
+  const arr = [...items];
+  let state = seed + 1;
+  for (let i = arr.length - 1; i > 0; i -= 1) {
+    state = (state * 9301 + 49297) % 233280;
+    const j = Math.floor((state / 233280) * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+};
 
 const cleanNum = (v) => {
   if (v == null || v === "") return null;
@@ -861,6 +871,10 @@ function Home({ onExploreRoster, onWorkWithUs }) {
 function HeroCarousel({ onExploreRoster, onWorkWithUs }) {
   const trackRefs = useRef([]);
   const containerRef = useRef(null);
+  const laneOrders = useMemo(
+    () => HERO_LANES.map((lane) => shuffleWithSeed(HERO_VIDEOS, lane.seed)),
+    []
+  );
 
   useEffect(() => {
     const state = HERO_LANES.map((lane, index) => {
@@ -955,9 +969,7 @@ function HeroCarousel({ onExploreRoster, onWorkWithUs }) {
     <section className="weard-hero" ref={containerRef}>
       <div className="weard-hero__lanes">
         {HERO_LANES.map((lane, laneIndex) => {
-          const ordered = HERO_VIDEOS.map(
-            (_, i) => HERO_VIDEOS[(i + lane.seed) % HERO_VIDEOS.length]
-          );
+          const ordered = laneOrders[laneIndex] || HERO_VIDEOS;
           return (
             <div
               key={lane.seed}
