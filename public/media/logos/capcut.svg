@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="160" viewBox="0 0 520 160">
+  <rect width="100%" height="100%" fill="white"/>
+  <g fill="none" stroke="#111111" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M70 50h70l-70 60h70" />
+  </g>
+  <text x="170" y="106" fill="#111111" font-size="72" font-family="Arial Black, Arial, sans-serif" font-weight="800">CapCut</text>
+</svg>

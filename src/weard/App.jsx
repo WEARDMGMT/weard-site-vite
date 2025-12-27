@@ -107,8 +107,12 @@ const BRAND_LOGOS = [
   { src: "/media/logos/beautyplus.png", alt: "BeautyPlus" },
   { src: "/media/logos/bella-barnett.png", alt: "Bella Barnett" },
   { src: "/media/logos/disney.png", alt: "Disney" },
+  { src: "/media/logos/iamgia.svg", alt: "I.AM.GIA" },
   { src: "/media/logos/mediheal.png", alt: "Mediheal" },
   { src: "/media/logos/showpo.svg", alt: "Showpo" },
+  { src: "/media/logos/skin-plus-me.svg", alt: "Skin+Me" },
+  { src: "/media/logos/capcut.svg", alt: "CapCut" },
+  { src: "/media/logos/the-week-junior.svg", alt: "The Week Junior" },
   { src: "/media/logos/tiger-mist.png", alt: "Tiger Mist" },
   { src: "/media/logos/time-phoria.png", alt: "Timephoria" },
 ];
