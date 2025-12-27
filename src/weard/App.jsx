@@ -108,6 +108,7 @@ const BRAND_LOGOS = [
   { src: "/media/logos/bella-barnett.png", alt: "Bella Barnett" },
   { src: "/media/logos/disney.png", alt: "Disney" },
   { src: "/media/logos/mediheal.png", alt: "Mediheal" },
+  { src: "/media/logos/showpo.svg", alt: "Showpo" },
   { src: "/media/logos/tiger-mist.png", alt: "Tiger Mist" },
   { src: "/media/logos/time-phoria.png", alt: "Timephoria" },
 ];
