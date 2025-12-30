@@ -460,9 +460,12 @@ useEffect(() => {
   }, []);
   return (
     <div className="min-h-screen bg-white text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100 transition-colors">
+      <a className="skip-link" href="#main-content">
+        Skip to content
+      </a>
       <Header onNav={navigate} active={activePage} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
 
-      <main>
+      <main id="main-content" tabIndex={-1}>
         <AnimatePresence mode="wait">
           {activePage === "home" && (
             <motion.section key="home" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
@@ -526,6 +529,27 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
     { k: "brands", label: "Brands" },
     { k: "contact", label: "Contact" },
   ];
+
+  useEffect(() => {
+    if (!menuOpen) {
+      document.body.style.overflow = "";
+      return undefined;
+    }
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+      }
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [menuOpen, setMenuOpen]);
+
   return (
     <header className="sticky top-0 z-40 bg-neutral-900/90 text-white backdrop-blur border-b border-black/20">
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
@@ -539,6 +563,7 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
               key={n.k}
               onClick={() => onNav(n.k)}
               className={cn("text-sm hover:opacity-80 focus:outline-none focus:underline", active === n.k ? "font-semibold text-white" : "text-neutral-300")}
+              aria-current={active === n.k ? "page" : undefined}
             >
               {n.label}
             </button>
@@ -547,6 +572,8 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
         <div className="md:hidden flex items-center gap-2">
           <button
             aria-label="Open menu"
+            aria-expanded={menuOpen}
+            aria-controls="mobile-nav"
             onClick={() => setMenuOpen(true)}
             className="p-2 rounded-full border border-white/20 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
@@ -566,6 +593,7 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
             role="dialog"
             aria-modal="true"
             aria-label="Mobile navigation"
+            id="mobile-nav"
           >
             <div className="flex items-center justify-between">
               <div className="font-black tracking-widest text-white">WEARD</div>
@@ -726,7 +754,7 @@ function CreatorProfile({ creator, onBack }) {
                   className="h-9 w-9 rounded-full bg-neutral-100 dark:bg-neutral-800 grid place-items-center"
                   href={tiktok}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   aria-label="Open TikTok"
                   title="TikTok"
                 >
@@ -738,7 +766,7 @@ function CreatorProfile({ creator, onBack }) {
                   className="h-9 w-9 rounded-full bg-neutral-100 dark:bg-neutral-800 grid place-items-center"
                   href={instagram}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   aria-label="Open Instagram"
                   title="Instagram"
                 >
@@ -750,7 +778,7 @@ function CreatorProfile({ creator, onBack }) {
     className="h-9 w-9 rounded-full bg-neutral-100 dark:bg-neutral-800 grid place-items-center"
     href={youtube}
     target="_blank"
-    rel="noreferrer"
+    rel="noopener noreferrer"
     aria-label="Open YouTube"
     title="YouTube"
   >
@@ -826,7 +854,7 @@ function CreatorProfile({ creator, onBack }) {
               <a
                 href={instagram}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-neutral-300 dark:border-neutral-700"
               >
                 View Instagram <ExternalLink size={14} />
@@ -836,7 +864,7 @@ function CreatorProfile({ creator, onBack }) {
               <a
                 href={tiktok}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-neutral-300 dark:border-neutral-700"
               >
                 View TikTok <ExternalLink size={14} />
@@ -1305,9 +1333,15 @@ function Roster() {
   }, [tab, region, creators]);
 
   return (
-    <section className="max-w-7xl mx-auto px-4 pt-10 pb-20">
-      <div className="flex items-center justify-between flex-wrap gap-4">
-        <h2 className="text-3xl sm:text-4xl font-bold">Roster</h2>
+    <section className="weard-section max-w-7xl mx-auto px-4 pt-10 pb-20">
+      <div className="relative z-10 flex items-center justify-between flex-wrap gap-4">
+        <div>
+          <p className="text-xs uppercase tracking-[0.35em] text-neutral-400">Talent</p>
+          <h2 className="mt-2 text-3xl sm:text-4xl font-bold">Roster</h2>
+          <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400 max-w-xl">
+            A handpicked, global lineup built for high-performing creator campaigns.
+          </p>
+        </div>
       </div>
 
       {/* Category tabs */}
@@ -1351,9 +1385,9 @@ function Roster() {
         ))}
       </div>
 
-      <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400">Meet Our Talent</p>
+      <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400">Meet our featured talent.</p>
 
-      <motion.div layout className="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      <motion.div layout className="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-3 relative z-10">
   {filtered.map((p) => (
     <motion.div
       key={p.name}
@@ -1368,7 +1402,7 @@ function Roster() {
   ))}
 
         {/* Invite tile */}
-        <div className="p-6 rounded-2xl border border-dashed border-neutral-300 dark:border-neutral-700 flex flex-col items-start justify-between">
+        <div className="p-6 rounded-2xl border border-dashed border-neutral-300 dark:border-neutral-700 flex flex-col items-start justify-between bg-white/60 dark:bg-neutral-900/60 backdrop-blur">
           <div>
             <h3 className="text-lg font-semibold">Join the Roster</h3>
             <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
@@ -1395,7 +1429,7 @@ function SocialStat({ label, icon: Icon, url, value }) {
     <Cmp
       href={isLink ? url : undefined}
       target={isLink ? "_blank" : undefined}
-      rel={isLink ? "noreferrer" : undefined}
+      rel={isLink ? "noopener noreferrer" : undefined}
       className="p-3 rounded-xl bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 hover:border-indigo-400/60 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition block"
       aria-label={isLink ? `${label} — open profile` : label}
     >
@@ -1447,13 +1481,13 @@ function CreatorCard({ p }) {
   const open = (url) => url && window.open(url, "_blank", "noopener,noreferrer");
 
   return (
-    <div className="group rounded-2xl border border-neutral-200 dark:border-neutral-800 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition will-change-transform">
+    <div className="group rounded-2xl border border-neutral-200 dark:border-neutral-800 overflow-hidden bg-white/90 dark:bg-neutral-950 shadow-sm hover:shadow-xl hover:-translate-y-0.5 hover:border-indigo-300/60 transition will-change-transform">
       {/* Cover link */}
       <a
         ref={mediaRef}
         href={defaultProfile}
         target={defaultProfile ? "_blank" : undefined}
-        rel={defaultProfile ? "noreferrer" : undefined}
+        rel={defaultProfile ? "noopener noreferrer" : undefined}
         aria-label={`Open ${p.name}'s profile`}
         className="relative block aspect-[3/5] bg-neutral-100 dark:bg-neutral-900"
         onMouseEnter={handleEnter}
@@ -1465,11 +1499,12 @@ function CreatorCard({ p }) {
         <img
           src={p.photo || avatar}
           alt={p.name}
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           loading="lazy"
           decoding="async"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-black/0 to-black/0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
         {/* Hover video */}
         {hasVideo && (
