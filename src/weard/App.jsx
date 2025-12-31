@@ -193,6 +193,19 @@ const HERO_LANES = [
   { seed: 4, speed: 46, pulse: 0.2 },
 ];
 
+const CREATOR_ALIASES = {
+  "sophia-price": ["sophiapriceyyy", "XsophiapriceyX", "xsophiapriceyx", "Sophia Price"],
+  "amelie-wyg": ["ameliewyg", "Amy (เอมี่)", "Amy/เอมี่", "Amy Wyg"],
+  "emily-uddman": ["emily.uddman", "Emily Janrawee Uddman"],
+  "josefine-uddman": [
+    "josefine.ku.ud",
+    "Josefine uddman",
+    "Josefine Kuanroethai Uddman",
+    "Bakhamnoi",
+  ],
+  "the-olive-tree-family": ["theolivetreefamily", "W Ken | Lynsay | Chung Family", "TheOliveTreeFamily"],
+};
+
 const STARTER_CREATORS = [
   {
      name: "Sophia Price",
@@ -685,6 +698,14 @@ useEffect(() => {
   useEffect(() => {
     const people = creators.map((creator) => {
       const sameAs = [creator.instagram, creator.tiktok, creator.youtube].filter(Boolean);
+      const slug = slugify(creator.name);
+      const handleAliases = sameAs
+        .map((url) => getUsernameFromUrl(url))
+        .filter(Boolean)
+        .flatMap((handle) => [handle, `@${handle}`]);
+      const alternateName = Array.from(
+        new Set([...(CREATOR_ALIASES[slug] || []), ...handleAliases].filter(Boolean))
+      );
       return {
         "@type": "Person",
         name: creator.name,
@@ -695,8 +716,9 @@ useEffect(() => {
           name: "WEARD Management",
           url: "https://weardmgmt.com",
         },
-        url: `https://weardmgmt.com/creators/${slugify(creator.name)}`,
+        url: `https://weardmgmt.com/creators/${slug}`,
         sameAs,
+        ...(alternateName.length ? { alternateName } : {}),
       };
     });
     const data = {
@@ -2079,6 +2101,13 @@ function CreatorDirectory({ creators = [], onNav }) {
         This includes Emily Uddman (@emily.uddman), Zophia.zz (@zophia.zz), and every creator represented
         by WEARD across Asia, APAC, Thailand, Hong Kong, the UK, and the US.
       </p>
+      <ul className="mt-3 grid gap-1 text-sm text-neutral-600 dark:text-neutral-400">
+        <li>Sophia Price — sophiapriceyyy, XsophiapriceyX, xsophiapriceyx</li>
+        <li>Amy Wyg — ameliewyg, Amy (เอมี่), Amy/เอมี่</li>
+        <li>Emily Uddman — emily.uddman, Emily Janrawee Uddman</li>
+        <li>Josefine Uddman — josefine.ku.ud, Josefine Kuanroethai Uddman, Bakhamnoi</li>
+        <li>The Olive Tree Family — theolivetreefamily, TheOliveTreeFamily, W Ken | Lynsay | Chung Family</li>
+      </ul>
       <div className="mt-4 flex flex-wrap gap-2 text-xs text-neutral-500">
         <SiteLink to="apac-influencer-marketing" onNav={onNav} className="underline">
           APAC influencer talent management
