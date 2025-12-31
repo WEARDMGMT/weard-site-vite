@@ -1567,11 +1567,15 @@ function About() {
           <div className="mt-5 space-y-4">
             <div className="rounded-2xl border border-neutral-200/70 bg-neutral-50 px-4 py-3">
               <div className="text-xs uppercase tracking-[0.25em] text-neutral-500">Total creators</div>
-              <div className="mt-2 text-3xl font-bold text-neutral-900">{totalCreators}+</div>
+              <div className="mt-2 text-3xl font-bold text-neutral-900">
+                <CountTo to={totalCreators} />+
+              </div>
             </div>
             <div className="rounded-2xl border border-neutral-200/70 bg-neutral-50 px-4 py-3">
               <div className="text-xs uppercase tracking-[0.25em] text-neutral-500">Combined social following</div>
-              <div className="mt-2 text-3xl font-bold text-neutral-900">{shortFormat(totalFollowing)}+</div>
+              <div className="mt-2 text-3xl font-bold text-neutral-900">
+                <CountTo to={totalFollowing} format={shortFormat} />+
+              </div>
             </div>
           </div>
         </div>
