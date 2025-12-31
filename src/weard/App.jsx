@@ -1297,6 +1297,8 @@ function Roster() {
   const [region, setRegion] = useState("All");
   const regions = ["All", "UK", "Asia", "USA"];
 
+  const [search, setSearch] = useState("");
+
   // Filter creators
   const filtered = useMemo(() => {
     let data = creators;
@@ -1329,8 +1331,23 @@ function Roster() {
       });
     }
 
+    const query = search.trim().toLowerCase();
+    if (query) {
+      data = data.filter((c) => {
+        const nameMatch = c.name?.toLowerCase().includes(query);
+        const handles = [
+          getUsernameFromUrl(c.instagram),
+          getUsernameFromUrl(c.tiktok),
+          getUsernameFromUrl(c.youtube),
+        ]
+          .filter(Boolean)
+          .map((handle) => handle.toLowerCase());
+        return nameMatch || handles.some((handle) => handle.includes(query));
+      });
+    }
+
     return data;
-  }, [tab, region, creators]);
+  }, [tab, region, creators, search]);
 
   return (
     <section className="weard-section max-w-7xl mx-auto px-4 pt-10 pb-20">
@@ -1341,6 +1358,18 @@ function Roster() {
           <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400 max-w-xl">
             A handpicked, global lineup built for high-performing creator campaigns.
           </p>
+        </div>
+        <div className="w-full max-w-sm">
+          <label className="text-xs font-semibold uppercase tracking-[0.2em] text-neutral-400">
+            Search
+          </label>
+          <input
+            type="search"
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            placeholder="Search creators…"
+            className={cn(INPUT_CLS, "mt-2")}
+          />
         </div>
       </div>
 
@@ -1418,6 +1447,11 @@ function Roster() {
           </button>
         </div>
       </motion.div>
+      {filtered.length === 0 && (
+        <p className="mt-4 text-sm text-neutral-500 dark:text-neutral-400">
+          No creators match this search.
+        </p>
+      )}
     </section>
   );
 }
