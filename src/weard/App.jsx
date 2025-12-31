@@ -2044,7 +2044,7 @@ function CreatorDirectory({ creators = [], onNav }) {
   });
 
   return (
-    <section className="mt-12 rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white/90 dark:bg-neutral-950 p-6">
+    <section className="sr-only" aria-label="Creator directory">
       <p className="text-xs uppercase tracking-[0.35em] text-neutral-400">Creator directory</p>
       <h3 className="mt-3 text-2xl font-semibold">
         Search WEARD, WEARDMGMT, and every creator name or handle
