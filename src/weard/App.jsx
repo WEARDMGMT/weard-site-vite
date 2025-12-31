@@ -58,6 +58,11 @@ const SHEET_URL =
   import.meta.env.VITE_SHEET_URL ||
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSe2hqUTFYnlYQVFXLmR0G2bI_APH9kkJqL7XJIvFIloG7QEjBAJqXkxGrUBYrvoaTg7jS-ucCQ1Uzj/pub?output=csv";
 const GEO_URL = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json";
+const EMAILJS_API_URL = "https://api.emailjs.com/api/v1.0/email/send";
+const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+const EMAILJS_BRAND_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_BRAND_TEMPLATE_ID;
+const EMAILJS_TALENT_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TALENT_TEMPLATE_ID;
+const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
 // Accurate country flags
 const FLAG_SRC = {
@@ -2575,6 +2580,10 @@ function PrivacyPolicy() {
 // ======= CONTACT =======
 function Contact() {
   const [mode, setMode] = useState("brand");
+  const [isSendingBrand, setIsSendingBrand] = useState(false);
+  const [isSendingTalent, setIsSendingTalent] = useState(false);
+  const [brandNotice, setBrandNotice] = useState("");
+  const [talentNotice, setTalentNotice] = useState("");
   const [form, setForm] = useState({
     brand: "",
     role: "",
@@ -2597,12 +2606,41 @@ function Contact() {
     notes: "",
   });
 
-  function handleBrandSubmit(e) {
+  function sendMailto(subject, body, fallbackMessage) {
+    try {
+      window.location.href = `mailto:info@weardmgmt.com?subject=${encodeURIComponent(
+        subject
+      )}&body=${encodeURIComponent(body)}`;
+    } catch {
+      navigator.clipboard?.writeText(`${subject}\n\n${body}`);
+      alert(fallbackMessage);
+    }
+  }
+
+  async function sendEmail(templateId, templateParams) {
+    const response = await fetch(EMAILJS_API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        service_id: EMAILJS_SERVICE_ID,
+        template_id: templateId,
+        user_id: EMAILJS_PUBLIC_KEY,
+        template_params: templateParams,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Email send failed");
+    }
+  }
+
+  async function handleBrandSubmit(e) {
     e.preventDefault();
     if (!form.brand || !form.email || !form.outline) {
       alert("Please fill required fields.");
       return;
     }
+    setBrandNotice("");
     const subject = `WEARD Brief – ${form.brand}`;
     const body =
       `Brand: ${form.brand}\n` +
@@ -2614,23 +2652,47 @@ function Contact() {
       `Outline:\n${form.outline}`;
 
     try {
-      window.location.href = `mailto:info@weardmgmt.com?subject=${encodeURIComponent(
-        subject
-      )}&body=${encodeURIComponent(body)}`;
+      if (EMAILJS_SERVICE_ID && EMAILJS_PUBLIC_KEY && EMAILJS_BRAND_TEMPLATE_ID) {
+        setIsSendingBrand(true);
+        await sendEmail(EMAILJS_BRAND_TEMPLATE_ID, {
+          subject,
+          brand: form.brand,
+          role: form.role,
+          email: form.email,
+          number: form.number,
+          budget: form.budget,
+          timeline: form.timeline,
+          outline: form.outline,
+          message: body,
+        });
+        setBrandNotice("Thanks! Your brief has been sent to info@weardmgmt.com.");
+      } else {
+        sendMailto(
+          subject,
+          body,
+          "We’ve copied your brief to the clipboard. Please paste it into an email to info@weardmgmt.com."
+        );
+        setBrandNotice("Your email client should open with the brief prefilled.");
+      }
     } catch {
-      navigator.clipboard?.writeText(`${subject}\n\n${body}`);
-      alert(
+      sendMailto(
+        subject,
+        body,
         "We’ve copied your brief to the clipboard. Please paste it into an email to info@weardmgmt.com."
       );
+      setBrandNotice("We couldn’t auto-send, so we opened your email client.");
+    } finally {
+      setIsSendingBrand(false);
     }
   }
 
-  function handleTalentSubmit(e) {
+  async function handleTalentSubmit(e) {
     e.preventDefault();
     if (!talent.name || !talent.email) {
       alert("Please fill your name and email.");
       return;
     }
+    setTalentNotice("");
     const subject = `Join the Roster – ${talent.name}`;
     const body =
       `Name: ${talent.name}\n` +
@@ -2645,14 +2707,40 @@ function Contact() {
       `Notes:\n${talent.notes}`;
 
     try {
-      window.location.href = `mailto:info@weardmgmt.com?subject=${encodeURIComponent(
-        subject
-      )}&body=${encodeURIComponent(body)}`;
+      if (EMAILJS_SERVICE_ID && EMAILJS_PUBLIC_KEY && EMAILJS_TALENT_TEMPLATE_ID) {
+        setIsSendingTalent(true);
+        await sendEmail(EMAILJS_TALENT_TEMPLATE_ID, {
+          subject,
+          name: talent.name,
+          email: talent.email,
+          number: talent.number,
+          instagram: talent.ig,
+          tiktok: talent.tt,
+          other: talent.other,
+          category: talent.category,
+          location: talent.location,
+          availability: talent.availability,
+          notes: talent.notes,
+          message: body,
+        });
+        setTalentNotice("Thanks! Your submission has been sent to info@weardmgmt.com.");
+      } else {
+        sendMailto(
+          subject,
+          body,
+          "We’ve copied your message to the clipboard. Please paste it into an email to info@weardmgmt.com."
+        );
+        setTalentNotice("Your email client should open with your message prefilled.");
+      }
     } catch {
-      navigator.clipboard?.writeText(`${subject}\n\n${body}`);
-      alert(
+      sendMailto(
+        subject,
+        body,
         "We’ve copied your message to the clipboard. Please paste it into an email to info@weardmgmt.com."
       );
+      setTalentNotice("We couldn’t auto-send, so we opened your email client.");
+    } finally {
+      setIsSendingTalent(false);
     }
   }
 
@@ -2815,11 +2903,19 @@ function Contact() {
               </label>
 
               <div className="flex items-center gap-3">
-                <button className={BTN_PRIMARY_CLS}>Send Brief</button>
+                <button
+                  className={`${BTN_PRIMARY_CLS} disabled:opacity-60 disabled:cursor-not-allowed`}
+                  disabled={isSendingBrand}
+                >
+                  {isSendingBrand ? "Sending..." : "Send Brief"}
+                </button>
                 <a href="mailto:info@weardmgmt.com" className="text-sm underline">
                   Email instead
                 </a>
               </div>
+              {brandNotice ? (
+                <p className="text-sm text-neutral-500">{brandNotice}</p>
+              ) : null}
 
               </form>
             ) : (
@@ -2961,11 +3057,19 @@ function Contact() {
               </label>
 
               <div className="flex items-center gap-3">
-                <button className={BTN_PRIMARY_CLS}>Submit</button>
+                <button
+                  className={`${BTN_PRIMARY_CLS} disabled:opacity-60 disabled:cursor-not-allowed`}
+                  disabled={isSendingTalent}
+                >
+                  {isSendingTalent ? "Sending..." : "Submit"}
+                </button>
                 <a href="mailto:info@weardmgmt.com" className="text-sm underline">
                   Email instead
                 </a>
               </div>
+              {talentNotice ? (
+                <p className="text-sm text-neutral-500">{talentNotice}</p>
+              ) : null}
               </form>
             )}
 
