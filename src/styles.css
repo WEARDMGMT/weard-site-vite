@@ -196,18 +196,60 @@ body.weard-loading {
   z-index: 60;
   display: grid;
   place-items: center;
-  background: radial-gradient(900px 500px at 20% 20%, rgba(217, 255, 90, 0.12), transparent 60%),
-    radial-gradient(700px 420px at 80% 70%, rgba(91, 33, 182, 0.2), transparent 65%),
-    #050505;
+  background:
+    radial-gradient(1200px 700px at 15% 15%, rgba(217, 255, 90, 0.16), transparent 55%),
+    radial-gradient(900px 600px at 85% 20%, rgba(67, 56, 202, 0.22), transparent 60%),
+    radial-gradient(800px 520px at 70% 85%, rgba(16, 185, 129, 0.18), transparent 65%),
+    linear-gradient(135deg, rgba(8, 8, 12, 0.98), rgba(3, 3, 6, 0.98));
   color: #f4f6e9;
+  overflow: hidden;
+}
+
+.weard-loader__fx {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.weard-loader__glow {
+  position: absolute;
+  width: min(52vw, 520px);
+  height: min(52vw, 520px);
+  border-radius: 999px;
+  filter: blur(0px);
+  opacity: 0.7;
+  animation: weard-glow-drift 8s ease-in-out infinite;
+}
+
+.weard-loader__glow--a {
+  top: -12%;
+  left: -10%;
+  background: radial-gradient(circle, rgba(217, 255, 90, 0.4), transparent 65%);
+}
+
+.weard-loader__glow--b {
+  bottom: -18%;
+  right: -8%;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.35), transparent 60%);
+  animation-delay: -2s;
+}
+
+.weard-loader__glow--c {
+  top: 30%;
+  right: 18%;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.28), transparent 60%);
+  animation-delay: -4s;
 }
 
 .weard-loader__core {
   display: grid;
-  gap: 18px;
+  gap: 20px;
   align-items: center;
   justify-items: center;
   text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
 .weard-loader__orbit {
@@ -251,15 +293,18 @@ body.weard-loading {
   font-weight: 800;
   letter-spacing: 0.35em;
   text-indent: 0.35em;
-  color: #d9ff5a;
-  text-shadow: 0 0 20px rgba(217, 255, 90, 0.35);
+  background: linear-gradient(90deg, #d9ff5a, #7dd3fc, #a855f7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 22px rgba(217, 255, 90, 0.35);
 }
 
 .weard-loader__tagline {
   text-transform: uppercase;
-  letter-spacing: 0.2em;
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.24em;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.78);
 }
 
 .weard-loader__pulse {
@@ -274,8 +319,8 @@ body.weard-loading {
 .weard-loader__pulse span {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(217, 255, 90, 0.85), transparent);
-  animation: weard-loader-scan 1.4s ease-in-out infinite;
+  background: linear-gradient(90deg, transparent, rgba(217, 255, 90, 0.95), rgba(56, 189, 248, 0.65), transparent);
+  animation: weard-loader-scan 1.6s ease-in-out infinite;
 }
 
 .weard-logo-carousel {
@@ -391,6 +436,18 @@ body.weard-loading {
   }
 }
 
+@keyframes weard-glow-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.65;
+  }
+  50% {
+    transform: translate3d(20px, -18px, 0) scale(1.05);
+    opacity: 0.9;
+  }
+}
+
 @keyframes weard-loader-scan {
   0% {
     transform: translateX(-70%);
@@ -429,7 +486,8 @@ body.weard-loading {
   }
 
   .weard-loader__orbit,
-  .weard-loader__pulse span {
+  .weard-loader__pulse span,
+  .weard-loader__glow {
     animation: none;
   }
 }
