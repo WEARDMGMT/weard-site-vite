@@ -61,6 +61,11 @@ const LoadingScreen = () => (
     animate={{ opacity: 1 }}
     exit={{ opacity: 0, transition: { duration: 0.6 } }}
   >
+    <div className="weard-loader__fx" aria-hidden="true">
+      <span className="weard-loader__glow weard-loader__glow--a" />
+      <span className="weard-loader__glow weard-loader__glow--b" />
+      <span className="weard-loader__glow weard-loader__glow--c" />
+    </div>
     <div className="weard-loader__core">
       <div className="weard-loader__orbit" aria-hidden="true">
         <span className="weard-loader__dot weard-loader__dot--a" />
@@ -68,7 +73,7 @@ const LoadingScreen = () => (
         <span className="weard-loader__dot weard-loader__dot--c" />
       </div>
       <div className="weard-loader__mark">WEARD</div>
-      <div className="weard-loader__tagline">Syncing the signal</div>
+      <div className="weard-loader__tagline">Because normal doesnt trend</div>
       <div className="weard-loader__pulse">
         <span />
       </div>
