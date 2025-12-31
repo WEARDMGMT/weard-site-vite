@@ -618,9 +618,9 @@ useEffect(() => {
     if (activePage === "profile") return;
     const meta = {
       home: {
-        title: "WEARD Management | Asia-Pacific Influencer Talent Management Agency",
+        title: "WEARD Management | Global Influencer Talent Management Agency",
         description:
-          "WEARD Management (WEARDMGMT) is a global influencer talent management agency for Asia, APAC, Thailand, Hong Kong, the UK, and the US, delivering cross-border creator campaigns.",
+          "WEARD Management (WEARDMGMT) connects brands with creators across Asia, APAC, Thailand, Hong Kong, the UK, and the US, delivering cross-border talent management and creator campaigns.",
       },
       about: {
         title: "About WEARD Management | Cross-Border Influencer Management",
@@ -1253,9 +1253,9 @@ function Home({ onExploreRoster, onWorkWithUs }) {
           WE ARE <RotatingWords words={WEARE_WORDS} />
         </h1>
         <p className="mt-5 text-base sm:text-lg text-neutral-700 dark:text-neutral-200 max-w-prose">
-          WEARD Management (WEARDMGMT) is an Asia-Pacific influencer talent management agency
-          delivering cross-border influencer marketing across Asia, APAC, Thailand, Hong Kong,
-          the UK, and the US.<br />
+          WEARD Management (WEARDMGMT) is a global influencer talent management agency connecting
+          Asia, APAC, Thailand, Hong Kong, the UK, and the US through cross-border creator
+          campaigns.<br />
           Global influence. Global campaigns. Global talent.
         </p>
         <div className="mt-8 flex flex-wrap gap-3 justify-center">
