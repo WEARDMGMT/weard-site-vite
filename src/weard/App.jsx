@@ -2997,7 +2997,7 @@ function Footer({ onNav }) {
     <footer className="border-t border-neutral-200 dark:border-neutral-800">
       <div className="max-w-7xl mx-auto px-4 py-8 grid md:grid-cols-4 gap-6 items-start">
         <div>
-          <div className={cn("font-black tracking-widest", TEXT_GRAD)}>WEARD</div>
+          <div className={cn("inline-block font-black tracking-widest", TEXT_GRAD)}>WEARD</div>
           <div className="text-xs uppercase tracking-[0.25em] text-neutral-500">Management</div>
         </div>
         <div className="text-sm text-neutral-600 dark:text-neutral-400 text-center md:text-left">
