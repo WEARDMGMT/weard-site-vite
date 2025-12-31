@@ -67,10 +67,20 @@ const LoadingScreen = () => (
       <span className="weard-loader__glow weard-loader__glow--c" />
     </div>
     <div className="weard-loader__core">
-      <div className="weard-loader__orbit" aria-hidden="true">
-        <span className="weard-loader__dot weard-loader__dot--a" />
-        <span className="weard-loader__dot weard-loader__dot--b" />
-        <span className="weard-loader__dot weard-loader__dot--c" />
+      <div className="weard-loader__rig" aria-hidden="true">
+        <div className="weard-loader__ring weard-loader__ring--outer" />
+        <div className="weard-loader__ring weard-loader__ring--inner" />
+        <div className="weard-loader__orbit">
+          <span className="weard-loader__dot weard-loader__dot--a" />
+          <span className="weard-loader__dot weard-loader__dot--b" />
+          <span className="weard-loader__dot weard-loader__dot--c" />
+        </div>
+        <div className="weard-loader__sparkles">
+          <span className="weard-loader__sparkle weard-loader__sparkle--a" />
+          <span className="weard-loader__sparkle weard-loader__sparkle--b" />
+          <span className="weard-loader__sparkle weard-loader__sparkle--c" />
+          <span className="weard-loader__sparkle weard-loader__sparkle--d" />
+        </div>
       </div>
       <div className="weard-loader__mark">WEARD</div>
       <div className="weard-loader__tagline">Because normal doesnt trend</div>

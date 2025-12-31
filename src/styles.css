@@ -252,6 +252,14 @@ body.weard-loading {
   z-index: 1;
 }
 
+.weard-loader__rig {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  display: grid;
+  place-items: center;
+}
+
 .weard-loader__orbit {
   position: relative;
   width: 90px;
@@ -260,6 +268,68 @@ body.weard-loading {
   border: 1px solid rgba(217, 255, 90, 0.25);
   box-shadow: inset 0 0 30px rgba(217, 255, 90, 0.15);
   animation: weard-orbit-spin 3.2s linear infinite;
+}
+
+.weard-loader__ring {
+  position: absolute;
+  border-radius: 999px;
+  border: 1px solid rgba(125, 211, 252, 0.22);
+  box-shadow: 0 0 24px rgba(125, 211, 252, 0.15);
+  animation: weard-ring-pulse 2.8s ease-in-out infinite;
+}
+
+.weard-loader__ring--outer {
+  inset: -8px;
+  border-color: rgba(217, 255, 90, 0.3);
+  box-shadow: 0 0 32px rgba(217, 255, 90, 0.2);
+  animation-delay: -0.6s;
+}
+
+.weard-loader__ring--inner {
+  inset: 16px;
+  border-style: dashed;
+  border-color: rgba(168, 85, 247, 0.35);
+  box-shadow: 0 0 18px rgba(168, 85, 247, 0.25);
+  animation-duration: 2.2s;
+}
+
+.weard-loader__sparkles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.weard-loader__sparkle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(244, 246, 233, 0.85);
+  box-shadow: 0 0 12px rgba(244, 246, 233, 0.5);
+  animation: weard-sparkle 2.6s ease-in-out infinite;
+}
+
+.weard-loader__sparkle--a {
+  top: 8px;
+  right: 38px;
+}
+
+.weard-loader__sparkle--b {
+  bottom: 24px;
+  left: 18px;
+  animation-delay: -1.2s;
+}
+
+.weard-loader__sparkle--c {
+  top: 48px;
+  left: 10px;
+  animation-delay: -0.8s;
+}
+
+.weard-loader__sparkle--d {
+  bottom: 18px;
+  right: 20px;
+  animation-delay: -1.6s;
 }
 
 .weard-loader__dot {
@@ -436,6 +506,18 @@ body.weard-loading {
   }
 }
 
+@keyframes weard-ring-pulse {
+  0%,
+  100% {
+    transform: scale(0.96);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.04);
+    opacity: 1;
+  }
+}
+
 @keyframes weard-glow-drift {
   0%,
   100% {
@@ -454,6 +536,18 @@ body.weard-loading {
   }
   100% {
     transform: translateX(70%);
+  }
+}
+
+@keyframes weard-sparkle {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(0.6);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate3d(4px, -6px, 0) scale(1.1);
+    opacity: 1;
   }
 }
 
@@ -487,7 +581,9 @@ body.weard-loading {
 
   .weard-loader__orbit,
   .weard-loader__pulse span,
-  .weard-loader__glow {
+  .weard-loader__glow,
+  .weard-loader__ring,
+  .weard-loader__sparkle {
     animation: none;
   }
 }
