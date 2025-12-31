@@ -77,6 +77,20 @@ const TEXT_GRAD = "bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 b
 const INPUT_CLS =
   "w-full px-4 py-2 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 placeholder-neutral-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500";
 const BTN_PRIMARY_CLS = `${GRADIENT} inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500`;
+const CONSENT_STORAGE_KEY = "weard-cookie-consent";
+const HUBSPOT_SCRIPT_ID = "hs-script-loader";
+const HUBSPOT_SCRIPT_SRC = "//js-eu1.hs-scripts.com/147478125.js";
+
+const loadHubspotScript = () => {
+  if (document.getElementById(HUBSPOT_SCRIPT_ID)) return;
+  const script = document.createElement("script");
+  script.type = "text/javascript";
+  script.id = HUBSPOT_SCRIPT_ID;
+  script.async = true;
+  script.defer = true;
+  script.src = HUBSPOT_SCRIPT_SRC;
+  document.body.appendChild(script);
+};
 
 // Media placeholders (swap with real assets when ready)
 const MEDIA = {
@@ -475,6 +489,10 @@ export default function App() {
   const [activePage, setActivePage] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedCreator, setSelectedCreator] = useState(null);
+  const [cookieConsent, setCookieConsent] = useState(() => {
+    if (typeof window === "undefined") return null;
+    return window.localStorage.getItem(CONSENT_STORAGE_KEY);
+  });
   const creatorSlugMap = useMemo(() => {
     const map = new Map();
     creators.forEach((creator) => {
@@ -534,6 +552,16 @@ useEffect(() => {
     window.addEventListener("popstate", handlePopState);
     return () => window.removeEventListener("popstate", handlePopState);
   }, [creatorSlugMap]);
+
+  useEffect(() => {
+    if (cookieConsent !== "accepted") return;
+    loadHubspotScript();
+  }, [cookieConsent]);
+
+  const handleCookieConsent = (value) => {
+    setCookieConsent(value);
+    window.localStorage.setItem(CONSENT_STORAGE_KEY, value);
+  };
 
   useEffect(() => {
     if (activePage === "profile") return;
@@ -825,6 +853,43 @@ useEffect(() => {
         </AnimatePresence>
       </main>
 
+      {cookieConsent == null && (
+        <div className="fixed inset-x-0 bottom-0 z-50 border-t border-neutral-200 bg-white/95 px-4 py-4 shadow-lg backdrop-blur dark:border-neutral-800 dark:bg-neutral-950/95">
+          <div className="mx-auto flex w-full max-w-5xl flex-col gap-4 text-sm text-neutral-700 dark:text-neutral-200 sm:flex-row sm:items-center sm:justify-between">
+            <div className="space-y-2">
+              <p className="font-semibold text-neutral-900 dark:text-neutral-100">Cookies & analytics</p>
+              <p>
+                We use cookies to understand site traffic and improve your experience. You can accept or decline analytics cookies.
+                Review our{" "}
+                <button
+                  type="button"
+                  onClick={() => navigate("privacy")}
+                  className="font-semibold text-indigo-600 underline underline-offset-4 dark:text-indigo-300"
+                >
+                  Privacy Policy
+                </button>
+                .
+              </p>
+            </div>
+            <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
+              <button
+                type="button"
+                onClick={() => handleCookieConsent("declined")}
+                className="inline-flex items-center justify-center rounded-full border border-neutral-300 px-4 py-2 text-sm font-semibold text-neutral-700 transition hover:border-neutral-400 hover:text-neutral-900 dark:border-neutral-700 dark:text-neutral-200 dark:hover:border-neutral-500"
+              >
+                Decline
+              </button>
+              <button
+                type="button"
+                onClick={() => handleCookieConsent("accepted")}
+                className="inline-flex items-center justify-center rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-500"
+              >
+                Accept
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <Footer onNav={navigate} />
     </div>
   );
