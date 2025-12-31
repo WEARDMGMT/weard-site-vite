@@ -53,6 +53,28 @@ const VideoHover = ({ src, poster, className }) => {
     />
   );
 };
+
+const LoadingScreen = () => (
+  <motion.div
+    className="weard-loader"
+    initial={{ opacity: 1 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0, transition: { duration: 0.6 } }}
+  >
+    <div className="weard-loader__core">
+      <div className="weard-loader__orbit" aria-hidden="true">
+        <span className="weard-loader__dot weard-loader__dot--a" />
+        <span className="weard-loader__dot weard-loader__dot--b" />
+        <span className="weard-loader__dot weard-loader__dot--c" />
+      </div>
+      <div className="weard-loader__mark">WEARD</div>
+      <div className="weard-loader__tagline">Syncing the signal</div>
+      <div className="weard-loader__pulse">
+        <span />
+      </div>
+    </div>
+  </motion.div>
+);
 // ======= CONFIG =======
 const SHEET_URL =
   import.meta.env.VITE_SHEET_URL ||
@@ -472,6 +494,7 @@ let mapped = rows
 // ======= APP =======
 export default function App() {
   const creators = useRosterHydration();
+  const [isLoading, setIsLoading] = useState(true);
   const [activePage, setActivePage] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedCreator, setSelectedCreator] = useState(null);
@@ -528,6 +551,33 @@ useEffect(() => {
   useEffect(() => {
     resolveRoute(window.location.pathname);
   }, [creatorSlugMap]);
+
+  useEffect(() => {
+    let minPassed = false;
+    let loaded = document.readyState === "complete";
+    const timer = setTimeout(() => {
+      minPassed = true;
+      if (loaded) setIsLoading(false);
+    }, 1200);
+
+    const handleLoad = () => {
+      loaded = true;
+      if (minPassed) setIsLoading(false);
+    };
+
+    window.addEventListener("load", handleLoad);
+    if (loaded) handleLoad();
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("load", handleLoad);
+    };
+  }, []);
+
+  useEffect(() => {
+    document.body.classList.toggle("weard-loading", isLoading);
+    return () => document.body.classList.remove("weard-loading");
+  }, [isLoading]);
 
   useEffect(() => {
     const handlePopState = () => resolveRoute(window.location.pathname);
@@ -642,6 +692,7 @@ useEffect(() => {
   }, [creators]);
   return (
     <div className="min-h-screen bg-white text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100 transition-colors">
+      <AnimatePresence>{isLoading ? <LoadingScreen /> : null}</AnimatePresence>
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
