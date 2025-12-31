@@ -287,7 +287,6 @@ const PAGE_PATHS = {
   "hong-kong-influencer-management": "/hong-kong-influencer-management",
   "asia-to-uk-influencer-marketing": "/asia-to-uk-influencer-marketing",
   "asia-to-us-influencer-marketing": "/asia-to-us-influencer-marketing",
-  "case-studies": "/case-studies",
 };
 
 // Lightweight intersection observer for lazy loading
@@ -598,11 +597,6 @@ useEffect(() => {
         description:
           "Asia to US influencer marketing and management bridging Asian brands with US creators and audiences.",
       },
-      "case-studies": {
-        title: "Case Studies | WEARD Management Global Influencer Campaigns",
-        description:
-          "Explore WEARD’s global influencer campaigns, multi-market activations, and cross-border creator partnerships.",
-      },
     };
     const metaConfig = meta[activePage] || meta.home;
     document.title = metaConfig.title;
@@ -828,12 +822,6 @@ useEffect(() => {
               />
             </motion.section>
           )}
-          {activePage === "case-studies" && (
-            <motion.section key="case-studies" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
-              <CaseStudies onNav={navigate} />
-            </motion.section>
-          )}
-          
         </AnimatePresence>
       </main>
 
@@ -1801,76 +1789,12 @@ function MarketingLanding({
           >
             Brand partnerships <ArrowRight size={14} />
           </SiteLink>
-          <SiteLink
-            to="case-studies"
-            onNav={onNav}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-neutral-300 dark:border-neutral-700 text-sm"
-          >
-            View case studies <ArrowRight size={14} />
-          </SiteLink>
           <button
             onClick={() => onNav?.("contact")}
             className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm text-white ${GRADIENT}`}
           >
             Work with WEARD <ArrowRight size={14} />
           </button>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function CaseStudies({ onNav }) {
-  const studies = [
-    {
-      title: "Asia-to-UK creator campaign for premium beauty",
-      body: "A cross-border influencer marketing activation pairing Thai and UK creators to drive brand-safe creator partnerships and performance-driven influencer marketing.",
-    },
-    {
-      title: "APAC multi-market fashion launch",
-      body: "End-to-end influencer management across Hong Kong, Thailand, and the US with whitelisted content and paid social amplification.",
-    },
-    {
-      title: "Global brand expansion via US creator collaborations",
-      body: "International influencer management connecting Asian brands to US creators and audiences with ROI-focused creator campaigns.",
-    },
-  ];
-
-  return (
-    <section className="max-w-6xl mx-auto px-4 py-12">
-      <div className="rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white/90 dark:bg-neutral-950 p-8">
-        <p className="text-xs uppercase tracking-[0.35em] text-neutral-400">Case studies</p>
-        <h1 className="mt-4 text-4xl sm:text-5xl font-bold">
-          Global influencer campaigns and cross-border activations
-        </h1>
-        <p className="mt-4 text-sm text-neutral-600 dark:text-neutral-400 max-w-3xl">
-          WEARD delivers brand-safe creator partnerships, creator representation, and multi-market
-          activations that connect Asian brands with Western audiences across the UK and US.
-        </p>
-        <div className="mt-6 grid gap-4 md:grid-cols-3">
-          {studies.map((study) => (
-            <div
-              key={study.title}
-              className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4 text-sm text-neutral-600 dark:text-neutral-400"
-            >
-              <h3 className="font-semibold text-neutral-900 dark:text-neutral-100">{study.title}</h3>
-              <p className="mt-2">{study.body}</p>
-            </div>
-          ))}
-        </div>
-        <div className="mt-8 flex flex-wrap gap-3">
-          <SiteLink to="asia-influencer-marketing" onNav={onNav} className="underline text-sm">
-            Asia influencer marketing
-          </SiteLink>
-          <SiteLink to="apac-influencer-marketing" onNav={onNav} className="underline text-sm">
-            APAC influencer management
-          </SiteLink>
-          <SiteLink to="asia-to-uk-influencer-marketing" onNav={onNav} className="underline text-sm">
-            Asia to UK influencer marketing
-          </SiteLink>
-          <SiteLink to="asia-to-us-influencer-marketing" onNav={onNav} className="underline text-sm">
-            Asia to US influencer marketing
-          </SiteLink>
         </div>
       </div>
     </section>
@@ -1907,9 +1831,6 @@ function BrandPartnerships({ onNav }) {
           </div>
         </div>
         <div className="mt-8 flex flex-wrap gap-3">
-          <SiteLink to="case-studies" onNav={onNav} className="underline text-sm">
-            View case studies
-          </SiteLink>
           <SiteLink to="asia-influencer-marketing" onNav={onNav} className="underline text-sm">
             Asia influencer marketing
           </SiteLink>
@@ -3140,9 +3061,6 @@ function Footer({ onNav }) {
            <button onClick={() => onNav("privacy")} className="underline">
            Privacy
            </button> {/* NEW */}
-          <button onClick={() => onNav("case-studies")} className="underline">
-            Case Studies
-          </button>
         </div>
       </div>
     </footer>
