@@ -2665,14 +2665,16 @@ function Contact() {
           outline: form.outline,
           message: body,
         });
-        setBrandNotice("Thanks! Your brief has been sent to info@weardmgmt.com.");
+        setBrandNotice("Submission completed.");
       } else {
         sendMailto(
           subject,
           body,
           "We’ve copied your brief to the clipboard. Please paste it into an email to info@weardmgmt.com."
         );
-        setBrandNotice("Your email client should open with the brief prefilled.");
+        setBrandNotice(
+          "Submission completed. Please send the email that opened to reach info@weardmgmt.com."
+        );
       }
     } catch {
       sendMailto(
@@ -2680,7 +2682,9 @@ function Contact() {
         body,
         "We’ve copied your brief to the clipboard. Please paste it into an email to info@weardmgmt.com."
       );
-      setBrandNotice("We couldn’t auto-send, so we opened your email client.");
+      setBrandNotice(
+        "Submission completed. We couldn’t auto-send, so we opened your email client."
+      );
     } finally {
       setIsSendingBrand(false);
     }
@@ -2723,14 +2727,16 @@ function Contact() {
           notes: talent.notes,
           message: body,
         });
-        setTalentNotice("Thanks! Your submission has been sent to info@weardmgmt.com.");
+        setTalentNotice("Submission completed.");
       } else {
         sendMailto(
           subject,
           body,
           "We’ve copied your message to the clipboard. Please paste it into an email to info@weardmgmt.com."
         );
-        setTalentNotice("Your email client should open with your message prefilled.");
+        setTalentNotice(
+          "Submission completed. Please send the email that opened to reach info@weardmgmt.com."
+        );
       }
     } catch {
       sendMailto(
@@ -2738,7 +2744,9 @@ function Contact() {
         body,
         "We’ve copied your message to the clipboard. Please paste it into an email to info@weardmgmt.com."
       );
-      setTalentNotice("We couldn’t auto-send, so we opened your email client.");
+      setTalentNotice(
+        "Submission completed. We couldn’t auto-send, so we opened your email client."
+      );
     } finally {
       setIsSendingTalent(false);
     }
@@ -3111,17 +3119,14 @@ function Footer({ onNav }) {
         <div className="text-sm text-neutral-600 dark:text-neutral-400">
           <div className="text-xs uppercase tracking-[0.25em] text-neutral-400">Markets</div>
           <div className="mt-2 grid gap-1">
-            <SiteLink to="asia-influencer-marketing" onNav={onNav} className="underline">
-              Asia influencer marketing
+            <SiteLink to="asia-to-uk-influencer-marketing" onNav={onNav} className="underline">
+              UK influencer marketing
             </SiteLink>
             <SiteLink to="apac-influencer-marketing" onNav={onNav} className="underline">
-              APAC influencer management
+              APAC influencer marketing
             </SiteLink>
-            <SiteLink to="thailand-influencer-marketing" onNav={onNav} className="underline">
-              Thailand influencer marketing
-            </SiteLink>
-            <SiteLink to="hong-kong-influencer-management" onNav={onNav} className="underline">
-              Hong Kong influencer management
+            <SiteLink to="asia-to-uk-influencer-marketing" onNav={onNav} className="underline">
+              Smartway Asia-to-UK specialities
             </SiteLink>
           </div>
         </div>
