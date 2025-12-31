@@ -44,6 +44,21 @@
     <meta name="twitter:image:alt" content="WEARD Management brand banner" />
     <meta name="twitter:site" content="@weardmgmt" />
 
+    <script>
+      (function (location) {
+        if (location.search[1] === "/") {
+          var decoded = location.search
+            .slice(1)
+            .split("&")
+            .map(function (segment) {
+              return segment.replace(/~and~/g, "&");
+            })
+            .join("?");
+          window.history.replaceState(null, "", decoded + location.hash);
+        }
+      })(window.location);
+    </script>
+
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
