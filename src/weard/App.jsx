@@ -281,12 +281,8 @@ const PAGE_PATHS = {
   contact: "/contact",
   brands: "/brands",
   privacy: "/privacy",
-  "asia-influencer-marketing": "/asia-influencer-marketing",
   "apac-influencer-marketing": "/apac-influencer-marketing",
-  "thailand-influencer-marketing": "/thailand-influencer-marketing",
-  "hong-kong-influencer-management": "/hong-kong-influencer-management",
   "asia-to-uk-influencer-marketing": "/asia-to-uk-influencer-marketing",
-  "asia-to-us-influencer-marketing": "/asia-to-us-influencer-marketing",
 };
 
 // Lightweight intersection observer for lazy loading
@@ -567,35 +563,15 @@ useEffect(() => {
         title: "Privacy Policy | WEARD Management",
         description: "WEARD Management privacy policy and data protection information.",
       },
-      "asia-influencer-marketing": {
-        title: "Asia Influencer Marketing | WEARD Management",
-        description:
-          "Asia influencer marketing and talent management from WEARD Management, connecting Asian brands with creators for global influencer campaigns.",
-      },
       "apac-influencer-marketing": {
         title: "APAC Influencer Marketing | WEARD Management",
         description:
-          "APAC influencer marketing and talent management agency delivering multi-market activations across Asia-Pacific.",
-      },
-      "thailand-influencer-marketing": {
-        title: "Thailand Influencer Marketing | WEARD Management",
-        description:
-          "Thailand influencer marketing and talent management agency for Bangkok, Phuket, and Southeast Asia influencer campaigns.",
-      },
-      "hong-kong-influencer-management": {
-        title: "Hong Kong Influencer Management | WEARD Management",
-        description:
-          "Hong Kong influencer management and marketing agency connecting brands with top talent across Asia and global markets.",
+          "APAC influencer marketing and talent management agency delivering creator campaigns across Asia-Pacific markets.",
       },
       "asia-to-uk-influencer-marketing": {
-        title: "Asia to UK Influencer Marketing | WEARD Management",
+        title: "UK Influencer Marketing | WEARD Management",
         description:
-          "Cross-border influencer marketing connecting Asia to the UK with global creator campaigns and brand-safe partnerships.",
-      },
-      "asia-to-us-influencer-marketing": {
-        title: "Asia to US Influencer Marketing | WEARD Management",
-        description:
-          "Asia to US influencer marketing and management bridging Asian brands with US creators and audiences.",
+          "UK influencer marketing built on cross-border creator campaigns connecting Asian brands with British audiences.",
       },
     };
     const metaConfig = meta[activePage] || meta.home;
@@ -694,28 +670,6 @@ useEffect(() => {
     />
   </motion.section>
 )}
-          {activePage === "asia-influencer-marketing" && (
-            <motion.section key="asia-influencer-marketing" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
-              <MarketingLanding
-                title="Asia Influencer Marketing"
-                primaryKeyword="Asia Influencer Marketing"
-                secondaryKeywords={[
-                  "Asia Influencer Talent Management",
-                  "Asia Influencer Management",
-                  "Asian Influencer Marketing Agency",
-                  "Asia-Pacific Influencer Agency",
-                ]}
-                regionFocus="Asia"
-                bridgeKeywords={[
-                  "Cross-border influencer marketing",
-                  "Global influencer campaigns",
-                  "International influencer management",
-                  "Building bridges between Asian brands and Western audiences",
-                ]}
-                onNav={navigate}
-              />
-            </motion.section>
-          )}
           {activePage === "apac-influencer-marketing" && (
             <motion.section key="apac-influencer-marketing" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
               <MarketingLanding
@@ -723,60 +677,16 @@ useEffect(() => {
                 primaryKeyword="APAC Influencer Marketing"
                 secondaryKeywords={[
                   "APAC Influencer Talent Management",
-                  "APAC Influencer Management",
                   "Asia-Pacific Influencer Agency",
+                  "Regional creator campaigns",
                   "Multi-market activations",
                 ]}
                 regionFocus="APAC"
                 bridgeKeywords={[
-                  "Asia-to-Asia influencer marketing",
-                  "Asia to UK influencer marketing",
-                  "Asia to US influencer marketing",
+                  "Cross-border influencer marketing",
+                  "Creator partnerships across Asia-Pacific",
+                  "Global influencer campaign delivery",
                   "Gateway to Western influencer markets",
-                ]}
-                onNav={navigate}
-              />
-            </motion.section>
-          )}
-          {activePage === "thailand-influencer-marketing" && (
-            <motion.section key="thailand-influencer-marketing" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
-              <MarketingLanding
-                title="Thailand Influencer Marketing"
-                primaryKeyword="Thailand Influencer Marketing"
-                secondaryKeywords={[
-                  "Thailand Influencer Talent Management",
-                  "Thailand Influencer Management Agency",
-                  "Thai Influencer Marketing Agency",
-                  "Bangkok Influencer Agency",
-                  "Southeast Asia Influencer Marketing",
-                  "SEA Influencer Marketing Agency",
-                ]}
-                regionFocus="Thailand"
-                bridgeKeywords={[
-                  "Cross-border influencer marketing",
-                  "Asia to Europe influencer campaigns",
-                  "Connecting Asian brands to UK and US creators",
-                ]}
-                onNav={navigate}
-              />
-            </motion.section>
-          )}
-          {activePage === "hong-kong-influencer-management" && (
-            <motion.section key="hong-kong-influencer-management" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
-              <MarketingLanding
-                title="Hong Kong Influencer Management"
-                primaryKeyword="Hong Kong Influencer Management"
-                secondaryKeywords={[
-                  "Hong Kong Influencer Talent Management",
-                  "Hong Kong Influencer Marketing Agency",
-                  "Hong Kong Influencer Talent Agency",
-                  "Asia Influencer Management",
-                ]}
-                regionFocus="Hong Kong"
-                bridgeKeywords={[
-                  "Cross-border influencer marketing",
-                  "Asia to UK influencer marketing",
-                  "Asia to US influencer marketing",
                 ]}
                 onNav={navigate}
               />
@@ -785,38 +695,20 @@ useEffect(() => {
           {activePage === "asia-to-uk-influencer-marketing" && (
             <motion.section key="asia-to-uk-influencer-marketing" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
               <MarketingLanding
-                title="Asia to UK Influencer Marketing"
-                primaryKeyword="Asia to UK influencer marketing"
+                title="UK Influencer Marketing"
+                primaryKeyword="UK Influencer Marketing"
                 secondaryKeywords={[
-                  "Building bridges between Asian brands and Western audiences",
-                  "Gateway to Western influencer markets",
+                  "Asia to UK influencer marketing",
+                  "UK influencer talent management",
+                  "British creator partnerships",
                   "International influencer management",
                 ]}
-                regionFocus="Asia to UK"
+                regionFocus="the UK"
                 bridgeKeywords={[
                   "Connecting Asian brands to UK creators",
-                  "Global influencer campaigns",
                   "Cross-border influencer marketing",
-                ]}
-                onNav={navigate}
-              />
-            </motion.section>
-          )}
-          {activePage === "asia-to-us-influencer-marketing" && (
-            <motion.section key="asia-to-us-influencer-marketing" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
-              <MarketingLanding
-                title="Asia to US Influencer Marketing"
-                primaryKeyword="Asia to US influencer marketing"
-                secondaryKeywords={[
-                  "Connecting Asian brands to US creators",
-                  "Global influencer campaigns",
-                  "International influencer management",
-                ]}
-                regionFocus="Asia to US"
-                bridgeKeywords={[
-                  "Cross-border influencer marketing",
-                  "Asia to Europe influencer campaigns",
-                  "Gateway to Western influencer markets",
+                  "Brand-safe creator partnerships",
+                  "Global influencer campaign delivery",
                 ]}
                 onNav={navigate}
               />
@@ -1264,11 +1156,10 @@ function Home({ onExploreRoster, onWorkWithUs }) {
         <div className="grid gap-6 lg:grid-cols-3">
           <div className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm">
             <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">Regional expertise</p>
-            <h2 className="mt-3 text-2xl font-semibold">Asia, APAC, Thailand & Hong Kong focus</h2>
+            <h2 className="mt-3 text-2xl font-semibold">Asia, APAC, Thailand, Hong Kong & UK focus</h2>
             <p className="mt-3 text-sm text-neutral-600">
-              We deliver Asia influencer marketing, APAC influencer talent management, Thailand
-              influencer management, and Hong Kong influencer marketing agency support for brands
-              expanding across the region.
+              We deliver Asia and APAC creator campaigns, Thailand and Hong Kong talent management,
+              plus UK market entry support for brands expanding across the region.
             </p>
           </div>
           <div className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm">
@@ -1436,7 +1327,7 @@ function HeroCarousel({ onExploreRoster, onWorkWithUs }) {
       <div className="weard-hero__overlay">
         <div className="weard-hero__glass">
           <h1>WEARD</h1>
-          <p>WEARD influencer management for Asia-to-global creator campaigns.</p>
+          <p>A global talent management agency specialising across the UK and Asia.</p>
           <div className="weard-hero__cta">
             <button
               onClick={onExploreRoster}
@@ -1541,7 +1432,7 @@ function About() {
             Influencer management, done differently
           </div>
           <h2 className="mt-5 text-4xl sm:text-5xl font-bold text-neutral-900">
-            Aesthetic campaigns backed by creator-first management.
+            Influencer campaigns backed by creator-first management.
           </h2>
           <p className="mt-4 text-neutral-700 dark:text-neutral-300 max-w-2xl">
             WEARD blends boutique attention with global scale as an influencer talent management
@@ -1736,8 +1627,8 @@ function MarketingLanding({
         <h1 className="mt-4 text-4xl sm:text-5xl font-bold">{title}</h1>
         <p className="mt-4 text-sm text-neutral-600 dark:text-neutral-400 max-w-3xl">
           WEARD Management delivers {primaryKeyword} with creator representation, influencer talent
-          management, and brand-safe creator partnerships tailored to {regionFocus}. We connect
-          Asian brands to UK and US creators through cross-border influencer marketing and
+          management, and brand-safe creator partnerships tailored to {regionFocus}. We build
+          bridges between Asian and Western audiences through cross-border influencer marketing and
           performance-driven influencer campaigns.
         </p>
         <div className="mt-6 grid gap-4 sm:grid-cols-2">
@@ -1835,8 +1726,11 @@ function BrandPartnerships({ onNav }) {
           </div>
         </div>
         <div className="mt-8 flex flex-wrap gap-3">
-          <SiteLink to="asia-influencer-marketing" onNav={onNav} className="underline text-sm">
-            Asia influencer marketing
+          <SiteLink to="apac-influencer-marketing" onNav={onNav} className="underline text-sm">
+            APAC influencer marketing
+          </SiteLink>
+          <SiteLink to="asia-to-uk-influencer-marketing" onNav={onNav} className="underline text-sm">
+            UK influencer marketing
           </SiteLink>
           <SiteLink to="roster" onNav={onNav} className="underline text-sm">
             Explore creator roster
@@ -2055,26 +1949,14 @@ function CreatorDirectory({ creators = [], onNav }) {
         by WEARD across Asia, APAC, Thailand, Hong Kong, the UK, and the US.
       </p>
       <div className="mt-4 flex flex-wrap gap-2 text-xs text-neutral-500">
-        <SiteLink to="asia-influencer-marketing" onNav={onNav} className="underline">
-          Asia influencer marketing
-        </SiteLink>
         <SiteLink to="apac-influencer-marketing" onNav={onNav} className="underline">
           APAC influencer talent management
         </SiteLink>
         <SiteLink to="brands" onNav={onNav} className="underline">
           Brand partnerships
         </SiteLink>
-        <SiteLink to="thailand-influencer-marketing" onNav={onNav} className="underline">
-          Thailand influencer marketing
-        </SiteLink>
-        <SiteLink to="hong-kong-influencer-management" onNav={onNav} className="underline">
-          Hong Kong influencer management
-        </SiteLink>
         <SiteLink to="asia-to-uk-influencer-marketing" onNav={onNav} className="underline">
-          Asia to UK influencer marketing
-        </SiteLink>
-        <SiteLink to="asia-to-us-influencer-marketing" onNav={onNav} className="underline">
-          Asia to US influencer marketing
+          UK influencer marketing
         </SiteLink>
       </div>
       <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 text-sm">
@@ -3049,9 +2931,6 @@ function Footer({ onNav }) {
             </SiteLink>
             <SiteLink to="apac-influencer-marketing" onNav={onNav} className="underline">
               APAC influencer marketing
-            </SiteLink>
-            <SiteLink to="asia-to-uk-influencer-marketing" onNav={onNav} className="underline">
-              Smartway Asia-to-UK specialities
             </SiteLink>
           </div>
         </div>
