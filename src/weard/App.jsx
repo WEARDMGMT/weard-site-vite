@@ -62,7 +62,6 @@ const GEO_URL = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json";
 // Accurate country flags
 const FLAG_SRC = {
   "United Kingdom": "https://flagcdn.com/gb.svg",
-  "United States": "https://flagcdn.com/us.svg",
   "Hong Kong": "https://flagcdn.com/hk.svg",
   Thailand: "https://flagcdn.com/th.svg",
 };
@@ -1651,7 +1650,6 @@ const CountryFlagIcon = ({ country }) => (
 function WhereWeWork() {
   const offices = [
     { country: "United Kingdom", city: "London", coords: [-0.1276, 51.5072] },
-    { country: "United States", city: "Los Angeles / NYC", coords: [-118.2437, 34.0522] },
     { country: "Hong Kong", city: "Hong Kong", coords: [114.1694, 22.3193] },
     { country: "Thailand", city: "Bangkok / Phuket", coords: [100.5018, 13.7563] },
   ];
@@ -1662,7 +1660,7 @@ function WhereWeWork() {
   return (
     <div className="mt-12">
       <h3 className="text-[22px] sm:text-2xl font-semibold">Our Growing Reach</h3>
-      <p className="mt-1 text-xs text-neutral-500">United Kingdom · United States · Hong Kong · Thailand</p>
+      <p className="mt-1 text-xs text-neutral-500">United Kingdom · Hong Kong · Thailand</p>
       <div className="mt-6 grid lg:grid-cols-3 gap-6">
         {/* Map */}
         <div
