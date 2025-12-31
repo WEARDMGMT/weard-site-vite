@@ -208,6 +208,26 @@ video: MEDIA.creators.OliveTreeFamily.video,
   bio: "The Olive Tree Family is a lively and engaging Scottish household turning everyday life into authentic stories. From delicious family food content and immersive experiences to travel adventures and comforting at-home moments, they create warm, relatable posts that resonate with families across the UK and beyond. Their thriving TikTok and Instagram community looks to them for genuine, family-friendly inspiration and everyday lifestyle ideas.",
   top_audience: ["United Kingdom"],
 },
+{
+  name: "Emily Uddman",
+  category: "Lifestyle",
+  instagram: "https://www.instagram.com/emily.uddman/?hl=en",
+  tiktok: "https://www.tiktok.com/@emily.uddman",
+  instagram_followers: 90200,
+  tiktok_followers: 378700,
+  tags: ["Lifestyle", "Beauty"],
+  rosterVisible: false,
+},
+{
+  name: "Zophia",
+  category: "Lifestyle",
+  instagram: "https://www.instagram.com/zophia.zz/",
+  tiktok: "https://www.tiktok.com/@zophia.6905?lang=en",
+  instagram_followers: 251000,
+  tiktok_followers: 922400,
+  tags: ["Lifestyle", "Fashion"],
+  rosterVisible: false,
+},
 ];
 
 const CATEGORIES = [
@@ -1336,7 +1356,7 @@ function Roster() {
 
   // Filter creators
   const filtered = useMemo(() => {
-    let data = creators;
+    let data = creators.filter((creator) => creator.rosterVisible !== false);
 
     // category filter
     if (tab !== "All") {
