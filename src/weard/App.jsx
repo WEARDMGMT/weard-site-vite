@@ -264,6 +264,27 @@ const shortFormat = (n) => {
   if (n < 1_000_000) return `${(n / 1_000).toFixed(n % 1000 === 0 ? 0 : 1)}K`;
   return `${(n / 1_000_000).toFixed(n % 1_000_000 === 0 ? 0 : 1)}M`;
 };
+const slugify = (value = "") =>
+  value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+const PAGE_PATHS = {
+  home: "/",
+  about: "/about",
+  roster: "/roster",
+  contact: "/contact",
+  brands: "/brands",
+  privacy: "/privacy",
+  "asia-influencer-marketing": "/asia-influencer-marketing",
+  "apac-influencer-marketing": "/apac-influencer-marketing",
+  "thailand-influencer-marketing": "/thailand-influencer-marketing",
+  "hong-kong-influencer-management": "/hong-kong-influencer-management",
+  "asia-to-uk-influencer-marketing": "/asia-to-uk-influencer-marketing",
+  "asia-to-us-influencer-marketing": "/asia-to-us-influencer-marketing",
+  "case-studies": "/case-studies",
+};
 
 // Lightweight intersection observer for lazy loading
 function useInView(options) {
@@ -420,7 +441,17 @@ let mapped = rows
           return c;
         });
 
-        if (!canceled && mapped.length) setCreators(mapped);
+        const existingNames = new Set(
+          mapped.map((creator) => creator.name?.toLowerCase()).filter(Boolean)
+        );
+        const merged = [
+          ...mapped,
+          ...initialCreators.filter(
+            (creator) => !existingNames.has(creator.name?.toLowerCase())
+          ),
+        ];
+
+        if (!canceled && merged.length) setCreators(merged);
       } catch (e) {
         console.warn("Roster hydration failed:", e);
       }
@@ -437,12 +468,42 @@ let mapped = rows
 
 // ======= APP =======
 export default function App() {
+  const creators = useRosterHydration();
   const [activePage, setActivePage] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedCreator, setSelectedCreator] = useState(null);
-  const navigate = (k) => {
+  const creatorSlugMap = useMemo(() => {
+    const map = new Map();
+    creators.forEach((creator) => {
+      if (creator?.name) map.set(slugify(creator.name), creator);
+    });
+    return map;
+  }, [creators]);
+
+  const resolveRoute = (path) => {
+    const normalized = path.replace(/\/+$/, "") || "/";
+    if (normalized.startsWith("/creators/")) {
+      const slug = normalized.split("/")[2];
+      const creator = creatorSlugMap.get(slug);
+      if (creator) {
+        setSelectedCreator(creator);
+        setActivePage("profile");
+        return;
+      }
+    }
+    const match = Object.entries(PAGE_PATHS).find(([, p]) => p === normalized);
+    setSelectedCreator(null);
+    setActivePage(match?.[0] || "home");
+  };
+
+  const navigate = (k, options = {}) => {
+    const path = options.path || PAGE_PATHS[k] || "/";
     setActivePage(k);
+    if (k !== "profile") setSelectedCreator(null);
     setMenuOpen(false);
+    if (!options.replace) {
+      window.history.pushState({}, "", path);
+    }
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -450,8 +511,10 @@ export default function App() {
 useEffect(() => {
   window.weardNav = (k) => navigate(k);
   window.weardOpenProfile = (creator) => {
+    if (!creator) return;
+    const slug = slugify(creator.name || "creator");
     setSelectedCreator(creator);
-    navigate("profile");
+    navigate("profile", { path: `/creators/${slug}` });
   };
   return () => {
     delete window.weardNav;
@@ -460,31 +523,125 @@ useEffect(() => {
 }, []);
 
   useEffect(() => {
+    resolveRoute(window.location.pathname);
+  }, [creatorSlugMap]);
+
+  useEffect(() => {
+    const handlePopState = () => resolveRoute(window.location.pathname);
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [creatorSlugMap]);
+
+  useEffect(() => {
+    if (activePage === "profile") return;
+    const meta = {
+      home: {
+        title: "WEARD Management | Asia-Pacific Influencer Talent Management Agency",
+        description:
+          "WEARD Management (WEARDMGMT) is a global influencer talent management agency for Asia, APAC, Thailand, Hong Kong, the UK, and the US, delivering cross-border creator campaigns.",
+      },
+      about: {
+        title: "About WEARD Management | Cross-Border Influencer Management",
+        description:
+          "Discover WEARD’s creator-first approach to influencer talent management, building bridges between Asian brands and Western audiences across APAC, the UK, and the US.",
+      },
+      roster: {
+        title: "WEARD Roster | Influencer Talent Management & Creator Representation",
+        description:
+          "Explore WEARD’s global creator roster for influencer talent management, creator representation, and brand-safe partnerships across Asia and APAC.",
+      },
+      contact: {
+        title: "Contact WEARD Management | Global Influencer Campaigns",
+        description:
+          "Work with WEARD Management on performance-driven influencer marketing, ROI-focused creator campaigns, and cross-border activations.",
+      },
+      brands: {
+        title: "Brand Partnerships | WEARD Management Influencer Agency",
+        description:
+          "Partner with WEARD Management for brand-safe creator partnerships, global brand expansion, and influencer talent management across Asia, APAC, the UK, and the US.",
+      },
+      privacy: {
+        title: "Privacy Policy | WEARD Management",
+        description: "WEARD Management privacy policy and data protection information.",
+      },
+      "asia-influencer-marketing": {
+        title: "Asia Influencer Marketing | WEARD Management",
+        description:
+          "Asia influencer marketing and talent management from WEARD Management, connecting Asian brands with creators for global influencer campaigns.",
+      },
+      "apac-influencer-marketing": {
+        title: "APAC Influencer Marketing | WEARD Management",
+        description:
+          "APAC influencer marketing and talent management agency delivering multi-market activations across Asia-Pacific.",
+      },
+      "thailand-influencer-marketing": {
+        title: "Thailand Influencer Marketing | WEARD Management",
+        description:
+          "Thailand influencer marketing and talent management agency for Bangkok, Phuket, and Southeast Asia influencer campaigns.",
+      },
+      "hong-kong-influencer-management": {
+        title: "Hong Kong Influencer Management | WEARD Management",
+        description:
+          "Hong Kong influencer management and marketing agency connecting brands with top talent across Asia and global markets.",
+      },
+      "asia-to-uk-influencer-marketing": {
+        title: "Asia to UK Influencer Marketing | WEARD Management",
+        description:
+          "Cross-border influencer marketing connecting Asia to the UK with global creator campaigns and brand-safe partnerships.",
+      },
+      "asia-to-us-influencer-marketing": {
+        title: "Asia to US Influencer Marketing | WEARD Management",
+        description:
+          "Asia to US influencer marketing and management bridging Asian brands with US creators and audiences.",
+      },
+      "case-studies": {
+        title: "Case Studies | WEARD Management Global Influencer Campaigns",
+        description:
+          "Explore WEARD’s global influencer campaigns, multi-market activations, and cross-border creator partnerships.",
+      },
+    };
+    const metaConfig = meta[activePage] || meta.home;
+    document.title = metaConfig.title;
+    const descriptionTag =
+      document.querySelector('meta[name="description"]') ||
+      document.head.appendChild(document.createElement("meta"));
+    descriptionTag.setAttribute("name", "description");
+    descriptionTag.setAttribute("content", metaConfig.description);
+
+    const canonical =
+      document.querySelector('link[rel="canonical"]') ||
+      document.head.appendChild(document.createElement("link"));
+    canonical.setAttribute("rel", "canonical");
+    canonical.setAttribute("href", `https://weardmgmt.com${PAGE_PATHS[activePage] || "/"}`);
+  }, [activePage]);
+
+  useEffect(() => {
+    const people = creators.map((creator) => {
+      const sameAs = [creator.instagram, creator.tiktok, creator.youtube].filter(Boolean);
+      return {
+        "@type": "Person",
+        name: creator.name,
+        description: creator.bio || `${creator.name} represented by WEARD Management.`,
+        jobTitle: "Creator",
+        affiliation: {
+          "@type": "Organization",
+          name: "WEARD Management",
+          url: "https://weardmgmt.com",
+        },
+        url: `https://weardmgmt.com/creators/${slugify(creator.name)}`,
+        sameAs,
+      };
+    });
     const data = {
       "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "WEARD Management",
-      "url": "https://weardmgmt.com",
-      "logo": "https://weardmgmt.com/logo.png",
-      "description": "Creator-first talent management agency connecting premium brands with global influencers.",
-      "sameAs": [
-        "https://www.instagram.com/weardmgmt",
-        "https://www.tiktok.com/@weardmgmt",
-        "https://www.linkedin.com/company/weardmgmt"
-      ],
-      "email": "info@weardmgmt.com",
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "contactType": "business inquiries",
-        "email": "info@weardmgmt.com"
-      }
+      "@graph": people,
     };
     const s = document.createElement('script');
     s.type = 'application/ld+json';
     s.text = JSON.stringify(data);
     document.head.appendChild(s);
     return () => { document.head.removeChild(s); };
-  }, []);
+  }, [creators]);
   return (
     <div className="min-h-screen bg-white text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100 transition-colors">
       <a className="skip-link" href="#main-content">
@@ -506,12 +663,17 @@ useEffect(() => {
           )}
           {activePage === "roster" && (
             <motion.section key="roster" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
-              <Roster />
+              <Roster creators={creators} onNav={navigate} />
             </motion.section>
           )}
           {activePage === "contact" && (
             <motion.section key="contact" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
               <Contact />
+            </motion.section>
+          )}
+          {activePage === "brands" && (
+            <motion.section key="brands" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
+              <BrandPartnerships onNav={navigate} />
             </motion.section>
           )}
           {activePage === "privacy" && (
@@ -534,6 +696,139 @@ useEffect(() => {
     />
   </motion.section>
 )}
+          {activePage === "asia-influencer-marketing" && (
+            <motion.section key="asia-influencer-marketing" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
+              <MarketingLanding
+                title="Asia Influencer Marketing"
+                primaryKeyword="Asia Influencer Marketing"
+                secondaryKeywords={[
+                  "Asia Influencer Talent Management",
+                  "Asia Influencer Management",
+                  "Asian Influencer Marketing Agency",
+                  "Asia-Pacific Influencer Agency",
+                ]}
+                regionFocus="Asia"
+                bridgeKeywords={[
+                  "Cross-border influencer marketing",
+                  "Global influencer campaigns",
+                  "International influencer management",
+                  "Building bridges between Asian brands and Western audiences",
+                ]}
+                onNav={navigate}
+              />
+            </motion.section>
+          )}
+          {activePage === "apac-influencer-marketing" && (
+            <motion.section key="apac-influencer-marketing" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
+              <MarketingLanding
+                title="APAC Influencer Marketing"
+                primaryKeyword="APAC Influencer Marketing"
+                secondaryKeywords={[
+                  "APAC Influencer Talent Management",
+                  "APAC Influencer Management",
+                  "Asia-Pacific Influencer Agency",
+                  "Multi-market activations",
+                ]}
+                regionFocus="APAC"
+                bridgeKeywords={[
+                  "Asia-to-Asia influencer marketing",
+                  "Asia to UK influencer marketing",
+                  "Asia to US influencer marketing",
+                  "Gateway to Western influencer markets",
+                ]}
+                onNav={navigate}
+              />
+            </motion.section>
+          )}
+          {activePage === "thailand-influencer-marketing" && (
+            <motion.section key="thailand-influencer-marketing" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
+              <MarketingLanding
+                title="Thailand Influencer Marketing"
+                primaryKeyword="Thailand Influencer Marketing"
+                secondaryKeywords={[
+                  "Thailand Influencer Talent Management",
+                  "Thailand Influencer Management Agency",
+                  "Thai Influencer Marketing Agency",
+                  "Bangkok Influencer Agency",
+                  "Southeast Asia Influencer Marketing",
+                  "SEA Influencer Marketing Agency",
+                ]}
+                regionFocus="Thailand"
+                bridgeKeywords={[
+                  "Cross-border influencer marketing",
+                  "Asia to Europe influencer campaigns",
+                  "Connecting Asian brands to UK and US creators",
+                ]}
+                onNav={navigate}
+              />
+            </motion.section>
+          )}
+          {activePage === "hong-kong-influencer-management" && (
+            <motion.section key="hong-kong-influencer-management" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
+              <MarketingLanding
+                title="Hong Kong Influencer Management"
+                primaryKeyword="Hong Kong Influencer Management"
+                secondaryKeywords={[
+                  "Hong Kong Influencer Talent Management",
+                  "Hong Kong Influencer Marketing Agency",
+                  "Hong Kong Influencer Talent Agency",
+                  "Asia Influencer Management",
+                ]}
+                regionFocus="Hong Kong"
+                bridgeKeywords={[
+                  "Cross-border influencer marketing",
+                  "Asia to UK influencer marketing",
+                  "Asia to US influencer marketing",
+                ]}
+                onNav={navigate}
+              />
+            </motion.section>
+          )}
+          {activePage === "asia-to-uk-influencer-marketing" && (
+            <motion.section key="asia-to-uk-influencer-marketing" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
+              <MarketingLanding
+                title="Asia to UK Influencer Marketing"
+                primaryKeyword="Asia to UK influencer marketing"
+                secondaryKeywords={[
+                  "Building bridges between Asian brands and Western audiences",
+                  "Gateway to Western influencer markets",
+                  "International influencer management",
+                ]}
+                regionFocus="Asia to UK"
+                bridgeKeywords={[
+                  "Connecting Asian brands to UK creators",
+                  "Global influencer campaigns",
+                  "Cross-border influencer marketing",
+                ]}
+                onNav={navigate}
+              />
+            </motion.section>
+          )}
+          {activePage === "asia-to-us-influencer-marketing" && (
+            <motion.section key="asia-to-us-influencer-marketing" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
+              <MarketingLanding
+                title="Asia to US Influencer Marketing"
+                primaryKeyword="Asia to US influencer marketing"
+                secondaryKeywords={[
+                  "Connecting Asian brands to US creators",
+                  "Global influencer campaigns",
+                  "International influencer management",
+                ]}
+                regionFocus="Asia to US"
+                bridgeKeywords={[
+                  "Cross-border influencer marketing",
+                  "Asia to Europe influencer campaigns",
+                  "Gateway to Western influencer markets",
+                ]}
+                onNav={navigate}
+              />
+            </motion.section>
+          )}
+          {activePage === "case-studies" && (
+            <motion.section key="case-studies" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
+              <CaseStudies onNav={navigate} />
+            </motion.section>
+          )}
           
         </AnimatePresence>
       </main>
@@ -651,9 +946,34 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
 function CreatorProfile({ creator, onBack }) {
   // Set document title for SEO/nice browser tab text
   useEffect(() => {
-    document.title = creator?.name
-      ? `${creator.name} • WEARD Management`
+    const name = creator?.name;
+    document.title = name
+      ? `${name} • WEARD Management`
       : "Profile • WEARD Management";
+    const handles = [
+      getUsernameFromUrl(creator?.instagram),
+      getUsernameFromUrl(creator?.tiktok),
+      getUsernameFromUrl(creator?.youtube),
+    ]
+      .filter(Boolean)
+      .map((handle) => `@${handle}`)
+      .join(", ");
+    const description = name
+      ? `${name} (${handles || "creator"}) represented by WEARD Management for global influencer campaigns and creator representation.`
+      : "Creator profile on WEARD Management.";
+    const descriptionTag =
+      document.querySelector('meta[name="description"]') ||
+      document.head.appendChild(document.createElement("meta"));
+    descriptionTag.setAttribute("name", "description");
+    descriptionTag.setAttribute("content", description);
+    const canonical =
+      document.querySelector('link[rel="canonical"]') ||
+      document.head.appendChild(document.createElement("link"));
+    canonical.setAttribute("rel", "canonical");
+    canonical.setAttribute(
+      "href",
+      name ? `https://weardmgmt.com/creators/${slugify(name)}` : "https://weardmgmt.com/roster"
+    );
     return () => { document.title = "WEARD Management"; };
   }, [creator]);
 
@@ -730,7 +1050,7 @@ function CreatorProfile({ creator, onBack }) {
           <div className="relative aspect-[4/5] sm:aspect-[3/4]">
             <img
               src={photo || creator.profile_image}
-              alt={name}
+              alt={`${name} — WEARD Management creator`}
               className="absolute inset-0 h-full w-full object-cover"
               loading="lazy"
               decoding="async"
@@ -898,6 +1218,26 @@ function CreatorProfile({ creator, onBack }) {
   );
 }
 
+function SiteLink({ to, onNav, className, children }) {
+  const href = PAGE_PATHS[to] || to;
+  const pageKey = PAGE_PATHS[to]
+    ? to
+    : Object.entries(PAGE_PATHS).find(([, path]) => path === href)?.[0];
+  return (
+    <a
+      href={href}
+      onClick={(event) => {
+        if (!onNav || !pageKey) return;
+        event.preventDefault();
+        onNav(pageKey);
+      }}
+      className={className}
+    >
+      {children}
+    </a>
+  );
+}
+
 // ======= HOME =======
 function Home({ onExploreRoster, onWorkWithUs }) {
   return (
@@ -908,8 +1248,10 @@ function Home({ onExploreRoster, onWorkWithUs }) {
           WE ARE <RotatingWords words={WEARE_WORDS} />
         </h1>
         <p className="mt-5 text-base sm:text-lg text-neutral-700 dark:text-neutral-200 max-w-prose">
-          Global Influence. Global Campaigns. Global Talent.<br />
-          We Champion Our Creators And Amplify Their Voices.
+          WEARD Management (WEARDMGMT) is an Asia-Pacific influencer talent management agency
+          delivering cross-border influencer marketing across Asia, APAC, Thailand, Hong Kong,
+          the UK, and the US.<br />
+          Global influence. Global campaigns. Global talent.
         </p>
         <div className="mt-8 flex flex-wrap gap-3 justify-center">
           <button
@@ -924,6 +1266,45 @@ function Home({ onExploreRoster, onWorkWithUs }) {
           >
             Work With Us <ArrowRight size={16} />
           </button>
+        </div>
+      </div>
+      <div className="max-w-6xl mx-auto px-4 pb-16">
+        <div className="grid gap-6 lg:grid-cols-3">
+          <div className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm">
+            <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">Regional expertise</p>
+            <h2 className="mt-3 text-2xl font-semibold">Asia, APAC, Thailand & Hong Kong focus</h2>
+            <p className="mt-3 text-sm text-neutral-600">
+              We deliver Asia influencer marketing, APAC influencer talent management, Thailand
+              influencer management, and Hong Kong influencer marketing agency support for brands
+              expanding across the region.
+            </p>
+          </div>
+          <div className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm">
+            <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">Cross-border bridges</p>
+            <h2 className="mt-3 text-2xl font-semibold">Asia to UK & US influencer marketing</h2>
+            <p className="mt-3 text-sm text-neutral-600">
+              WEARD builds bridges between Asian brands and Western audiences with international
+              influencer management, global influencer campaigns, and Asia to UK/US activations.
+            </p>
+          </div>
+          <div className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm">
+            <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">Commercial outcomes</p>
+            <h2 className="mt-3 text-2xl font-semibold">Performance-driven creator campaigns</h2>
+            <p className="mt-3 text-sm text-neutral-600">
+              Expect influencer talent management, creator representation, paid social amplification,
+              ROI-focused creator campaigns, and end-to-end influencer management from ideation to execution.
+            </p>
+          </div>
+        </div>
+        <div className="mt-10 rounded-3xl border border-neutral-900 bg-neutral-900 p-6 sm:p-8 text-white">
+          <p className="text-xs uppercase tracking-[0.35em] text-white/60">Insights</p>
+          <h3 className="mt-3 text-2xl sm:text-3xl font-semibold">
+            Brand-safe creator partnerships for global brand expansion
+          </h3>
+          <p className="mt-3 text-sm text-white/70">
+            We specialise in always-on influencer strategy, whitelisted content, localised creator
+            strategy, and multi-market activations that connect Asian brands to UK and US creators.
+          </p>
         </div>
       </div>
     </section>
@@ -1063,7 +1444,7 @@ function HeroCarousel({ onExploreRoster, onWorkWithUs }) {
       <div className="weard-hero__overlay">
         <div className="weard-hero__glass">
           <h1>WEARD</h1>
-          <p>Because normal doesn’t trend.</p>
+          <p>WEARD influencer management for Asia-to-global creator campaigns.</p>
           <div className="weard-hero__cta">
             <button
               onClick={onExploreRoster}
@@ -1171,9 +1552,12 @@ function About() {
             Aesthetic campaigns backed by creator-first management.
           </h2>
           <p className="mt-4 text-neutral-700 dark:text-neutral-300 max-w-2xl">
-            WEARD blends boutique attention with global scale. From onboarding to campaign
-            delivery, we orchestrate every step so brands get standout creative and creators get
-            long-term momentum.
+            WEARD blends boutique attention with global scale as an influencer talent management
+            agency for Asia, APAC, Thailand, Hong Kong, the UK, and the US. From onboarding to
+            campaign delivery, we orchestrate cross-border influencer marketing so brands get
+            standout creative and creators get long-term momentum. As WEARD influencer management
+            and WEARD talent management, we operate as a WEARD Asia influencer agency and WEARD
+            APAC influencer management partner for global growth.
           </p>
           <div className="mt-6 flex flex-wrap gap-3 text-xs text-neutral-500">
             {["Strategy", "Creative", "Partnerships", "Reporting"].map((label) => (
@@ -1340,9 +1724,210 @@ function WhereWeWork() {
   );
 }
 
+function MarketingLanding({
+  title,
+  primaryKeyword,
+  secondaryKeywords = [],
+  regionFocus,
+  bridgeKeywords = [],
+  onNav,
+}) {
+  return (
+    <section className="max-w-6xl mx-auto px-4 py-12">
+      <div className="rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white/90 dark:bg-neutral-950 p-8">
+        <p className="text-xs uppercase tracking-[0.35em] text-neutral-400">
+          Regional influencer marketing
+        </p>
+        <h1 className="mt-4 text-4xl sm:text-5xl font-bold">{title}</h1>
+        <p className="mt-4 text-sm text-neutral-600 dark:text-neutral-400 max-w-3xl">
+          WEARD Management delivers {primaryKeyword} with creator representation, influencer talent
+          management, and brand-safe creator partnerships tailored to {regionFocus}. We connect
+          Asian brands to UK and US creators through cross-border influencer marketing and
+          performance-driven influencer campaigns.
+        </p>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4">
+            <p className="text-xs uppercase tracking-[0.25em] text-neutral-400">Primary keyword</p>
+            <p className="mt-2 text-sm font-semibold">{primaryKeyword}</p>
+          </div>
+          <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4">
+            <p className="text-xs uppercase tracking-[0.25em] text-neutral-400">Secondary focus</p>
+            <ul className="mt-2 text-sm text-neutral-600 dark:text-neutral-400 space-y-1">
+              {secondaryKeywords.map((keyword) => (
+                <li key={keyword}>{keyword}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        <div className="mt-6 rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4">
+          <p className="text-xs uppercase tracking-[0.25em] text-neutral-400">Cross-border positioning</p>
+          <ul className="mt-2 text-sm text-neutral-600 dark:text-neutral-400 space-y-1">
+            {bridgeKeywords.map((keyword) => (
+              <li key={keyword}>{keyword}</li>
+            ))}
+          </ul>
+        </div>
+        <div className="mt-6 grid gap-3 sm:grid-cols-2 text-sm text-neutral-600 dark:text-neutral-400">
+          <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4">
+            <p className="font-semibold">End-to-end influencer management</p>
+            <p className="mt-2">
+              Campaign ideation to execution, paid social amplification, whitelisted content,
+              and ROI-focused creator campaigns for global brand expansion.
+            </p>
+          </div>
+          <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4">
+            <p className="font-semibold">Always-on influencer strategy</p>
+            <p className="mt-2">
+              Localised creator strategy, multi-market activations, and performance reporting
+              aligned with international influencer management goals.
+            </p>
+          </div>
+        </div>
+        <div className="mt-8 flex flex-wrap gap-3">
+          <SiteLink
+            to="roster"
+            onNav={onNav}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-neutral-300 dark:border-neutral-700 text-sm"
+          >
+            Explore roster <ArrowRight size={14} />
+          </SiteLink>
+          <SiteLink
+            to="brands"
+            onNav={onNav}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-neutral-300 dark:border-neutral-700 text-sm"
+          >
+            Brand partnerships <ArrowRight size={14} />
+          </SiteLink>
+          <SiteLink
+            to="case-studies"
+            onNav={onNav}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-neutral-300 dark:border-neutral-700 text-sm"
+          >
+            View case studies <ArrowRight size={14} />
+          </SiteLink>
+          <button
+            onClick={() => onNav?.("contact")}
+            className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm text-white ${GRADIENT}`}
+          >
+            Work with WEARD <ArrowRight size={14} />
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CaseStudies({ onNav }) {
+  const studies = [
+    {
+      title: "Asia-to-UK creator campaign for premium beauty",
+      body: "A cross-border influencer marketing activation pairing Thai and UK creators to drive brand-safe creator partnerships and performance-driven influencer marketing.",
+    },
+    {
+      title: "APAC multi-market fashion launch",
+      body: "End-to-end influencer management across Hong Kong, Thailand, and the US with whitelisted content and paid social amplification.",
+    },
+    {
+      title: "Global brand expansion via US creator collaborations",
+      body: "International influencer management connecting Asian brands to US creators and audiences with ROI-focused creator campaigns.",
+    },
+  ];
+
+  return (
+    <section className="max-w-6xl mx-auto px-4 py-12">
+      <div className="rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white/90 dark:bg-neutral-950 p-8">
+        <p className="text-xs uppercase tracking-[0.35em] text-neutral-400">Case studies</p>
+        <h1 className="mt-4 text-4xl sm:text-5xl font-bold">
+          Global influencer campaigns and cross-border activations
+        </h1>
+        <p className="mt-4 text-sm text-neutral-600 dark:text-neutral-400 max-w-3xl">
+          WEARD delivers brand-safe creator partnerships, creator representation, and multi-market
+          activations that connect Asian brands with Western audiences across the UK and US.
+        </p>
+        <div className="mt-6 grid gap-4 md:grid-cols-3">
+          {studies.map((study) => (
+            <div
+              key={study.title}
+              className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4 text-sm text-neutral-600 dark:text-neutral-400"
+            >
+              <h3 className="font-semibold text-neutral-900 dark:text-neutral-100">{study.title}</h3>
+              <p className="mt-2">{study.body}</p>
+            </div>
+          ))}
+        </div>
+        <div className="mt-8 flex flex-wrap gap-3">
+          <SiteLink to="asia-influencer-marketing" onNav={onNav} className="underline text-sm">
+            Asia influencer marketing
+          </SiteLink>
+          <SiteLink to="apac-influencer-marketing" onNav={onNav} className="underline text-sm">
+            APAC influencer management
+          </SiteLink>
+          <SiteLink to="asia-to-uk-influencer-marketing" onNav={onNav} className="underline text-sm">
+            Asia to UK influencer marketing
+          </SiteLink>
+          <SiteLink to="asia-to-us-influencer-marketing" onNav={onNav} className="underline text-sm">
+            Asia to US influencer marketing
+          </SiteLink>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function BrandPartnerships({ onNav }) {
+  return (
+    <section className="max-w-6xl mx-auto px-4 py-12">
+      <div className="rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white/90 dark:bg-neutral-950 p-8">
+        <p className="text-xs uppercase tracking-[0.35em] text-neutral-400">Brand partnerships</p>
+        <h1 className="mt-4 text-4xl sm:text-5xl font-bold">
+          Brand-safe creator partnerships for global brand expansion
+        </h1>
+        <p className="mt-4 text-sm text-neutral-600 dark:text-neutral-400 max-w-3xl">
+          WEARD Management delivers influencer talent management, creator representation, and
+          performance-driven influencer marketing for brands looking to scale across Asia, APAC,
+          Thailand, Hong Kong, the UK, and the US.
+        </p>
+        <div className="mt-6 grid gap-4 md:grid-cols-2 text-sm text-neutral-600 dark:text-neutral-400">
+          <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4">
+            <p className="font-semibold">Always-on influencer strategy</p>
+            <p className="mt-2">
+              Localised creator strategy, multi-market activations, and paid social amplification
+              that deliver measurable ROI-focused creator campaigns.
+            </p>
+          </div>
+          <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4">
+            <p className="font-semibold">Campaign ideation to execution</p>
+            <p className="mt-2">
+              End-to-end influencer management with whitelisted content, reporting, and global
+              influencer campaigns that connect Asian brands to UK and US creators.
+            </p>
+          </div>
+        </div>
+        <div className="mt-8 flex flex-wrap gap-3">
+          <SiteLink to="case-studies" onNav={onNav} className="underline text-sm">
+            View case studies
+          </SiteLink>
+          <SiteLink to="asia-influencer-marketing" onNav={onNav} className="underline text-sm">
+            Asia influencer marketing
+          </SiteLink>
+          <SiteLink to="roster" onNav={onNav} className="underline text-sm">
+            Explore creator roster
+          </SiteLink>
+          <button
+            onClick={() => onNav?.("contact")}
+            className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm text-white ${GRADIENT}`}
+          >
+            Start a campaign <ArrowRight size={14} />
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ======= ROSTER =======
-function Roster() {
-  const creators = useRosterHydration();
+function Roster({ creators, onNav }) {
+  const creatorsData = creators ?? [];
 
   // Category tabs
   const [tab, setTab] = useState("All");
@@ -1356,7 +1941,7 @@ function Roster() {
 
   // Filter creators
   const filtered = useMemo(() => {
-    let data = creators.filter((creator) => creator.rosterVisible !== false);
+    let data = creatorsData.filter((creator) => creator.rosterVisible !== false);
 
     // category filter
     if (tab !== "All") {
@@ -1402,7 +1987,7 @@ function Roster() {
     }
 
     return data;
-  }, [tab, region, creators, search]);
+  }, [tab, region, creatorsData, search]);
 
   return (
     <section className="weard-section max-w-7xl mx-auto px-4 pt-10 pb-20">
@@ -1507,6 +2092,84 @@ function Roster() {
           No creators match this search.
         </p>
       )}
+      <CreatorDirectory creators={creatorsData} onNav={onNav} />
+    </section>
+  );
+}
+
+function CreatorDirectory({ creators = [], onNav }) {
+  const directory = creators.map((creator) => {
+    const handles = [
+      getUsernameFromUrl(creator.instagram),
+      getUsernameFromUrl(creator.tiktok),
+      getUsernameFromUrl(creator.youtube),
+    ]
+      .filter(Boolean)
+      .map((handle) => `@${handle}`)
+      .join(" · ");
+    return {
+      name: creator.name,
+      handles,
+      location: creator.location,
+      slug: slugify(creator.name || ""),
+    };
+  });
+
+  return (
+    <section className="mt-12 rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white/90 dark:bg-neutral-950 p-6">
+      <p className="text-xs uppercase tracking-[0.35em] text-neutral-400">Creator directory</p>
+      <h3 className="mt-3 text-2xl font-semibold">
+        Search WEARD, WEARDMGMT, and every creator name or handle
+      </h3>
+      <p className="mt-3 text-sm text-neutral-600 dark:text-neutral-400">
+        Discover WEARD influencer management talent by full professional names and exact social usernames.
+        This includes Emily Uddman (@emily.uddman), Zophia.zz (@zophia.zz), and every creator represented
+        by WEARD across Asia, APAC, Thailand, Hong Kong, the UK, and the US.
+      </p>
+      <div className="mt-4 flex flex-wrap gap-2 text-xs text-neutral-500">
+        <SiteLink to="asia-influencer-marketing" onNav={onNav} className="underline">
+          Asia influencer marketing
+        </SiteLink>
+        <SiteLink to="apac-influencer-marketing" onNav={onNav} className="underline">
+          APAC influencer talent management
+        </SiteLink>
+        <SiteLink to="brands" onNav={onNav} className="underline">
+          Brand partnerships
+        </SiteLink>
+        <SiteLink to="thailand-influencer-marketing" onNav={onNav} className="underline">
+          Thailand influencer marketing
+        </SiteLink>
+        <SiteLink to="hong-kong-influencer-management" onNav={onNav} className="underline">
+          Hong Kong influencer management
+        </SiteLink>
+        <SiteLink to="asia-to-uk-influencer-marketing" onNav={onNav} className="underline">
+          Asia to UK influencer marketing
+        </SiteLink>
+        <SiteLink to="asia-to-us-influencer-marketing" onNav={onNav} className="underline">
+          Asia to US influencer marketing
+        </SiteLink>
+      </div>
+      <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 text-sm">
+        {directory.map((entry) => (
+          <li key={entry.slug} className="rounded-2xl border border-neutral-200/70 dark:border-neutral-800/70 p-3">
+            <a
+              href={`/creators/${entry.slug}`}
+              onClick={(event) => {
+                event.preventDefault();
+                const creator = creators.find((item) => slugify(item.name) === entry.slug);
+                window.weardOpenProfile?.(creator);
+              }}
+              className="font-semibold underline"
+            >
+              {entry.name}
+            </a>
+            {entry.handles && <div className="text-xs text-neutral-500">{entry.handles}</div>}
+            {entry.location && (
+              <div className="text-xs text-neutral-500">Location: {entry.location}</div>
+            )}
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }
@@ -1587,7 +2250,7 @@ function CreatorCard({ p }) {
         {/* Base photo */}
         <img
           src={p.photo || avatar}
-          alt={p.name}
+          alt={`${p.name} — WEARD Management creator`}
           className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           loading="lazy"
           decoding="async"
@@ -1686,13 +2349,16 @@ function CreatorCard({ p }) {
   <div className="p-4">
   <div className="flex items-start justify-between gap-3">
   <div /> {/* name now only appears on the media */}
-  <button
-  type="button"
-  onClick={() => window.weardOpenProfile?.(p)}
-  className="text-sm font-semibold underline underline-offset-4 hover:opacity-80 text-indigo-600"
->
-  View Profile
-</button>
+  <a
+    href={`/creators/${slugify(p.name)}`}
+    onClick={(event) => {
+      event.preventDefault();
+      window.weardOpenProfile?.(p);
+    }}
+    className="text-sm font-semibold underline underline-offset-4 hover:opacity-80 text-indigo-600"
+  >
+    View Profile
+  </a>
 </div>
 
       <div className="mt-3 grid grid-cols-2 md:grid-cols-3 gap-2">
@@ -2331,22 +2997,45 @@ function Contact() {
 function Footer({ onNav }) {
   return (
     <footer className="border-t border-neutral-200 dark:border-neutral-800">
-      <div className="max-w-7xl mx-auto px-4 py-8 grid md:grid-cols-3 gap-6 items-center">
+      <div className="max-w-7xl mx-auto px-4 py-8 grid md:grid-cols-4 gap-6 items-start">
         <div>
           <div className={cn("font-black tracking-widest", TEXT_GRAD)}>WEARD</div>
           <div className="text-xs uppercase tracking-[0.25em] text-neutral-500">Management</div>
         </div>
-       <div className="text-sm text-neutral-600 dark:text-neutral-400 text-center col-span-3 md:col-span-1">
-  <div>© {new Date().getFullYear()} WEARD Management. All rights reserved.</div>
-  <div className="mt-1">Built for speed, ethics, and results.</div>
-</div>
+        <div className="text-sm text-neutral-600 dark:text-neutral-400 text-center md:text-left">
+          <div>© {new Date().getFullYear()} WEARD Management. All rights reserved.</div>
+          <div className="mt-1">Built for speed, ethics, and results.</div>
+        </div>
+        <div className="text-sm text-neutral-600 dark:text-neutral-400">
+          <div className="text-xs uppercase tracking-[0.25em] text-neutral-400">Markets</div>
+          <div className="mt-2 grid gap-1">
+            <SiteLink to="asia-influencer-marketing" onNav={onNav} className="underline">
+              Asia influencer marketing
+            </SiteLink>
+            <SiteLink to="apac-influencer-marketing" onNav={onNav} className="underline">
+              APAC influencer management
+            </SiteLink>
+            <SiteLink to="thailand-influencer-marketing" onNav={onNav} className="underline">
+              Thailand influencer marketing
+            </SiteLink>
+            <SiteLink to="hong-kong-influencer-management" onNav={onNav} className="underline">
+              Hong Kong influencer management
+            </SiteLink>
+          </div>
+        </div>
         <div className="flex gap-4 text-sm justify-start md:justify-end">
           <button onClick={() => onNav("contact")} className="underline">
             Contact
           </button>
+          <button onClick={() => onNav("brands")} className="underline">
+            Brands
+          </button>
            <button onClick={() => onNav("privacy")} className="underline">
            Privacy
            </button> {/* NEW */}
+          <button onClick={() => onNav("case-studies")} className="underline">
+            Case Studies
+          </button>
         </div>
       </div>
     </footer>
