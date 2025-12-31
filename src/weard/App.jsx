@@ -1839,9 +1839,11 @@ function Contact() {
   const [mode, setMode] = useState("brand");
   const [form, setForm] = useState({
     brand: "",
+    role: "",
     email: "",
     number: "",
     budget: "",
+    timeline: "",
     outline: "",
   });
   const [talent, setTalent] = useState({
@@ -1852,6 +1854,8 @@ function Contact() {
     tt: "",
     other: "",
     category: "",
+    location: "",
+    availability: "",
     notes: "",
   });
 
@@ -1864,9 +1868,11 @@ function Contact() {
     const subject = `WEARD Brief – ${form.brand}`;
     const body =
       `Brand: ${form.brand}\n` +
+      `Role: ${form.role}\n` +
       `Email: ${form.email}\n` +
       `Number: ${form.number}\n` +
       `Budget: ${form.budget}\n\n` +
+      `Timeline: ${form.timeline}\n\n` +
       `Outline:\n${form.outline}`;
 
     try {
@@ -1896,6 +1902,8 @@ function Contact() {
       `TikTok: ${talent.tt}\n` +
       `Other: ${talent.other}\n` +
       `Category: ${talent.category}\n\n` +
+      `Location: ${talent.location}\n` +
+      `Availability: ${talent.availability}\n\n` +
       `Notes:\n${talent.notes}`;
 
     try {
@@ -1956,8 +1964,9 @@ function Contact() {
 
         {/* Body */}
         <div className="bg-white dark:bg-neutral-950 px-6 py-6">
-          {mode === "brand" ? (
-            <form className="grid gap-4 max-w-2xl" onSubmit={handleBrandSubmit}>
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_280px]">
+            {mode === "brand" ? (
+              <form className="grid gap-4 max-w-2xl" onSubmit={handleBrandSubmit}>
               <label className="grid gap-1">
                 <span className="text-sm font-medium">
                   Company / Brand <span className="text-red-500">*</span>
@@ -1968,10 +1977,22 @@ function Contact() {
                   className={INPUT_CLS}
                   value={form.brand}
                   onChange={(e) => setForm({ ...form, brand: e.target.value })}
+                  autoComplete="organization"
                 />
               </label>
 
               <div className="grid sm:grid-cols-2 gap-4">
+                <label className="grid gap-1">
+                  <span className="text-sm font-medium">Your Role</span>
+                  <input
+                    placeholder="e.g., Brand Manager"
+                    className={INPUT_CLS}
+                    value={form.role}
+                    onChange={(e) => setForm({ ...form, role: e.target.value })}
+                    autoComplete="organization-title"
+                  />
+                </label>
+
                 <label className="grid gap-1">
                   <span className="text-sm font-medium">
                     Your Email <span className="text-red-500">*</span>
@@ -1983,11 +2004,16 @@ function Contact() {
                     className={INPUT_CLS}
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    autoComplete="email"
                   />
                 </label>
+              </div>
 
+              <div className="grid sm:grid-cols-2 gap-4">
                 <label className="grid gap-1">
-                  <span className="text-sm font-medium">Your Number (optional)</span>
+                  <span className="text-sm font-medium">
+                    Your Number (optional)
+                  </span>
                   <input
                     placeholder="+44 …"
                     className={INPUT_CLS}
@@ -1996,17 +2022,36 @@ function Contact() {
                     inputMode="tel"
                     pattern="^[0-9+()\-.\s]{6,}$"
                     title="Please enter a valid phone number"
+                    autoComplete="tel"
                   />
+                </label>
+
+                <label className="grid gap-1">
+                  <span className="text-sm font-medium">
+                    Budget Range (optional)
+                  </span>
+                  <select
+                    className={INPUT_CLS}
+                    value={form.budget}
+                    onChange={(e) => setForm({ ...form, budget: e.target.value })}
+                  >
+                    <option value="">Select…</option>
+                    <option value="Under £5k">Under £5k</option>
+                    <option value="£5k–£10k">£5k–£10k</option>
+                    <option value="£10k–£25k">£10k–£25k</option>
+                    <option value="£25k–£50k">£25k–£50k</option>
+                    <option value="£50k+">£50k+</option>
+                  </select>
                 </label>
               </div>
 
               <label className="grid gap-1">
-                <span className="text-sm font-medium">Budget Range (optional)</span>
+                <span className="text-sm font-medium">Timeline (optional)</span>
                 <input
-                  placeholder="e.g., £10k–£25k"
+                  placeholder="e.g., Launching in Q3"
                   className={INPUT_CLS}
-                  value={form.budget}
-                  onChange={(e) => setForm({ ...form, budget: e.target.value })}
+                  value={form.timeline}
+                  onChange={(e) => setForm({ ...form, timeline: e.target.value })}
                 />
               </label>
 
@@ -2038,14 +2083,9 @@ function Contact() {
                 </a>
               </div>
 
-              {/* Upfront payment policy note */}
-              <p className="text-xs text-neutral-500 mt-2">
-                Note: For new campaigns, WEARD requires payment upfront before
-                campaign start to protect our talent.
-              </p>
-            </form>
-          ) : (
-            <form className="grid gap-4 max-w-2xl" onSubmit={handleTalentSubmit}>
+              </form>
+            ) : (
+              <form className="grid gap-4 max-w-2xl" onSubmit={handleTalentSubmit}>
               <div className="grid sm:grid-cols-2 gap-4">
                 <label className="grid gap-1">
                   <span className="text-sm font-medium">
@@ -2057,6 +2097,7 @@ function Contact() {
                     className={INPUT_CLS}
                     value={talent.name}
                     onChange={(e) => setTalent({ ...talent, name: e.target.value })}
+                    autoComplete="name"
                   />
                 </label>
 
@@ -2071,6 +2112,7 @@ function Contact() {
                     className={INPUT_CLS}
                     value={talent.email}
                     onChange={(e) => setTalent({ ...talent, email: e.target.value })}
+                    autoComplete="email"
                   />
                 </label>
               </div>
@@ -2134,6 +2176,30 @@ function Contact() {
                     inputMode="tel"
                     pattern="^[0-9+()\-.\s]{6,}$"
                     title="Please enter a valid phone number"
+                    autoComplete="tel"
+                  />
+                </label>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-4">
+                <label className="grid gap-1">
+                  <span className="text-sm font-medium">Location</span>
+                  <input
+                    placeholder="e.g., London, UK"
+                    className={INPUT_CLS}
+                    value={talent.location}
+                    onChange={(e) => setTalent({ ...talent, location: e.target.value })}
+                    autoComplete="address-level1"
+                  />
+                </label>
+
+                <label className="grid gap-1">
+                  <span className="text-sm font-medium">Availability</span>
+                  <input
+                    placeholder="e.g., Full-time, Weekends"
+                    className={INPUT_CLS}
+                    value={talent.availability}
+                    onChange={(e) => setTalent({ ...talent, availability: e.target.value })}
                   />
                 </label>
               </div>
@@ -2162,8 +2228,27 @@ function Contact() {
                   Email instead
                 </a>
               </div>
-            </form>
-          )}
+              </form>
+            )}
+
+            <aside className="space-y-4">
+              <div className="rounded-2xl border border-black/10 bg-white px-4 py-4 text-sm text-neutral-700 dark:bg-neutral-900 dark:text-neutral-200">
+                <h3 className="text-base font-semibold text-neutral-900 dark:text-white">
+                  Prefer email?
+                </h3>
+                <p className="mt-2">
+                  Send us a note at{" "}
+                  <a className="underline" href="mailto:info@weardmgmt.com">
+                    info@weardmgmt.com
+                  </a>
+                  .
+                </p>
+                <p className="mt-2 text-xs text-neutral-500 dark:text-neutral-400">
+                  We only use your details to respond to your enquiry.
+                </p>
+              </div>
+            </aside>
+          </div>
         </div>
       </div>
     </section>
