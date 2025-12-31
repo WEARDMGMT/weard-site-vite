@@ -446,11 +446,18 @@ useEffect(() => {
       "name": "WEARD Management",
       "url": "https://weardmgmt.com",
       "logo": "https://weardmgmt.com/logo.png",
+      "description": "Creator-first talent management agency connecting premium brands with global influencers.",
       "sameAs": [
         "https://www.instagram.com/weardmgmt",
-        "https://www.tiktok.com/@weardmgmt"
+        "https://www.tiktok.com/@weardmgmt",
+        "https://www.linkedin.com/company/weardmgmt"
       ],
-      "email": "info@weardmgmt.com"
+      "email": "info@weardmgmt.com",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "business inquiries",
+        "email": "info@weardmgmt.com"
+      }
     };
     const s = document.createElement('script');
     s.type = 'application/ld+json';
@@ -480,11 +487,6 @@ useEffect(() => {
           {activePage === "roster" && (
             <motion.section key="roster" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
               <Roster />
-            </motion.section>
-          )}
-          {activePage === "brands" && (
-            <motion.section key="brands" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
-              <Brands />
             </motion.section>
           )}
           {activePage === "contact" && (
@@ -526,7 +528,6 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
     { k: "home", label: "Home" },
     { k: "about", label: "About Us" },
     { k: "roster", label: "Roster" },
-    { k: "brands", label: "Brands" },
     { k: "contact", label: "Contact" },
   ];
 
@@ -1208,6 +1209,18 @@ function About() {
           </div>
         ))}
       </div>
+      <div className="mt-12 rounded-3xl border border-neutral-800 bg-neutral-900 p-6 sm:p-8">
+        <div className="text-center text-white">
+          <p className="text-xs uppercase tracking-[0.35em] text-white/60">Brand partners</p>
+          <h3 className="mt-3 text-2xl sm:text-3xl font-semibold">Trusted by leading brands worldwide</h3>
+          <p className="mt-2 text-sm text-white/70">
+            From fast-growing disruptors to global icons, WEARD helps brands build creator campaigns that resonate.
+          </p>
+        </div>
+        <div className="mt-6">
+          <LogoCarousel />
+        </div>
+      </div>
       <button
         onClick={() => window.weardNav?.("contact")}
         className={`mt-10 inline-flex items-center gap-2 px-5 py-3 rounded-full text-white ${GRADIENT}`}
@@ -1809,21 +1822,6 @@ function LogoCarousel({ rowHeight = 56 }) {
   );
 }
 
-// ======= BRANDS =======
-function Brands() {
-  return (
-    <section className="max-w-7xl mx-auto px-4 pt-10 pb-20">
-      <h2 className="text-3xl sm:text-4xl font-bold">Brands</h2>
-      <p className="mt-2 text-sm text-neutral-500">
-        Trusted by leading brands worldwide.
-      </p>
-
-      <div className="mt-6 rounded-3xl border border-neutral-800 bg-neutral-900 p-4 sm:p-6">
-        <LogoCarousel />
-      </div>
-    </section>
-  );
-}
 function PrivacyPolicy() {
   useEffect(() => {
     document.title = "Privacy Policy • WEARD Management";
@@ -2325,9 +2323,6 @@ function Footer({ onNav }) {
         <div className="flex gap-4 text-sm justify-start md:justify-end">
           <button onClick={() => onNav("contact")} className="underline">
             Contact
-          </button>
-          <button onClick={() => onNav("brands")} className="underline">
-            Brands
           </button>
            <button onClick={() => onNav("privacy")} className="underline">
            Privacy
