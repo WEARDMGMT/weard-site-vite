@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://weardmgmt.com/sitemap.xml
