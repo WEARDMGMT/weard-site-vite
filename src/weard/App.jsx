@@ -147,9 +147,9 @@ const STARTER_CREATORS = [
   youtube: "https://www.youtube.com/channel/UCKDFGIM9V-KRGxlISDODpPQ", 
   email: "sophia@weardmgmt.com",
 location: "Thailand",
-  instagram_followers: 720000,
-  tiktok_followers: 613800,
-  youtube_subscribers: 8310,                       
+  instagram_followers: 715000,
+  tiktok_followers: 656900,
+  youtube_subscribers: 8380,                       
   profile_image: MEDIA.creators.Sophia.hero,   // static profile image
   photo: MEDIA.creators.Sophia.poster,         // still frame before hover
   tags: ["Fashion", "Beauty", "Travel"],
@@ -165,8 +165,8 @@ location: "Thailand",
   tiktok: "https://www.tiktok.com/@ameliewyg",
   email: "amy@weardmgmt.com",
   location: "Thailand",
-  instagram_followers: 348000,
-  tiktok_followers: 252300,
+  instagram_followers: 349000,
+  tiktok_followers: 271600,
   profile_image: MEDIA.creators.Amy.hero,
   photo: MEDIA.creators.Amy.poster,
   tags: ["Fashion", "Beauty", "Lifestyle"],
@@ -178,11 +178,11 @@ location: "Thailand",
      {name: "Josefine Uddman",
   category: "Beauty",
   instagram: "https://www.instagram.com/josefine.ku.ud/",
-  tiktok: "https://www.tiktok.com/@josefineuddman",
+  tiktok: "https://www.tiktok.com/@josefine.ku.ud",
   email: "josefine@weardmgmt.com",
   location: "Thailand",
-  instagram_followers: 8610,
-  tiktok_followers: 81500,
+  instagram_followers: 9490,
+  tiktok_followers: 83600,
   profile_image: MEDIA.creators.Josefine.hero, // static profile image
   photo: MEDIA.creators.Josefine.poster,          // still frame before hover
   tags: ["Beauty", "Lifestyle"],
@@ -198,9 +198,9 @@ location: "Thailand",
   youtube: "https://www.youtube.com/@theolivetreefamily", 
   email: "theolivetreefamily@weardmgmt.com",
   location: "UK",
-  instagram_followers: 50300,
-  tiktok_followers: 58600,
-  youtube_subscribers: 5220,                       
+  instagram_followers: 56400,
+  tiktok_followers: 63900,
+  youtube_subscribers: 6140,                       
  profile_image: MEDIA.creators.OliveTreeFamily.hero,
 photo: MEDIA.creators.OliveTreeFamily.poster,
 video: MEDIA.creators.OliveTreeFamily.video,
@@ -1109,6 +1109,13 @@ function RotatingWords({ words }) {
 
 // ======= ABOUT =======
 function About() {
+  const totalCreators = STARTER_CREATORS.length;
+  const totalFollowing = STARTER_CREATORS.reduce((sum, creator) => {
+    const ig = cleanNum(creator.instagram_followers) ?? 0;
+    const tt = cleanNum(creator.tiktok_followers) ?? 0;
+    const yt = cleanNum(creator.youtube_subscribers) ?? 0;
+    return sum + ig + tt + yt;
+  }, 0);
   const highlights = [
     {
       title: "Talent strategy",
@@ -1133,28 +1140,43 @@ function About() {
   ];
   return (
     <section className="max-w-7xl mx-auto px-4 py-12">
-      <div className="max-w-3xl">
-        <div className="inline-flex items-center gap-2 rounded-full border border-neutral-200/70 bg-white/80 px-4 py-1 text-[11px] uppercase tracking-[0.35em] text-neutral-500 shadow-sm">
-          <span className="h-2 w-2 rounded-full bg-emerald-400" aria-hidden="true" />
-          Influencer management, done differently
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_280px] lg:items-start">
+        <div className="max-w-3xl">
+          <div className="inline-flex items-center gap-2 rounded-full border border-neutral-200/70 bg-white/80 px-4 py-1 text-[11px] uppercase tracking-[0.35em] text-neutral-500 shadow-sm">
+            <span className="h-2 w-2 rounded-full bg-emerald-400" aria-hidden="true" />
+            Influencer management, done differently
+          </div>
+          <h2 className="mt-5 text-4xl sm:text-5xl font-bold text-neutral-900">
+            Aesthetic campaigns backed by creator-first management.
+          </h2>
+          <p className="mt-4 text-neutral-700 dark:text-neutral-300 max-w-2xl">
+            WEARD blends boutique attention with global scale. From onboarding to campaign
+            delivery, we orchestrate every step so brands get standout creative and creators get
+            long-term momentum.
+          </p>
+          <div className="mt-6 flex flex-wrap gap-3 text-xs text-neutral-500">
+            {["Strategy", "Creative", "Partnerships", "Reporting"].map((label) => (
+              <span
+                key={label}
+                className="rounded-full border border-neutral-200 bg-white/90 px-3 py-1 shadow-sm"
+              >
+                {label}
+              </span>
+            ))}
+          </div>
         </div>
-        <h2 className="mt-5 text-4xl sm:text-5xl font-bold text-neutral-900">
-          Aesthetic campaigns backed by creator-first management.
-        </h2>
-        <p className="mt-4 text-neutral-700 dark:text-neutral-300 max-w-2xl">
-          WEARD blends boutique attention with global scale. From onboarding to campaign
-          delivery, we orchestrate every step so brands get standout creative and creators get
-          long-term momentum.
-        </p>
-        <div className="mt-6 flex flex-wrap gap-3 text-xs text-neutral-500">
-          {["Strategy", "Creative", "Partnerships", "Reporting"].map((label) => (
-            <span
-              key={label}
-              className="rounded-full border border-neutral-200 bg-white/90 px-3 py-1 shadow-sm"
-            >
-              {label}
-            </span>
-          ))}
+        <div className="rounded-3xl border border-neutral-200/80 bg-white p-6 shadow-sm">
+          <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">Roster snapshot</p>
+          <div className="mt-5 space-y-4">
+            <div className="rounded-2xl border border-neutral-200/70 bg-neutral-50 px-4 py-3">
+              <div className="text-xs uppercase tracking-[0.25em] text-neutral-500">Total creators</div>
+              <div className="mt-2 text-3xl font-bold text-neutral-900">{totalCreators}+</div>
+            </div>
+            <div className="rounded-2xl border border-neutral-200/70 bg-neutral-50 px-4 py-3">
+              <div className="text-xs uppercase tracking-[0.25em] text-neutral-500">Combined social following</div>
+              <div className="mt-2 text-3xl font-bold text-neutral-900">{shortFormat(totalFollowing)}+</div>
+            </div>
+          </div>
         </div>
       </div>
       <div className="mt-10 grid gap-6 sm:grid-cols-2">
