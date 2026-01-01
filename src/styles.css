@@ -383,6 +383,7 @@ body.weard-loading {
   gap: 10px;
   align-items: center;
   justify-items: center;
+  margin-top: 14px;
 }
 
 .weard-loader__track {
@@ -392,7 +393,7 @@ body.weard-loading {
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.12);
   box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.08);
-  overflow: hidden;
+  overflow: visible;
 }
 
 .weard-loader__fill {
@@ -410,7 +411,7 @@ body.weard-loading {
   left: var(--loader-progress);
   width: 36px;
   height: 36px;
-  transform: translate(-50%, -65%);
+  transform: translate(-50%, -100%);
   display: block;
   z-index: 2;
   filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.4));
@@ -636,10 +637,10 @@ body.weard-loading {
 @keyframes weard-run-bob {
   0%,
   100% {
-    transform: translate(-50%, -65%) translateY(0);
+    transform: translate(-50%, -100%) translateY(0);
   }
   50% {
-    transform: translate(-50%, -65%) translateY(-3px);
+    transform: translate(-50%, -100%) translateY(-3px);
   }
 }
 
