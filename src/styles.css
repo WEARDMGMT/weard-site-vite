@@ -415,8 +415,8 @@ body.weard-loading {
   display: block;
   z-index: 2;
   filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.4));
-  animation: weard-run-bob 0.7s ease-in-out infinite,
-    weard-run-lean 1.4s ease-in-out infinite;
+  animation: weard-run-bob 1.1s ease-in-out infinite,
+    weard-run-lean 1.8s ease-in-out infinite;
 }
 
 .weard-loader__runner-head {
@@ -454,23 +454,23 @@ body.weard-loading {
 .weard-loader__runner-arm {
   top: 16px;
   width: 14px;
-  animation: weard-run-arm 0.65s ease-in-out infinite;
+  animation: weard-walk-arm 1.1s ease-in-out infinite;
 }
 
 .weard-loader__runner-arm--back {
   opacity: 0.6;
-  animation-delay: -0.3s;
+  animation-direction: reverse;
 }
 
 .weard-loader__runner-leg {
   top: 28px;
   width: 16px;
-  animation: weard-run-leg 0.65s ease-in-out infinite;
+  animation: weard-walk-leg 1.1s ease-in-out infinite;
 }
 
 .weard-loader__runner-leg--back {
   opacity: 0.6;
-  animation-delay: -0.3s;
+  animation-direction: reverse;
 }
 
 .weard-loader__percent {
@@ -617,21 +617,29 @@ body.weard-loading {
   }
 }
 
-@keyframes weard-run-arm {
-  0% {
-    transform: translateX(-1px) rotate(30deg);
-  }
+@keyframes weard-walk-arm {
+  0%,
   100% {
-    transform: translateX(-1px) rotate(-35deg);
+    transform: translateX(-1px) rotate(28deg);
+  }
+  50% {
+    transform: translateX(-1px) rotate(-32deg);
   }
 }
 
-@keyframes weard-run-leg {
-  0% {
-    transform: translateX(-1px) rotate(-25deg);
-  }
+@keyframes weard-walk-leg {
+  0%,
   100% {
-    transform: translateX(-1px) rotate(40deg);
+    transform: translateX(-1px) rotate(32deg) translateY(0);
+  }
+  25% {
+    transform: translateX(-1px) rotate(10deg) translateY(-2px);
+  }
+  50% {
+    transform: translateX(-1px) rotate(-28deg) translateY(0);
+  }
+  75% {
+    transform: translateX(-1px) rotate(-6deg) translateY(2px);
   }
 }
 
@@ -641,7 +649,7 @@ body.weard-loading {
     transform: translate(-50%, -100%) translateY(0);
   }
   50% {
-    transform: translate(-50%, -100%) translateY(-3px);
+    transform: translate(-50%, -100%) translateY(-2px);
   }
 }
 
@@ -651,7 +659,7 @@ body.weard-loading {
     rotate: 2deg;
   }
   50% {
-    rotate: -4deg;
+    rotate: -3deg;
   }
 }
 
