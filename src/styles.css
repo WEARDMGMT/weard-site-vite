@@ -408,30 +408,34 @@ body.weard-loading {
   position: absolute;
   top: 0;
   left: var(--loader-progress);
-  width: 28px;
-  height: 28px;
-  transform: translate(-50%, -80%);
+  width: 36px;
+  height: 36px;
+  transform: translate(-50%, -65%);
   display: block;
-  filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.35));
+  z-index: 2;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.4));
+  animation: weard-run-bob 0.7s ease-in-out infinite,
+    weard-run-lean 1.4s ease-in-out infinite;
 }
 
 .weard-loader__runner-head {
   position: absolute;
-  top: 2px;
+  top: 3px;
   left: 50%;
-  width: 7px;
-  height: 7px;
+  width: 9px;
+  height: 9px;
   border-radius: 999px;
   background: #f4f6e9;
+  box-shadow: 0 0 6px rgba(217, 255, 90, 0.45);
   transform: translateX(-50%);
 }
 
 .weard-loader__runner-body {
   position: absolute;
-  top: 9px;
+  top: 13px;
   left: 50%;
   width: 2px;
-  height: 10px;
+  height: 12px;
   background: #f4f6e9;
   transform: translateX(-50%);
 }
@@ -446,9 +450,9 @@ body.weard-loading {
 }
 
 .weard-loader__runner-arm {
-  top: 11px;
-  width: 11px;
-  animation: weard-run-arm 0.6s ease-in-out infinite;
+  top: 14px;
+  width: 12px;
+  animation: weard-run-arm 0.65s ease-in-out infinite;
 }
 
 .weard-loader__runner-arm--back {
@@ -457,9 +461,9 @@ body.weard-loading {
 }
 
 .weard-loader__runner-leg {
-  top: 18px;
-  width: 12px;
-  animation: weard-run-leg 0.6s ease-in-out infinite;
+  top: 22px;
+  width: 14px;
+  animation: weard-run-leg 0.65s ease-in-out infinite;
 }
 
 .weard-loader__runner-leg--back {
@@ -613,19 +617,39 @@ body.weard-loading {
 
 @keyframes weard-run-arm {
   0% {
-    transform: translateX(-50%) rotate(25deg);
+    transform: translateX(-50%) rotate(30deg);
   }
   100% {
-    transform: translateX(-50%) rotate(-30deg);
+    transform: translateX(-50%) rotate(-35deg);
   }
 }
 
 @keyframes weard-run-leg {
   0% {
-    transform: translateX(-50%) rotate(-20deg);
+    transform: translateX(-50%) rotate(-25deg);
   }
   100% {
-    transform: translateX(-50%) rotate(35deg);
+    transform: translateX(-50%) rotate(40deg);
+  }
+}
+
+@keyframes weard-run-bob {
+  0%,
+  100% {
+    transform: translate(-50%, -65%) translateY(0);
+  }
+  50% {
+    transform: translate(-50%, -65%) translateY(-3px);
+  }
+}
+
+@keyframes weard-run-lean {
+  0%,
+  100% {
+    rotate: 2deg;
+  }
+  50% {
+    rotate: -4deg;
   }
 }
 
@@ -674,7 +698,8 @@ body.weard-loading {
   .weard-loader__ring,
   .weard-loader__sparkle,
   .weard-loader__runner-arm,
-  .weard-loader__runner-leg {
+  .weard-loader__runner-leg,
+  .weard-loader__runner {
     animation: none;
   }
 }
