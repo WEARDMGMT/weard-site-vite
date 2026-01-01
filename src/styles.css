@@ -409,8 +409,8 @@ body.weard-loading {
   position: absolute;
   top: 0;
   left: var(--loader-progress);
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   transform: translate(-50%, -100%);
   display: block;
   z-index: 2;
@@ -421,10 +421,10 @@ body.weard-loading {
 
 .weard-loader__runner-head {
   position: absolute;
-  top: 3px;
+  top: 2px;
   left: 50%;
-  width: 9px;
-  height: 9px;
+  width: 10px;
+  height: 10px;
   border-radius: 999px;
   background: #f4f6e9;
   box-shadow: 0 0 6px rgba(217, 255, 90, 0.45);
@@ -433,10 +433,10 @@ body.weard-loading {
 
 .weard-loader__runner-body {
   position: absolute;
-  top: 13px;
+  top: 14px;
   left: 50%;
   width: 2px;
-  height: 12px;
+  height: 14px;
   background: #f4f6e9;
   transform: translateX(-50%);
 }
@@ -447,12 +447,13 @@ body.weard-loading {
   left: 50%;
   height: 2px;
   background: #f4f6e9;
-  transform-origin: left center;
+  border-radius: 999px;
+  transform-origin: 0 50%;
 }
 
 .weard-loader__runner-arm {
-  top: 14px;
-  width: 12px;
+  top: 16px;
+  width: 14px;
   animation: weard-run-arm 0.65s ease-in-out infinite;
 }
 
@@ -462,8 +463,8 @@ body.weard-loading {
 }
 
 .weard-loader__runner-leg {
-  top: 22px;
-  width: 14px;
+  top: 28px;
+  width: 16px;
   animation: weard-run-leg 0.65s ease-in-out infinite;
 }
 
@@ -618,19 +619,19 @@ body.weard-loading {
 
 @keyframes weard-run-arm {
   0% {
-    transform: translateX(-50%) rotate(30deg);
+    transform: translateX(-1px) rotate(30deg);
   }
   100% {
-    transform: translateX(-50%) rotate(-35deg);
+    transform: translateX(-1px) rotate(-35deg);
   }
 }
 
 @keyframes weard-run-leg {
   0% {
-    transform: translateX(-50%) rotate(-25deg);
+    transform: translateX(-1px) rotate(-25deg);
   }
   100% {
-    transform: translateX(-50%) rotate(40deg);
+    transform: translateX(-1px) rotate(40deg);
   }
 }
 
