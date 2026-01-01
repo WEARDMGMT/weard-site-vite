@@ -466,11 +466,12 @@ body.weard-loading {
   top: 28px;
   width: 16px;
   animation: weard-walk-leg 1.1s ease-in-out infinite;
+  animation-direction: reverse;
 }
 
 .weard-loader__runner-leg--back {
   opacity: 0.6;
-  animation-direction: reverse;
+  animation-direction: normal;
 }
 
 .weard-loader__percent {
