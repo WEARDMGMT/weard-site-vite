@@ -54,7 +54,7 @@ const VideoHover = ({ src, poster, className }) => {
   );
 };
 
-const LoadingScreen = () => (
+const LoadingScreen = ({ progress = 0 }) => (
   <motion.div
     className="weard-loader"
     initial={{ opacity: 1 }}
@@ -84,8 +84,22 @@ const LoadingScreen = () => (
       </div>
       <div className="weard-loader__mark">WEARD</div>
       <div className="weard-loader__tagline">Because normal doesnt trend</div>
-      <div className="weard-loader__pulse">
-        <span />
+      <div
+        className="weard-loader__progress"
+        style={{ "--loader-progress": `${Math.min(Math.max(progress, 0), 1) * 100}%` }}
+      >
+        <div className="weard-loader__track">
+          <div className="weard-loader__fill" />
+          <div className="weard-loader__runner" aria-hidden="true">
+            <span className="weard-loader__runner-head" />
+            <span className="weard-loader__runner-body" />
+            <span className="weard-loader__runner-leg weard-loader__runner-leg--front" />
+            <span className="weard-loader__runner-leg weard-loader__runner-leg--back" />
+            <span className="weard-loader__runner-arm weard-loader__runner-arm--front" />
+            <span className="weard-loader__runner-arm weard-loader__runner-arm--back" />
+          </div>
+        </div>
+        <div className="weard-loader__percent">{Math.round(progress * 100)}%</div>
       </div>
     </div>
   </motion.div>
@@ -533,6 +547,7 @@ let mapped = rows
 export default function App() {
   const creators = useRosterHydration();
   const [isLoading, setIsLoading] = useState(true);
+  const [loadProgress, setLoadProgress] = useState(0);
   const [activePage, setActivePage] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedCreator, setSelectedCreator] = useState(null);
@@ -597,22 +612,46 @@ useEffect(() => {
   useEffect(() => {
     let minPassed = false;
     let loaded = document.readyState === "complete";
-    const timer = setTimeout(() => {
-      minPassed = true;
-      if (loaded) setIsLoading(false);
-    }, 1200);
+    let rafId;
+    const minDuration = 1200;
+    const start = performance.now();
+
+    const updateProgress = () => {
+      const elapsed = performance.now() - start;
+      const timeProgress = Math.min(elapsed / minDuration, 1);
+      const readyState = document.readyState;
+      const readyProgress =
+        readyState === "complete" ? 1 : readyState === "interactive" ? 0.6 : 0.3;
+      let target = Math.min(0.95, Math.max(timeProgress, readyProgress));
+
+      if (loaded) target = 1;
+
+      setLoadProgress((prev) => (target > prev ? target : prev));
+
+      if (!loaded || target < 1) {
+        rafId = requestAnimationFrame(updateProgress);
+      }
+    };
 
     const handleLoad = () => {
       loaded = true;
+      setLoadProgress(1);
       if (minPassed) setIsLoading(false);
     };
 
+    const timer = setTimeout(() => {
+      minPassed = true;
+      if (loaded) setIsLoading(false);
+    }, minDuration);
+
     window.addEventListener("load", handleLoad);
     if (loaded) handleLoad();
+    rafId = requestAnimationFrame(updateProgress);
 
     return () => {
       clearTimeout(timer);
       window.removeEventListener("load", handleLoad);
+      if (rafId) cancelAnimationFrame(rafId);
     };
   }, []);
 
@@ -733,7 +772,7 @@ useEffect(() => {
   }, [creators]);
   return (
     <div className="min-h-screen bg-white text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100 transition-colors">
-      <AnimatePresence>{isLoading ? <LoadingScreen /> : null}</AnimatePresence>
+      <AnimatePresence>{isLoading ? <LoadingScreen progress={loadProgress} /> : null}</AnimatePresence>
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
