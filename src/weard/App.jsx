@@ -90,14 +90,6 @@ const LoadingScreen = ({ progress = 0 }) => (
       >
         <div className="weard-loader__track">
           <div className="weard-loader__fill" />
-          <div className="weard-loader__runner" aria-hidden="true">
-            <span className="weard-loader__runner-head" />
-            <span className="weard-loader__runner-body" />
-            <span className="weard-loader__runner-leg weard-loader__runner-leg--front" />
-            <span className="weard-loader__runner-leg weard-loader__runner-leg--back" />
-            <span className="weard-loader__runner-arm weard-loader__runner-arm--front" />
-            <span className="weard-loader__runner-arm weard-loader__runner-arm--back" />
-          </div>
         </div>
         <div className="weard-loader__percent">{Math.round(progress * 100)}%</div>
       </div>
