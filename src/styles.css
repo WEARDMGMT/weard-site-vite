@@ -405,75 +405,6 @@ body.weard-loading {
   transition: width 0.25s ease-out;
 }
 
-.weard-loader__runner {
-  position: absolute;
-  top: 0;
-  left: var(--loader-progress);
-  width: 40px;
-  height: 40px;
-  transform: translate(-50%, -100%);
-  display: block;
-  z-index: 2;
-  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.4));
-  animation: weard-run-bob 1.1s ease-in-out infinite,
-    weard-run-lean 1.8s ease-in-out infinite;
-}
-
-.weard-loader__runner-head {
-  position: absolute;
-  top: 2px;
-  left: 50%;
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
-  background: #f4f6e9;
-  box-shadow: 0 0 6px rgba(217, 255, 90, 0.45);
-  transform: translateX(-50%);
-}
-
-.weard-loader__runner-body {
-  position: absolute;
-  top: 14px;
-  left: 50%;
-  width: 2px;
-  height: 14px;
-  background: #f4f6e9;
-  transform: translateX(-50%);
-}
-
-.weard-loader__runner-arm,
-.weard-loader__runner-leg {
-  position: absolute;
-  left: calc(50% - 1px);
-  height: 2px;
-  background: #f4f6e9;
-  border-radius: 999px;
-  transform-origin: 0 50%;
-}
-
-.weard-loader__runner-arm {
-  top: 17px;
-  width: 16px;
-  animation: weard-walk-arm 1.1s ease-in-out infinite;
-}
-
-.weard-loader__runner-arm--back {
-  opacity: 0.6;
-  animation-direction: reverse;
-}
-
-.weard-loader__runner-leg {
-  top: 27px;
-  width: 18px;
-  animation: weard-walk-leg 1.1s ease-in-out infinite;
-  animation-direction: reverse;
-}
-
-.weard-loader__runner-leg--back {
-  opacity: 0.6;
-  animation-direction: normal;
-}
-
 .weard-loader__percent {
   font-size: 0.75rem;
   letter-spacing: 0.22em;
@@ -618,52 +549,6 @@ body.weard-loading {
   }
 }
 
-@keyframes weard-walk-arm {
-  0%,
-  100% {
-    transform: translateX(-2px) rotate(42deg);
-  }
-  50% {
-    transform: translateX(-2px) rotate(-38deg);
-  }
-}
-
-@keyframes weard-walk-leg {
-  0%,
-  100% {
-    transform: translateX(-2px) rotate(48deg) translateY(1px);
-  }
-  25% {
-    transform: translateX(-2px) rotate(18deg) translateY(-1px);
-  }
-  50% {
-    transform: translateX(-2px) rotate(-36deg) translateY(0);
-  }
-  75% {
-    transform: translateX(-2px) rotate(-12deg) translateY(2px);
-  }
-}
-
-@keyframes weard-run-bob {
-  0%,
-  100% {
-    transform: translate(-50%, -100%) translateY(0);
-  }
-  50% {
-    transform: translate(-50%, -100%) translateY(-2px);
-  }
-}
-
-@keyframes weard-run-lean {
-  0%,
-  100% {
-    rotate: 2deg;
-  }
-  50% {
-    rotate: -3deg;
-  }
-}
-
 @keyframes weard-sparkle {
   0%,
   100% {
@@ -707,10 +592,7 @@ body.weard-loading {
   .weard-loader__orbit,
   .weard-loader__glow,
   .weard-loader__ring,
-  .weard-loader__sparkle,
-  .weard-loader__runner-arm,
-  .weard-loader__runner-leg,
-  .weard-loader__runner {
+  .weard-loader__sparkle {
     animation: none;
   }
 }
