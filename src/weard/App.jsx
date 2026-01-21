@@ -159,6 +159,11 @@ const MEDIA = {
       poster: "/media/creators/theolivetreefamily/olivetreefamily-poster.jpg",
       video:  "/media/creators/theolivetreefamily/olivetreefamily-hover.mp4",
     },
+    VeryBritishKorean: {
+      hero: "/media/creators/verybritishkorean/verybritishkorean-hero.jpg",
+      poster: "/media/creators/verybritishkorean/verybritishkorean-poster.jpg",
+      video: "/media/creators/verybritishkorean/verybritishkorean-hover.mp4",
+    },
   },
 };
 
@@ -280,6 +285,21 @@ photo: MEDIA.creators.OliveTreeFamily.poster,
 video: MEDIA.creators.OliveTreeFamily.video,
   tags: ["Family", "Lifestyle", "Travel"],
   bio: "The Olive Tree Family is a lively and engaging Scottish household turning everyday life into authentic stories. From delicious family food content and immersive experiences to travel adventures and comforting at-home moments, they create warm, relatable posts that resonate with families across the UK and beyond. Their thriving TikTok and Instagram community looks to them for genuine, family-friendly inspiration and everyday lifestyle ideas.",
+  top_audience: ["United Kingdom"],
+},
+{
+  name: "Very British Korean",
+  category: "Lifestyle",
+  instagram: "https://www.instagram.com/verybritishkorean/?hl=en",
+  tiktok: "https://www.tiktok.com/@verybritishkorean",
+  location: "UK",
+  instagram_followers: 85100,
+  tiktok_followers: 9900,
+  profile_image: MEDIA.creators.VeryBritishKorean.hero,
+  photo: MEDIA.creators.VeryBritishKorean.poster,
+  video: MEDIA.creators.VeryBritishKorean.video,
+  tags: ["Lifestyle", "Comedy", "Beauty"],
+  bio: "Very British Korean is a culture-blending creator best known for sharp, observational humour that explores the quirks of British life through a Korean lens. Her content resonates for its relatability, warmth and comedic timing, building a highly engaged audience across TikTok and Instagram. With a natural ability to integrate brands into everyday moments, she delivers content that feels authentic, entertaining, and genuinely shareable.",
   top_audience: ["United Kingdom"],
 },
 {
