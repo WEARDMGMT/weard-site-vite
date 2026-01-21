@@ -1998,9 +1998,13 @@ function Roster({ creators, onNav }) {
     }
 
     const query = search.trim().toLowerCase();
+    const normalizedQuery = query.replace(/[^a-z0-9]/g, "");
     if (query) {
       data = data.filter((c) => {
-        const nameMatch = c.name?.toLowerCase().includes(query);
+        const name = c.name?.toLowerCase() || "";
+        const normalizedName = name.replace(/[^a-z0-9]/g, "");
+        const nameMatch =
+          name.includes(query) || (normalizedQuery && normalizedName.includes(normalizedQuery));
         const handles = [
           getUsernameFromUrl(c.instagram),
           getUsernameFromUrl(c.tiktok),
@@ -2008,7 +2012,11 @@ function Roster({ creators, onNav }) {
         ]
           .filter(Boolean)
           .map((handle) => handle.toLowerCase());
-        return nameMatch || handles.some((handle) => handle.includes(query));
+        const handleMatch =
+          handles.some((handle) => handle.includes(query)) ||
+          (normalizedQuery &&
+            handles.some((handle) => handle.replace(/[^a-z0-9]/g, "").includes(normalizedQuery)));
+        return nameMatch || handleMatch;
       });
     }
 
