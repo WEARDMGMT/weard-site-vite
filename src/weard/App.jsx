@@ -197,6 +197,9 @@ const HERO_VIDEOS = [
   "/assets/videos/video-10.mp4",
   "/assets/videos/video-11.mp4",
   "/assets/videos/video-12.mp4",
+  "/assets/videos/video-13.mp4",
+  "/assets/videos/video-14.mp4",
+  "/assets/videos/video-15.mp4",
 ];
 const HERO_LANES = [
   { seed: 0, speed: 54, pulse: 0.18 },
@@ -1401,9 +1404,10 @@ function Home({ onExploreRoster, onWorkWithUs }) {
 function HeroCarousel({ onExploreRoster, onWorkWithUs }) {
   const trackRefs = useRef([]);
   const containerRef = useRef(null);
+  const shuffleSeed = useMemo(() => Math.floor(Math.random() * 10_000), []);
   const laneOrders = useMemo(
-    () => HERO_LANES.map((lane) => shuffleWithSeed(HERO_VIDEOS, lane.seed)),
-    []
+    () => HERO_LANES.map((lane) => shuffleWithSeed(HERO_VIDEOS, lane.seed + shuffleSeed)),
+    [shuffleSeed]
   );
 
   useEffect(() => {
