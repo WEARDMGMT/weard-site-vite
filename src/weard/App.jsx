@@ -1404,9 +1404,10 @@ function Home({ onExploreRoster, onWorkWithUs }) {
 function HeroCarousel({ onExploreRoster, onWorkWithUs }) {
   const trackRefs = useRef([]);
   const containerRef = useRef(null);
+  const shuffleSeed = useMemo(() => Math.floor(Math.random() * 10_000), []);
   const laneOrders = useMemo(
-    () => HERO_LANES.map((lane) => shuffleWithSeed(HERO_VIDEOS, lane.seed)),
-    []
+    () => HERO_LANES.map((lane) => shuffleWithSeed(HERO_VIDEOS, lane.seed + shuffleSeed)),
+    [shuffleSeed]
   );
 
   useEffect(() => {
