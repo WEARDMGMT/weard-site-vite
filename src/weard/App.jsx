@@ -2289,16 +2289,42 @@ function CreatorCard({ p }) {
   const [mediaRef, mediaInView] = useInView({ rootMargin: "180px" });
   const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
   const [isTouchPlaying, setIsTouchPlaying] = useState(false);
+  const [isCoarsePointer, setIsCoarsePointer] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const mediaQuery = window.matchMedia("(pointer: coarse)");
+    const update = () => setIsCoarsePointer(mediaQuery.matches);
+    update();
+    mediaQuery.addEventListener("change", update);
+    return () => mediaQuery.removeEventListener("change", update);
+  }, []);
+
   useEffect(() => {
     if (mediaInView && hasVideo) setShouldLoadVideo(true);
   }, [mediaInView, hasVideo]);
+
+  useEffect(() => {
+    if (!hasVideo || !isCoarsePointer || !mediaInView) return;
+    setShouldLoadVideo(true);
+    setIsTouchPlaying(true);
+    const playPromise = videoRef.current?.play();
+    if (playPromise && typeof playPromise.catch === "function") {
+      playPromise.catch(() => setIsTouchPlaying(false));
+    }
+  }, [hasVideo, isCoarsePointer, mediaInView]);
+
   const handleEnter = () => {
     if (!hasVideo) return;
     setShouldLoadVideo(true);
     setIsTouchPlaying(true);
-    videoRef.current?.play();
+    const playPromise = videoRef.current?.play();
+    if (playPromise && typeof playPromise.catch === "function") {
+      playPromise.catch(() => setIsTouchPlaying(false));
+    }
   };
   const handleLeave = () => {
+    if (isCoarsePointer) return;
     setIsTouchPlaying(false);
     videoRef.current?.pause();
   };
@@ -2327,11 +2353,10 @@ function CreatorCard({ p }) {
         target={defaultProfile ? "_blank" : undefined}
         rel={defaultProfile ? "noopener noreferrer" : undefined}
         aria-label={`Open ${p.name}'s profile`}
-        className="relative block aspect-[3/5] bg-neutral-100 dark:bg-neutral-900"
+        className="relative block aspect-[4/5] sm:aspect-[3/5] bg-neutral-100 dark:bg-neutral-900"
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
         onTouchStart={handleEnter}
-        onTouchEnd={handleLeave}
       >
         {/* Base photo */}
         <img
@@ -2396,12 +2421,12 @@ function CreatorCard({ p }) {
   </div>
 
   {/* Platform icons (bottom-right) */}
-  <div className="absolute right-3 bottom-3 flex items-center gap-2">
+  <div className="absolute right-3 bottom-3 flex items-center gap-1.5 sm:gap-2">
   {p.instagram && (
     <button
       type="button"
       onClick={(e) => { e.preventDefault(); open(p.instagram); }}
-      className="h-9 w-9 rounded-full bg-white/90 hover:bg-white text-neutral-900 grid place-items-center shadow"
+      className="h-8 w-8 sm:h-9 sm:w-9 rounded-full bg-white/90 hover:bg-white text-neutral-900 grid place-items-center shadow"
       aria-label="Open Instagram"
     >
       <Instagram size={16} />
@@ -2411,7 +2436,7 @@ function CreatorCard({ p }) {
     <button
       type="button"
       onClick={(e) => { e.preventDefault(); open(p.tiktok); }}
-      className="h-9 w-9 rounded-full bg-white/90 hover:bg-white text-neutral-900 grid place-items-center shadow"
+      className="h-8 w-8 sm:h-9 sm:w-9 rounded-full bg-white/90 hover:bg-white text-neutral-900 grid place-items-center shadow"
       aria-label="Open TikTok"
     >
       <TikTokIcon />
@@ -2421,7 +2446,7 @@ function CreatorCard({ p }) {
     <button
       type="button"
       onClick={(e) => { e.preventDefault(); open(p.youtube); }}
-      className="h-9 w-9 rounded-full bg-white/90 hover:bg-white text-neutral-900 grid place-items-center shadow"
+      className="h-8 w-8 sm:h-9 sm:w-9 rounded-full bg-white/90 hover:bg-white text-neutral-900 grid place-items-center shadow"
       aria-label="Open YouTube"
     >
       <Youtube size={16} />
