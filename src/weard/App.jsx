@@ -28,7 +28,7 @@ const WorldMap = React.lazy(() => import("./WorldMap"));
  * - Roster "Submit profile" + About "Join the roster" -> Contact page
  * - Real world map with geographic hover glow (react-simple-maps)
  * - Clickable social stat tiles + image header links to default profile
- * - Followers set for Sophia & Amelie, animated count-up + totals
+ * - Followers set for Sophia, animated count-up + totals
  * - Hover video playback on cards
  * - Brands intro update
  * - Contact forms -> mailto prefill
@@ -219,7 +219,6 @@ const HERO_LANES = [
 
 const CREATOR_ALIASES = {
   "sophia-price": ["sophiapriceyyy", "XsophiapriceyX", "xsophiapriceyx", "Sophia Price"],
-  "amelie-wyg": ["ameliewyg", "Amy (เอมี่)", "Amy/เอมี่", "Amy Wyg"],
   "emily-uddman": ["emily.uddman", "Emily Janrawee Uddman"],
   "josefine-uddman": [
     "josefine.ku.ud",
@@ -250,23 +249,6 @@ location: "Thailand",
   top_audience: ["United States", "Thailand"],   // 👈 add this line
 
   },
-{
-  name: "Amelie Wyg",
-  category: "Fashion",
-  instagram: "https://www.instagram.com/ameliewyg",
-  tiktok: "https://www.tiktok.com/@ameliewyg",
-  email: "amy@weardmgmt.com",
-  location: "Thailand",
-  instagram_followers: 349000,
-  tiktok_followers: 271600,
-  profile_image: MEDIA.creators.Amy.hero,
-  photo: MEDIA.creators.Amy.poster,
-  tags: ["Fashion", "Beauty", "Lifestyle"],
-  video: MEDIA.creators.Amy.video,
-  bio: "Amy Wyg is a Thai–German fashion, beauty and lifestyle content creator whose work radiates confidence, creativity and cultural flair. Blending European and Asian influences with a sharp eye for style, she delivers trend-led fashion edits, skincare tips and aspirational lifestyle moments to an engaged global audience across Instagram and TikTok.",
-  top_audience: ["United States", "Thailand"],    
-
-   },
      {name: "Josefine Uddman",
   category: "Beauty",
   instagram: "https://www.instagram.com/josefine.ku.ud/",
@@ -526,6 +508,7 @@ function useRosterHydration(initialCreators = STARTER_CREATORS) {
         const rows = parseCSV(csv);
 let mapped = rows
   .filter((r) => r.name)
+  .filter((r) => !/amelie|amy\s*wyg/i.test(r.name))
  .map((r) => ({
   name: r.name,
   category: r.category || "Lifestyle",
@@ -548,16 +531,12 @@ let mapped = rows
     .filter(Boolean),
 }))
 
-        // Fallbacks for Sophia & Amelie if sheet doesn’t supply numbers
+        // Fallbacks for Sophia if sheet doesn’t supply numbers
         mapped = mapped.map((c) => {
           const name = c.name?.toLowerCase() || "";
           if (name.includes("sophia")) {
             c.instagram_followers ??= 721000;
             c.tiktok_followers ??= 552900;
-          }
-          if (name.includes("amelie") || name.includes("amy")) {
-            c.instagram_followers ??= 350000;
-            c.tiktok_followers ??= 240000;
           }
           return c;
         });
@@ -2053,6 +2032,20 @@ function Roster({ creators, onNav }) {
       });
     }
 
+    data = data.sort((a, b) => {
+      const totalA =
+        (cleanNum(a.instagram_followers) || 0) +
+        (cleanNum(a.tiktok_followers) || 0) +
+        (cleanNum(a.youtube_subscribers) || 0) +
+        (cleanNum(a.facebook_followers) || 0);
+      const totalB =
+        (cleanNum(b.instagram_followers) || 0) +
+        (cleanNum(b.tiktok_followers) || 0) +
+        (cleanNum(b.youtube_subscribers) || 0) +
+        (cleanNum(b.facebook_followers) || 0);
+      return totalB - totalA;
+    });
+
     return data;
   }, [tab, region, creatorsData, search]);
 
@@ -2195,7 +2188,6 @@ function CreatorDirectory({ creators = [], onNav }) {
       </p>
       <ul className="mt-3 grid gap-1 text-sm text-neutral-600 dark:text-neutral-400">
         <li>Sophia Price — sophiapriceyyy, XsophiapriceyX, xsophiapriceyx</li>
-        <li>Amy Wyg — ameliewyg, Amy (เอมี่), Amy/เอมี่</li>
         <li>Emily Uddman — emily.uddman, Emily Janrawee Uddman</li>
         <li>Josefine Uddman — josefine.ku.ud, Josefine Kuanroethai Uddman, Bakhamnoi</li>
         <li>The Olive Tree Family — theolivetreefamily, TheOliveTreeFamily, W Ken | Lynsay | Chung Family</li>
