@@ -2,7 +2,7 @@
 
 import React, { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Instagram, Mail, ExternalLink, ArrowRight, Globe, Menu, X, Sparkles, Youtube } from "lucide-react";
+import { Instagram, Mail, ExternalLink, ArrowRight, ArrowUp, Globe, Menu, X, Sparkles, Youtube } from "lucide-react";
 // Simple TikTok icon (outline) to match lucide style
 const TikTokIcon = ({ size = 16, className = "" }) => (
   <svg
@@ -96,6 +96,36 @@ const LoadingScreen = ({ progress = 0 }) => (
     </div>
   </motion.div>
 );
+
+const ScrollToTopButton = ({ elevated = false }) => {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setVisible(window.scrollY > 420);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  if (!visible) return null;
+
+  return (
+    <button
+      type="button"
+      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      className={`fixed right-4 z-40 inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white/90 px-4 py-2 text-sm font-semibold text-neutral-800 shadow-lg backdrop-blur transition hover:-translate-y-0.5 hover:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-neutral-700 dark:bg-neutral-900/90 dark:text-neutral-100 dark:hover:bg-neutral-900 sm:right-6 ${
+        elevated ? "bottom-28" : "bottom-6"
+      }`}
+      aria-label="Scroll back to top"
+    >
+      <ArrowUp size={16} aria-hidden="true" />
+      Back to top
+    </button>
+  );
+};
 // ======= CONFIG =======
 const SHEET_URL =
   import.meta.env.VITE_SHEET_URL ||
@@ -894,6 +924,8 @@ useEffect(() => {
           )}
         </AnimatePresence>
       </main>
+
+      <ScrollToTopButton elevated={cookieConsent == null} />
 
       {cookieConsent == null && (
         <div className="fixed inset-x-0 bottom-0 z-50 border-t border-neutral-200 bg-white/95 px-4 py-4 shadow-lg backdrop-blur dark:border-neutral-800 dark:bg-neutral-950/95">
