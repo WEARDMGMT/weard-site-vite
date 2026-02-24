@@ -2,7 +2,7 @@
 
 import React, { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Instagram, Mail, ExternalLink, ArrowRight, Globe, Menu, X, Sparkles, Youtube } from "lucide-react";
+import { Instagram, Mail, ExternalLink, ArrowRight, ArrowUp, Globe, Menu, X, Sparkles, Youtube } from "lucide-react";
 // Simple TikTok icon (outline) to match lucide style
 const TikTokIcon = ({ size = 16, className = "" }) => (
   <svg
@@ -96,6 +96,36 @@ const LoadingScreen = ({ progress = 0 }) => (
     </div>
   </motion.div>
 );
+
+const ScrollToTopButton = ({ elevated = false }) => {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setVisible(window.scrollY > 420);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  if (!visible) return null;
+
+  return (
+    <button
+      type="button"
+      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      className={`fixed right-4 z-40 inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white/90 px-4 py-2 text-sm font-semibold text-neutral-800 shadow-lg backdrop-blur transition hover:-translate-y-0.5 hover:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-neutral-700 dark:bg-neutral-900/90 dark:text-neutral-100 dark:hover:bg-neutral-900 sm:right-6 ${
+        elevated ? "bottom-28" : "bottom-6"
+      }`}
+      aria-label="Scroll back to top"
+    >
+      <ArrowUp size={16} aria-hidden="true" />
+      Back to top
+    </button>
+  );
+};
 // ======= CONFIG =======
 const SHEET_URL =
   import.meta.env.VITE_SHEET_URL ||
@@ -894,6 +924,8 @@ useEffect(() => {
           )}
         </AnimatePresence>
       </main>
+
+      <ScrollToTopButton elevated={cookieConsent == null} />
 
       {cookieConsent == null && (
         <div className="fixed inset-x-0 bottom-0 z-50 border-t border-neutral-200 bg-white/95 px-4 py-4 shadow-lg backdrop-blur dark:border-neutral-800 dark:bg-neutral-950/95">
@@ -2257,16 +2289,42 @@ function CreatorCard({ p }) {
   const [mediaRef, mediaInView] = useInView({ rootMargin: "180px" });
   const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
   const [isTouchPlaying, setIsTouchPlaying] = useState(false);
+  const [isCoarsePointer, setIsCoarsePointer] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const mediaQuery = window.matchMedia("(pointer: coarse)");
+    const update = () => setIsCoarsePointer(mediaQuery.matches);
+    update();
+    mediaQuery.addEventListener("change", update);
+    return () => mediaQuery.removeEventListener("change", update);
+  }, []);
+
   useEffect(() => {
     if (mediaInView && hasVideo) setShouldLoadVideo(true);
   }, [mediaInView, hasVideo]);
+
+  useEffect(() => {
+    if (!hasVideo || !isCoarsePointer || !mediaInView) return;
+    setShouldLoadVideo(true);
+    setIsTouchPlaying(true);
+    const playPromise = videoRef.current?.play();
+    if (playPromise && typeof playPromise.catch === "function") {
+      playPromise.catch(() => setIsTouchPlaying(false));
+    }
+  }, [hasVideo, isCoarsePointer, mediaInView]);
+
   const handleEnter = () => {
     if (!hasVideo) return;
     setShouldLoadVideo(true);
     setIsTouchPlaying(true);
-    videoRef.current?.play();
+    const playPromise = videoRef.current?.play();
+    if (playPromise && typeof playPromise.catch === "function") {
+      playPromise.catch(() => setIsTouchPlaying(false));
+    }
   };
   const handleLeave = () => {
+    if (isCoarsePointer) return;
     setIsTouchPlaying(false);
     videoRef.current?.pause();
   };
@@ -2295,11 +2353,10 @@ function CreatorCard({ p }) {
         target={defaultProfile ? "_blank" : undefined}
         rel={defaultProfile ? "noopener noreferrer" : undefined}
         aria-label={`Open ${p.name}'s profile`}
-        className="relative block aspect-[3/5] bg-neutral-100 dark:bg-neutral-900"
+        className="relative block aspect-[4/5] sm:aspect-[3/5] bg-neutral-100 dark:bg-neutral-900"
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
         onTouchStart={handleEnter}
-        onTouchEnd={handleLeave}
       >
         {/* Base photo */}
         <img
@@ -2364,12 +2421,12 @@ function CreatorCard({ p }) {
   </div>
 
   {/* Platform icons (bottom-right) */}
-  <div className="absolute right-3 bottom-3 flex items-center gap-2">
+  <div className="absolute right-3 bottom-3 flex items-center gap-1.5 sm:gap-2">
   {p.instagram && (
     <button
       type="button"
       onClick={(e) => { e.preventDefault(); open(p.instagram); }}
-      className="h-9 w-9 rounded-full bg-white/90 hover:bg-white text-neutral-900 grid place-items-center shadow"
+      className="h-8 w-8 sm:h-9 sm:w-9 rounded-full bg-white/90 hover:bg-white text-neutral-900 grid place-items-center shadow"
       aria-label="Open Instagram"
     >
       <Instagram size={16} />
@@ -2379,7 +2436,7 @@ function CreatorCard({ p }) {
     <button
       type="button"
       onClick={(e) => { e.preventDefault(); open(p.tiktok); }}
-      className="h-9 w-9 rounded-full bg-white/90 hover:bg-white text-neutral-900 grid place-items-center shadow"
+      className="h-8 w-8 sm:h-9 sm:w-9 rounded-full bg-white/90 hover:bg-white text-neutral-900 grid place-items-center shadow"
       aria-label="Open TikTok"
     >
       <TikTokIcon />
@@ -2389,7 +2446,7 @@ function CreatorCard({ p }) {
     <button
       type="button"
       onClick={(e) => { e.preventDefault(); open(p.youtube); }}
-      className="h-9 w-9 rounded-full bg-white/90 hover:bg-white text-neutral-900 grid place-items-center shadow"
+      className="h-8 w-8 sm:h-9 sm:w-9 rounded-full bg-white/90 hover:bg-white text-neutral-900 grid place-items-center shadow"
       aria-label="Open YouTube"
     >
       <Youtube size={16} />
