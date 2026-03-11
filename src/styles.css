@@ -469,6 +469,7 @@ body.weard-loading {
   padding-inline: 10px;
   animation: weard-logo-scroll var(--duration, 40s) linear infinite;
   will-change: transform;
+  transition: animation-duration 0.35s ease;
 }
 
 .weard-logo-carousel__card {
@@ -481,6 +482,7 @@ body.weard-loading {
   background: rgba(255, 255, 255, 0.96);
   border: 1px solid rgba(15, 15, 15, 0.08);
   box-shadow: 0 16px 28px rgba(0, 0, 0, 0.18);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
 .weard-logo-carousel__logo {
@@ -496,11 +498,16 @@ body.weard-loading {
 .weard-logo-carousel__card:hover .weard-logo-carousel__logo {
   opacity: 1;
   filter: none;
-  transform: scale(1.04);
+  transform: scale(1.08) rotate(-2deg);
 }
 
 .weard-logo-carousel:hover .weard-logo-carousel__track {
-  animation-play-state: paused;
+  animation-duration: calc(var(--duration, 40s) * 0.35);
+}
+
+.weard-logo-carousel__card:hover {
+  transform: translateY(-4px) rotate(1deg);
+  box-shadow: 0 20px 36px rgba(56, 189, 248, 0.25);
 }
 
 .weard-logo-carousel--paused .weard-logo-carousel__track {

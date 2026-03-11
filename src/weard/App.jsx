@@ -220,7 +220,6 @@ const BRAND_LOGOS = [
 
 const WEARE_WORDS = ["DIFFERENT", "DISRUPTIVE", "DYNAMIC", "DISTINCT", "DRIVEN", "DECISIVE", "DEFIANT"];
 const HERO_VIDEOS = [
-  "/assets/videos/video-01.mp4",
   "/assets/videos/video-02.mp4",
   "/assets/videos/video-03.mp4",
   "/assets/videos/video-04.mp4",
@@ -281,7 +280,7 @@ location: "Thailand",
   tags: ["Fashion", "Beauty", "Travel"],
   video: MEDIA.creators.Sophia.video,
   bio: "Sophia Pricey is a Thai–British fashion, beauty and travel content creator known for her trend-setting style and high-engagement global audience. She shares fashion hauls, beauty tutorials and aspirational travel content across Instagram and TikTok, reaching over 1.3 million followers. With a photographer’s eye and a playful yet polished aesthetic, Sophia delivers visually striking campaigns for brands seeking authentic, cross-cultural influence.",
-  top_audience: ["United States", "Thailand"],   // 👈 add this line
+  top_audience: ["Thailand", "United Kingdom"],
 
   },
      {name: "Josefine Uddman",
@@ -740,12 +739,12 @@ useEffect(() => {
       home: {
         title: "WEARD Management | Global Influencer Talent Management Agency",
         description:
-          "WEARD Management (WEARDMGMT) connects brands with creators across Asia, APAC, Thailand, Hong Kong, the UK, and the US, delivering cross-border talent management and creator campaigns.",
+          "WEARD Management (WEARDMGMT) connects brands with creators across Asia, APAC, Thailand, Hong Kong, and the UK, delivering cross-border talent management and creator campaigns.",
       },
       about: {
         title: "About WEARD Management | Cross-Border Influencer Management",
         description:
-          "Discover WEARD’s creator-first approach to influencer talent management, building bridges between Asian brands and Western audiences across APAC, the UK, and the US.",
+          "Discover WEARD’s creator-first approach to influencer talent management, building bridges between Asian brands and Western audiences across APAC and the UK.",
       },
       roster: {
         title: "WEARD Roster | Influencer Talent Management & Creator Representation",
@@ -760,7 +759,7 @@ useEffect(() => {
       brands: {
         title: "Brand Partnerships | WEARD Management Influencer Agency",
         description:
-          "Partner with WEARD Management for brand-safe creator partnerships, global brand expansion, and influencer talent management across Asia, APAC, the UK, and the US.",
+          "Partner with WEARD Management for brand-safe creator partnerships, global brand expansion, and influencer talent management across Asia, APAC, and the UK.",
       },
       privacy: {
         title: "Privacy Policy | WEARD Management",
@@ -1385,9 +1384,7 @@ function Home({ onExploreRoster, onWorkWithUs }) {
         </h1>
         <p className="mt-5 text-base sm:text-lg text-neutral-700 dark:text-neutral-200 max-w-prose">
           WEARD Management (WEARDMGMT) is a global influencer talent management agency connecting
-          Asia, APAC, Thailand, Hong Kong, the UK, and the US through cross-border creator
-          campaigns.<br />
-          Global influence. Global campaigns. Global talent.
+          Asia, APAC, Thailand, Hong Kong, and the UK through cross-border creator campaigns.
         </p>
         <div className="mt-8 flex flex-wrap gap-3 justify-center">
           <button
@@ -1416,10 +1413,10 @@ function Home({ onExploreRoster, onWorkWithUs }) {
           </div>
           <div className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm">
             <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">Cross-border bridges</p>
-            <h2 className="mt-3 text-2xl font-semibold">Asia to UK & US influencer marketing</h2>
+            <h2 className="mt-3 text-2xl font-semibold">Asia to UK influencer marketing</h2>
             <p className="mt-3 text-sm text-neutral-600">
               WEARD builds bridges between Asian brands and Western audiences with international
-              influencer management, global influencer campaigns, and Asia to UK/US activations.
+              influencer management, global influencer campaigns, and Asia to UK activations.
             </p>
           </div>
           <div className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm">
@@ -1438,7 +1435,7 @@ function Home({ onExploreRoster, onWorkWithUs }) {
           </h3>
           <p className="mt-3 text-sm text-white/70">
             We specialise in always-on influencer strategy, whitelisted content, localised creator
-            strategy, and multi-market activations that connect Asian brands to UK and US creators.
+            strategy, and multi-market activations that connect Asian brands to UK creators.
           </p>
         </div>
       </div>
@@ -1542,7 +1539,7 @@ function HeroCarousel({ onExploreRoster, onWorkWithUs }) {
           }
         });
       },
-      { threshold: 0.6 }
+      { threshold: 0.01, rootMargin: "15% 0px 15% 0px" }
     );
 
     const cards = containerRef.current.querySelectorAll(".weard-hero__card");
@@ -1685,7 +1682,7 @@ function About() {
   ];
   const values = [
     "Creator-first management with long-term career planning",
-    "Cross-border campaign execution across APAC, the UK, and the US",
+    "Cross-border campaign execution across APAC and the UK",
     "Clear communication, measurable outcomes, and premium brand fit",
   ];
   return (
@@ -1697,7 +1694,7 @@ function About() {
             Influencer management, done differently
           </div>
           <h2 className="mt-5 text-4xl sm:text-5xl font-bold text-neutral-900">
-            We build standout campaigns and long-term creator careers.
+            Creator-first management, crafted for long-term momentum.
           </h2>
           <p className="mt-4 text-neutral-700 dark:text-neutral-300 max-w-2xl">
             WEARD is a boutique influencer management agency with global reach. We support
@@ -1970,7 +1967,7 @@ function BrandPartnerships({ onNav }) {
         <p className="mt-4 text-sm text-neutral-600 dark:text-neutral-400 max-w-3xl">
           WEARD Management delivers influencer talent management, creator representation, and
           performance-driven influencer marketing for brands looking to scale across Asia, APAC,
-          Thailand, Hong Kong, the UK, and the US.
+          Thailand, Hong Kong, and the UK.
         </p>
         <div className="mt-6 grid gap-4 md:grid-cols-2 text-sm text-neutral-600 dark:text-neutral-400">
           <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4">
@@ -1984,7 +1981,7 @@ function BrandPartnerships({ onNav }) {
             <p className="font-semibold">Campaign ideation to execution</p>
             <p className="mt-2">
               End-to-end influencer management with whitelisted content, reporting, and global
-              influencer campaigns that connect Asian brands to UK and US creators.
+              influencer campaigns that connect Asian brands to UK creators.
             </p>
           </div>
         </div>
@@ -2020,7 +2017,7 @@ function Roster({ creators, onNav }) {
 
   // Region filter tabs
   const [region, setRegion] = useState("All");
-  const regions = ["All", "UK", "Asia", "USA"];
+  const regions = ["All", "UK", "Asia"];
 
   const [search, setSearch] = useState("");
 
@@ -2044,7 +2041,6 @@ function Roster({ creators, onNav }) {
       data = data.filter((c) => {
         const loc = c.location?.toLowerCase() || "";
         if (region === "UK") return loc.includes("uk") || loc.includes("united kingdom");
-        if (region === "USA") return loc.includes("usa") || loc.includes("united states");
         if (region === "Asia")
           return (
             loc.includes("thailand") ||
@@ -2231,7 +2227,7 @@ function CreatorDirectory({ creators = [], onNav }) {
       <p className="mt-3 text-sm text-neutral-600 dark:text-neutral-400">
         Discover WEARD influencer management talent by full professional names and exact social usernames.
         This includes Emily Uddman (@emily.uddman), Zophia.zz (@zophia.zz), and every creator represented
-        by WEARD across Asia, APAC, Thailand, Hong Kong, the UK, and the US.
+        by WEARD across Asia, APAC, Thailand, Hong Kong, and the UK.
       </p>
       <ul className="mt-3 grid gap-1 text-sm text-neutral-600 dark:text-neutral-400">
         <li>Sophia Price — sophiapriceyyy, XsophiapriceyX, xsophiapriceyx</li>
@@ -2576,7 +2572,8 @@ function HoverMedia({ photo, video, alt }) {
 
 // ======= LOGO CAROUSEL =======
 const LOGO_LANES = [
-  { id: "orbit-a", speedSec: 36, direction: "normal", offset: 0 },
+  { id: "orbit-a", speedSec: 34, direction: "normal", offset: 0 },
+  { id: "orbit-b", speedSec: 26, direction: "reverse", offset: 5 },
 ];
 
 function LogoCarousel({ rowHeight = 56 }) {
