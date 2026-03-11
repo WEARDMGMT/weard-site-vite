@@ -83,7 +83,7 @@ const LoadingScreen = ({ progress = 0 }) => (
         </div>
       </div>
       <div className="weard-loader__mark">WEARD</div>
-      <div className="weard-loader__tagline">Because normal doesnt trend</div>
+      <div className="weard-loader__tagline">Because normal doesn't trend</div>
       <div
         className="weard-loader__progress"
         style={{ "--loader-progress": `${Math.min(Math.max(progress, 0), 1) * 100}%` }}
