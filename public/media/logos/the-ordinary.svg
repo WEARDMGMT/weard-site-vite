@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 200" role="img" aria-labelledby="title desc">
+  <title id="title">The Ordinary logo</title>
+  <desc id="desc">Black wordmark reading The Ordinary.</desc>
+  <rect width="680" height="200" fill="#fff"/>
+  <text x="26" y="74" font-family="Inter, Arial, Helvetica, sans-serif" font-size="60" fill="#000">The</text>
+  <text x="20" y="168" font-family="Inter, Arial Black, Helvetica, sans-serif" font-size="140" font-weight="800" fill="#000">Ordinary.</text>
+</svg>

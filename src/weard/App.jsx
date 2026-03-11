@@ -207,12 +207,16 @@ const BRAND_LOGOS = [
   { src: "/media/logos/amazon.png", alt: "Amazon" },
   { src: "/media/logos/beautyplus.png", alt: "BeautyPlus" },
   { src: "/media/logos/bella-barnett.png", alt: "Bella Barnett" },
+  { src: "/media/logos/haruharu-wonder.svg", alt: "haruharu wonder" },
   { src: "/media/logos/disney.png", alt: "Disney" },
   { src: "/media/logos/iamgia.svg", alt: "I.AM.GIA" },
   { src: "/media/logos/mediheal.png", alt: "Mediheal" },
+  { src: "/media/logos/monzo.svg", alt: "Monzo" },
+  { src: "/media/logos/mowi-scotland.svg", alt: "MOWI Scotland" },
   { src: "/media/logos/showpo.svg", alt: "Showpo" },
   { src: "/media/logos/skin-plus-me.svg", alt: "Skin+Me" },
   { src: "/media/logos/capcut.svg", alt: "CapCut" },
+  { src: "/media/logos/the-ordinary.svg", alt: "The Ordinary" },
   { src: "/media/logos/the-week-junior.svg", alt: "The Week Junior" },
   { src: "/media/logos/tiger-mist.png", alt: "Tiger Mist" },
   { src: "/media/logos/time-phoria.png", alt: "Timephoria" },
@@ -2572,8 +2576,8 @@ function HoverMedia({ photo, video, alt }) {
 
 // ======= LOGO CAROUSEL =======
 const LOGO_LANES = [
-  { id: "orbit-a", speedSec: 34, direction: "normal", offset: 0 },
-  { id: "orbit-b", speedSec: 26, direction: "reverse", offset: 5 },
+  { id: "orbit-a", speedSec: 24, direction: "normal", offset: 0 },
+  { id: "orbit-b", speedSec: 18, direction: "reverse", offset: 6 },
 ];
 
 function LogoCarousel({ rowHeight = 56 }) {

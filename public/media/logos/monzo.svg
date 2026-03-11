@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 200" role="img" aria-labelledby="title desc">
+  <title id="title">Monzo logo</title>
+  <desc id="desc">Coral wordmark reading monzo.</desc>
+  <rect width="560" height="200" fill="#fff"/>
+  <text x="60" y="138" font-family="Inter, Arial Black, Helvetica, sans-serif" font-size="140" font-weight="800" fill="#ff5548">monzo</text>
+</svg>
