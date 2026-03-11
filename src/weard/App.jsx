@@ -1671,6 +1671,11 @@ function About() {
       accent: "from-amber-500/15 via-rose-500/10 to-purple-500/15",
     },
   ];
+  const values = [
+    "Creator-first management with long-term career planning",
+    "Cross-border campaign execution across APAC, the UK, and the US",
+    "Clear communication, measurable outcomes, and premium brand fit",
+  ];
   return (
     <section className="max-w-7xl mx-auto px-4 py-12">
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_280px] lg:items-start">
@@ -1680,24 +1685,22 @@ function About() {
             Influencer management, done differently
           </div>
           <h2 className="mt-5 text-4xl sm:text-5xl font-bold text-neutral-900">
-            Influencer campaigns backed by creator-first management.
+            We build standout campaigns and long-term creator careers.
           </h2>
           <p className="mt-4 text-neutral-700 dark:text-neutral-300 max-w-2xl">
-            WEARD blends boutique attention with global scale as an influencer talent management
-            agency for Asia, APAC, Thailand, Hong Kong, the UK, and the US. From onboarding to
-            campaign delivery, we orchestrate cross-border influencer marketing so brands get
-            standout creative and creators get long-term momentum. As WEARD influencer management
-            and WEARD talent management, we operate as a WEARD Asia influencer agency and WEARD
-            APAC influencer management partner for global growth.
+            WEARD is a boutique influencer management agency with global reach. We support
+            creators and brands from strategy through delivery—connecting the right talent,
+            creative direction, and campaign execution to produce work that performs.
           </p>
-          <div className="mt-6 flex flex-wrap gap-3 text-xs text-neutral-500">
-            {["Strategy", "Creative", "Partnerships", "Reporting"].map((label) => (
-              <span
-                key={label}
-                className="rounded-full border border-neutral-200 bg-white/90 px-3 py-1 shadow-sm"
+          <div className="mt-6 grid gap-3 sm:grid-cols-2">
+            {values.map((value) => (
+              <div
+                key={value}
+                className="flex items-start gap-3 rounded-2xl border border-neutral-200/80 bg-white/85 px-4 py-3 text-sm text-neutral-600 shadow-sm"
               >
-                {label}
-              </span>
+                <span className="mt-1 h-2 w-2 rounded-full bg-indigo-500" aria-hidden="true" />
+                <span>{value}</span>
+              </div>
             ))}
           </div>
         </div>
@@ -1764,7 +1767,7 @@ function About() {
         onClick={() => window.weardNav?.("contact")}
         className={`mt-10 inline-flex items-center gap-2 px-5 py-3 rounded-full text-white ${GRADIENT}`}
       >
-        Join the roster <ArrowRight size={16} />
+        Work with WEARD <ArrowRight size={16} />
       </button>
       <WhereWeWork />
     </section>
