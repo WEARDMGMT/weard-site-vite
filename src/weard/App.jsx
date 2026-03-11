@@ -276,9 +276,9 @@ const STARTER_CREATORS = [
   youtube: "https://www.youtube.com/channel/UCKDFGIM9V-KRGxlISDODpPQ", 
   email: "sophia@weardmgmt.com",
 location: "Thailand",
-  instagram_followers: 715000,
-  tiktok_followers: 656900,
-  youtube_subscribers: 8380,                       
+  instagram_followers: 705000,
+  tiktok_followers: 689100,
+  youtube_subscribers: 8390,                       
   profile_image: MEDIA.creators.Sophia.hero,   // static profile image
   photo: MEDIA.creators.Sophia.poster,         // still frame before hover
   tags: ["Fashion", "Beauty", "Travel"],
@@ -293,8 +293,8 @@ location: "Thailand",
   tiktok: "https://www.tiktok.com/@josefine.ku.ud",
   email: "josefine@weardmgmt.com",
   location: "Thailand",
-  instagram_followers: 9490,
-  tiktok_followers: 83600,
+  instagram_followers: 11800,
+  tiktok_followers: 83500,
   profile_image: MEDIA.creators.Josefine.hero, // static profile image
   photo: MEDIA.creators.Josefine.poster,          // still frame before hover
   tags: ["Beauty", "Lifestyle"],
@@ -310,9 +310,9 @@ location: "Thailand",
   youtube: "https://www.youtube.com/@theolivetreefamily", 
   email: "theolivetreefamily@weardmgmt.com",
   location: "UK",
-  instagram_followers: 56400,
-  tiktok_followers: 63900,
-  youtube_subscribers: 6140,                       
+  instagram_followers: 63700,
+  tiktok_followers: 67400,
+  youtube_subscribers: 7650,                       
  profile_image: MEDIA.creators.OliveTreeFamily.hero,
 photo: MEDIA.creators.OliveTreeFamily.poster,
 video: MEDIA.creators.OliveTreeFamily.video,
@@ -326,8 +326,8 @@ video: MEDIA.creators.OliveTreeFamily.video,
   instagram: "https://www.instagram.com/verybritishkorean/?hl=en",
   tiktok: "https://www.tiktok.com/@verybritishkorean",
   location: "UK",
-  instagram_followers: 85100,
-  tiktok_followers: 9900,
+  instagram_followers: 92900,
+  tiktok_followers: 10700,
   profile_image: MEDIA.creators.VeryBritishKorean.hero,
   photo: MEDIA.creators.VeryBritishKorean.poster,
   video: MEDIA.creators.VeryBritishKorean.video,
@@ -343,9 +343,9 @@ video: MEDIA.creators.OliveTreeFamily.video,
   youtube: "https://www.youtube.com/@verybritishproblems",
   facebook: "https://www.facebook.com/soverybritish/?locale=en_GB",
   location: "UK",
-  instagram_followers: 1100000,
-  tiktok_followers: 223500,
-  youtube_subscribers: 34700,
+  instagram_followers: 1200000,
+  tiktok_followers: 228500,
+  youtube_subscribers: 36500,
   facebook_followers: 1200000,
   profile_image: MEDIA.creators.VeryBritishProblems.hero,
   photo: MEDIA.creators.VeryBritishProblems.poster,
@@ -890,19 +890,19 @@ useEffect(() => {
             <motion.section key="apac-influencer-marketing" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
               <MarketingLanding
                 title="APAC Influencer Marketing"
-                primaryKeyword="APAC Influencer Marketing"
-                secondaryKeywords={[
-                  "APAC Influencer Talent Management",
-                  "Asia-Pacific Influencer Agency",
-                  "Regional creator campaigns",
-                  "Multi-market activations",
-                ]}
                 regionFocus="APAC"
-                bridgeKeywords={[
-                  "Cross-border influencer marketing",
-                  "Creator partnerships across Asia-Pacific",
-                  "Global influencer campaign delivery",
-                  "Gateway to Western influencer markets",
+                overview="WeARD plans and delivers APAC influencer campaigns that feel native to each market. We combine local creator insight, clear campaign structure, and measurable reporting so brands can grow consistently across Asia-Pacific."
+                marketPoints={[
+                  "Country-specific creator shortlists",
+                  "Localized briefs and cultural review",
+                  "Paid + organic campaign planning",
+                  "Transparent performance reporting",
+                ]}
+                approachPoints={[
+                  "Start with market goals, audience, and budget alignment",
+                  "Match creators by brand fit, not only by follower size",
+                  "Manage production, approvals, and delivery end-to-end",
+                  "Turn learnings into a repeatable growth playbook",
                 ]}
                 onNav={navigate}
               />
@@ -912,19 +912,19 @@ useEffect(() => {
             <motion.section key="asia-to-uk-influencer-marketing" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
               <MarketingLanding
                 title="UK Influencer Marketing"
-                primaryKeyword="UK Influencer Marketing"
-                secondaryKeywords={[
-                  "Asia to UK influencer marketing",
-                  "UK influencer talent management",
-                  "British creator partnerships",
-                  "International influencer management",
-                ]}
                 regionFocus="the UK"
-                bridgeKeywords={[
-                  "Connecting Asian brands to UK creators",
-                  "Cross-border influencer marketing",
-                  "Brand-safe creator partnerships",
-                  "Global influencer campaign delivery",
+                overview="WEARD helps brands launch and scale in the UK through strategic creator partnerships. From briefing to reporting, we build campaigns that are culturally relevant, commercially focused, and easy for teams to execute."
+                marketPoints={[
+                  "UK-first creator partnerships",
+                  "Campaign concepts designed for British audiences",
+                  "Full management across briefing, contracts, and delivery",
+                  "Performance tracking tied to clear business outcomes",
+                ]}
+                approachPoints={[
+                  "Define the audience and message for the UK market",
+                  "Select creators with authentic brand-to-audience fit",
+                  "Coordinate content, timelines, and approvals in one workflow",
+                  "Report results with practical next-step recommendations",
                 ]}
                 onNav={navigate}
               />
@@ -1407,26 +1407,26 @@ function Home({ onExploreRoster, onWorkWithUs }) {
       </div>
       <div className="max-w-6xl mx-auto px-4 pb-16">
         <div className="grid gap-6 lg:grid-cols-3">
-          <div className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm">
+          <div className="rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-6 shadow-sm">
             <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">Regional expertise</p>
-            <h2 className="mt-3 text-2xl font-semibold">Asia, APAC, Thailand, Hong Kong & UK focus</h2>
-            <p className="mt-3 text-sm text-neutral-600">
-              We deliver Asia and APAC creator campaigns, Thailand and Hong Kong talent management,
-              plus UK market entry support for brands expanding across the region.
+            <h2 className="mt-3 text-2xl font-semibold text-neutral-900 dark:text-neutral-100">UK & Asia focus</h2>
+            <p className="mt-3 text-sm text-neutral-600 dark:text-neutral-300">
+              We run creator campaigns built for growth in the UK and across Asia, pairing local
+              cultural insight with market-by-market execution.
             </p>
           </div>
-          <div className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm">
+          <div className="rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-6 shadow-sm">
             <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">Cross-border bridges</p>
-            <h2 className="mt-3 text-2xl font-semibold">Asia to UK influencer marketing</h2>
-            <p className="mt-3 text-sm text-neutral-600">
+            <h2 className="mt-3 text-2xl font-semibold text-neutral-900 dark:text-neutral-100">Asia to UK influencer marketing</h2>
+            <p className="mt-3 text-sm text-neutral-600 dark:text-neutral-300">
               WEARD builds bridges between Asian brands and Western audiences with international
               influencer management, global influencer campaigns, and Asia to UK activations.
             </p>
           </div>
-          <div className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm">
+          <div className="rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-6 shadow-sm">
             <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">Commercial outcomes</p>
-            <h2 className="mt-3 text-2xl font-semibold">Performance-driven creator campaigns</h2>
-            <p className="mt-3 text-sm text-neutral-600">
+            <h2 className="mt-3 text-2xl font-semibold text-neutral-900 dark:text-neutral-100">Performance-driven creator campaigns</h2>
+            <p className="mt-3 text-sm text-neutral-600 dark:text-neutral-300">
               Expect influencer talent management, creator representation, paid social amplification,
               ROI-focused creator campaigns, and end-to-end influencer management from ideation to execution.
             </p>
@@ -1697,7 +1697,7 @@ function About() {
             <span className="h-2 w-2 rounded-full bg-emerald-400" aria-hidden="true" />
             Influencer management, done differently
           </div>
-          <h2 className="mt-5 text-4xl sm:text-5xl font-bold text-neutral-900">
+          <h2 className="mt-5 text-4xl sm:text-5xl font-bold text-neutral-700 dark:text-neutral-200">
             Creator-first management, crafted for long-term momentum.
           </h2>
           <p className="mt-4 text-neutral-700 dark:text-neutral-300 max-w-2xl">
@@ -1876,10 +1876,10 @@ function WhereWeWork() {
 
 function MarketingLanding({
   title,
-  primaryKeyword,
-  secondaryKeywords = [],
   regionFocus,
-  bridgeKeywords = [],
+  overview,
+  marketPoints = [],
+  approachPoints = [],
   onNav,
 }) {
   return (
@@ -1890,30 +1890,27 @@ function MarketingLanding({
         </p>
         <h1 className="mt-4 text-4xl sm:text-5xl font-bold">{title}</h1>
         <p className="mt-4 text-sm text-neutral-600 dark:text-neutral-400 max-w-3xl">
-          WEARD Management delivers {primaryKeyword} with creator representation, influencer talent
-          management, and brand-safe creator partnerships tailored to {regionFocus}. We build
-          bridges between Asian and Western audiences through cross-border influencer marketing and
-          performance-driven influencer campaigns.
+          {overview}
         </p>
         <div className="mt-6 grid gap-4 sm:grid-cols-2">
           <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4">
-            <p className="text-xs uppercase tracking-[0.25em] text-neutral-400">Primary keyword</p>
-            <p className="mt-2 text-sm font-semibold">{primaryKeyword}</p>
+            <p className="text-xs uppercase tracking-[0.25em] text-neutral-400">Market focus</p>
+            <p className="mt-2 text-sm font-semibold">{regionFocus}</p>
           </div>
           <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4">
-            <p className="text-xs uppercase tracking-[0.25em] text-neutral-400">Secondary focus</p>
+            <p className="text-xs uppercase tracking-[0.25em] text-neutral-400">What we deliver</p>
             <ul className="mt-2 text-sm text-neutral-600 dark:text-neutral-400 space-y-1">
-              {secondaryKeywords.map((keyword) => (
-                <li key={keyword}>{keyword}</li>
+              {marketPoints.map((point) => (
+                <li key={point}>{point}</li>
               ))}
             </ul>
           </div>
         </div>
         <div className="mt-6 rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4">
-          <p className="text-xs uppercase tracking-[0.25em] text-neutral-400">Cross-border positioning</p>
+          <p className="text-xs uppercase tracking-[0.25em] text-neutral-400">How we work</p>
           <ul className="mt-2 text-sm text-neutral-600 dark:text-neutral-400 space-y-1">
-            {bridgeKeywords.map((keyword) => (
-              <li key={keyword}>{keyword}</li>
+            {approachPoints.map((point) => (
+              <li key={point}>{point}</li>
             ))}
           </ul>
         </div>
