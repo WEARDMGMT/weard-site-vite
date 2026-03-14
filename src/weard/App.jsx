@@ -425,6 +425,9 @@ const PAGE_PATHS = {
   privacy: "/privacy",
   "apac-influencer-marketing": "/apac-influencer-marketing",
   "asia-to-uk-influencer-marketing": "/asia-to-uk-influencer-marketing",
+  "diverse-creators": "/diverse-creators",
+  "asian-influencers-uk": "/asian-influencers-uk",
+  "cultural-campaign-creators": "/cultural-campaign-creators",
 };
 
 // Lightweight intersection observer for lazy loading
@@ -674,7 +677,7 @@ useEffect(() => {
     let minPassed = false;
     let loaded = document.readyState === "complete";
     let rafId;
-    const minDuration = 1200;
+    const minDuration = 700;
     const start = performance.now();
 
     const updateProgress = () => {
@@ -775,9 +778,24 @@ useEffect(() => {
           "APAC influencer marketing and talent management agency delivering creator campaigns across Asia-Pacific markets.",
       },
       "asia-to-uk-influencer-marketing": {
-        title: "UK Influencer Marketing | WEARD Management",
+        title: "Asia to UK Influencer Marketing Agency | WEARD Management",
         description:
           "UK influencer marketing built on cross-border creator campaigns connecting Asian brands with British audiences.",
+      },
+      "diverse-creators": {
+        title: "Diverse Creators & Inclusive Influencer Talent | WEARD Management",
+        description:
+          "Hire diverse creators and inclusive influencer talent through WEARD Management. We build premium campaigns with multicultural creators across the UK and Asia.",
+      },
+      "asian-influencers-uk": {
+        title: "Asian Influencers UK & British Asian Creators | WEARD Management",
+        description:
+          "Discover Asian influencers in the UK, British Asian creators, and cross-cultural talent for premium brand campaigns with WEARD Management.",
+      },
+      "cultural-campaign-creators": {
+        title: "Lunar New Year, Ramadan & Diwali Campaign Creators | WEARD",
+        description:
+          "Plan cultural campaigns with creators who understand Lunar New Year, Ramadan, Diwali, Mid-Autumn Festival, and multicultural audience moments.",
       },
     };
     const metaConfig = meta[activePage] || meta.home;
@@ -930,8 +948,57 @@ useEffect(() => {
               />
             </motion.section>
           )}
+          {activePage === "diverse-creators" && (
+            <motion.section key="diverse-creators" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
+              <DiscoveryLanding
+                eyebrow="Inclusive talent"
+                title="Diverse creators for commercially strong, culturally intelligent campaigns"
+                intro="WEARD represents multicultural talent with proven performance across beauty, fashion, lifestyle, family, and culture-first storytelling. We help brands hire diverse creators that deliver both relevance and measurable results."
+                points={[
+                  "Creator shortlists built for inclusion goals, not token casting",
+                  "Campaign planning across UK, Asian, and cross-border audiences",
+                  "Premium production, creator management, and delivery from brief to reporting",
+                ]}
+                links={["roster", "asian-influencers-uk", "cultural-campaign-creators", "contact"]}
+                onNav={navigate}
+              />
+            </motion.section>
+          )}
+          {activePage === "asian-influencers-uk" && (
+            <motion.section key="asian-influencers-uk" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
+              <DiscoveryLanding
+                eyebrow="Asian creator talent"
+                title="Asian influencers in the UK and British Asian creators for modern brands"
+                intro="From British Asian creators to pan-Asian voices based in the UK, WEARD builds partnerships that feel native to audience culture while staying premium, brand-safe, and commercially persuasive."
+                points={[
+                  "Access to Asian and multicultural creator profiles in beauty, food, travel, and lifestyle",
+                  "Cross-cultural strategy for Asia-to-UK campaign adaptation",
+                  "Fast campaign execution for launches, seasonal pushes, and always-on creator programmes",
+                ]}
+                links={["roster", "asia-to-uk-influencer-marketing", "brands", "contact"]}
+                onNav={navigate}
+              />
+            </motion.section>
+          )}
+          {activePage === "cultural-campaign-creators" && (
+            <motion.section key="cultural-campaign-creators" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
+              <DiscoveryLanding
+                eyebrow="Cultural campaign creators"
+                title="Creators for Lunar New Year, Ramadan, Diwali, and Mid-Autumn Festival campaigns"
+                intro="WEARD helps brands move beyond generic seasonal content by matching creators with lived cultural context. We design campaigns that respect audience nuance while driving awareness, engagement, and conversion."
+                points={[
+                  "Cultural brief review and creator matching for key festival moments",
+                  "Content guardrails that protect tone, relevance, and inclusivity",
+                  "Amplification options across paid social and creator whitelisting",
+                ]}
+                links={["brands", "roster", "diverse-creators", "contact"]}
+                onNav={navigate}
+              />
+            </motion.section>
+          )}
         </AnimatePresence>
       </main>
+      <StickyMobileCta onNav={navigate} />
 
       <ScrollToTopButton elevated={cookieConsent == null} />
 
@@ -1023,8 +1090,20 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
               {n.label}
             </button>
           ))}
+          <button
+            onClick={() => onNav("contact")}
+            className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold text-white ${GRADIENT}`}
+          >
+            Work With Our Creators <ArrowRight size={14} />
+          </button>
         </nav>
         <div className="md:hidden flex items-center gap-2">
+          <button
+            onClick={() => onNav("contact")}
+            className="inline-flex items-center rounded-full border border-white/30 px-3 py-2 text-xs font-semibold"
+          >
+            Contact
+          </button>
           <button
             aria-label="Open menu"
             aria-expanded={menuOpen}
@@ -1075,6 +1154,12 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
                   {n.label}
                 </button>
               ))}
+              <button
+                onClick={() => onNav("contact")}
+                className={`mt-2 w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold text-white ${GRADIENT}`}
+              >
+                Work With Our Creators <ArrowRight size={14} />
+              </button>
             </div>
           </motion.div>
         )}
@@ -1377,16 +1462,70 @@ function SiteLink({ to, onNav, className, children }) {
   );
 }
 
+function StickyMobileCta({ onNav }) {
+  return (
+    <div className="fixed inset-x-0 bottom-0 z-30 border-t border-neutral-200 bg-white/95 p-3 backdrop-blur dark:border-neutral-800 dark:bg-neutral-950/95 md:hidden">
+      <button
+        onClick={() => onNav?.("contact")}
+        className={`w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-full text-sm font-semibold text-white ${GRADIENT}`}
+      >
+        Work With Our Creators <ArrowRight size={16} />
+      </button>
+    </div>
+  );
+}
+
+function DiscoveryLanding({ eyebrow, title, intro, points = [], links = [], onNav }) {
+  const labels = {
+    roster: "Explore roster",
+    contact: "Contact WEARD",
+    brands: "Brand partnerships",
+    "diverse-creators": "Diverse creators",
+    "asian-influencers-uk": "Asian influencers UK",
+    "cultural-campaign-creators": "Cultural campaign creators",
+    "asia-to-uk-influencer-marketing": "Asia to UK influencer marketing",
+  };
+
+  return (
+    <section className="max-w-6xl mx-auto px-4 py-10 sm:py-12">
+      <div className="rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white/90 dark:bg-neutral-950 p-5 sm:p-8">
+        <p className="text-xs uppercase tracking-[0.35em] text-neutral-400">{eyebrow}</p>
+        <h1 className="mt-3 text-3xl sm:text-4xl font-bold leading-tight">{title}</h1>
+        <p className="mt-4 text-base leading-7 text-neutral-600 dark:text-neutral-300 max-w-4xl">{intro}</p>
+        <ul className="mt-6 grid gap-3 text-sm sm:text-base">
+          {points.map((point) => (
+            <li key={point} className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4">
+              {point}
+            </li>
+          ))}
+        </ul>
+        <div className="mt-6 flex flex-wrap gap-3">
+          {links.map((link) => (
+            <SiteLink
+              key={link}
+              to={link}
+              onNav={onNav}
+              className="inline-flex items-center gap-2 rounded-full border border-neutral-300 px-4 py-2 text-sm dark:border-neutral-700"
+            >
+              {labels[link] || link} <ArrowRight size={14} />
+            </SiteLink>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ======= HOME =======
 function Home({ onExploreRoster, onWorkWithUs }) {
   return (
     <section className="relative overflow-hidden">
       <HeroCarousel onExploreRoster={onExploreRoster} onWorkWithUs={onWorkWithUs} />
-      <div className="min-h-screen flex flex-col items-center justify-center px-4 text-center">
+      <div className="min-h-[82vh] sm:min-h-screen flex flex-col items-center justify-center px-4 text-center">
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight">
           WE ARE <RotatingWords words={WEARE_WORDS} />
         </h1>
-        <p className="mt-5 text-base sm:text-lg text-neutral-700 dark:text-neutral-200 max-w-prose">
+        <p className="mt-5 text-base sm:text-lg leading-7 text-neutral-700 dark:text-neutral-200 max-w-prose">
           WEARD Management (WEARDMGMT) is a global influencer talent management agency connecting
           Asia, APAC, Thailand, Hong Kong, and the UK through cross-border creator campaigns.
         </p>
@@ -1405,7 +1544,7 @@ function Home({ onExploreRoster, onWorkWithUs }) {
           </button>
         </div>
       </div>
-      <div className="max-w-6xl mx-auto px-4 pb-16">
+      <div className="max-w-6xl mx-auto px-4 pb-24 md:pb-16">
         <div className="grid gap-6 lg:grid-cols-3">
           <div className="rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-6 shadow-sm">
             <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">Regional expertise</p>
@@ -1883,8 +2022,8 @@ function MarketingLanding({
   onNav,
 }) {
   return (
-    <section className="max-w-6xl mx-auto px-4 py-12">
-      <div className="rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white/90 dark:bg-neutral-950 p-8">
+    <section className="max-w-6xl mx-auto px-4 py-10 sm:py-12">
+      <div className="rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white/90 dark:bg-neutral-950 p-5 sm:p-8">
         <p className="text-xs uppercase tracking-[0.35em] text-neutral-400">
           Regional influencer marketing
         </p>
@@ -1959,8 +2098,8 @@ function MarketingLanding({
 
 function BrandPartnerships({ onNav }) {
   return (
-    <section className="max-w-6xl mx-auto px-4 py-12">
-      <div className="rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white/90 dark:bg-neutral-950 p-8">
+    <section className="max-w-6xl mx-auto px-4 py-10 sm:py-12">
+      <div className="rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white/90 dark:bg-neutral-950 p-5 sm:p-8">
         <p className="text-xs uppercase tracking-[0.35em] text-neutral-400">Brand partnerships</p>
         <h1 className="mt-4 text-4xl sm:text-5xl font-bold">
           Brand-safe creator partnerships for global brand expansion
@@ -2094,12 +2233,12 @@ function Roster({ creators, onNav }) {
   }, [tab, region, creatorsData, search]);
 
   return (
-    <section className="weard-section max-w-7xl mx-auto px-4 pt-10 pb-20">
-      <div className="relative z-10 flex items-center justify-between flex-wrap gap-4">
+    <section className="weard-section max-w-7xl mx-auto px-4 pt-8 sm:pt-10 pb-28 md:pb-20">
+      <div className="relative z-10 flex items-center justify-between flex-wrap gap-3 sm:gap-4">
         <div>
           <p className="text-xs uppercase tracking-[0.35em] text-neutral-400">Talent</p>
           <h2 className="mt-2 text-3xl sm:text-4xl font-bold">Roster</h2>
-          <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400 max-w-xl">
+          <p className="mt-2 text-base leading-7 text-neutral-500 dark:text-neutral-400 max-w-xl">
             A handpicked, global lineup built for high-performing creator campaigns.
           </p>
         </div>
@@ -2120,7 +2259,7 @@ function Roster({ creators, onNav }) {
       {/* Category tabs */}
       <div
         className="
-          sticky top-0 z-10
+          sticky top-[57px] sm:top-0 z-10
           -mx-4 px-4 py-3
           flex flex-wrap gap-2
           bg-white/90 dark:bg-neutral-950/90
@@ -2133,7 +2272,7 @@ function Roster({ creators, onNav }) {
             key={t}
             onClick={() => setTab(t)}
             className={cn(
-              "px-4 py-2 rounded-full text-sm border focus:outline-none focus:ring-2 focus:ring-indigo-500",
+              "px-4 py-2 rounded-full text-sm border min-h-[44px] focus:outline-none focus:ring-2 focus:ring-indigo-500",
               tab === t ? cn("text-white", GRADIENT, "border-transparent") : "border-neutral-300 dark:border-neutral-700"
             )}
           >
@@ -2149,7 +2288,7 @@ function Roster({ creators, onNav }) {
             key={r}
             onClick={() => setRegion(r)}
             className={cn(
-              "px-4 py-2 rounded-full text-sm border focus:outline-none focus:ring-2 focus:ring-indigo-500",
+              "px-4 py-2 rounded-full text-sm border min-h-[44px] focus:outline-none focus:ring-2 focus:ring-indigo-500",
               region === r ? cn("text-white", GRADIENT, "border-transparent") : "border-neutral-300 dark:border-neutral-700"
             )}
           >
@@ -2433,12 +2572,12 @@ function CreatorCard({ p }) {
   </div>
 
   {/* Platform icons (bottom-right) */}
-  <div className="absolute right-3 bottom-3 flex items-center gap-1.5 sm:gap-2">
+  <div className="absolute right-3 bottom-3 flex items-center gap-2">
   {p.instagram && (
     <button
       type="button"
       onClick={(e) => { e.preventDefault(); open(p.instagram); }}
-      className="h-8 w-8 sm:h-9 sm:w-9 rounded-full bg-white/90 hover:bg-white text-neutral-900 grid place-items-center shadow"
+      className="h-10 w-10 rounded-full bg-white/95 hover:bg-white text-neutral-900 grid place-items-center shadow"
       aria-label="Open Instagram"
     >
       <Instagram size={16} />
@@ -2448,7 +2587,7 @@ function CreatorCard({ p }) {
     <button
       type="button"
       onClick={(e) => { e.preventDefault(); open(p.tiktok); }}
-      className="h-8 w-8 sm:h-9 sm:w-9 rounded-full bg-white/90 hover:bg-white text-neutral-900 grid place-items-center shadow"
+      className="h-10 w-10 rounded-full bg-white/95 hover:bg-white text-neutral-900 grid place-items-center shadow"
       aria-label="Open TikTok"
     >
       <TikTokIcon />
@@ -2458,7 +2597,7 @@ function CreatorCard({ p }) {
     <button
       type="button"
       onClick={(e) => { e.preventDefault(); open(p.youtube); }}
-      className="h-8 w-8 sm:h-9 sm:w-9 rounded-full bg-white/90 hover:bg-white text-neutral-900 grid place-items-center shadow"
+      className="h-10 w-10 rounded-full bg-white/95 hover:bg-white text-neutral-900 grid place-items-center shadow"
       aria-label="Open YouTube"
     >
       <Youtube size={16} />
@@ -2469,7 +2608,7 @@ function CreatorCard({ p }) {
 
 
       {/* Meta panel */}
-  <div className="p-4">
+  <div className="p-4 sm:p-5">
   <div className="flex items-start justify-between gap-3">
   <div /> {/* name now only appears on the media */}
   <a
@@ -2478,7 +2617,7 @@ function CreatorCard({ p }) {
       event.preventDefault();
       window.weardOpenProfile?.(p);
     }}
-    className="text-sm font-semibold underline underline-offset-4 hover:opacity-80 text-indigo-600"
+    className="text-sm font-semibold underline underline-offset-4 hover:opacity-80 text-indigo-600 min-h-[44px] inline-flex items-center"
   >
     View Profile
   </a>
