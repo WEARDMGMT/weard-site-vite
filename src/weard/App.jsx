@@ -1045,6 +1045,7 @@ useEffect(() => {
 }
 
 function Header({ onNav, active, menuOpen, setMenuOpen }) {
+  const [isScrolled, setIsScrolled] = useState(false);
   const nav = [
     { k: "home", label: "Home" },
     { k: "about", label: "About Us" },
@@ -1072,9 +1073,23 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
     };
   }, [menuOpen, setMenuOpen]);
 
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 14);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-40 bg-neutral-900/90 text-white backdrop-blur border-b border-black/20">
-      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+    <header
+      className={cn(
+        "sticky top-0 z-40 border-b text-white backdrop-blur transition-all duration-300",
+        isScrolled
+          ? "border-white/10 bg-neutral-950/92 shadow-[0_10px_40px_rgba(0,0,0,0.35)]"
+          : "border-black/20 bg-neutral-900/88"
+      )}
+    >
+      <div className={cn("max-w-7xl mx-auto px-4 flex items-center justify-between transition-all duration-300", isScrolled ? "py-2.5" : "py-3.5")}>
         <div className="flex items-center gap-3">
           <span className={cn("font-black tracking-widest text-xl sm:text-2xl", TEXT_GRAD)}>WEARD</span>
           <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-neutral-300">Management</span>
@@ -1084,7 +1099,12 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
             <button
               key={n.k}
               onClick={() => onNav(n.k)}
-              className={cn("text-sm hover:opacity-80 focus:outline-none focus:underline", active === n.k ? "font-semibold text-white" : "text-neutral-300")}
+              className={cn(
+                "rounded-full px-3 py-1.5 text-sm transition focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400",
+                active === n.k
+                  ? "bg-white/10 font-semibold text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.16)]"
+                  : "text-neutral-300 hover:bg-white/5 hover:text-white"
+              )}
               aria-current={active === n.k ? "page" : undefined}
             >
               {n.label}
@@ -1546,7 +1566,7 @@ function Home({ onExploreRoster, onWorkWithUs }) {
       </div>
       <div className="max-w-6xl mx-auto px-4 pb-24 md:pb-16">
         <div className="grid gap-6 lg:grid-cols-3">
-          <div className="rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-6 shadow-sm">
+          <div className="group rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white/95 dark:bg-neutral-900 p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
             <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">Regional expertise</p>
             <h2 className="mt-3 text-2xl font-semibold text-neutral-900 dark:text-neutral-100">UK & Asia focus</h2>
             <p className="mt-3 text-sm text-neutral-600 dark:text-neutral-300">
@@ -1554,7 +1574,7 @@ function Home({ onExploreRoster, onWorkWithUs }) {
               cultural insight with market-by-market execution.
             </p>
           </div>
-          <div className="rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-6 shadow-sm">
+          <div className="group rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white/95 dark:bg-neutral-900 p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
             <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">Cross-border bridges</p>
             <h2 className="mt-3 text-2xl font-semibold text-neutral-900 dark:text-neutral-100">Asia to UK influencer marketing</h2>
             <p className="mt-3 text-sm text-neutral-600 dark:text-neutral-300">
@@ -1562,7 +1582,7 @@ function Home({ onExploreRoster, onWorkWithUs }) {
               influencer management, global influencer campaigns, and Asia to UK activations.
             </p>
           </div>
-          <div className="rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-6 shadow-sm">
+          <div className="group rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white/95 dark:bg-neutral-900 p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
             <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">Commercial outcomes</p>
             <h2 className="mt-3 text-2xl font-semibold text-neutral-900 dark:text-neutral-100">Performance-driven creator campaigns</h2>
             <p className="mt-3 text-sm text-neutral-600 dark:text-neutral-300">
@@ -1571,7 +1591,7 @@ function Home({ onExploreRoster, onWorkWithUs }) {
             </p>
           </div>
         </div>
-        <div className="mt-10 rounded-3xl border border-neutral-900 bg-neutral-900 p-6 sm:p-8 text-white">
+        <div className="mt-10 rounded-3xl border border-neutral-900 bg-neutral-900 p-6 sm:p-8 text-white shadow-[0_18px_70px_rgba(0,0,0,0.35)]">
           <p className="text-xs uppercase tracking-[0.35em] text-white/60">Insights</p>
           <h3 className="mt-3 text-2xl sm:text-3xl font-semibold">
             Brand-safe creator partnerships for global brand expansion
