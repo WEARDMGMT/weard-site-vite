@@ -1084,16 +1084,16 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
   return (
     <header
       className={cn(
-        "sticky top-0 z-40 border-b text-white backdrop-blur transition-all duration-300",
+        "sticky top-0 z-40 border-b text-neutral-800 backdrop-blur transition-all duration-300",
         isScrolled
-          ? "border-white/10 bg-neutral-950/92 shadow-[0_10px_40px_rgba(0,0,0,0.35)]"
-          : "border-black/20 bg-neutral-900/88"
+          ? "border-neutral-200/80 bg-white/92 shadow-[0_10px_40px_rgba(15,23,42,0.12)]"
+          : "border-black/10 bg-white/88"
       )}
     >
       <div className={cn("max-w-7xl mx-auto px-4 flex items-center justify-between transition-all duration-300", isScrolled ? "py-2.5" : "py-3.5")}>
         <div className="flex items-center gap-3">
           <span className={cn("font-black tracking-widest text-xl sm:text-2xl", TEXT_GRAD)}>WEARD</span>
-          <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-neutral-300">Management</span>
+          <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-neutral-400">Management</span>
         </div>
         <nav className="hidden md:flex items-center gap-6" aria-label="Primary">
           {nav.map((n) => (
@@ -1103,8 +1103,8 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
               className={cn(
                 "rounded-full px-3 py-1.5 text-sm transition focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400",
                 active === n.k
-                  ? "bg-white/10 font-semibold text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.16)]"
-                  : "text-neutral-300 hover:bg-white/5 hover:text-white"
+                  ? "bg-neutral-900/5 font-semibold text-neutral-900 shadow-[inset_0_0_0_1px_rgba(15,23,42,0.14)]"
+                  : "text-neutral-500 hover:bg-neutral-900/5 hover:text-neutral-800"
               )}
               aria-current={active === n.k ? "page" : undefined}
             >
