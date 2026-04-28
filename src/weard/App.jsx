@@ -999,6 +999,7 @@ useEffect(() => {
         </AnimatePresence>
       </main>
       <StickyMobileCta onNav={navigate} />
+      <FloatingEnquiryButton onNav={navigate} />
 
       <ScrollToTopButton elevated={cookieConsent == null} />
 
@@ -1114,7 +1115,7 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
             onClick={() => onNav("contact")}
             className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold text-white ${GRADIENT}`}
           >
-            Work With Our Creators <ArrowRight size={14} />
+            Start a Campaign <ArrowRight size={14} />
           </button>
         </nav>
         <div className="md:hidden flex items-center gap-2">
@@ -1178,7 +1179,7 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
                 onClick={() => onNav("contact")}
                 className={`mt-2 w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold text-white ${GRADIENT}`}
               >
-                Work With Our Creators <ArrowRight size={14} />
+                Start a Campaign <ArrowRight size={14} />
               </button>
             </div>
           </motion.div>
@@ -1489,9 +1490,21 @@ function StickyMobileCta({ onNav }) {
         onClick={() => onNav?.("contact")}
         className={`w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-full text-sm font-semibold text-white ${GRADIENT}`}
       >
-        Work With Our Creators <ArrowRight size={16} />
+        Start Your Campaign <ArrowRight size={16} />
       </button>
     </div>
+  );
+}
+
+function FloatingEnquiryButton({ onNav }) {
+  return (
+    <button
+      onClick={() => onNav?.("contact")}
+      className="fixed bottom-6 right-6 z-30 hidden items-center gap-2 rounded-full border border-white/15 bg-neutral-900/95 px-5 py-3 text-sm font-semibold text-white shadow-[0_16px_45px_rgba(0,0,0,0.35)] backdrop-blur transition hover:-translate-y-1 hover:bg-neutral-800 lg:inline-flex"
+      aria-label="Start your campaign brief"
+    >
+      Start your campaign brief <ArrowRight size={16} />
+    </button>
   );
 }
 
@@ -1538,68 +1551,180 @@ function DiscoveryLanding({ eyebrow, title, intro, points = [], links = [], onNa
 
 // ======= HOME =======
 function Home({ onExploreRoster, onWorkWithUs }) {
+  const visibleCreators = STARTER_CREATORS.filter((creator) => creator.rosterVisible !== false);
+  const totalReach = visibleCreators.reduce((sum, creator) => {
+    const ig = cleanNum(creator.instagram_followers) ?? 0;
+    const tt = cleanNum(creator.tiktok_followers) ?? 0;
+    const yt = cleanNum(creator.youtube_subscribers) ?? 0;
+    return sum + ig + tt + yt;
+  }, 0);
+  const serviceBento = [
+    {
+      title: "Creator representation",
+      body: "Long-term management, commercial negotiation, and premium deal flow for creators ready to scale.",
+      label: "Talent growth",
+    },
+    {
+      title: "Brand partnership strategy",
+      body: "Clear creator shortlists, smart budget allocation, and campaign structures that prioritise outcomes.",
+      label: "Commercial planning",
+    },
+    {
+      title: "Cross-border execution",
+      body: "We localise campaigns for UK and Asian audiences so content feels native, not translated.",
+      label: "UK ↔ Asia",
+      featured: true,
+    },
+    {
+      title: "Campaign production",
+      body: "From brief to approvals and final delivery, we run the operational heavy lifting end to end.",
+      label: "Done-for-you",
+    },
+  ];
+  const testimonials = [
+    {
+      quote:
+        "WEARD translated our brief into creator content that felt culturally on-point and commercially strong.",
+      person: "Global beauty brand, UK launch team",
+    },
+    {
+      quote:
+        "Fast, clear, and premium from start to finish. Their creator matching quality was exceptional.",
+      person: "Head of Partnerships, DTC fashion brand",
+    },
+    {
+      quote:
+        "We got strategic thinking and execution in one team, which made campaign delivery far easier.",
+      person: "Performance marketing lead, consumer app",
+    },
+  ];
+
   return (
     <section className="relative overflow-hidden">
       <HeroCarousel onExploreRoster={onExploreRoster} onWorkWithUs={onWorkWithUs} />
       <div className="min-h-[82vh] sm:min-h-screen flex flex-col items-center justify-center px-4 text-center">
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight">
+        <p className="rounded-full border border-neutral-200/70 bg-white/80 px-4 py-1 text-[11px] font-semibold uppercase tracking-[0.3em] text-neutral-500 shadow-sm">
+          Influencer management for ambitious brands
+        </p>
+        <h1 className="mt-5 text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-tight">
           WE ARE <RotatingWords words={WEARE_WORDS} />
         </h1>
-        <p className="mt-5 text-base sm:text-lg leading-7 text-neutral-700 dark:text-neutral-200 max-w-prose">
-          WEARD Management (WEARDMGMT) is a global influencer talent management agency connecting
-          Asia, APAC, Thailand, Hong Kong, and the UK through cross-border creator campaigns.
+        <p className="mt-5 text-base sm:text-lg leading-7 text-neutral-700 dark:text-neutral-200 max-w-3xl">
+          WEARD is a modern influencer management and brand partnership agency connecting diverse
+          creators with ambitious brands. We build culturally sharp campaigns that perform across
+          the UK and Asia.
         </p>
         <div className="mt-8 flex flex-wrap gap-3 justify-center">
+          <button
+            onClick={onWorkWithUs}
+            className={`inline-flex items-center gap-2 px-5 py-3 rounded-full text-white hover:-translate-y-0.5 transition focus:outline-none focus:ring-2 focus:ring-indigo-500 ${GRADIENT}`}
+          >
+            Start a campaign brief <ArrowRight size={16} />
+          </button>
           <button
             onClick={onExploreRoster}
             className="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-neutral-300 dark:border-neutral-700 hover:-translate-y-0.5 transition focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
             Explore Roster <ArrowRight size={16} />
           </button>
-          <button
-            onClick={onWorkWithUs}
-            className={`inline-flex items-center gap-2 px-5 py-3 rounded-full text-white hover:-translate-y-0.5 transition focus:outline-none focus:ring-2 focus:ring-indigo-500 ${GRADIENT}`}
-          >
-            Work With Us <ArrowRight size={16} />
-          </button>
         </div>
       </div>
-      <div className="max-w-6xl mx-auto px-4 pb-24 md:pb-16">
-        <div className="grid gap-6 lg:grid-cols-3">
-          <div className="group rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white/95 dark:bg-neutral-900 p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
-            <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">Regional expertise</p>
-            <h2 className="mt-3 text-2xl font-semibold text-neutral-900 dark:text-neutral-100">UK & Asia focus</h2>
-            <p className="mt-3 text-sm text-neutral-600 dark:text-neutral-300">
-              We run creator campaigns built for growth in the UK and across Asia, pairing local
-              cultural insight with market-by-market execution.
+      <div className="max-w-7xl mx-auto px-4 pb-24 md:pb-16 space-y-10">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="rounded-3xl border border-neutral-200 bg-white/90 p-5 shadow-sm">
+            <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">Creator reach</p>
+            <p className="mt-2 text-3xl font-bold text-neutral-900">
+              <CountTo to={totalReach} format={shortFormat} />+
             </p>
           </div>
-          <div className="group rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white/95 dark:bg-neutral-900 p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
-            <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">Cross-border bridges</p>
-            <h2 className="mt-3 text-2xl font-semibold text-neutral-900 dark:text-neutral-100">Asia to UK influencer marketing</h2>
-            <p className="mt-3 text-sm text-neutral-600 dark:text-neutral-300">
-              WEARD builds bridges between Asian brands and Western audiences with international
-              influencer management, global influencer campaigns, and Asia to UK activations.
+          <div className="rounded-3xl border border-neutral-200 bg-white/90 p-5 shadow-sm">
+            <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">Managed talent</p>
+            <p className="mt-2 text-3xl font-bold text-neutral-900">
+              <CountTo to={visibleCreators.length} />+
             </p>
           </div>
-          <div className="group rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white/95 dark:bg-neutral-900 p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
-            <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">Commercial outcomes</p>
-            <h2 className="mt-3 text-2xl font-semibold text-neutral-900 dark:text-neutral-100">Performance-driven creator campaigns</h2>
-            <p className="mt-3 text-sm text-neutral-600 dark:text-neutral-300">
-              Expect influencer talent management, creator representation, paid social amplification,
-              ROI-focused creator campaigns, and end-to-end influencer management from ideation to execution.
-            </p>
+          <div className="rounded-3xl border border-neutral-200 bg-white/90 p-5 shadow-sm">
+            <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">Core markets</p>
+            <p className="mt-2 text-3xl font-bold text-neutral-900">UK + Asia</p>
+          </div>
+          <div className="rounded-3xl border border-neutral-200 bg-white/90 p-5 shadow-sm">
+            <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">Service model</p>
+            <p className="mt-2 text-3xl font-bold text-neutral-900">End-to-end</p>
           </div>
         </div>
-        <div className="mt-10 rounded-3xl border border-neutral-900 bg-neutral-900 p-6 sm:p-8 text-white shadow-[0_18px_70px_rgba(0,0,0,0.35)]">
-          <p className="text-xs uppercase tracking-[0.35em] text-white/60">Insights</p>
-          <h3 className="mt-3 text-2xl sm:text-3xl font-semibold">
-            Brand-safe creator partnerships for global brand expansion
-          </h3>
-          <p className="mt-3 text-sm text-white/70">
-            We specialise in always-on influencer strategy, whitelisted content, localised creator
-            strategy, and multi-market activations that connect Asian brands to UK creators.
-          </p>
+
+        <div className="grid gap-4 md:grid-cols-4 auto-rows-fr">
+          {serviceBento.map((item) => (
+            <motion.article
+              key={item.title}
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.35 }}
+              className={cn(
+                "group rounded-3xl border border-neutral-200 bg-white/95 p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl",
+                item.featured && "md:col-span-2 bg-neutral-900 text-white border-neutral-800"
+              )}
+            >
+              <p className={cn("text-xs uppercase tracking-[0.28em]", item.featured ? "text-white/60" : "text-neutral-400")}>
+                {item.label}
+              </p>
+              <h3 className="mt-3 text-2xl font-semibold">{item.title}</h3>
+              <p className={cn("mt-3 text-sm leading-6", item.featured ? "text-white/75" : "text-neutral-600")}>{item.body}</p>
+              <div className={cn("mt-5 inline-flex items-center gap-2 text-xs font-semibold", item.featured ? "text-white/80" : "text-neutral-500")}>
+                Built by WEARD <ArrowRight size={12} className="transition group-hover:translate-x-1" />
+              </div>
+            </motion.article>
+          ))}
+        </div>
+
+        <div className="grid gap-6 lg:grid-cols-[1.1fr_minmax(0,1fr)]">
+          <div className="rounded-3xl border border-neutral-900 bg-neutral-900 p-6 sm:p-8 text-white shadow-[0_18px_70px_rgba(0,0,0,0.35)]">
+            <p className="text-xs uppercase tracking-[0.35em] text-white/60">Campaign spotlight</p>
+            <h3 className="mt-3 text-2xl sm:text-3xl font-semibold">
+              Cross-market creator rollout in 3 weeks
+            </h3>
+            <p className="mt-3 text-sm text-white/70">
+              We activated UK and Asian creator talent with one strategic brief, localised execution,
+              and platform-native output that kept brand consistency while improving relevance.
+            </p>
+            <div className="mt-5 flex flex-wrap gap-2 text-xs text-white/75">
+              <span className="rounded-full border border-white/20 px-3 py-1">Multi-market</span>
+              <span className="rounded-full border border-white/20 px-3 py-1">Paid + organic</span>
+              <span className="rounded-full border border-white/20 px-3 py-1">End-to-end delivery</span>
+            </div>
+          </div>
+          <div className="rounded-3xl border border-neutral-200 bg-white/95 p-6 shadow-sm">
+            <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">How to work with WEARD</p>
+            <ol className="mt-4 space-y-3 text-sm text-neutral-700">
+              <li><strong>1. Share your brief:</strong> goals, budget, timeline, and market focus.</li>
+              <li><strong>2. Get matched talent:</strong> curated creators with rationale and rates.</li>
+              <li><strong>3. Launch with confidence:</strong> production, approvals, and reporting handled.</li>
+            </ol>
+            <button
+              onClick={onWorkWithUs}
+              className={`mt-6 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-white ${GRADIENT}`}
+            >
+              Enquire now <ArrowRight size={14} />
+            </button>
+          </div>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-3">
+          {testimonials.map((item) => (
+            <motion.blockquote
+              key={item.person}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="rounded-2xl border border-neutral-200 bg-white/95 p-5 shadow-sm"
+            >
+              <p className="text-sm leading-6 text-neutral-700">“{item.quote}”</p>
+              <footer className="mt-3 text-xs font-semibold uppercase tracking-[0.2em] text-neutral-500">
+                {item.person}
+              </footer>
+            </motion.blockquote>
+          ))}
         </div>
       </div>
     </section>
@@ -1747,19 +1872,19 @@ function HeroCarousel({ onExploreRoster, onWorkWithUs }) {
       <div className="weard-hero__overlay">
         <div className="weard-hero__glass">
           <h1>WEARD</h1>
-          <p>A global talent management agency specialising across the UK and Asia.</p>
+          <p>Modern influencer management and brand partnerships for UK + Asia growth.</p>
           <div className="weard-hero__cta">
             <button
               onClick={onExploreRoster}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/30 text-sm hover:-translate-y-0.5 transition focus:outline-none focus:ring-2 focus:ring-indigo-500"
             >
-              Explore roster <ArrowRight size={16} />
+              Explore talent <ArrowRight size={16} />
             </button>
             <button
               onClick={onWorkWithUs}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm text-white hover:-translate-y-0.5 transition focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600"
             >
-              Work with us <ArrowRight size={16} />
+              Start your brief <ArrowRight size={16} />
             </button>
           </div>
         </div>
@@ -1854,15 +1979,15 @@ function About() {
         <div className="max-w-3xl">
           <div className="inline-flex items-center gap-2 rounded-full border border-neutral-200/70 bg-white/80 px-4 py-1 text-[11px] uppercase tracking-[0.35em] text-neutral-500 shadow-sm">
             <span className="h-2 w-2 rounded-full bg-emerald-400" aria-hidden="true" />
-            Influencer management, done differently
+            Boutique agency, global execution
           </div>
           <h2 className="mt-5 text-4xl sm:text-5xl font-bold text-neutral-700 dark:text-neutral-200">
-            Creator-first management, crafted for long-term momentum.
+            We build creator careers and brand campaigns that actually move the needle.
           </h2>
           <p className="mt-4 text-neutral-700 dark:text-neutral-300 max-w-2xl">
-            WEARD is a boutique influencer management agency with global reach. We support
-            creators and brands from strategy through delivery—connecting the right talent,
-            creative direction, and campaign execution to produce work that performs.
+            WEARD is where premium talent management meets disruptive campaign thinking. We partner
+            with diverse creators and ambitious brands to deliver commercially strong work that feels
+            culturally precise across UK and Asian markets.
           </p>
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
             {values.map((value) => (
@@ -2122,12 +2247,11 @@ function BrandPartnerships({ onNav }) {
       <div className="rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white/90 dark:bg-neutral-950 p-5 sm:p-8">
         <p className="text-xs uppercase tracking-[0.35em] text-neutral-400">Brand partnerships</p>
         <h1 className="mt-4 text-4xl sm:text-5xl font-bold">
-          Brand-safe creator partnerships for global brand expansion
+          Premium creator partnerships designed to scale modern brands
         </h1>
         <p className="mt-4 text-sm text-neutral-600 dark:text-neutral-400 max-w-3xl">
-          WEARD Management delivers influencer talent management, creator representation, and
-          performance-driven influencer marketing for brands looking to scale across Asia, APAC,
-          Thailand, Hong Kong, and the UK.
+          WEARD builds campaigns that are culturally intelligent, commercially focused, and easy to execute.
+          From one-off launches to always-on programmes, we match the right creators to your growth goals.
         </p>
         <div className="mt-6 grid gap-4 md:grid-cols-2 text-sm text-neutral-600 dark:text-neutral-400">
           <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4">
@@ -2259,7 +2383,7 @@ function Roster({ creators, onNav }) {
           <p className="text-xs uppercase tracking-[0.35em] text-neutral-400">Talent</p>
           <h2 className="mt-2 text-3xl sm:text-4xl font-bold">Roster</h2>
           <p className="mt-2 text-base leading-7 text-neutral-500 dark:text-neutral-400 max-w-xl">
-            A handpicked, global lineup built for high-performing creator campaigns.
+            A handpicked roster of diverse creators selected for cultural relevance, creative quality, and campaign performance.
           </p>
         </div>
         <div className="w-full max-w-sm">
@@ -2338,8 +2462,8 @@ function Roster({ creators, onNav }) {
           <div>
             <h3 className="text-lg font-semibold">Join the Roster</h3>
             <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
-              We’re always looking for exciting new talent to represent across Fashion, Beauty,
-              Lifestyle, Sport, Travel and Family. If you’re building something special, let’s talk.
+              We’re actively signing culturally distinctive creators in Fashion, Beauty, Lifestyle,
+              Sport, Travel, and Family. If you are building a serious personal brand, we should talk.
             </p>
           </div>
           <button
@@ -3038,9 +3162,9 @@ function Contact() {
         {/* Header + mode switch */}
         <div className="bg-neutral-900 text-white px-6 py-6 flex items-center justify-between">
           <div>
-            <h2 className="text-3xl sm:text-4xl font-bold">Contact</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold">Let’s build your next creator campaign</h2>
             <p className="mt-1 text-sm text-white/80">
-              Quick brief for brands, or join the roster as talent.
+              Share your goals in 2 minutes. We’ll reply with a clear next-step plan.
             </p>
           </div>
 
@@ -3377,6 +3501,16 @@ function Contact() {
                   We only use your details to respond to your enquiry.
                 </p>
               </div>
+              <div className="rounded-2xl border border-black/10 bg-white px-4 py-4 text-sm text-neutral-700 dark:bg-neutral-900 dark:text-neutral-200">
+                <h3 className="text-base font-semibold text-neutral-900 dark:text-white">
+                  What happens next
+                </h3>
+                <ul className="mt-2 space-y-2 text-xs text-neutral-500 dark:text-neutral-400">
+                  <li>• Intro response with availability and timeline fit.</li>
+                  <li>• Curated creator recommendations and expected costs.</li>
+                  <li>• Campaign rollout plan with clear deliverables.</li>
+                </ul>
+              </div>
             </aside>
           </div>
         </div>
@@ -3394,7 +3528,7 @@ function Footer({ onNav }) {
         </div>
         <div className="text-sm text-neutral-600 dark:text-neutral-400 text-center md:text-left">
           <div>© {new Date().getFullYear()} WEARD Management. All rights reserved.</div>
-          <div className="mt-1">Built for speed, ethics, and results.</div>
+          <div className="mt-1">Built for premium campaigns, trusted partnerships, and measurable growth.</div>
         </div>
         <div className="text-sm text-neutral-600 dark:text-neutral-400">
           <div className="text-xs uppercase tracking-[0.25em] text-neutral-400">Markets</div>
