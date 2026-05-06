@@ -2864,8 +2864,8 @@ function HoverMedia({ photo, video, alt }) {
 
 // ======= LOGO CAROUSEL =======
 const LOGO_LANES = [
-  { id: "orbit-a", speedSec: 24, direction: "normal", offset: 0 },
-  { id: "orbit-b", speedSec: 18, direction: "reverse", offset: 6 },
+  { id: "orbit-a", speedSec: 42, direction: "normal", offset: 0 },
+  { id: "orbit-b", speedSec: 34, direction: "reverse", offset: 6 },
 ];
 
 function LogoCarousel({ rowHeight = 56 }) {
