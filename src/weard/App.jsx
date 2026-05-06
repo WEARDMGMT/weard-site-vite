@@ -220,6 +220,14 @@ const BRAND_LOGOS = [
   { src: "/media/logos/the-week-junior.svg", alt: "The Week Junior" },
   { src: "/media/logos/tiger-mist.png", alt: "Tiger Mist" },
   { src: "/media/logos/time-phoria.png", alt: "Timephoria" },
+  { src: "/media/logos/tresemme.png", alt: "TRESemmé" },
+  { src: "/media/logos/edikted.png", alt: "Edikted" },
+  { src: "/media/logos/wolf-head.png", alt: "Wolf Head" },
+  { src: "/media/logos/opentable.png", alt: "OpenTable" },
+  { src: "/media/logos/persil.png", alt: "Persil" },
+  { src: "/media/logos/yepoda.png", alt: "Yepoda" },
+  { src: "/media/logos/simify.png", alt: "simify" },
+  { src: "/media/logos/ikea.png", alt: "IKEA" },
 ];
 
 const WEARE_WORDS = ["DIFFERENT", "DISRUPTIVE", "DYNAMIC", "DISTINCT", "DRIVEN", "DECISIVE", "DEFIANT"];
@@ -2903,7 +2911,15 @@ function LogoCarousel({ rowHeight = 56 }) {
                       loading="lazy"
                       decoding="async"
                       className="weard-logo-carousel__logo"
+                      onError={(event) => {
+                        event.currentTarget.style.display = "none";
+                        const fallback = event.currentTarget.nextElementSibling;
+                        if (fallback) fallback.hidden = false;
+                      }}
                     />
+                    <span className="weard-logo-carousel__fallback" hidden>
+                      {logo.alt}
+                    </span>
                   </div>
                 ))}
               </div>
