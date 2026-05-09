@@ -151,6 +151,7 @@ const INPUT_CLS =
   "w-full px-4 py-2 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 placeholder-neutral-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500";
 const BTN_PRIMARY_CLS = `${GRADIENT} inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500`;
 const CONSENT_STORAGE_KEY = "weard-cookie-consent";
+const LOADER_SESSION_KEY = "weard-loader-played";
 const HUBSPOT_SCRIPT_ID = "hs-script-loader";
 const HUBSPOT_SCRIPT_SRC = "//js-eu1.hs-scripts.com/147478125.js";
 
@@ -682,6 +683,14 @@ useEffect(() => {
   }, [creatorSlugMap]);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+    const hasPlayed = window.sessionStorage.getItem(LOADER_SESSION_KEY) === "1";
+    if (hasPlayed) {
+      setLoadProgress(1);
+      setIsLoading(false);
+      return;
+    }
+
     let minPassed = false;
     let loaded = document.readyState === "complete";
     let rafId;
@@ -705,15 +714,20 @@ useEffect(() => {
       }
     };
 
+    const finishLoading = () => {
+      window.sessionStorage.setItem(LOADER_SESSION_KEY, "1");
+      setIsLoading(false);
+    };
+
     const handleLoad = () => {
       loaded = true;
       setLoadProgress(1);
-      if (minPassed) setIsLoading(false);
+      if (minPassed) finishLoading();
     };
 
     const timer = setTimeout(() => {
       minPassed = true;
-      if (loaded) setIsLoading(false);
+      if (loaded) finishLoading();
     }, minDuration);
 
     window.addEventListener("load", handleLoad);
@@ -2449,7 +2463,7 @@ function Roster({ creators, onNav }) {
         ))}
       </div>
 
-      <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400">Meet our featured talent.</p>
+      <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400">Showing {filtered.length} creator{filtered.length === 1 ? "" : "s"}.</p>
 
       <motion.div layout className="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-3 relative z-10">
   {filtered.map((p) => (
@@ -2636,7 +2650,7 @@ function CreatorCard({ p }) {
   const yts = cleanNum(p.youtube_subscribers) ?? 0;
   const total = (ig > 0 ? ig : 0) + (tt > 0 ? tt : 0) + (yts > 0 ? yts : 0);
 
-  const defaultProfile = p.instagram || p.tiktok || p.youtube || undefined;
+  const profilePath = `/creators/${slugify(p.name || "creator")}`;
   const handle =
     getUsernameFromUrl(p.instagram) ||
     getUsernameFromUrl(p.tiktok) ||
@@ -2652,10 +2666,8 @@ function CreatorCard({ p }) {
       {/* Cover link */}
       <a
         ref={mediaRef}
-        href={defaultProfile}
-        target={defaultProfile ? "_blank" : undefined}
-        rel={defaultProfile ? "noopener noreferrer" : undefined}
-        aria-label={`Open ${p.name}'s profile`}
+        href={profilePath}
+        aria-label={`View ${p.name}'s WEARD profile`}
         className="relative block aspect-[4/5] sm:aspect-[3/5] bg-neutral-100 dark:bg-neutral-900"
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
@@ -2769,7 +2781,8 @@ function CreatorCard({ p }) {
       event.preventDefault();
       window.weardOpenProfile?.(p);
     }}
-    className="text-sm font-semibold underline underline-offset-4 hover:opacity-80 text-indigo-600 min-h-[44px] inline-flex items-center"
+    className="inline-flex min-h-[44px] items-center rounded-full px-4 py-2 text-sm font-semibold text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 hover:opacity-90"
+    style={gradient}
   >
     View Profile
   </a>
