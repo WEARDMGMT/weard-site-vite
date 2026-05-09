@@ -2667,6 +2667,10 @@ function CreatorCard({ p }) {
       <a
         ref={mediaRef}
         href={profilePath}
+        onClick={(event) => {
+          event.preventDefault();
+          window.weardOpenProfile?.(p);
+        }}
         aria-label={`View ${p.name}'s WEARD profile`}
         className="relative block aspect-[4/5] sm:aspect-[3/5] bg-neutral-100 dark:bg-neutral-900"
         onMouseEnter={handleEnter}
