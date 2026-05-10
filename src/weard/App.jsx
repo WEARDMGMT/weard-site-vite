@@ -285,16 +285,26 @@ const STARTER_CREATORS = [
   youtube: "https://www.youtube.com/channel/UCKDFGIM9V-KRGxlISDODpPQ", 
   email: "sophia@weardmgmt.com",
 location: "Thailand",
-  instagram_followers: 705000,
-  tiktok_followers: 689100,
+  instagram_followers: 703248,
+  tiktok_followers: 700100,
   youtube_subscribers: 8390,                       
   profile_image: MEDIA.creators.Sophia.hero,   // static profile image
   photo: MEDIA.creators.Sophia.poster,         // still frame before hover
   tags: ["Fashion", "Beauty", "Travel"],
   video: MEDIA.creators.Sophia.video,
   bio: "Sophia is a Thai-British creator with a photographer’s instinct and a fashion-forward eye that resonates across global style audiences. She blends aspirational fashion, honest beauty content, and elevated lifestyle moments into a feed that feels premium and genuinely relatable. Her audience skews female, 18 to 30, split strongly between the USA and Thailand, making her a compelling partner for brands that want polished storytelling with real cultural relevance.",
-  top_audience: ["USA", "Thailand"],
-  recent_campaigns: ["Darc Sport and Von Dutch", "Tiger Mist", "Mediheal"],
+  top_audience: ["Thailand", "US"],
+  audience_insights: {
+    top_location: { name: "Thailand", pct: 60 },
+    second_location: { name: "US", pct: 30 },
+    gender_split: { female: 70, male: 30 },
+    top_city: "Bangkok",
+    age_range: "18–24",
+  },
+  recent_campaigns: [
+    { brand: "Mediheal", platforms: "Instagram + TikTok", campaign_type: "Beauty launch", result: "High save-rate skincare reels", year: "2025" },
+    { brand: "Tiger Mist", platforms: "Instagram", campaign_type: "Fashion styling", result: "Strong click-through from story sets", year: "2025" },
+  ],
 
   },
      {name: "Josefine Uddman",
@@ -303,15 +313,25 @@ location: "Thailand",
   tiktok: "https://www.tiktok.com/@josefine.ku.ud",
   email: "josefine@weardmgmt.com",
   location: "Thailand",
-  instagram_followers: 11800,
-  tiktok_followers: 83500,
+  instagram_followers: 13800,
+  tiktok_followers: 83300,
   profile_image: MEDIA.creators.Josefine.hero, // static profile image
   photo: MEDIA.creators.Josefine.poster,          // still frame before hover
   tags: ["Beauty", "Lifestyle"],
   video: MEDIA.creators.Josefine.video,  
   bio: "Josefine is a Swedish-Thai creator based in Thailand whose content sits at the intersection of K-influenced beauty, soft lifestyle aesthetics, and skincare-first recommendations that drive genuine purchase decisions. Her audience on Instagram and TikTok is deeply engaged, particularly in beauty and wellness, with strong interest from young women in Thailand. Her content feels editorial yet approachable, which is why beauty partners consistently see strong conversion from her posts.",
-  top_audience: ["Thailand"],
-  recent_campaigns: ["TRESemmé", "Timephoria", "Upcoming Beauty Partnership"],
+  top_audience: ["Thailand", "Sweden"],
+  audience_insights: {
+    top_location: { name: "Thailand", pct: 78 },
+    second_location: { name: "Sweden", pct: 10 },
+    gender_split: { female: 72, male: 28 },
+    top_city: "Bangkok",
+    age_range: "18–24",
+  },
+  recent_campaigns: [
+    { brand: "TRESemmé", platforms: "TikTok + Instagram", campaign_type: "Haircare routine", result: "Consistent engagement across short-form", year: "2025" },
+    { brand: "Timephoria", platforms: "Instagram", campaign_type: "Lifestyle integration", result: "Strong audience sentiment in comments", year: "2025" },
+  ],
 }, 
 {
   name: "The Olive Tree Family",
@@ -321,16 +341,26 @@ location: "Thailand",
   youtube: "https://www.youtube.com/@theolivetreefamily", 
   email: "theolivetreefamily@weardmgmt.com",
   location: "UK",
-  instagram_followers: 63700,
-  tiktok_followers: 67400,
+  instagram_followers: 68388,
+  tiktok_followers: 69800,
   youtube_subscribers: 7650,                       
  profile_image: MEDIA.creators.OliveTreeFamily.hero,
 photo: MEDIA.creators.OliveTreeFamily.poster,
 video: MEDIA.creators.OliveTreeFamily.video,
   tags: ["Family", "Lifestyle", "Travel"],
   bio: "Ken, Lynsay, and their children are an adventurous family creator profile sharing warm, everyday storytelling through family adventures, travel moments, food discoveries, lifestyle highlights, and honest parenting life. Their content captures the joy of simple routines and meaningful experiences, making their recommendations feel natural, trusted, and highly brand-friendly for modern family audiences.",
-  top_audience: ["United Kingdom"],
-  recent_campaigns: ["Monzo", "Amazon", "Disney Plus"],
+  top_audience: ["UK", "US"],
+  audience_insights: {
+    top_location: { name: "UK", pct: 85 },
+    second_location: { name: "US", pct: 3.81 },
+    gender_split: { female: 65, male: 35 },
+    top_city: "Glasgow",
+    age_range: "18–34",
+  },
+  recent_campaigns: [
+    { brand: "Amazon", platforms: "Instagram + TikTok", campaign_type: "Family lifestyle", result: "Multi-format content with strong completion", year: "2025" },
+    { brand: "Monzo", platforms: "Instagram", campaign_type: "Family finance storytelling", result: "High relevance with parent audience", year: "2024" },
+  ],
 },
 {
   name: "Very British Korean",
@@ -338,15 +368,25 @@ video: MEDIA.creators.OliveTreeFamily.video,
   instagram: "https://www.instagram.com/verybritishkorean/?hl=en",
   tiktok: "https://www.tiktok.com/@verybritishkorean",
   location: "UK",
-  instagram_followers: 92900,
-  tiktok_followers: 10700,
+  instagram_followers: 97283,
+  tiktok_followers: 12700,
   profile_image: MEDIA.creators.VeryBritishKorean.hero,
   photo: MEDIA.creators.VeryBritishKorean.poster,
   video: MEDIA.creators.VeryBritishKorean.video,
   tags: ["Lifestyle", "Comedy", "Beauty"],
   bio: "She moved to the UK and started noticing things that British people have completely stopped seeing. That observational gap, between how British culture looks from the outside and how it actually functions, is where her best content lives. Equal parts warm and deadpan, her videos about British friends, Korean food, and small cultural collisions have built a dedicated community across TikTok and Instagram. She is a strong fit for brands reaching multicultural UK audiences and growing interest in Korean culture, food, and beauty.",
-  top_audience: ["United Kingdom"],
-  recent_campaigns: ["Samsung", "Surfshark", "haruharuwonder"],
+  top_audience: ["UK", "US"],
+  audience_insights: {
+    top_location: { name: "UK", pct: 59 },
+    second_location: { name: "US", pct: 5 },
+    gender_split: { female: 60, male: 40 },
+    top_city: "Manchester",
+    age_range: "18–34",
+  },
+  recent_campaigns: [
+    { brand: "Samsung", platforms: "TikTok + Instagram", campaign_type: "Tech-lifestyle crossover", result: "Strong retention on skit format", year: "2025" },
+    { brand: "haruharu wonder", platforms: "Instagram", campaign_type: "K-beauty product integration", result: "High engagement from UK beauty audience", year: "2025" },
+  ],
 },
 {
   name: "Very British Problems",
@@ -356,8 +396,8 @@ video: MEDIA.creators.OliveTreeFamily.video,
   youtube: "https://www.youtube.com/@verybritishproblems",
   facebook: "https://www.facebook.com/soverybritish/?locale=en_GB",
   location: "UK",
-  instagram_followers: 1200000,
-  tiktok_followers: 228500,
+  instagram_followers: 1242892,
+  tiktok_followers: 234400,
   youtube_subscribers: 36500,
   facebook_followers: 1200000,
   profile_image: MEDIA.creators.VeryBritishProblems.hero,
@@ -365,8 +405,18 @@ video: MEDIA.creators.OliveTreeFamily.video,
   video: MEDIA.creators.VeryBritishProblems.video,
   tags: ["Comedy", "Lifestyle"],
   bio: "Rob turns the silent agony of British daily life into comedy that feels like a shared confession, from self-checkouts to passive-aggressive emails and the classic \"you too\" moment at restaurants. His audience is primarily UK millennials aged 25 to 40 who grew up in the culture he dissects so well. With over 1.4 million cross-platform followers, his content performs because it earns trust, not just attention. Brands that feel distinctly British, or want to, belong here.",
-  top_audience: ["United Kingdom"],
-  recent_campaigns: ["Fairy Dishwasher", "Surfshark", "Darry Ring"],
+  top_audience: ["UK", "US"],
+  audience_insights: {
+    top_location: { name: "UK", pct: 67 },
+    second_location: { name: "US", pct: 9 },
+    gender_split: { female: 73, male: 27 },
+    top_city: "Greater London",
+    age_range: "18–34",
+  },
+  recent_campaigns: [
+    { brand: "Fairy", platforms: "Facebook + Instagram", campaign_type: "Comedy native ad", result: "High share rate with UK households", year: "2025" },
+    { brand: "Surfshark", platforms: "TikTok + Instagram", campaign_type: "Integrated sponsor skit", result: "Strong sponsor recall in comments", year: "2024" },
+  ],
 },
 {
   name: "Emily Uddman",
@@ -1278,6 +1328,7 @@ function CreatorProfile({ creator, onBack }) {
     youtube_subscribers, // NEW
     top_audience = [],
     recent_campaigns = [],
+    audience_insights,
   } = creator;
 
   const [mediaRef, mediaInView] = useInView({ rootMargin: "200px" });
@@ -1430,41 +1481,52 @@ function CreatorProfile({ creator, onBack }) {
           <div className="mt-8 grid gap-4 md:grid-cols-2">
             <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-5 bg-white/70 dark:bg-neutral-900/40 backdrop-blur">
               <div className="text-xs uppercase tracking-[0.2em] text-neutral-500">Audience insights</div>
-              <div className="mt-4 flex items-center justify-between gap-3">
+              <div className="mt-4 space-y-4 text-sm">
                 <div>
-                  <div className="text-sm text-neutral-500">Top audience location</div>
-                  <div className="text-lg font-semibold">{top_audience[0] || "United Kingdom"}</div>
+                  <div className="flex items-center justify-between text-neutral-500">
+                    <span>{audience_insights?.top_location?.name || top_audience[0] || "UK"}</span>
+                    <span>{audience_insights?.top_location?.pct || 0}%</span>
+                  </div>
+                  <div className="mt-1 h-2 rounded-full bg-neutral-100 dark:bg-neutral-800 overflow-hidden">
+                    <div className="h-full rounded-full bg-gradient-to-r from-indigo-600 to-purple-500" style={{ width: `${audience_insights?.top_location?.pct || 0}%` }} />
+                  </div>
                 </div>
-                <div className="px-3 py-1 rounded-full text-xs font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-200">
-                  Primary
+                <div>
+                  <div className="flex items-center justify-between text-neutral-500">
+                    <span>{audience_insights?.second_location?.name || top_audience[1] || "US"}</span>
+                    <span>{audience_insights?.second_location?.pct || 0}%</span>
+                  </div>
+                  <div className="mt-1 h-2 rounded-full bg-neutral-100 dark:bg-neutral-800 overflow-hidden">
+                    <div className="h-full rounded-full bg-neutral-500" style={{ width: `${audience_insights?.second_location?.pct || 0}%` }} />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-3 text-xs text-neutral-600 dark:text-neutral-300">
+                  <div><span className="font-semibold">Top city:</span> {audience_insights?.top_city || "—"}</div>
+                  <div><span className="font-semibold">Age range:</span> {audience_insights?.age_range || "—"}</div>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-xs text-neutral-500">
+                    <span>Gender split</span>
+                    <span>{audience_insights?.gender_split?.female || 0}% F / {audience_insights?.gender_split?.male || 0}% M</span>
+                  </div>
+                  <div className="overflow-hidden rounded-full border border-neutral-200 dark:border-neutral-700">
+                    <div className="flex h-7 text-[11px] font-semibold">
+                      <div className="grid place-items-center bg-indigo-600 text-white" style={{ width: `${audience_insights?.gender_split?.female || 0}%` }}>Female</div>
+                      <div className="grid place-items-center bg-neutral-200 text-neutral-700 dark:bg-neutral-700 dark:text-neutral-200" style={{ width: `${audience_insights?.gender_split?.male || 0}%` }}>Male</div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="mt-4 h-2 rounded-full bg-neutral-100 dark:bg-neutral-800 overflow-hidden">
-                <div className="h-full w-[86%] rounded-full bg-gradient-to-r from-neutral-900 to-neutral-500 dark:from-white dark:to-neutral-400" />
-              </div>
-              {top_audience.length > 1 && (
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {top_audience.slice(1).map((aud) => (
-                    <span
-                      key={aud}
-                      className="px-2.5 py-1 rounded-full text-xs bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300"
-                    >
-                      Also strong: {aud}
-                    </span>
-                  ))}
-                </div>
-              )}
             </div>
 
             <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-5 bg-white/70 dark:bg-neutral-900/40 backdrop-blur">
               <div className="text-xs uppercase tracking-[0.2em] text-neutral-500">Recent campaigns</div>
-              <div className="mt-4 grid gap-2 sm:grid-cols-3 md:grid-cols-1 lg:grid-cols-3">
-                {(recent_campaigns.length ? recent_campaigns : ["Campaign 01", "Campaign 02", "Campaign 03"]).slice(0, 3).map((campaign) => (
-                  <div
-                    key={campaign}
-                    className="rounded-xl border border-neutral-200 dark:border-neutral-700 px-3 py-3 text-sm font-medium text-neutral-700 dark:text-neutral-200 bg-neutral-50/70 dark:bg-neutral-800/50"
-                  >
-                    {campaign}
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                {recent_campaigns.slice(0, 2).map((campaign) => (
+                  <div key={`${campaign.brand}-${campaign.year}`} className="rounded-xl border border-neutral-200 dark:border-neutral-700 px-3 py-3 text-sm text-neutral-700 dark:text-neutral-200 bg-neutral-50/70 dark:bg-neutral-800/50">
+                    <p className="font-semibold">{campaign.brand} <span className="text-xs text-neutral-500">({campaign.year})</span></p>
+                    <p className="text-xs text-neutral-500 mt-1">{campaign.platforms} · {campaign.campaign_type}</p>
+                    <p className="text-xs mt-2">{campaign.result}</p>
                   </div>
                 ))}
               </div>
@@ -1506,7 +1568,7 @@ function CreatorProfile({ creator, onBack }) {
               className={BTN_PRIMARY_CLS}
               onClick={() => window.weardNav?.("contact")}
             >
-              Brief This Creator <ArrowRight size={16} />
+              Collab with {name.split(" ")[0]} <ArrowRight size={16} />
             </button>
             {instagram && (
               <a
@@ -1712,7 +1774,7 @@ function Home({ onExploreRoster, onWorkWithUs }) {
           <div className="rounded-3xl border border-neutral-200 bg-white/90 p-5 shadow-sm">
             <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">Managed talent</p>
             <p className="mt-2 text-3xl font-bold text-neutral-900">
-              <CountTo to={visibleCreators.length} />+
+              7+
             </p>
           </div>
           <div className="rounded-3xl border border-neutral-200 bg-white/90 p-5 shadow-sm">
@@ -1944,7 +2006,7 @@ function HeroCarousel({ onExploreRoster, onWorkWithUs }) {
       <div className="weard-hero__overlay">
         <div className="weard-hero__glass">
           <h1>WEARD</h1>
-          <p>Modern influencer management and brand partnerships for UK + Asia growth.</p>
+          <p>We match ambitious brands with culturally-sharp creators across the globe — from strategy and talent selection through to campaign delivery and reporting.</p>
           <div className="weard-hero__cta">
             <button
               onClick={onExploreRoster}
@@ -2057,9 +2119,7 @@ function About() {
             We build creator careers and brand campaigns that actually move the needle.
           </h2>
           <p className="mt-4 text-neutral-700 dark:text-neutral-300 max-w-2xl">
-            WEARD is where premium talent management meets disruptive campaign thinking. We partner
-            with diverse creators and ambitious brands to deliver commercially strong work that feels
-            culturally precise across UK and Asian markets.
+            WEARD Management was founded in 2025 to champion diverse creator voices with genuine cultural fluency, connecting them with the right brands and opportunities. Our roster delivers campaigns across the UK, US, and APAC region, bringing first-hand market understanding, established regional relationships, and a strong sense of what genuinely resonates with audiences in different territories. For brands, that means more than just creator content — it means campaigns shaped by cultural insight, authentic storytelling, and a stronger ability to connect with the audiences they want to reach.
           </p>
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
             {values.map((value) => (
@@ -2120,10 +2180,17 @@ function About() {
           </div>
         ))}
       </div>
+      <div className="mt-10 rounded-3xl border border-neutral-200/80 bg-white p-6 sm:p-8 shadow-sm">
+        <p className="text-xs uppercase tracking-[0.35em] text-neutral-400">Who We Are</p>
+        <p className="mt-4 text-sm sm:text-base leading-7 text-neutral-700 dark:text-neutral-300">
+          We work closely with creators who bring authentic perspectives, strong storytelling, and communities that trust their voice. Our role is to shape opportunities that respect each creator’s identity while delivering measurable value for partners. From brand partnerships and ambassador programmes to travel, fashion, beauty, lifestyle, and culture-led campaigns, we focus on creating collaborations that feel commercially effective whilst remaining culturally relevant. At its core, WEARD exists to bridge the gap between brands and audiences through creators who genuinely understand both worlds.
+        </p>
+      </div>
       <div className="mt-12 rounded-3xl border border-neutral-800 bg-neutral-900 p-6 sm:p-8">
         <div className="text-center text-white">
           <p className="text-xs uppercase tracking-[0.35em] text-white/60">Brand partners</p>
           <h3 className="mt-3 text-2xl sm:text-3xl font-semibold">Trusted by leading brands worldwide</h3>
+          <p className="mt-2 text-sm text-white/80">Brands we've delivered campaigns for</p>
           <p className="mt-2 text-sm text-white/70">
             From fast-growing disruptors to global icons, WEARD helps brands build creator campaigns that resonate.
           </p>
