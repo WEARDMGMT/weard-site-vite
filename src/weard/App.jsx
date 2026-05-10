@@ -1359,17 +1359,17 @@ function CreatorProfile({ creator, onBack }) {
         ← Back to Roster
       </button>
 
-      <div className="mt-6 grid lg:grid-cols-2 gap-8 items-start">
+      <div className="mt-8 grid lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] gap-10 lg:gap-14 items-start">
         {/* Media */}
         <div
           ref={mediaRef}
-          className="rounded-3xl overflow-hidden border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 relative"
+          className="relative overflow-hidden rounded-[2rem] bg-neutral-100/80 dark:bg-neutral-900/90 shadow-[0_30px_80px_-40px_rgba(17,24,39,0.55)]"
         >
           <div className="relative aspect-[4/5] sm:aspect-[3/4]">
             <img
               src={photo || creator.profile_image}
               alt={`${name} — WEARD Management creator`}
-              className="absolute inset-0 h-full w-full object-cover"
+              className="absolute inset-0 h-full w-full object-cover scale-[1.01] transition-transform duration-[1200ms] group-hover:scale-[1.04]"
               loading="lazy"
               decoding="async"
               sizes="(max-width: 1024px) 100vw, 50vw"
@@ -1384,22 +1384,22 @@ function CreatorProfile({ creator, onBack }) {
                 loop
                 playsInline
                 preload="metadata"
-                className="absolute inset-0 h-full w-full object-cover opacity-100 transition-opacity duration-300"
+                className="absolute inset-0 h-full w-full object-cover opacity-100 transition duration-700 ease-out hover:scale-[1.03]"
                 onError={() => setVideoUnavailable(true)}
               />
             )}
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/45 via-black/15 to-transparent" />
           </div>
         </div>
 
         {/* Meta */}
         <div>
           {/* Tags + socials */}
-          <div className="flex items-center gap-3 flex-wrap">
+          <div className="flex items-center gap-2.5 flex-wrap">
             {tags.slice(0, 3).map((t) => (
               <span
                 key={t}
-                className="px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide rounded-full text-black/90"
-                style={{ backgroundImage: "linear-gradient(90deg,#4F46E5,#A855F7)" }}
+                className="text-[11px] uppercase tracking-[0.24em] text-neutral-500"
               >
                 {t}
               </span>
@@ -1454,69 +1454,66 @@ function CreatorProfile({ creator, onBack }) {
             </div>
           </div>
 
-          <h1 className="mt-4 text-4xl sm:text-5xl font-extrabold leading-[1.05] tracking-tight">
+          <h1 className="mt-5 text-5xl sm:text-6xl font-semibold leading-[0.98] tracking-tight">
             {name}
           </h1>
 
-          <div className="mt-2 text-sm text-neutral-500">
-            {location && <span>{location}</span>}
-            {top_audience.length > 0 && (
-              <span className="ml-2">• Top audience: {top_audience.join(" · ")}</span>
-            )}
-          </div>
+          {location && <div className="mt-3 text-sm tracking-[0.14em] uppercase text-neutral-500">{location}</div>}
 
           <div className="mt-4 text-neutral-700 dark:text-neutral-300 space-y-4">
             <p>{bio}</p>
           </div>
 
-          <div className="mt-8 grid gap-4 md:grid-cols-2">
-            <div className="rounded-3xl border border-neutral-200/70 dark:border-neutral-800 p-5 sm:p-6 bg-gradient-to-br from-white/80 via-white/60 to-indigo-50/50 dark:from-neutral-900/70 dark:via-neutral-900/50 dark:to-indigo-950/20 backdrop-blur-xl shadow-[0_10px_40px_-20px_rgba(15,23,42,0.35)]">
-              <div className="text-xs uppercase tracking-[0.24em] text-neutral-500">Audience insights</div>
-              <div className="mt-4 rounded-2xl border border-indigo-100/70 dark:border-indigo-900/40 p-4 bg-white/70 dark:bg-neutral-900/40">
-                <p className="text-[11px] uppercase tracking-[0.2em] text-neutral-500">Hero market</p>
-                <p className="mt-1 text-3xl font-bold tracking-tight">{audience_insights?.top_location?.pct || 0}% {audience_insights?.top_location?.name || top_audience[0] || "UK"}</p>
+          <div className="mt-10 grid gap-8 md:grid-cols-2">
+            <div className="px-1">
+              <div className="text-[11px] uppercase tracking-[0.32em] text-neutral-500">Audience Snapshot</div>
+              <div className="mt-4">
+                <p className="text-6xl font-semibold leading-none tracking-tight">{audience_insights?.top_location?.pct || 0}%</p>
+                <p className="mt-2 text-lg">{audience_insights?.top_location?.name || top_audience[0] || "UK"} Audience</p>
+                <p className="mt-1 text-sm text-neutral-500">{audience_insights?.top_city || "—"} · {audience_insights?.age_range || "—"}</p>
               </div>
-              <div className="mt-4 space-y-4 text-sm">
-                <div className="grid grid-cols-2 gap-3 text-xs text-neutral-700 dark:text-neutral-200">
-                  <div className="rounded-xl border border-neutral-200/80 dark:border-neutral-700 px-3 py-2 bg-white/70 dark:bg-neutral-800/60"><span className="font-semibold">Top city:</span> {audience_insights?.top_city || "—"}</div>
-                  <div className="rounded-xl border border-neutral-200/80 dark:border-neutral-700 px-3 py-2 bg-white/70 dark:bg-neutral-800/60"><span className="font-semibold">Peak age:</span> {audience_insights?.age_range || "—"}</div>
+              <div className="mt-6">
+                <div className="flex items-center justify-between text-[11px] uppercase tracking-[0.2em] text-neutral-500">
+                  <span>Gender split</span>
+                  <span>{audience_insights?.gender_split?.female || 0}% / {audience_insights?.gender_split?.male || 0}%</span>
                 </div>
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between text-xs text-neutral-500">
-                    <span>Gender split</span>
-                    <span>{audience_insights?.gender_split?.female || 0}% Female / {audience_insights?.gender_split?.male || 0}% Male</span>
-                  </div>
-                  <div className="overflow-hidden rounded-full border border-neutral-200 dark:border-neutral-700 bg-white/70 dark:bg-neutral-900/40">
-                    <div className="flex h-8 text-[11px] font-semibold">
-                      <div className="grid place-items-center bg-gradient-to-r from-indigo-600 to-violet-500 text-white" style={{ width: `${audience_insights?.gender_split?.female || 0}%` }}>Female</div>
-                      <div className="grid place-items-center bg-gradient-to-r from-neutral-200 to-neutral-300 text-neutral-700 dark:from-neutral-700 dark:to-neutral-600 dark:text-neutral-200" style={{ width: `${audience_insights?.gender_split?.male || 0}%` }}>Male</div>
-                    </div>
-                  </div>
+                <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-neutral-200/70 dark:bg-neutral-800">
+                  <div className="h-full bg-gradient-to-r from-indigo-500 via-violet-500 to-fuchsia-500" style={{ width: `${audience_insights?.gender_split?.female || 0}%` }} />
                 </div>
-                <div>
-                  <div className="flex items-center justify-between text-xs text-neutral-500">
-                    <span>Audience geography</span>
-                    <span>{audience_insights?.second_location?.name || top_audience[1] || "US"} {audience_insights?.second_location?.pct || 0}%</span>
+              </div>
+              <div className="mt-6 space-y-2">
+                {[
+                  { name: audience_insights?.top_location?.name || top_audience[0] || "UK", pct: audience_insights?.top_location?.pct || 0 },
+                  { name: audience_insights?.second_location?.name || top_audience[1] || "US", pct: audience_insights?.second_location?.pct || 0 },
+                  { name: top_audience[2] || "Global", pct: Math.max(0, 100 - ((audience_insights?.top_location?.pct || 0) + (audience_insights?.second_location?.pct || 0))) },
+                ].map((market) => (
+                  <div key={market.name} className="flex items-center justify-between rounded-full bg-neutral-100/80 dark:bg-neutral-900/70 px-4 py-2 text-sm">
+                    <span>{market.name}</span>
+                    <span className="font-medium">{market.pct}%</span>
                   </div>
-                  <div className="mt-2 h-2 rounded-full bg-neutral-100 dark:bg-neutral-800 overflow-hidden">
-                    <div className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-fuchsia-500" style={{ width: `${audience_insights?.top_location?.pct || 0}%` }} />
-                  </div>
-                  <div className="mt-2 h-2 rounded-full bg-neutral-100 dark:bg-neutral-800 overflow-hidden">
-                    <div className="h-full rounded-full bg-neutral-500" style={{ width: `${audience_insights?.second_location?.pct || 0}%` }} />
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
 
-            <div className="rounded-3xl border border-neutral-200/70 dark:border-neutral-800 p-5 sm:p-6 bg-gradient-to-br from-white/80 via-white/60 to-fuchsia-50/40 dark:from-neutral-900/70 dark:via-neutral-900/50 dark:to-fuchsia-950/20 backdrop-blur-xl shadow-[0_10px_40px_-20px_rgba(15,23,42,0.35)]">
-              <div className="text-xs uppercase tracking-[0.2em] text-neutral-500">Recent campaigns</div>
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                {recent_campaigns.slice(0, 2).map((campaign) => (
-                  <div key={`${campaign.brand}-${campaign.year}`} className="rounded-2xl border border-neutral-200/80 dark:border-neutral-700 px-4 py-4 text-sm text-neutral-700 dark:text-neutral-200 bg-white/80 dark:bg-neutral-800/60">
-                    <p className="text-[11px] uppercase tracking-[0.2em] text-neutral-500">Campaign</p>
+            <div className="px-1">
+              <div className="text-[11px] uppercase tracking-[0.32em] text-neutral-500">Featured Partnerships</div>
+              <div className="mt-4 grid gap-3">
+                {recent_campaigns.slice(0, 3).map((campaign, idx) => (
+                  <div key={`${campaign.brand}-${campaign.year}`} className="group rounded-2xl bg-gradient-to-r from-neutral-100 to-white dark:from-neutral-900 dark:to-neutral-800 px-4 py-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg">
+                    <p className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">Campaign {idx + 1}</p>
                     <p className="mt-2 text-base font-semibold">{campaign.brand}</p>
+                    <p className="text-xs text-neutral-500">{campaign.category || "Brand partnership"}</p>
                   </div>
                 ))}
+              </div>
+              <div className="mt-7">
+                <p className="text-[11px] uppercase tracking-[0.32em] text-neutral-500">Why brands book {name.split(" ")[0]}</p>
+                <ul className="mt-3 space-y-2 text-sm text-neutral-600 dark:text-neutral-300">
+                  <li>• Strong {audience_insights?.top_location?.name || top_audience[0] || "global"} audience relevance</li>
+                  <li>• Premium visual storytelling and consistent brand tone</li>
+                  <li>• Conversion-friendly content across fashion, beauty, and lifestyle</li>
+                  <li>• Internationally accessible communication style</li>
+                </ul>
               </div>
             </div>
           </div>
@@ -1703,23 +1700,6 @@ function Home({ onExploreRoster, onWorkWithUs }) {
       label: "Done-for-you",
     },
   ];
-  const testimonials = [
-    {
-      quote:
-        "WEARD translated our brief into creator content that felt culturally on-point and commercially strong.",
-      person: "Global beauty brand, UK launch team",
-    },
-    {
-      quote:
-        "Fast, clear, and premium from start to finish. Their creator matching quality was exceptional.",
-      person: "Head of Partnerships, DTC fashion brand",
-    },
-    {
-      quote:
-        "We got strategic thinking and execution in one team, which made campaign delivery far easier.",
-      person: "Performance marketing lead, consumer app",
-    },
-  ];
 
   return (
     <section className="relative overflow-hidden">
@@ -1800,22 +1780,7 @@ function Home({ onExploreRoster, onWorkWithUs }) {
           ))}
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-[1.1fr_minmax(0,1fr)]">
-          <div className="rounded-3xl border border-neutral-900 bg-neutral-900 p-6 sm:p-8 text-white shadow-[0_18px_70px_rgba(0,0,0,0.35)]">
-            <p className="text-xs uppercase tracking-[0.35em] text-white/60">Campaign spotlight</p>
-            <h3 className="mt-3 text-2xl sm:text-3xl font-semibold">
-              Cross-market creator rollout in 3 weeks
-            </h3>
-            <p className="mt-3 text-sm text-white/70">
-              We activated UK and Asian creator talent with one strategic brief, localised execution,
-              and platform-native output that kept brand consistency while improving relevance.
-            </p>
-            <div className="mt-5 flex flex-wrap gap-2 text-xs text-white/75">
-              <span className="rounded-full border border-white/20 px-3 py-1">Multi-market</span>
-              <span className="rounded-full border border-white/20 px-3 py-1">Paid + organic</span>
-              <span className="rounded-full border border-white/20 px-3 py-1">End-to-end delivery</span>
-            </div>
-          </div>
+      <div className="grid gap-6 lg:grid-cols-[1.1fr_minmax(0,1fr)]">
           <div className="rounded-3xl border border-neutral-200 bg-white/95 p-6 shadow-sm">
             <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">How to work with WEARD</p>
             <ol className="mt-4 space-y-3 text-sm text-neutral-700">
@@ -1832,22 +1797,6 @@ function Home({ onExploreRoster, onWorkWithUs }) {
           </div>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-3">
-          {testimonials.map((item) => (
-            <motion.blockquote
-              key={item.person}
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="rounded-2xl border border-neutral-200 bg-white/95 p-5 shadow-sm"
-            >
-              <p className="text-sm leading-6 text-neutral-700">“{item.quote}”</p>
-              <footer className="mt-3 text-xs font-semibold uppercase tracking-[0.2em] text-neutral-500">
-                {item.person}
-              </footer>
-            </motion.blockquote>
-          ))}
-        </div>
       </div>
     </section>
   );
