@@ -1,0 +1,10 @@
+<svg width="400" height="200" viewBox="0 0 400 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="200" fill="#F3F4F6"/>
+  <text x="140" y="110" fill="#1F4F82" font-size="64" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-weight="700">first table</text>
+  <g transform="translate(45,58)">
+    <path d="M58 32C58 52.9868 40.9868 70 20 70C15.5 70 11.2 69.2 7.2 67.8C11.2 61.8 19 53.2 31 48.5C22.2 49 12.4 45.5 5 38.8C5.2 18.2 21.9 1.6 42.5 1.6C43.4 1.6 44.3 1.6 45.2 1.7C43.2 5.7 42 10.2 42 15C42 20.5 43.6 25.7 46.5 30.1C50.3 31.1 54.1 31.8 58 32Z" fill="#1F4F82"/>
+    <circle cx="35" cy="17" r="2.5" fill="#F3F4F6"/>
+    <path d="M58 70L53 82H61L58 70Z" fill="#1F4F82"/>
+    <path d="M42 70L37 82H45L42 70Z" fill="#1F4F82"/>
+  </g>
+</svg>
