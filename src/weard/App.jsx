@@ -1835,7 +1835,7 @@ function Home({ onExploreRoster, onWorkWithUs }) {
   );
 }
 
-function HeroCarousel({ onExploreRoster, onWorkWithUs }) {
+function HeroCarousel() {
   const trackRefs = useRef([]);
   const containerRef = useRef(null);
   const shuffleSeed = useMemo(() => Math.floor(Math.random() * 10_000), []);
@@ -1976,21 +1976,7 @@ function HeroCarousel({ onExploreRoster, onWorkWithUs }) {
       <div className="weard-hero__overlay">
         <div className="weard-hero__glass">
           <h1>WEARD</h1>
-          <p>We match ambitious brands with culturally-sharp creators across the globe — from strategy and talent selection through to campaign delivery and reporting.</p>
-          <div className="weard-hero__cta">
-            <button
-              onClick={onExploreRoster}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/30 text-sm hover:-translate-y-0.5 transition focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            >
-              Explore talent <ArrowRight size={16} />
-            </button>
-            <button
-              onClick={onWorkWithUs}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm text-white hover:-translate-y-0.5 transition focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600"
-            >
-              Start your brief <ArrowRight size={16} />
-            </button>
-          </div>
+          <p>WE • ARE • DIFFERENT</p>
         </div>
       </div>
     </section>

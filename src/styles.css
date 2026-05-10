@@ -86,9 +86,11 @@ body.weard-loading {
   position: relative;
   height: 92vh;
   overflow: hidden;
-  background: radial-gradient(1200px 600px at 20% 80%, rgba(60, 60, 60, 0.3), transparent 60%),
-    radial-gradient(900px 500px at 80% 20%, rgba(90, 90, 90, 0.2), transparent 55%),
-    #050505;
+  background:
+    radial-gradient(1200px 700px at 50% -10%, rgba(50, 50, 64, 0.45), transparent 65%),
+    radial-gradient(1000px 650px at 15% 100%, rgba(28, 28, 36, 0.5), transparent 62%),
+    radial-gradient(900px 560px at 88% 88%, rgba(18, 18, 24, 0.45), transparent 60%),
+    linear-gradient(160deg, #020203 0%, #050508 46%, #0a0a0f 100%);
 }
 
 .weard-hero__lanes {
@@ -165,45 +167,38 @@ body.weard-loading {
   position: absolute;
   inset: 0;
   display: grid;
-  place-items: end start;
-  padding: 56px;
+  place-items: center;
+  padding: 56px 22px;
   pointer-events: none;
 }
 
 .weard-hero__glass {
   pointer-events: none;
-  max-width: 560px;
-  padding: 22px 22px;
-  border-radius: 18px;
-  background:
-    linear-gradient(145deg, rgba(13, 13, 18, 0.66), rgba(7, 7, 10, 0.44)) padding-box,
-    linear-gradient(120deg, rgba(56, 189, 248, 0.4), rgba(168, 85, 247, 0.35), rgba(217, 255, 90, 0.32)) border-box;
-  border: 1px solid transparent;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+  text-align: center;
   color: #fff;
+  display: grid;
+  gap: 1.4rem;
   animation: weard-glass-float 7s ease-in-out infinite;
 }
 
 .weard-hero__glass h1 {
-  margin: 0 0 6px 0;
-  letter-spacing: 0.08em;
-  font-size: 44px;
-  line-height: 1;
+  margin: 0;
+  font-size: clamp(4rem, 15vw, 9.5rem);
+  line-height: 0.92;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-shadow: 0 22px 50px rgba(0, 0, 0, 0.6);
 }
 
 .weard-hero__glass p {
   margin: 0;
-  opacity: 0.92;
-  font-size: 16px;
-}
-
-.weard-hero__cta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 18px;
-  pointer-events: auto;
+  font-size: clamp(0.66rem, 1.5vw, 0.95rem);
+  font-weight: 500;
+  letter-spacing: 0.72em;
+  text-transform: uppercase;
+  opacity: 0.86;
+  padding-left: 0.72em;
 }
 
 .weard-hero__fallback {
@@ -674,7 +669,11 @@ body.weard-loading {
   }
 
   .weard-hero__glass h1 {
-    font-size: 36px;
+    letter-spacing: 0.16em;
+  }
+
+  .weard-hero__glass p {
+    letter-spacing: 0.5em;
   }
 
   .weard-hero__card {
