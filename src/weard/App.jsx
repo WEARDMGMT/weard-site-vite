@@ -2187,7 +2187,7 @@ function PronunciationReveal() {
           <p className="text-4xl font-extrabold tracking-[0.16em] text-white/35 sm:text-6xl">
             WEARD
           </p>
-          <p className="mt-5 text-3xl font-black uppercase tracking-[0.35em] text-white sm:text-6xl">
+          <p className="mt-5 whitespace-nowrap text-2xl font-black uppercase tracking-[0.22em] text-white sm:text-6xl sm:tracking-[0.35em]">
             WE · ARE · DIFFERENT
           </p>
         </div>
