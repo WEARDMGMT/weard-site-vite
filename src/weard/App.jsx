@@ -348,7 +348,7 @@ location: "Thailand",
 photo: MEDIA.creators.OliveTreeFamily.poster,
 video: MEDIA.creators.OliveTreeFamily.video,
   tags: ["Family", "Lifestyle", "Travel"],
-  bio: "Ken, Lynsay, and their children are an adventurous family creator profile sharing warm, everyday storytelling through family adventures, travel moments, food discoveries, lifestyle highlights, and honest parenting life. Their content captures the joy of simple routines and meaningful experiences, making their recommendations feel natural, trusted, and highly brand-friendly for modern family audiences.",
+  bio: "Ken, Lynsay and their two sons are a Scotland-based family who create warm, everyday storytelling content inspired by their Scottish life and the experiences of raising a young family. From countryside walks and coastal weekends to home cooking, school-run mornings and the meaningful moments in between, their content brings audiences along on their family adventures in an authentic and relatable way. Rooted in a strong sense of place and genuine connection, their recommendations are trusted, natural, and highly engaging to the community they have built around their family and lifestyle content.",
   top_audience: ["UK", "US"],
   audience_insights: {
     top_location: { name: "UK", pct: 85 },
@@ -2184,39 +2184,12 @@ function PronunciationReveal() {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(99,102,241,0.35),transparent_55%)]" aria-hidden="true" />
       <div className="relative mx-auto max-w-4xl text-center text-white">
         <div className="mt-5">
-          <motion.p
-            animate={{ opacity: [0.4, 1, 0.4], scale: [0.98, 1.04, 0.98] }}
-            transition={{ duration: 4, ease: "easeInOut" }}
-            className="text-4xl font-extrabold tracking-[0.16em] text-white/35 sm:text-6xl"
-          >
+          <p className="text-4xl font-extrabold tracking-[0.16em] text-white/35 sm:text-6xl">
             WEARD
-          </motion.p>
-          <motion.p
-            animate={{ opacity: [0.65, 1, 0.65], letterSpacing: ["0.35em", "0.5em", "0.35em"] }}
-            transition={{ duration: 3.5, ease: "easeInOut" }}
-            className="mt-5 text-3xl font-black uppercase sm:text-6xl"
-          >
-            <motion.span
-              animate={{ color: ["rgba(255,255,255,0.45)", "#a5b4fc", "rgba(255,255,255,0.9)", "rgba(255,255,255,0.45)"] }}
-              transition={{ duration: 2.4, ease: "easeInOut" }}
-            >
-              WE
-            </motion.span>{" "}
-            ·{" "}
-            <motion.span
-              animate={{ color: ["rgba(255,255,255,0.45)", "#f9a8d4", "rgba(255,255,255,0.9)", "rgba(255,255,255,0.45)"] }}
-              transition={{ duration: 2.4, ease: "easeInOut", delay: 0.4 }}
-            >
-              ARE
-            </motion.span>{" "}
-            ·{" "}
-            <motion.span
-              animate={{ color: ["rgba(255,255,255,0.45)", "#6ee7b7", "rgba(255,255,255,0.9)", "rgba(255,255,255,0.45)"] }}
-              transition={{ duration: 2.4, ease: "easeInOut", delay: 0.8 }}
-            >
-              DIFFERENT
-            </motion.span>
-          </motion.p>
+          </p>
+          <p className="mt-5 text-3xl font-black uppercase tracking-[0.35em] text-white sm:text-6xl">
+            WE · ARE · DIFFERENT
+          </p>
         </div>
       </div>
     </section>
