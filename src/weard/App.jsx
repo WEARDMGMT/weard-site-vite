@@ -2075,7 +2075,8 @@ function About() {
   ];
   return (
     <section className="max-w-7xl mx-auto px-4 py-12">
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_280px] lg:items-start">
+      <PronunciationReveal />
+      <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_280px] lg:items-start">
         <div className="max-w-3xl">
           <div className="inline-flex items-center gap-2 rounded-full border border-neutral-200/70 bg-white/80 px-4 py-1 text-[11px] uppercase tracking-[0.35em] text-neutral-500 shadow-sm">
             <span className="h-2 w-2 rounded-full bg-emerald-400" aria-hidden="true" />
@@ -2150,7 +2151,6 @@ function About() {
           </div>
         ))}
       </div>
-      <PronunciationReveal />
       <div className="mt-10 rounded-3xl border border-neutral-200/80 bg-white p-6 sm:p-8 shadow-sm">
         <p className="text-xs uppercase tracking-[0.35em] text-neutral-400">Who We Are</p>
         <p className="mt-4 text-sm sm:text-base leading-7 text-neutral-700 dark:text-neutral-300">
@@ -2182,67 +2182,51 @@ function About() {
 }
 
 function PronunciationReveal() {
-  const [sectionRef, sectionInView] = useInView({ threshold: 0.4, rootMargin: "0px 0px -12% 0px" });
-  const [isActive, setIsActive] = useState(false);
-
-  useEffect(() => {
-    if (!sectionInView) return;
-    setIsActive(true);
-  }, [sectionInView]);
-
   return (
     <section
-      ref={sectionRef}
-      className="relative mt-10 overflow-hidden rounded-3xl border border-neutral-800/90 bg-neutral-950 px-4 py-16 sm:px-8"
+      className="relative overflow-hidden rounded-3xl border border-neutral-800/90 bg-neutral-950 px-4 py-16 sm:px-8"
       aria-label="Pronunciation of WEARD"
     >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(99,102,241,0.35),transparent_55%)]" aria-hidden="true" />
       <div className="relative mx-auto max-w-4xl text-center text-white">
-        <p className="text-[11px] uppercase tracking-[0.35em] text-white/65">How to say WEARD</p>
         <div className="mt-5">
           <motion.p
-            initial={{ opacity: 0, scale: 0.96, letterSpacing: "0.16em" }}
-            animate={isActive ? { opacity: 1, scale: 1, letterSpacing: "0.16em" } : { opacity: 0, scale: 0.96, letterSpacing: "0.16em" }}
-            transition={{ duration: 0.45, ease: "easeOut" }}
+            animate={{ opacity: [0.4, 1, 0.4], scale: [0.98, 1.04, 0.98] }}
+            transition={{ duration: 4, ease: "easeInOut", repeat: Infinity }}
             className="text-4xl font-extrabold tracking-[0.16em] text-white/35 sm:text-6xl"
           >
             WEARD
           </motion.p>
           <motion.p
-            initial={{ opacity: 0, letterSpacing: "0.2em" }}
-            animate={isActive ? { opacity: 1, letterSpacing: "0.5em" } : { opacity: 0, letterSpacing: "0.2em" }}
-            transition={{ duration: 0.8, delay: 0.55, ease: "easeInOut" }}
+            animate={{ opacity: [0.65, 1, 0.65], letterSpacing: ["0.35em", "0.5em", "0.35em"] }}
+            transition={{ duration: 3.5, ease: "easeInOut", repeat: Infinity }}
             className="mt-5 text-3xl font-black uppercase sm:text-6xl"
           >
             <motion.span
-              initial={{ color: "rgba(255,255,255,0.45)" }}
-              animate={isActive ? { color: ["rgba(255,255,255,0.45)", "#a5b4fc", "rgba(255,255,255,0.9)"] } : { color: "rgba(255,255,255,0.45)" }}
-              transition={{ duration: 0.45, delay: 1.25 }}
+              animate={{ color: ["rgba(255,255,255,0.45)", "#a5b4fc", "rgba(255,255,255,0.9)", "rgba(255,255,255,0.45)"] }}
+              transition={{ duration: 2.4, ease: "easeInOut", repeat: Infinity, repeatDelay: 0.2 }}
             >
               WE
             </motion.span>{" "}
             ·{" "}
             <motion.span
-              initial={{ color: "rgba(255,255,255,0.45)" }}
-              animate={isActive ? { color: ["rgba(255,255,255,0.45)", "#f9a8d4", "rgba(255,255,255,0.9)"] } : { color: "rgba(255,255,255,0.45)" }}
-              transition={{ duration: 0.45, delay: 1.7 }}
+              animate={{ color: ["rgba(255,255,255,0.45)", "#f9a8d4", "rgba(255,255,255,0.9)", "rgba(255,255,255,0.45)"] }}
+              transition={{ duration: 2.4, ease: "easeInOut", repeat: Infinity, delay: 0.4, repeatDelay: 0.2 }}
             >
               ARE
             </motion.span>{" "}
             ·{" "}
             <motion.span
-              initial={{ color: "rgba(255,255,255,0.45)" }}
-              animate={isActive ? { color: ["rgba(255,255,255,0.45)", "#6ee7b7", "rgba(255,255,255,0.9)"] } : { color: "rgba(255,255,255,0.45)" }}
-              transition={{ duration: 0.45, delay: 2.15 }}
+              animate={{ color: ["rgba(255,255,255,0.45)", "#6ee7b7", "rgba(255,255,255,0.9)", "rgba(255,255,255,0.45)"] }}
+              transition={{ duration: 2.4, ease: "easeInOut", repeat: Infinity, delay: 0.8, repeatDelay: 0.2 }}
             >
               D
             </motion.span>
           </motion.p>
         </div>
         <motion.p
-          initial={{ opacity: 0, y: 6 }}
-          animate={isActive ? { opacity: 1, y: 0 } : { opacity: 0, y: 6 }}
-          transition={{ duration: 0.55, delay: 2.45 }}
+          animate={{ opacity: [0.65, 1, 0.65], y: [0, -2, 0] }}
+          transition={{ duration: 3, ease: "easeInOut", repeat: Infinity }}
           className="mt-6 text-sm font-medium text-white/80 sm:text-base"
         >
           For We Are Different.
