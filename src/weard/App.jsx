@@ -292,7 +292,7 @@ location: "Thailand",
   photo: MEDIA.creators.Sophia.poster,         // still frame before hover
   tags: ["Fashion", "Beauty", "Travel"],
   video: MEDIA.creators.Sophia.video,
-  bio: "Sophia is a Thai-British creator with a photographer’s instinct and a fashion-forward eye that resonates across global style audiences. She blends aspirational fashion, honest beauty content, and elevated lifestyle moments into a feed that feels premium and genuinely relatable. Her audience skews female, 18 to 30, split strongly between the USA and Thailand, making her a compelling partner for brands that want polished storytelling with real cultural relevance.",
+  bio: "Sophia is a Thai-British creator with a photographer’s instinct and a fashion-forward eye that resonates across global style audiences. She blends aspirational fashion, honest beauty content, and elevated lifestyle moments into a feed that feels premium and genuinely relatable. Her storytelling is polished, culturally fluent, and commercially strong for brands seeking elevated campaigns with authentic relevance.",
   top_audience: ["Thailand", "US"],
   audience_insights: {
     top_location: { name: "Thailand", pct: 60 },
@@ -319,7 +319,7 @@ location: "Thailand",
   photo: MEDIA.creators.Josefine.poster,          // still frame before hover
   tags: ["Beauty", "Lifestyle"],
   video: MEDIA.creators.Josefine.video,  
-  bio: "Josefine is a Swedish-Thai creator based in Thailand whose content sits at the intersection of K-influenced beauty, soft lifestyle aesthetics, and skincare-first recommendations that drive genuine purchase decisions. Her audience on Instagram and TikTok is deeply engaged, particularly in beauty and wellness, with strong interest from young women in Thailand. Her content feels editorial yet approachable, which is why beauty partners consistently see strong conversion from her posts.",
+  bio: "Josefine is a Swedish-Thai creator based in Thailand whose content sits at the intersection of K-influenced beauty, soft lifestyle aesthetics, and skincare-first recommendations that drive genuine purchase decisions. Her voice feels editorial yet approachable, balancing premium visuals with practical credibility in a way that makes beauty and wellness partnerships feel naturally integrated.",
   top_audience: ["Thailand", "Sweden"],
   audience_insights: {
     top_location: { name: "Thailand", pct: 78 },
@@ -404,7 +404,7 @@ video: MEDIA.creators.OliveTreeFamily.video,
   photo: MEDIA.creators.VeryBritishProblems.poster,
   video: MEDIA.creators.VeryBritishProblems.video,
   tags: ["Comedy", "Lifestyle"],
-  bio: "Rob turns the silent agony of British daily life into comedy that feels like a shared confession, from self-checkouts to passive-aggressive emails and the classic \"you too\" moment at restaurants. His audience is primarily UK millennials aged 25 to 40 who grew up in the culture he dissects so well. With over 1.4 million cross-platform followers, his content performs because it earns trust, not just attention. Brands that feel distinctly British, or want to, belong here.",
+  bio: "Rob turns the silent agony of British daily life into comedy that feels like a shared confession, from self-checkouts to passive-aggressive emails and the classic \"you too\" moment at restaurants. His tone is unmistakably local yet broadly relatable, making his content highly shareable and commercially effective. Brands that feel distinctly British, or want to, benefit from his trust-led storytelling and cultural precision.",
   top_audience: ["UK", "US"],
   audience_insights: {
     top_location: { name: "UK", pct: 67 },
@@ -1466,16 +1466,16 @@ function CreatorProfile({ creator, onBack }) {
 
           <div className="mt-10 grid gap-8 md:grid-cols-2">
             <div className="px-1">
-              <div className="text-[11px] uppercase tracking-[0.32em] text-neutral-500">Audience Snapshot</div>
+              <div className="text-[11px] uppercase tracking-[0.32em] text-neutral-500">Audience Insights</div>
               <div className="mt-4">
                 <p className="text-6xl font-semibold leading-none tracking-tight">{audience_insights?.top_location?.pct || 0}%</p>
-                <p className="mt-2 text-lg">{audience_insights?.top_location?.name || top_audience[0] || "UK"} Audience</p>
+                <p className="mt-2 text-lg">Primary Audience: {audience_insights?.top_location?.name || top_audience[0] || "UK"}</p>
                 <p className="mt-1 text-sm text-neutral-500">{audience_insights?.top_city || "—"} · {audience_insights?.age_range || "—"}</p>
               </div>
               <div className="mt-6">
-                <div className="flex items-center justify-between text-[11px] uppercase tracking-[0.2em] text-neutral-500">
+                <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] uppercase tracking-[0.2em] text-neutral-500">
                   <span>Gender split</span>
-                  <span>{audience_insights?.gender_split?.female || 0}% / {audience_insights?.gender_split?.male || 0}%</span>
+                  <span>{audience_insights?.gender_split?.female || 0}% Female · {audience_insights?.gender_split?.male || 0}% Male</span>
                 </div>
                 <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-neutral-200/70 dark:bg-neutral-800">
                   <div className="h-full bg-gradient-to-r from-indigo-500 via-violet-500 to-fuchsia-500" style={{ width: `${audience_insights?.gender_split?.female || 0}%` }} />
@@ -1483,7 +1483,6 @@ function CreatorProfile({ creator, onBack }) {
               </div>
               <div className="mt-6 space-y-2">
                 {[
-                  { name: audience_insights?.top_location?.name || top_audience[0] || "UK", pct: audience_insights?.top_location?.pct || 0 },
                   { name: audience_insights?.second_location?.name || top_audience[1] || "US", pct: audience_insights?.second_location?.pct || 0 },
                   { name: top_audience[2] || "Global", pct: Math.max(0, 100 - ((audience_insights?.top_location?.pct || 0) + (audience_insights?.second_location?.pct || 0))) },
                 ].map((market) => (
@@ -1498,9 +1497,8 @@ function CreatorProfile({ creator, onBack }) {
             <div className="px-1">
               <div className="text-[11px] uppercase tracking-[0.32em] text-neutral-500">Featured Partnerships</div>
               <div className="mt-4 grid gap-3">
-                {recent_campaigns.slice(0, 3).map((campaign, idx) => (
-                  <div key={`${campaign.brand}-${campaign.year}`} className="group rounded-2xl bg-gradient-to-r from-neutral-100 to-white dark:from-neutral-900 dark:to-neutral-800 px-4 py-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg">
-                    <p className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">Campaign {idx + 1}</p>
+                {recent_campaigns.slice(0, 3).map((campaign) => (
+                  <div key={`${campaign.brand}-${campaign.year}`} className="group rounded-2xl border border-black/5 bg-white/60 px-4 py-4 shadow-[0_8px_28px_-20px_rgba(0,0,0,0.6)] backdrop-blur-[2px] transition hover:-translate-y-0.5 hover:shadow-[0_16px_36px_-24px_rgba(0,0,0,0.65)] dark:border-white/10 dark:bg-white/[0.03]">
                     <p className="mt-2 text-base font-semibold">{campaign.brand}</p>
                     <p className="text-xs text-neutral-500">{campaign.category || "Brand partnership"}</p>
                   </div>
@@ -3250,9 +3248,9 @@ function Contact() {
   }
 
   return (
-    <section className="max-w-7xl mx-auto px-4 pt-10 pb-20" id="contact">
-      <div className="rounded-2xl overflow-hidden border border-black/10 shadow-sm bg-white dark:bg-neutral-950">
-        <div className="border-b border-neutral-200 dark:border-neutral-800 px-6 pt-8 pb-7 sm:px-10 sm:pt-10">
+    <section className="max-w-7xl mx-auto px-4 pt-14 pb-24 sm:pt-20 sm:pb-28" id="contact">
+      <div className="rounded-2xl bg-transparent">
+        <div className="px-4 pt-4 pb-8 sm:px-8 sm:pt-8 sm:pb-12 lg:px-10">
           <div className="text-[10px] sm:text-xs uppercase tracking-[0.35em] text-neutral-500">
             UK ↔ APAC · CREATOR CAMPAIGNS · TALENT MANAGEMENT
           </div>
@@ -3295,8 +3293,8 @@ function Contact() {
         </div>
 
         {/* Body */}
-        <div className="px-6 py-6 sm:px-10">
-          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_280px]">
+        <div className="px-4 pb-4 sm:px-8 sm:pb-8 lg:px-10">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_280px]">
             {mode === "talent" ? (
               <form className="grid gap-4 max-w-2xl" onSubmit={handleTalentSubmit}>
               <div className="grid sm:grid-cols-2 gap-4">
@@ -3542,7 +3540,7 @@ function Contact() {
             )}
 
             <aside className="space-y-4">
-              <div className="rounded-2xl border border-black/10 bg-white px-4 py-4 text-sm text-neutral-700 dark:bg-neutral-900 dark:text-neutral-200">
+              <div className="rounded-2xl border border-black/5 bg-white/55 px-5 py-5 text-sm text-neutral-700 shadow-[0_8px_26px_-18px_rgba(0,0,0,0.45)] backdrop-blur-sm dark:border-white/10 dark:bg-white/[0.04] dark:text-neutral-200">
                 <h3 className="text-base font-semibold text-neutral-900 dark:text-white">
                   Prefer email?
                 </h3>
@@ -3557,7 +3555,7 @@ function Contact() {
                   We only use your details to respond to your enquiry.
                 </p>
               </div>
-              <div className="rounded-2xl border border-black/10 bg-white px-4 py-4 text-sm text-neutral-700 dark:bg-neutral-900 dark:text-neutral-200">
+              <div className="rounded-2xl border border-black/5 bg-white/55 px-5 py-5 text-sm text-neutral-700 shadow-[0_8px_26px_-18px_rgba(0,0,0,0.45)] backdrop-blur-sm dark:border-white/10 dark:bg-white/[0.04] dark:text-neutral-200">
                 <h3 className="text-base font-semibold text-neutral-900 dark:text-white">
                   What happens next
                 </h3>
