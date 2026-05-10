@@ -769,7 +769,7 @@ useEffect(() => {
       }
     };
 
-    const finishLoading = () => {
+    const Loading = () => {
       window.sessionStorage.setItem(LOADER_SESSION_KEY, "1");
       setIsLoading(false);
     };
@@ -777,12 +777,12 @@ useEffect(() => {
     const handleLoad = () => {
       loaded = true;
       setLoadProgress(1);
-      if (minPassed) finishLoading();
+      if (minPassed) Loading();
     };
 
     const timer = setTimeout(() => {
       minPassed = true;
-      if (loaded) finishLoading();
+      if (loaded) Loading();
     }, minDuration);
 
     window.addEventListener("load", handleLoad);
@@ -2214,7 +2214,7 @@ function PronunciationReveal() {
               animate={{ color: ["rgba(255,255,255,0.45)", "#6ee7b7", "rgba(255,255,255,0.9)", "rgba(255,255,255,0.45)"] }}
               transition={{ duration: 2.4, ease: "easeInOut", delay: 0.8 }}
             >
-              D
+              DIFFERENT
             </motion.span>
           </motion.p>
         </div>
