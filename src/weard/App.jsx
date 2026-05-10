@@ -2218,15 +2218,6 @@ function PronunciationReveal() {
             </motion.span>
           </motion.p>
         </div>
-        <motion.div
-          animate={{ opacity: [0.65, 1, 0.65], y: [0, -2, 0] }}
-          transition={{ duration: 3, ease: "easeInOut" }}
-          className="mt-6 text-center text-white/80"
-        >
-          <p className="text-xs uppercase tracking-[0.4em]">finish</p>
-          <p className="mt-2 text-sm font-semibold tracking-[0.25em] text-white">WEARD</p>
-          <p className="mt-1 text-sm font-medium sm:text-base">WE · ARE · DIFFERENT</p>
-        </motion.div>
       </div>
     </section>
   );
