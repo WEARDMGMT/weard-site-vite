@@ -223,7 +223,7 @@ const BRAND_LOGOS = [
   { src: "/media/logos/time-phoria.png", alt: "Timephoria" },
   { src: "/media/logos/tresemme.png", alt: "TRESemmé" },
   { src: "/media/logos/edikted.png", alt: "Edikted" },
-  { src: "/media/logos/wolf-head.png", alt: "Wolf Head" },
+  { src: "/media/logos/wolf-head.png", alt: "Darc Sport" },
   { src: "/media/logos/first-table.svg", alt: "first table" },
   { src: "/media/logos/persil.png", alt: "Persil" },
   { src: "/media/logos/yepoda.png", alt: "Yepoda" },
@@ -1546,17 +1546,20 @@ function CreatorProfile({ creator, onBack }) {
           <div className="mt-10 grid gap-8 md:grid-cols-2">
             <div className="px-1">
               <div className="text-[11px] uppercase tracking-[0.32em] text-neutral-500">Audience Insights</div>
-              <div className="mt-4">
+              <div className="mt-4 rounded-2xl border border-black/5 bg-white/60 px-5 py-5 shadow-[0_8px_28px_-20px_rgba(0,0,0,0.6)] backdrop-blur-[2px] dark:border-white/10 dark:bg-white/[0.03]">
                 <p className="text-6xl font-semibold leading-none tracking-tight">{audience_insights?.top_location?.pct || 0}%</p>
-                <p className="mt-1 text-xs uppercase tracking-[0.18em] text-neutral-500">of audience from {audience_insights?.top_location?.name || top_audience[0] || "UK"}</p>
-                <p className="mt-2 text-lg">Primary Audience: {audience_insights?.top_location?.name || top_audience[0] || "UK"}</p>
-                <p className="mt-1 text-sm text-neutral-500">Top City: {audience_insights?.top_city || "—"}</p>
-                <p className="text-sm text-neutral-500">Age: {audience_insights?.age_range || "—"}</p>
+                <p className="mt-1 text-xs uppercase tracking-[0.18em] text-neutral-500">of audience from</p>
+                <p className="mt-2 text-2xl font-medium leading-tight tracking-tight">{audience_insights?.top_location?.name || top_audience[0] || "UK"}</p>
+                <div className="mt-4 space-y-1.5 text-sm text-neutral-500">
+                  <p><span className="text-neutral-400">Top City:</span> <span className="text-neutral-700 dark:text-neutral-200">{audience_insights?.top_city || "—"}</span></p>
+                  <p><span className="text-neutral-400">Secondary audience:</span> <span className="text-neutral-700 dark:text-neutral-200">{audience_insights?.second_location?.name || top_audience[1] || "US"}</span></p>
+                  <p><span className="text-neutral-400">Age:</span> <span className="text-neutral-700 dark:text-neutral-200">{audience_insights?.age_range || "—"}</span></p>
+                </div>
               </div>
-              <div className="mt-6">
-                <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] uppercase tracking-[0.2em] text-neutral-500">
-                  <span>Gender split</span>
-                  <span>{audience_insights?.gender_split?.female || 0}% Female · {audience_insights?.gender_split?.male || 0}% Male</span>
+              <div className="mt-5">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <span className="text-[11px] uppercase tracking-[0.2em] text-neutral-500">Gender Split</span>
+                  <span className="text-sm text-neutral-600 dark:text-neutral-300">{audience_insights?.gender_split?.female || 0}% Female • {audience_insights?.gender_split?.male || 0}% Male</span>
                 </div>
                 <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-neutral-200/70 dark:bg-neutral-800">
                   <div className="h-full bg-gradient-to-r from-indigo-500 via-violet-500 to-fuchsia-500" style={{ width: `${audience_insights?.gender_split?.female || 0}%` }} />
