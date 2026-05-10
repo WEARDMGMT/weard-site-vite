@@ -1719,7 +1719,7 @@ function Home({ onExploreRoster, onWorkWithUs }) {
             onClick={onWorkWithUs}
             className={`inline-flex items-center gap-2 px-5 py-3 rounded-full text-white hover:-translate-y-0.5 transition focus:outline-none focus:ring-2 focus:ring-indigo-500 ${GRADIENT}`}
           >
-            Start a campaign brief <ArrowRight size={16} />
+            Start a Campaign Brief <ArrowRight size={16} />
           </button>
           <button
             onClick={onExploreRoster}
@@ -1730,7 +1730,7 @@ function Home({ onExploreRoster, onWorkWithUs }) {
         </div>
       </div>
       <div className="max-w-7xl mx-auto px-4 pb-24 md:pb-16 space-y-10">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="hidden grid gap-4 sm:grid-cols-2 lg:grid-cols-4" aria-hidden="true">
           <div className="rounded-3xl border border-neutral-200 bg-white/90 p-5 shadow-sm">
             <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">Creator reach</p>
             <p className="mt-2 text-3xl font-bold text-neutral-900">
@@ -1753,7 +1753,7 @@ function Home({ onExploreRoster, onWorkWithUs }) {
           </div>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-4 auto-rows-fr">
+        <div className="hidden grid gap-4 md:grid-cols-4 auto-rows-fr" aria-hidden="true">
           {serviceBento.map((item) => (
             <motion.article
               key={item.title}
@@ -1778,7 +1778,7 @@ function Home({ onExploreRoster, onWorkWithUs }) {
           ))}
         </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1.1fr_minmax(0,1fr)]">
+      <div className="hidden grid gap-6 lg:grid-cols-[1.1fr_minmax(0,1fr)]" aria-hidden="true">
           <div className="rounded-3xl border border-neutral-200 bg-white/95 p-6 shadow-sm">
             <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">How to work with WEARD</p>
             <ol className="mt-4 space-y-3 text-sm text-neutral-700">
@@ -2051,7 +2051,7 @@ function About() {
             Boutique agency, global execution
           </div>
           <h2 className="mt-5 text-4xl sm:text-5xl font-bold text-neutral-700 dark:text-neutral-200">
-            We build creator careers and brand campaigns that actually move the needle.
+            supporting culturally influential creators.
           </h2>
           <p className="mt-4 text-neutral-700 dark:text-neutral-300 max-w-2xl">
             WEARD Management was founded in 2025 to champion diverse creator voices with genuine cultural fluency, connecting them with the right brands and opportunities. Our roster delivers campaigns across the UK, US, and APAC region, bringing first-hand market understanding, established regional relationships, and a strong sense of what genuinely resonates with audiences in different territories. For brands, that means more than just creator content — it means campaigns shaped by cultural insight, authentic storytelling, and a stronger ability to connect with the audiences they want to reach.
@@ -3584,7 +3584,7 @@ function Footer({ onNav }) {
           <div>© {new Date().getFullYear()} WEARD Management. All rights reserved.</div>
           <div className="mt-1">Built for premium campaigns, trusted partnerships, and measurable growth.</div>
         </div>
-        <div className="text-sm text-neutral-600 dark:text-neutral-400">
+        <div className="hidden text-sm text-neutral-600 dark:text-neutral-400" aria-hidden="true">
           <div className="text-xs uppercase tracking-[0.25em] text-neutral-400">Markets</div>
           <div className="mt-2 grid gap-1">
             <SiteLink to="asia-to-uk-influencer-marketing" onNav={onNav} className="underline">
