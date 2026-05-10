@@ -1347,6 +1347,43 @@ function CreatorProfile({ creator, onBack }) {
   const tt = cleanNum(tiktok_followers) ?? 0;
   const yt = cleanNum(youtube_subscribers) ?? 0; // NEW
   const total = ig + tt + yt; // NEW
+  const collabName =
+    name === "Very British Problems"
+      ? "Rob"
+      : name === "Very British Korean"
+        ? "Sumin"
+        : name === "The Olive Tree Family"
+          ? "The Olives"
+          : name.split(" ")[0];
+  const whyBrandsCollabCopy = {
+    "Sophia Pricey": [
+      "A sunny, half-British half-Thai voice that celebrates the joy of growing up between two worlds, giving brands a heartfelt place in stories of heritage, family and belonging.",
+      "Sunshine-soaked, beachy aesthetic that audiences genuinely look forward to scrolling, naturally placing brands inside aspirational summer moments and happy holiday memories.",
+      "A warm, family-anchored creator whose grandma and loved ones appear in her content, letting brands sit alongside the small, real, intergenerational moments that make life feel lovely.",
+    ],
+    Josefine: [
+      "A bright, feel-good Thai voice that turns everyday self-care into something joyful, naturally placing brands as the little upgrade that makes a busy day feel a bit more beautiful.",
+      "A trusted beauty and lifestyle storyteller whose audience genuinely looks to her for recommendations, giving brands a kind, friend-to-friend introduction rather than an ad.",
+      "A bridge for global and Thai brands wanting authentic SEA relevance, helping them show up in the Thai market with warmth, confidence and cultural fluency.",
+    ],
+    Rob: [
+      "A daily dose of gentle, knowing humour that brings people together over the small joys and quirks of British life, making brands part of a shared smile rather than an interruption.",
+      "A truly all-ages, all-audiences voice, loved by grandparents, parents and Gen Z alike, giving brands a warm and welcoming home where everyone feels in on the joke.",
+      "Celebrates the everyday in a way that feels comforting and familiar, helping brands tap into nostalgia, belonging and the simple pleasures of being British.",
+    ],
+    Sumin: [
+      "A joyful celebration of UK and Korean culture coming together, helping brands tell stories of curiosity, openness and the beauty of cross-cultural connection.",
+      "A warm, encouraging community built on genuine kindness and shared discovery, where brand moments feel like recommendations from a trusted friend.",
+      "Champions representation and cultural pride in a way that uplifts audiences on both sides of the world, giving brands a meaningful, feel-good role in the K-wave story.",
+    ],
+  };
+  const whyBrandsCollabTitle = collabName === "The Olives" ? "The Olives" : collabName;
+  const whyBrandsCollabItems = whyBrandsCollabCopy[collabName] || [
+    `Strong ${audience_insights?.top_location?.name || top_audience[0] || "global"} audience relevance`,
+    "Premium visual storytelling and consistent brand tone",
+    "Conversion-friendly content across fashion, beauty, and lifestyle",
+    "Internationally accessible communication style",
+  ];
 
 
   return (
@@ -1505,12 +1542,11 @@ function CreatorProfile({ creator, onBack }) {
                 ))}
               </div>
               <div className="mt-7">
-                <p className="text-[11px] uppercase tracking-[0.32em] text-neutral-500">Why brands book {name.split(" ")[0]}</p>
+                <p className="text-[11px] uppercase tracking-[0.32em] text-neutral-500">why brands collab with {whyBrandsCollabTitle}</p>
                 <ul className="mt-3 space-y-2 text-sm text-neutral-600 dark:text-neutral-300">
-                  <li>• Strong {audience_insights?.top_location?.name || top_audience[0] || "global"} audience relevance</li>
-                  <li>• Premium visual storytelling and consistent brand tone</li>
-                  <li>• Conversion-friendly content across fashion, beauty, and lifestyle</li>
-                  <li>• Internationally accessible communication style</li>
+                  {whyBrandsCollabItems.map((item) => (
+                    <li key={item}>• {item}</li>
+                  ))}
                 </ul>
               </div>
             </div>
@@ -1551,7 +1587,7 @@ function CreatorProfile({ creator, onBack }) {
               className={BTN_PRIMARY_CLS}
               onClick={() => window.weardNav?.("contact")}
             >
-              Collab with "{name === "Very British Problems" ? "Rob" : name === "Very British Korean" ? "Sumin" : name === "The Olive Tree Family" ? "The Olives" : name.split(" ")[0]}" <ArrowRight size={16} />
+              Collab with {collabName} <ArrowRight size={16} />
             </button>
             {instagram && (
               <a
@@ -2051,7 +2087,7 @@ function About() {
             Boutique agency, global execution
           </div>
           <h2 className="mt-5 text-4xl sm:text-5xl font-bold text-neutral-700 dark:text-neutral-200">
-            supporting culturally influential creators.
+            Supporting Culturally Influential Creators.
           </h2>
           <p className="mt-4 text-neutral-700 dark:text-neutral-300 max-w-2xl">
             WEARD Management was founded in 2025 to champion diverse creator voices with genuine cultural fluency, connecting them with the right brands and opportunities. Our roster delivers campaigns across the UK, US, and APAC region, bringing first-hand market understanding, established regional relationships, and a strong sense of what genuinely resonates with audiences in different territories. For brands, that means more than just creator content — it means campaigns shaped by cultural insight, authentic storytelling, and a stronger ability to connect with the audiences they want to reach.
