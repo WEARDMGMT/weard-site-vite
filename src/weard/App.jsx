@@ -1334,20 +1334,14 @@ function CreatorProfile({ creator, onBack }) {
   const [mediaRef, mediaInView] = useInView({ rootMargin: "200px" });
   const mediaVideoRef = useRef(null);
   const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+  const [videoUnavailable, setVideoUnavailable] = useState(false);
   useEffect(() => {
     if (mediaInView && video) setShouldLoadVideo(true);
   }, [mediaInView, video]);
-  const [isMediaActive, setIsMediaActive] = useState(false);
-  const handleMediaEnter = () => {
-    if (!video) return;
-    setShouldLoadVideo(true);
-    setIsMediaActive(true);
-    mediaVideoRef.current?.play();
-  };
-  const handleMediaLeave = () => {
-    setIsMediaActive(false);
-    mediaVideoRef.current?.pause();
-  };
+  useEffect(() => {
+    if (!shouldLoadVideo || !mediaInView || !video || videoUnavailable) return;
+    mediaVideoRef.current?.play().catch(() => {});
+  }, [shouldLoadVideo, mediaInView, video, videoUnavailable]);
 
   const ig = cleanNum(instagram_followers) ?? 0;
   const tt = cleanNum(tiktok_followers) ?? 0;
@@ -1384,17 +1378,14 @@ function CreatorProfile({ creator, onBack }) {
               <video
                 ref={mediaVideoRef}
                 src={shouldLoadVideo ? video : undefined}
+                poster={photo || creator.profile_image}
+                autoPlay
                 muted
                 loop
                 playsInline
-                preload="none"
-                className={`absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-300 ${
-                  isMediaActive ? "opacity-100" : "hover:opacity-100"
-                }`}
-                onMouseEnter={handleMediaEnter}
-                onMouseLeave={handleMediaLeave}
-                onTouchStart={handleMediaEnter}
-                onTouchEnd={handleMediaLeave}
+                preload="metadata"
+                className="absolute inset-0 h-full w-full object-cover opacity-100 transition-opacity duration-300"
+                onError={() => setVideoUnavailable(true)}
               />
             )}
           </div>
@@ -3130,7 +3121,7 @@ function PrivacyPolicy() {
   }
 // ======= CONTACT =======
 function Contact() {
-  const [mode, setMode] = useState("brand");
+  const [mode, setMode] = useState("default");
   const [isSendingBrand, setIsSendingBrand] = useState(false);
   const [isSendingTalent, setIsSendingTalent] = useState(false);
   const [brandNotice, setBrandNotice] = useState("");
@@ -3155,6 +3146,8 @@ function Contact() {
     location: "",
     availability: "",
     notes: "",
+    audience: "",
+    whyWeard: "",
   });
 
   function sendMailto(subject, body, fallbackMessage) {
@@ -3243,8 +3236,8 @@ function Contact() {
 
   async function handleTalentSubmit(e) {
     e.preventDefault();
-    if (!talent.name || !talent.email) {
-      alert("Please fill your name and email.");
+    if (!talent.name || !talent.email || !talent.ig || !talent.category) {
+      alert("Please complete name, email, Instagram URL, and category.");
       return;
     }
     setTalentNotice("");
@@ -3257,8 +3250,10 @@ function Contact() {
       `TikTok: ${talent.tt}\n` +
       `Other: ${talent.other}\n` +
       `Category: ${talent.category}\n\n` +
+      `Audience info: ${talent.audience}\n` +
       `Location: ${talent.location}\n` +
       `Availability: ${talent.availability}\n\n` +
+      `Why WEARD:\n${talent.whyWeard}\n\n` +
       `Notes:\n${talent.notes}`;
 
     try {
@@ -3275,6 +3270,8 @@ function Contact() {
           category: talent.category,
           location: talent.location,
           availability: talent.availability,
+          audience: talent.audience,
+          why_weard: talent.whyWeard,
           notes: talent.notes,
           message: body,
         });
@@ -3305,52 +3302,168 @@ function Contact() {
 
   return (
     <section className="max-w-7xl mx-auto px-4 pt-10 pb-20" id="contact">
-      <div className="rounded-2xl overflow-hidden border border-black/10 shadow-sm">
-        {/* Header + mode switch */}
-        <div className="bg-neutral-900 text-white px-6 py-6 flex items-center justify-between">
-          <div>
-            <h2 className="text-3xl sm:text-4xl font-bold">Let’s build your next creator campaign</h2>
-            <p className="mt-1 text-sm text-white/80">
-              Share your goals in 2 minutes. We’ll reply with a clear next-step plan.
-            </p>
+      <div className="rounded-2xl overflow-hidden border border-black/10 shadow-sm bg-white dark:bg-neutral-950">
+        <div className="border-b border-neutral-200 dark:border-neutral-800 px-6 pt-8 pb-7 sm:px-10 sm:pt-10">
+          <div className="text-[10px] sm:text-xs uppercase tracking-[0.35em] text-neutral-500">
+            UK ↔ APAC · CREATOR CAMPAIGNS · TALENT MANAGEMENT
           </div>
-
-          <div
-            className="inline-flex rounded-full border border-white/20 p-1"
-            role="tablist"
-            aria-label="Contact mode"
-          >
+          <h2 className="mt-4 text-5xl sm:text-7xl font-black uppercase leading-[0.92] tracking-tight text-neutral-900 dark:text-white whitespace-pre-line">
+            {mode === "talent" ? "WANT TO JOIN\nTHE ROSTER?" : "LET’S BUILD\nSOMETHING"}
+          </h2>
+          <p className="mt-5 max-w-2xl text-sm sm:text-base text-neutral-600 dark:text-neutral-300">
+            {mode === "talent"
+              ? "Tell us about you."
+              : mode === "brand"
+              ? "Creator campaigns shaped by strategy, culture, and creators voices."
+              : "Campaigns, partnerships, and creative collaborations built to connect with your audience."}
+          </p>
+          <div className="mt-8 flex flex-wrap gap-6 sm:gap-10 text-xl sm:text-2xl font-semibold uppercase tracking-[0.08em]" role="tablist" aria-label="Contact mode">
             <button
               onClick={() => setMode("brand")}
-              className={`px-3 py-1.5 rounded-full text-sm ${
+              className={`pb-1 border-b transition-colors ${
                 mode === "brand"
-                  ? "bg-white text-neutral-900"
-                  : "text-white/80"
+                  ? "border-neutral-900 text-neutral-900 dark:text-white dark:border-white"
+                  : "border-transparent text-neutral-500 hover:text-neutral-900 dark:hover:text-white"
               }`}
               role="tab"
               aria-selected={mode === "brand"}
             >
-              Brand / Agency
+              FOR BRANDS / AGENCIES
             </button>
             <button
               onClick={() => setMode("talent")}
-              className={`px-3 py-1.5 rounded-full text-sm ${
+              className={`pb-1 border-b transition-colors ${
                 mode === "talent"
-                  ? "bg-white text-neutral-900"
-                  : "text-white/80"
+                  ? "border-neutral-900 text-neutral-900 dark:text-white dark:border-white"
+                  : "border-transparent text-neutral-500 hover:text-neutral-900 dark:hover:text-white"
               }`}
               role="tab"
               aria-selected={mode === "talent"}
             >
-              Talent
+              WANT TO JOIN THE ROSTER?
             </button>
           </div>
         </div>
 
         {/* Body */}
-        <div className="bg-white dark:bg-neutral-950 px-6 py-6">
+        <div className="px-6 py-6 sm:px-10">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_280px]">
-            {mode === "brand" ? (
+            {mode === "talent" ? (
+              <form className="grid gap-4 max-w-2xl" onSubmit={handleTalentSubmit}>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <label className="grid gap-1">
+                  <span className="text-sm font-medium">
+                    Full Name <span className="text-red-500">*</span>
+                  </span>
+                  <input
+                    required
+                    placeholder="e.g., Sophia Price"
+                    className={INPUT_CLS}
+                    value={talent.name}
+                    onChange={(e) => setTalent({ ...talent, name: e.target.value })}
+                    autoComplete="name"
+                  />
+                </label>
+
+                <label className="grid gap-1">
+                  <span className="text-sm font-medium">
+                    Your Email <span className="text-red-500">*</span>
+                  </span>
+                  <input
+                    required
+                    type="email"
+                    placeholder="you@email.com"
+                    className={INPUT_CLS}
+                    value={talent.email}
+                    onChange={(e) => setTalent({ ...talent, email: e.target.value })}
+                    autoComplete="email"
+                  />
+                </label>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-4">
+                <label className="grid gap-1">
+                  <span className="text-sm font-medium">
+                    Instagram URL <span className="text-red-500">*</span>
+                  </span>
+                  <input
+                    required
+                    placeholder="https://instagram.com/username"
+                    className={INPUT_CLS}
+                    value={talent.ig}
+                    onChange={(e) => setTalent({ ...talent, ig: e.target.value })}
+                  />
+                </label>
+
+                <label className="grid gap-1">
+                  <span className="text-sm font-medium">TikTok URL</span>
+                  <input
+                    placeholder="https://tiktok.com/@username"
+                    className={INPUT_CLS}
+                    value={talent.tt}
+                    onChange={(e) => setTalent({ ...talent, tt: e.target.value })}
+                  />
+                </label>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-4">
+                <label className="grid gap-1">
+                  <span className="text-sm font-medium">
+                    Category <span className="text-red-500">*</span>
+                  </span>
+                  <select
+                    required
+                    className={INPUT_CLS}
+                    value={talent.category}
+                    onChange={(e) =>
+                      setTalent({ ...talent, category: e.target.value })
+                    }
+                  >
+                    <option value="">Select…</option>
+                    {CATEGORIES.map((c) => (
+                      <option key={c.key}>{c.label}</option>
+                    ))}
+                  </select>
+                </label>
+
+                <label className="grid gap-1">
+                  <span className="text-sm font-medium">Audience info</span>
+                  <input
+                    placeholder="e.g., 70% UK women 18-34"
+                    className={INPUT_CLS}
+                    value={talent.audience}
+                    onChange={(e) => setTalent({ ...talent, audience: e.target.value })}
+                  />
+                </label>
+              </div>
+
+              <label className="grid gap-1">
+                <span className="text-sm font-medium">Why WEARD?</span>
+                <textarea
+                  placeholder="Tell us why you'd like to join."
+                  className={`${INPUT_CLS} min-h-28`}
+                  value={talent.whyWeard}
+                  onChange={(e) => setTalent({ ...talent, whyWeard: e.target.value })}
+                />
+              </label>
+              <label className="grid gap-1">
+                <span className="text-sm font-medium">Notes</span>
+                <textarea
+                  placeholder="Niche, availability, recent work…"
+                  className={`${INPUT_CLS} min-h-36`}
+                  value={talent.notes}
+                  onChange={(e) => setTalent({ ...talent, notes: e.target.value })}
+                  maxLength={1500}
+                />
+              </label>
+              <div className="flex items-center gap-3">
+                <button className={`${BTN_PRIMARY_CLS} disabled:opacity-60 disabled:cursor-not-allowed`} disabled={isSendingTalent}>
+                  {isSendingTalent ? "Sending..." : "Submit"}
+                </button>
+              </div>
+              {talentNotice ? <p className="text-sm text-neutral-500">{talentNotice}</p> : null}
+              </form>
+            ) : (
               <form className="grid gap-4 max-w-2xl" onSubmit={handleBrandSubmit}>
               <label className="grid gap-1">
                 <span className="text-sm font-medium">
@@ -3476,159 +3589,6 @@ function Contact() {
                 <p className="text-sm text-neutral-500">{brandNotice}</p>
               ) : null}
 
-              </form>
-            ) : (
-              <form className="grid gap-4 max-w-2xl" onSubmit={handleTalentSubmit}>
-              <div className="grid sm:grid-cols-2 gap-4">
-                <label className="grid gap-1">
-                  <span className="text-sm font-medium">
-                    Full Name <span className="text-red-500">*</span>
-                  </span>
-                  <input
-                    required
-                    placeholder="e.g., Sophia Price"
-                    className={INPUT_CLS}
-                    value={talent.name}
-                    onChange={(e) => setTalent({ ...talent, name: e.target.value })}
-                    autoComplete="name"
-                  />
-                </label>
-
-                <label className="grid gap-1">
-                  <span className="text-sm font-medium">
-                    Your Email <span className="text-red-500">*</span>
-                  </span>
-                  <input
-                    required
-                    type="email"
-                    placeholder="you@email.com"
-                    className={INPUT_CLS}
-                    value={talent.email}
-                    onChange={(e) => setTalent({ ...talent, email: e.target.value })}
-                    autoComplete="email"
-                  />
-                </label>
-              </div>
-
-              <div className="grid sm:grid-cols-2 gap-4">
-                <label className="grid gap-1">
-                  <span className="text-sm font-medium">Instagram URL</span>
-                  <input
-                    placeholder="https://instagram.com/username"
-                    className={INPUT_CLS}
-                    value={talent.ig}
-                    onChange={(e) => setTalent({ ...talent, ig: e.target.value })}
-                  />
-                </label>
-
-                <label className="grid gap-1">
-                  <span className="text-sm font-medium">TikTok URL</span>
-                  <input
-                    placeholder="https://tiktok.com/@username"
-                    className={INPUT_CLS}
-                    value={talent.tt}
-                    onChange={(e) => setTalent({ ...talent, tt: e.target.value })}
-                  />
-                </label>
-              </div>
-
-              <label className="grid gap-1">
-                <span className="text-sm font-medium">Other (site/portfolio)</span>
-                <input
-                  placeholder="Link to portfolio, YouTube, etc."
-                  className={INPUT_CLS}
-                  value={talent.other}
-                  onChange={(e) => setTalent({ ...talent, other: e.target.value })}
-                />
-              </label>
-
-              <div className="grid sm:grid-cols-2 gap-4">
-                <label className="grid gap-1">
-                  <span className="text-sm font-medium">Category</span>
-                  <select
-                    className={INPUT_CLS}
-                    value={talent.category}
-                    onChange={(e) =>
-                      setTalent({ ...talent, category: e.target.value })
-                    }
-                  >
-                    <option value="">Select…</option>
-                    {CATEGORIES.map((c) => (
-                      <option key={c.key}>{c.label}</option>
-                    ))}
-                  </select>
-                </label>
-
-                <label className="grid gap-1">
-                  <span className="text-sm font-medium">Your Number (optional)</span>
-                  <input
-                    placeholder="+44 …"
-                    className={INPUT_CLS}
-                    value={talent.number}
-                    onChange={(e) => setTalent({ ...talent, number: e.target.value })}
-                    inputMode="tel"
-                    pattern="^[0-9+()\-.\s]{6,}$"
-                    title="Please enter a valid phone number"
-                    autoComplete="tel"
-                  />
-                </label>
-              </div>
-
-              <div className="grid sm:grid-cols-2 gap-4">
-                <label className="grid gap-1">
-                  <span className="text-sm font-medium">Location</span>
-                  <input
-                    placeholder="e.g., London, UK"
-                    className={INPUT_CLS}
-                    value={talent.location}
-                    onChange={(e) => setTalent({ ...talent, location: e.target.value })}
-                    autoComplete="address-level1"
-                  />
-                </label>
-
-                <label className="grid gap-1">
-                  <span className="text-sm font-medium">Availability</span>
-                  <input
-                    placeholder="e.g., Full-time, Weekends"
-                    className={INPUT_CLS}
-                    value={talent.availability}
-                    onChange={(e) => setTalent({ ...talent, availability: e.target.value })}
-                  />
-                </label>
-              </div>
-
-              <label className="grid gap-1">
-                <span className="text-sm font-medium">Notes</span>
-                <textarea
-                  placeholder="Niche, availability, recent work…"
-                  className={`${INPUT_CLS} min-h-36`}
-                  value={talent.notes}
-                  onChange={(e) => setTalent({ ...talent, notes: e.target.value })}
-                  maxLength={1500}
-                  aria-describedby="talent-notes-count"
-                />
-                <span
-                  id="talent-notes-count"
-                  className="text-xs text-neutral-400 self-end"
-                >
-                  {talent.notes.length}/1500
-                </span>
-              </label>
-
-              <div className="flex items-center gap-3">
-                <button
-                  className={`${BTN_PRIMARY_CLS} disabled:opacity-60 disabled:cursor-not-allowed`}
-                  disabled={isSendingTalent}
-                >
-                  {isSendingTalent ? "Sending..." : "Submit"}
-                </button>
-                <a href="mailto:info@weardmgmt.com" className="text-sm underline">
-                  Email instead
-                </a>
-              </div>
-              {talentNotice ? (
-                <p className="text-sm text-neutral-500">{talentNotice}</p>
-              ) : null}
               </form>
             )}
 
