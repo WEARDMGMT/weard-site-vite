@@ -2,7 +2,7 @@
 
 import React, { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Instagram, Mail, ExternalLink, ArrowRight, ArrowUp, Globe, Menu, X, Sparkles, Youtube, Users, Megaphone, Handshake, BarChart3 } from "lucide-react";
+import { Instagram, Mail, ArrowRight, ArrowUp, Globe, Menu, X, Sparkles, Youtube, Users, Megaphone, Handshake, BarChart3 } from "lucide-react";
 // Simple TikTok icon (outline) to match lucide style
 const TikTokIcon = ({ size = 16, className = "" }) => (
   <svg
@@ -1498,6 +1498,16 @@ function CreatorProfile({ creator, onBack }) {
 
           {location && <div className="mt-3 text-sm tracking-[0.14em] uppercase text-neutral-500">{location}</div>}
 
+          {/* CTA */}
+          <div className="mt-6 flex flex-wrap gap-3">
+            <button
+              className={BTN_PRIMARY_CLS}
+              onClick={() => window.weardNav?.("contact")}
+            >
+              {primaryCollabCta} <ArrowRight size={16} />
+            </button>
+          </div>
+
           <div className="mt-4 text-neutral-700 dark:text-neutral-300 space-y-4">
             <p>{bio}</p>
           </div>
@@ -1582,35 +1592,6 @@ function CreatorProfile({ creator, onBack }) {
     </div>
   )}
 </div>
-          {/* CTA */}
-          <div className="mt-8 flex flex-wrap gap-3">
-            <button
-              className={BTN_PRIMARY_CLS}
-              onClick={() => window.weardNav?.("contact")}
-            >
-              {primaryCollabCta} <ArrowRight size={16} />
-            </button>
-            {instagram && (
-              <a
-                href={instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-neutral-300 dark:border-neutral-700"
-              >
-                View Instagram <ExternalLink size={14} />
-              </a>
-            )}
-            {tiktok && (
-              <a
-                href={tiktok}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-neutral-300 dark:border-neutral-700"
-              >
-                View TikTok <ExternalLink size={14} />
-              </a>
-            )}
-          </div>
         </div>
       </div>
     </section>
