@@ -2192,33 +2192,33 @@ function PronunciationReveal() {
         <div className="mt-5">
           <motion.p
             animate={{ opacity: [0.4, 1, 0.4], scale: [0.98, 1.04, 0.98] }}
-            transition={{ duration: 4, ease: "easeInOut", repeat: Infinity }}
+            transition={{ duration: 4, ease: "easeInOut" }}
             className="text-4xl font-extrabold tracking-[0.16em] text-white/35 sm:text-6xl"
           >
             WEARD
           </motion.p>
           <motion.p
             animate={{ opacity: [0.65, 1, 0.65], letterSpacing: ["0.35em", "0.5em", "0.35em"] }}
-            transition={{ duration: 3.5, ease: "easeInOut", repeat: Infinity }}
+            transition={{ duration: 3.5, ease: "easeInOut" }}
             className="mt-5 text-3xl font-black uppercase sm:text-6xl"
           >
             <motion.span
               animate={{ color: ["rgba(255,255,255,0.45)", "#a5b4fc", "rgba(255,255,255,0.9)", "rgba(255,255,255,0.45)"] }}
-              transition={{ duration: 2.4, ease: "easeInOut", repeat: Infinity, repeatDelay: 0.2 }}
+              transition={{ duration: 2.4, ease: "easeInOut" }}
             >
               WE
             </motion.span>{" "}
             ·{" "}
             <motion.span
               animate={{ color: ["rgba(255,255,255,0.45)", "#f9a8d4", "rgba(255,255,255,0.9)", "rgba(255,255,255,0.45)"] }}
-              transition={{ duration: 2.4, ease: "easeInOut", repeat: Infinity, delay: 0.4, repeatDelay: 0.2 }}
+              transition={{ duration: 2.4, ease: "easeInOut", delay: 0.4 }}
             >
               ARE
             </motion.span>{" "}
             ·{" "}
             <motion.span
               animate={{ color: ["rgba(255,255,255,0.45)", "#6ee7b7", "rgba(255,255,255,0.9)", "rgba(255,255,255,0.45)"] }}
-              transition={{ duration: 2.4, ease: "easeInOut", repeat: Infinity, delay: 0.8, repeatDelay: 0.2 }}
+              transition={{ duration: 2.4, ease: "easeInOut", delay: 0.8 }}
             >
               D
             </motion.span>
@@ -2226,10 +2226,10 @@ function PronunciationReveal() {
         </div>
         <motion.p
           animate={{ opacity: [0.65, 1, 0.65], y: [0, -2, 0] }}
-          transition={{ duration: 3, ease: "easeInOut", repeat: Infinity }}
+          transition={{ duration: 3, ease: "easeInOut" }}
           className="mt-6 text-sm font-medium text-white/80 sm:text-base"
         >
-          For We Are Different.
+          ANIMATION HAPPENS ONCE
         </motion.p>
       </div>
     </section>
