@@ -2,7 +2,7 @@
 
 import React, { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Instagram, Mail, ExternalLink, ArrowRight, ArrowUp, Globe, Menu, X, Sparkles, Youtube } from "lucide-react";
+import { Instagram, Mail, ExternalLink, ArrowRight, ArrowUp, Globe, Menu, X, Sparkles, Youtube, Users, Megaphone, Handshake, BarChart3 } from "lucide-react";
 // Simple TikTok icon (outline) to match lucide style
 const TikTokIcon = ({ size = 16, className = "" }) => (
   <svg
@@ -224,7 +224,7 @@ const BRAND_LOGOS = [
   { src: "/media/logos/tresemme.png", alt: "TRESemmé" },
   { src: "/media/logos/edikted.png", alt: "Edikted" },
   { src: "/media/logos/wolf-head.png", alt: "Wolf Head" },
-  { src: "/media/logos/opentable.png", alt: "OpenTable" },
+  { src: "/media/logos/first-table.svg", alt: "first table" },
   { src: "/media/logos/persil.png", alt: "Persil" },
   { src: "/media/logos/yepoda.png", alt: "Yepoda" },
   { src: "/media/logos/simify.png", alt: "simify" },
@@ -1378,6 +1378,7 @@ function CreatorProfile({ creator, onBack }) {
     ],
   };
   const whyBrandsCollabTitle = collabName === "The Olives" ? "The Olives" : collabName;
+  const primaryCollabCta = `Collab with ${collabName}`;
   const whyBrandsCollabItems = whyBrandsCollabCopy[collabName] || [
     `Strong ${audience_insights?.top_location?.name || top_audience[0] || "global"} audience relevance`,
     "Premium visual storytelling and consistent brand tone",
@@ -1525,7 +1526,7 @@ function CreatorProfile({ creator, onBack }) {
                 ].map((market) => (
                   <div key={market.name} className="flex items-center justify-between rounded-full bg-neutral-100/80 dark:bg-neutral-900/70 px-4 py-2 text-sm">
                     <span>{market.name}</span>
-                    <span className="font-medium">{market.pct}%</span>
+                    <span className="font-medium">{Number(market.pct).toFixed(2).replace(/\.00$/, "")}%</span>
                   </div>
                 ))}
               </div>
@@ -1587,7 +1588,7 @@ function CreatorProfile({ creator, onBack }) {
               className={BTN_PRIMARY_CLS}
               onClick={() => window.weardNav?.("contact")}
             >
-              Collab with {collabName} <ArrowRight size={16} />
+              {primaryCollabCta} <ArrowRight size={16} />
             </button>
             {instagram && (
               <a
@@ -1653,7 +1654,7 @@ function FloatingEnquiryButton({ onNav }) {
   return (
     <button
       onClick={() => onNav?.("contact")}
-      className="fixed bottom-6 right-6 z-30 hidden items-center gap-2 rounded-full border border-white/15 bg-neutral-900/95 px-5 py-3 text-sm font-semibold text-white shadow-[0_16px_45px_rgba(0,0,0,0.35)] backdrop-blur transition hover:-translate-y-1 hover:bg-neutral-800 lg:inline-flex"
+      className="fixed bottom-20 right-6 z-30 hidden items-center gap-2 rounded-full border border-white/15 bg-neutral-900/95 px-5 py-3 text-sm font-semibold text-white shadow-[0_16px_45px_rgba(0,0,0,0.35)] backdrop-blur transition hover:-translate-y-1 hover:bg-neutral-800 lg:inline-flex"
       aria-label="Start your campaign brief"
     >
       Start your campaign brief <ArrowRight size={16} />
@@ -2056,21 +2057,25 @@ function About() {
       title: "Talent strategy",
       body: "Full-service creator management from positioning and pricing to long-term brand alignment.",
       accent: "from-blue-500/15 via-indigo-500/10 to-purple-500/15",
+      icon: Users,
     },
     {
       title: "Campaign production",
       body: "We handle creative direction, briefs, approvals, and delivery timelines across every platform.",
       accent: "from-purple-500/15 via-pink-500/10 to-orange-400/15",
+      icon: Megaphone,
     },
     {
       title: "Brand partnerships",
       body: "We source, negotiate, and activate premium deals with brands that fit each creator’s voice.",
       accent: "from-emerald-500/15 via-teal-500/10 to-blue-500/15",
+      icon: Handshake,
     },
     {
       title: "Performance reporting",
       body: "Post-campaign analytics, audience insights, and learnings to guide the next launch.",
       accent: "from-amber-500/15 via-rose-500/10 to-purple-500/15",
+      icon: BarChart3,
     },
   ];
   const values = [
@@ -2134,7 +2139,7 @@ function About() {
             <div className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full bg-neutral-100/70 blur-2xl transition duration-300 group-hover:bg-white/80" />
             <div className="flex items-center gap-2">
               <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-neutral-200 bg-white/90 shadow-sm">
-                <Sparkles size={16} className="text-neutral-900" aria-hidden="true" />
+                <h.icon size={16} className="text-neutral-900" aria-hidden="true" />
               </div>
               <div>
                 <h3 className="font-semibold text-lg text-neutral-900">{h.title}</h3>
@@ -2144,10 +2149,14 @@ function About() {
               </div>
             </div>
             <p className="mt-3 text-sm text-neutral-600 dark:text-neutral-400">{h.body}</p>
-            <div className="mt-5 flex items-center gap-2 text-xs font-semibold text-neutral-500">
-              Explore details
+            <a
+              className="mt-5 inline-flex items-center gap-2 text-xs font-semibold text-neutral-500 hover:text-neutral-800"
+              href="mailto:hello@weardmgmt.com?subject=Service%20Details%20Request"
+              aria-label={`Email for more details about ${h.title}`}
+            >
+              Email for details
               <ArrowRight size={12} className="transition group-hover:translate-x-1" />
-            </div>
+            </a>
           </div>
         ))}
       </div>
