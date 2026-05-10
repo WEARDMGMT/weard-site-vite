@@ -1434,28 +1434,28 @@ function CreatorProfile({ creator, onBack }) {
           <div className="grid grid-cols-3 gap-3">
             {tt > 0 && (
               <div className="stat-card rounded-2xl border border-neutral-200 p-4 text-center dark:border-neutral-800">
-                <div className="text-2xl font-extrabold">
+                <div className="text-3xl sm:text-4xl font-extrabold">
                   <CountTo to={tt} format={shortFormat} />
                 </div>
-                <div className="mt-1 text-xs text-neutral-500">TikTok Followers</div>
+                <div className="mt-2 text-sm sm:text-base font-semibold text-neutral-400">TikTok Followers</div>
               </div>
             )}
 
             {ig > 0 && (
               <div className="stat-card rounded-2xl border border-neutral-200 p-4 text-center dark:border-neutral-800">
-                <div className="text-2xl font-extrabold">
+                <div className="text-3xl sm:text-4xl font-extrabold">
                   <CountTo to={ig} format={shortFormat} />
                 </div>
-                <div className="mt-1 text-xs text-neutral-500">Instagram Followers</div>
+                <div className="mt-2 text-sm sm:text-base font-semibold text-neutral-400">Instagram Followers</div>
               </div>
             )}
 
             {yt > 0 && (
               <div className="stat-card rounded-2xl border border-neutral-200 p-4 text-center dark:border-neutral-800">
-                <div className="text-2xl font-extrabold">
+                <div className="text-3xl sm:text-4xl font-extrabold">
                   <CountTo to={yt} format={shortFormat} />
                 </div>
-                <div className="mt-1 text-xs text-neutral-500">YouTube Subscribers</div>
+                <div className="mt-2 text-sm sm:text-base font-semibold text-neutral-400">YouTube Subscribers</div>
               </div>
             )}
           </div>
@@ -1530,13 +1530,21 @@ function CreatorProfile({ creator, onBack }) {
           {location && <div className="mt-3 text-sm tracking-[0.14em] uppercase text-neutral-500">{location}</div>}
 
           {/* CTA */}
-          <div className="mt-6 flex flex-wrap gap-3">
+          <div className="mt-6 flex flex-wrap items-center gap-3">
             <button
               className={BTN_PRIMARY_CLS}
               onClick={() => window.weardNav?.("contact")}
             >
               {primaryCollabCta} <ArrowRight size={16} />
             </button>
+            {email && (
+              <a
+                href={`mailto:${email}`}
+                className="text-sm sm:text-base font-medium text-neutral-700 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white underline underline-offset-4"
+              >
+                {email}
+              </a>
+            )}
           </div>
 
           <div className="mt-4 text-neutral-700 dark:text-neutral-300 space-y-4">
