@@ -626,6 +626,44 @@ body.weard-loading {
   }
 }
 
+@keyframes statFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes statGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(139, 92, 246, 0);
+  }
+  50% {
+    box-shadow: 0 0 18px rgba(139, 92, 246, 0.25);
+  }
+}
+
+.stat-card {
+  animation: statFadeUp 0.5s ease forwards, statGlow 3s ease-in-out infinite;
+  opacity: 0;
+}
+
+.stat-card:nth-child(1) {
+  animation-delay: 0.1s, 0.6s;
+}
+
+.stat-card:nth-child(2) {
+  animation-delay: 0.25s, 0.75s;
+}
+
+.stat-card:nth-child(3) {
+  animation-delay: 0.4s, 0.9s;
+}
+
 @media (max-width: 900px) {
   .weard-hero__lanes {
     grid-template-columns: 1fr;

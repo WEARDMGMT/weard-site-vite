@@ -1399,34 +1399,65 @@ function CreatorProfile({ creator, onBack }) {
 
       <div className="mt-8 grid lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] gap-10 lg:gap-14 items-start">
         {/* Media */}
-        <div
-          ref={mediaRef}
-          className="relative overflow-hidden rounded-[2rem] bg-neutral-100/80 dark:bg-neutral-900/90 shadow-[0_30px_80px_-40px_rgba(17,24,39,0.55)]"
-        >
-          <div className="relative aspect-[4/5] sm:aspect-[3/4]">
-            <img
-              src={photo || creator.profile_image}
-              alt={`${name} — WEARD Management creator`}
-              className="absolute inset-0 h-full w-full object-cover scale-[1.01] transition-transform duration-[1200ms] group-hover:scale-[1.04]"
-              loading="lazy"
-              decoding="async"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
-            {video && (
-              <video
-                ref={mediaVideoRef}
-                src={shouldLoadVideo ? video : undefined}
-                poster={photo || creator.profile_image}
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                className="absolute inset-0 h-full w-full object-cover opacity-100 transition duration-700 ease-out hover:scale-[1.03]"
-                onError={() => setVideoUnavailable(true)}
+        <div className="flex flex-col gap-4">
+          <div
+            ref={mediaRef}
+            className="relative overflow-hidden rounded-[2rem] bg-neutral-100/80 dark:bg-neutral-900/90 shadow-[0_30px_80px_-40px_rgba(17,24,39,0.55)]"
+          >
+            <div className="relative aspect-[4/5] sm:aspect-[3/4]">
+              <img
+                src={photo || creator.profile_image}
+                alt={`${name} — WEARD Management creator`}
+                className="absolute inset-0 h-full w-full object-cover scale-[1.01] transition-transform duration-[1200ms] group-hover:scale-[1.04]"
+                loading="lazy"
+                decoding="async"
+                sizes="(max-width: 1024px) 100vw, 50vw"
               />
+              {video && (
+                <video
+                  ref={mediaVideoRef}
+                  src={shouldLoadVideo ? video : undefined}
+                  poster={photo || creator.profile_image}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  className="absolute inset-0 h-full w-full object-cover opacity-100 transition duration-700 ease-out hover:scale-[1.03]"
+                  onError={() => setVideoUnavailable(true)}
+                />
+              )}
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/45 via-black/15 to-transparent" />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-3 gap-3">
+            {tt > 0 && (
+              <div className="stat-card rounded-2xl border border-neutral-200 p-4 text-center dark:border-neutral-800">
+                <div className="text-2xl font-extrabold">
+                  <CountTo to={tt} format={shortFormat} />
+                </div>
+                <div className="mt-1 text-xs text-neutral-500">TikTok Followers</div>
+              </div>
             )}
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/45 via-black/15 to-transparent" />
+
+            {ig > 0 && (
+              <div className="stat-card rounded-2xl border border-neutral-200 p-4 text-center dark:border-neutral-800">
+                <div className="text-2xl font-extrabold">
+                  <CountTo to={ig} format={shortFormat} />
+                </div>
+                <div className="mt-1 text-xs text-neutral-500">Instagram Followers</div>
+              </div>
+            )}
+
+            {yt > 0 && (
+              <div className="stat-card rounded-2xl border border-neutral-200 p-4 text-center dark:border-neutral-800">
+                <div className="text-2xl font-extrabold">
+                  <CountTo to={yt} format={shortFormat} />
+                </div>
+                <div className="mt-1 text-xs text-neutral-500">YouTube Subscribers</div>
+              </div>
+            )}
           </div>
         </div>
 
@@ -1517,8 +1548,10 @@ function CreatorProfile({ creator, onBack }) {
               <div className="text-[11px] uppercase tracking-[0.32em] text-neutral-500">Audience Insights</div>
               <div className="mt-4">
                 <p className="text-6xl font-semibold leading-none tracking-tight">{audience_insights?.top_location?.pct || 0}%</p>
+                <p className="mt-1 text-xs uppercase tracking-[0.18em] text-neutral-500">of audience from {audience_insights?.top_location?.name || top_audience[0] || "UK"}</p>
                 <p className="mt-2 text-lg">Primary Audience: {audience_insights?.top_location?.name || top_audience[0] || "UK"}</p>
-                <p className="mt-1 text-sm text-neutral-500">{audience_insights?.top_city || "—"} · {audience_insights?.age_range || "—"}</p>
+                <p className="mt-1 text-sm text-neutral-500">Top City: {audience_insights?.top_city || "—"}</p>
+                <p className="text-sm text-neutral-500">Age: {audience_insights?.age_range || "—"}</p>
               </div>
               <div className="mt-6">
                 <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] uppercase tracking-[0.2em] text-neutral-500">
@@ -1529,7 +1562,9 @@ function CreatorProfile({ creator, onBack }) {
                   <div className="h-full bg-gradient-to-r from-indigo-500 via-violet-500 to-fuchsia-500" style={{ width: `${audience_insights?.gender_split?.female || 0}%` }} />
                 </div>
               </div>
-              <div className="mt-6 space-y-2">
+              <div className="mt-6">
+                <p className="text-[11px] uppercase tracking-[0.2em] text-neutral-500">Secondary Audiences</p>
+                <div className="mt-2 space-y-2">
                 {[
                   { name: audience_insights?.second_location?.name || top_audience[1] || "US", pct: audience_insights?.second_location?.pct || 0 },
                   { name: top_audience[2] || "Global", pct: Math.max(0, 100 - ((audience_insights?.top_location?.pct || 0) + (audience_insights?.second_location?.pct || 0))) },
@@ -1539,6 +1574,7 @@ function CreatorProfile({ creator, onBack }) {
                     <span className="font-medium">{Number(market.pct).toFixed(2).replace(/\.00$/, "")}%</span>
                   </div>
                 ))}
+                </div>
               </div>
             </div>
 
@@ -1562,36 +1598,6 @@ function CreatorProfile({ creator, onBack }) {
               </div>
             </div>
           </div>
-
-       {/* Stats */}
-<div className="mt-8 grid grid-cols-2 md:grid-cols-3 gap-3">
-  {tt > 0 && (
-    <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4 text-center">
-      <div className="text-2xl font-extrabold">
-        <CountTo to={tt} format={shortFormat} />
-      </div>
-      <div className="text-xs text-neutral-500 mt-1">TikTok Followers</div>
-    </div>
-  )}
-
-  {ig > 0 && (
-    <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4 text-center">
-      <div className="text-2xl font-extrabold">
-        <CountTo to={ig} format={shortFormat} />
-      </div>
-      <div className="text-xs text-neutral-500 mt-1">Instagram Followers</div>
-    </div>
-  )}
-
-  {yt > 0 && (
-    <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4 text-center">
-      <div className="text-2xl font-extrabold">
-        <CountTo to={yt} format={shortFormat} />
-      </div>
-      <div className="text-xs text-neutral-500 mt-1">YouTube Subscribers</div>
-    </div>
-  )}
-</div>
         </div>
       </div>
     </section>
