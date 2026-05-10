@@ -1798,6 +1798,73 @@ function Home({ onExploreRoster, onWorkWithUs }) {
             </motion.blockquote>
           ))}
         </div>
+
+        <div className="mt-10 grid gap-6 lg:grid-cols-2">
+          <section className="rounded-3xl border border-neutral-200 bg-white/90 p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900/80">
+            <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">How we work</p>
+            <h3 className="mt-3 text-2xl font-semibold">A clearer campaign path</h3>
+            <ul className="mt-5 space-y-4">
+              {[
+                {
+                  title: "1) Match",
+                  body: "We shortlist talent based on market, audience, and campaign goal so the creator fit is strategic—not random.",
+                },
+                {
+                  title: "2) Build",
+                  body: "We shape the creative concept, usage rights, and distribution plan for both organic and paid channels.",
+                },
+                {
+                  title: "3) Scale",
+                  body: "We report what worked and roll high-performing content into long-term creator partnerships.",
+                },
+              ].map((item) => (
+                <li key={item.title} className="rounded-2xl border border-neutral-200/80 bg-neutral-50/80 p-4 dark:border-neutral-700 dark:bg-neutral-800/60">
+                  <p className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">{item.title}</p>
+                  <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-300">{item.body}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section className="rounded-3xl border border-indigo-200 bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-6 shadow-sm dark:border-indigo-900/60 dark:from-neutral-900 dark:via-neutral-900 dark:to-indigo-950/40">
+            <p className="text-xs uppercase tracking-[0.3em] text-indigo-500 dark:text-indigo-300">Who this is for</p>
+            <h3 className="mt-3 text-2xl font-semibold text-neutral-900 dark:text-neutral-100">Built for ambitious brands & creators</h3>
+            <p className="mt-3 text-sm text-neutral-600 dark:text-neutral-300">
+              Whether you are launching in a new market, rebranding for Gen Z, or looking for management that understands cross-cultural storytelling, WEARD is built to deliver measurable growth.
+            </p>
+            <div className="mt-5 flex flex-wrap gap-2">
+              {[
+                "Asia → UK market entry",
+                "Multilingual creators",
+                "Paid + organic social",
+                "Long-term ambassador programs",
+                "Cultural campaign moments",
+                "Brand-safe storytelling",
+              ].map((pill) => (
+                <span
+                  key={pill}
+                  className="rounded-full border border-indigo-200/80 bg-white/80 px-3 py-1 text-xs font-medium text-indigo-700 dark:border-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-200"
+                >
+                  {pill}
+                </span>
+              ))}
+            </div>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <button
+                onClick={onWorkWithUs}
+                className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 ${GRADIENT}`}
+              >
+                Start a campaign <ArrowRight size={16} />
+              </button>
+              <button
+                onClick={onExploreRoster}
+                className="inline-flex items-center gap-2 rounded-full border border-neutral-300 px-4 py-2 text-sm font-medium text-neutral-800 transition hover:-translate-y-0.5 dark:border-neutral-700 dark:text-neutral-100"
+              >
+                Meet creators <ArrowRight size={16} />
+              </button>
+            </div>
+          </section>
+        </div>
       </div>
     </section>
   );
