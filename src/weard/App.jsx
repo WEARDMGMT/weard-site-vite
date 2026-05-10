@@ -292,8 +292,9 @@ location: "Thailand",
   photo: MEDIA.creators.Sophia.poster,         // still frame before hover
   tags: ["Fashion", "Beauty", "Travel"],
   video: MEDIA.creators.Sophia.video,
-  bio: "Sophia is a Thai–British creator with a photographer’s instinct and a fashion-forward eye that resonates equally in Bangkok and London. She blends aspirational style, honest beauty content, and lifestyle moments into a feed that looks expensive but feels genuine — a rare combination at her scale of 1.4M combined followers. Her audience skews female, 18–30, across Thailand and the UK, making her one of the few creators who authentically bridges Southeast Asian and Western consumer markets. Ideal for brands that want premium placement without the polish of traditional advertising.",
-  top_audience: ["Thailand", "United Kingdom"],
+  bio: "Sophia is a Thai-British creator with a photographer’s instinct and a fashion-forward eye that resonates across global style audiences. She blends aspirational fashion, honest beauty content, and elevated lifestyle moments into a feed that feels premium and genuinely relatable. Her audience skews female, 18 to 30, split strongly between the USA and Thailand, making her a compelling partner for brands that want polished storytelling with real cultural relevance.",
+  top_audience: ["USA", "Thailand"],
+  recent_campaigns: ["Darc Sport and Von Dutch", "Tiger Mist", "Mediheal"],
 
   },
      {name: "Josefine Uddman",
@@ -308,8 +309,9 @@ location: "Thailand",
   photo: MEDIA.creators.Josefine.poster,          // still frame before hover
   tags: ["Beauty", "Lifestyle"],
   video: MEDIA.creators.Josefine.video,  
-  bio: "Josefine is a Swedish-Thai creator based in Thailand whose content sits at the intersection of K-influenced beauty, soft lifestyle aesthetics, and the kind of skincare obsession that drives real purchase decisions. Her 95K combined audience on Instagram and TikTok is deeply engaged with her recommendations — particularly in beauty and wellness — and skews toward young women in Thailand and Scandinavia with strong purchasing intent. Her content feels editorial without feeling unattainable, which is why beauty brands see strong conversion from her posts.",
-  top_audience: ["Thailand", "Sweden"],
+  bio: "Josefine is a Swedish-Thai creator based in Thailand whose content sits at the intersection of K-influenced beauty, soft lifestyle aesthetics, and skincare-first recommendations that drive genuine purchase decisions. Her audience on Instagram and TikTok is deeply engaged, particularly in beauty and wellness, with strong interest from young women in Thailand. Her content feels editorial yet approachable, which is why beauty partners consistently see strong conversion from her posts.",
+  top_audience: ["Thailand"],
+  recent_campaigns: ["TRESemmé", "Timephoria", "Upcoming Beauty Partnership"],
 }, 
 {
   name: "The Olive Tree Family",
@@ -326,8 +328,9 @@ location: "Thailand",
 photo: MEDIA.creators.OliveTreeFamily.poster,
 video: MEDIA.creators.OliveTreeFamily.video,
   tags: ["Family", "Lifestyle", "Travel"],
-  bio: "Ken, Lynsay, and their kids are a Scottish family with a genuinely multicultural story — and their audience can’t get enough of it. From free days out in Glasgow to salmon recipes on a budget, they make everyday family life feel warm, achievable, and worth watching. Their 138K combined following is built on trust with parents who actually take their recommendations — which is why brands from Aldi Scotland and Persil to Disney+ and IKEA have worked with them on campaigns that feel native to their content. If you need a family creator that UK parents actually listen to, this is them.",
+  bio: "Ken, Lynsay, and their children are an adventurous family creator profile sharing warm, everyday storytelling through family adventures, travel moments, food discoveries, lifestyle highlights, and honest parenting life. Their content captures the joy of simple routines and meaningful experiences, making their recommendations feel natural, trusted, and highly brand-friendly for modern family audiences.",
   top_audience: ["United Kingdom"],
+  recent_campaigns: ["Monzo", "Amazon", "Disney Plus"],
 },
 {
   name: "Very British Korean",
@@ -341,8 +344,9 @@ video: MEDIA.creators.OliveTreeFamily.video,
   photo: MEDIA.creators.VeryBritishKorean.poster,
   video: MEDIA.creators.VeryBritishKorean.video,
   tags: ["Lifestyle", "Comedy", "Beauty"],
-  bio: "She moved to the UK and started noticing things that British people have completely stopped seeing. That observational gap — between how British culture looks from the outside versus how it actually functions — is where all her best content lives. Equal parts warm and deadpan, her videos about British friends, Korean food, and the small collisions of two very different cultures have built a genuinely dedicated community of 103K across TikTok and Instagram. Great fit for brands that want to reach multicultural UK audiences or tap into the growing UK interest in Korean culture, food, and beauty.",
+  bio: "She moved to the UK and started noticing things that British people have completely stopped seeing. That observational gap, between how British culture looks from the outside and how it actually functions, is where her best content lives. Equal parts warm and deadpan, her videos about British friends, Korean food, and small cultural collisions have built a dedicated community across TikTok and Instagram. She is a strong fit for brands reaching multicultural UK audiences and growing interest in Korean culture, food, and beauty.",
   top_audience: ["United Kingdom"],
+  recent_campaigns: ["Samsung", "Surfshark", "haruharuwonder"],
 },
 {
   name: "Very British Problems",
@@ -360,8 +364,9 @@ video: MEDIA.creators.OliveTreeFamily.video,
   photo: MEDIA.creators.VeryBritishProblems.poster,
   video: MEDIA.creators.VeryBritishProblems.video,
   tags: ["Comedy", "Lifestyle"],
-  bio: "Rob turns the silent agony of British daily life into comedy that feels like a shared confession — self-checkouts, passive-aggressive emails, and the unbearable politeness of saying \"you too\" when a waiter says enjoy your meal. His audience is primarily UK millennials aged 25–40 who grew up in exactly the culture he’s dissecting. With 1.2M Instagram followers and a highly loyal cross-platform community of over 1.4 million, his content performs because it earns trust, not attention. Brands that feel distinctly British — or want to — belong here.",
+  bio: "Rob turns the silent agony of British daily life into comedy that feels like a shared confession, from self-checkouts to passive-aggressive emails and the classic \"you too\" moment at restaurants. His audience is primarily UK millennials aged 25 to 40 who grew up in the culture he dissects so well. With over 1.4 million cross-platform followers, his content performs because it earns trust, not just attention. Brands that feel distinctly British, or want to, belong here.",
   top_audience: ["United Kingdom"],
+  recent_campaigns: ["Fairy Dishwasher", "Surfshark", "Darry Ring"],
 },
 {
   name: "Emily Uddman",
@@ -1272,6 +1277,7 @@ function CreatorProfile({ creator, onBack }) {
     tiktok_followers,
     youtube_subscribers, // NEW
     top_audience = [],
+    recent_campaigns = [],
   } = creator;
 
   const [mediaRef, mediaInView] = useInView({ rootMargin: "200px" });
@@ -1419,6 +1425,50 @@ function CreatorProfile({ creator, onBack }) {
 
           <div className="mt-4 text-neutral-700 dark:text-neutral-300 space-y-4">
             <p>{bio}</p>
+          </div>
+
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
+            <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-5 bg-white/70 dark:bg-neutral-900/40 backdrop-blur">
+              <div className="text-xs uppercase tracking-[0.2em] text-neutral-500">Audience insights</div>
+              <div className="mt-4 flex items-center justify-between gap-3">
+                <div>
+                  <div className="text-sm text-neutral-500">Top audience location</div>
+                  <div className="text-lg font-semibold">{top_audience[0] || "United Kingdom"}</div>
+                </div>
+                <div className="px-3 py-1 rounded-full text-xs font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-200">
+                  Primary
+                </div>
+              </div>
+              <div className="mt-4 h-2 rounded-full bg-neutral-100 dark:bg-neutral-800 overflow-hidden">
+                <div className="h-full w-[86%] rounded-full bg-gradient-to-r from-neutral-900 to-neutral-500 dark:from-white dark:to-neutral-400" />
+              </div>
+              {top_audience.length > 1 && (
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {top_audience.slice(1).map((aud) => (
+                    <span
+                      key={aud}
+                      className="px-2.5 py-1 rounded-full text-xs bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300"
+                    >
+                      Also strong: {aud}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-5 bg-white/70 dark:bg-neutral-900/40 backdrop-blur">
+              <div className="text-xs uppercase tracking-[0.2em] text-neutral-500">Recent campaigns</div>
+              <div className="mt-4 grid gap-2 sm:grid-cols-3 md:grid-cols-1 lg:grid-cols-3">
+                {(recent_campaigns.length ? recent_campaigns : ["Campaign 01", "Campaign 02", "Campaign 03"]).slice(0, 3).map((campaign) => (
+                  <div
+                    key={campaign}
+                    className="rounded-xl border border-neutral-200 dark:border-neutral-700 px-3 py-3 text-sm font-medium text-neutral-700 dark:text-neutral-200 bg-neutral-50/70 dark:bg-neutral-800/50"
+                  >
+                    {campaign}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
        {/* Stats */}
