@@ -1479,54 +1479,51 @@ function CreatorProfile({ creator, onBack }) {
           </div>
 
           <div className="mt-8 grid gap-4 md:grid-cols-2">
-            <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-5 bg-white/70 dark:bg-neutral-900/40 backdrop-blur">
-              <div className="text-xs uppercase tracking-[0.2em] text-neutral-500">Audience insights</div>
+            <div className="rounded-3xl border border-neutral-200/70 dark:border-neutral-800 p-5 sm:p-6 bg-gradient-to-br from-white/80 via-white/60 to-indigo-50/50 dark:from-neutral-900/70 dark:via-neutral-900/50 dark:to-indigo-950/20 backdrop-blur-xl shadow-[0_10px_40px_-20px_rgba(15,23,42,0.35)]">
+              <div className="text-xs uppercase tracking-[0.24em] text-neutral-500">Audience insights</div>
+              <div className="mt-4 rounded-2xl border border-indigo-100/70 dark:border-indigo-900/40 p-4 bg-white/70 dark:bg-neutral-900/40">
+                <p className="text-[11px] uppercase tracking-[0.2em] text-neutral-500">Hero market</p>
+                <p className="mt-1 text-3xl font-bold tracking-tight">{audience_insights?.top_location?.pct || 0}% {audience_insights?.top_location?.name || top_audience[0] || "UK"}</p>
+              </div>
               <div className="mt-4 space-y-4 text-sm">
-                <div>
-                  <div className="flex items-center justify-between text-neutral-500">
-                    <span>{audience_insights?.top_location?.name || top_audience[0] || "UK"}</span>
-                    <span>{audience_insights?.top_location?.pct || 0}%</span>
-                  </div>
-                  <div className="mt-1 h-2 rounded-full bg-neutral-100 dark:bg-neutral-800 overflow-hidden">
-                    <div className="h-full rounded-full bg-gradient-to-r from-indigo-600 to-purple-500" style={{ width: `${audience_insights?.top_location?.pct || 0}%` }} />
-                  </div>
-                </div>
-                <div>
-                  <div className="flex items-center justify-between text-neutral-500">
-                    <span>{audience_insights?.second_location?.name || top_audience[1] || "US"}</span>
-                    <span>{audience_insights?.second_location?.pct || 0}%</span>
-                  </div>
-                  <div className="mt-1 h-2 rounded-full bg-neutral-100 dark:bg-neutral-800 overflow-hidden">
-                    <div className="h-full rounded-full bg-neutral-500" style={{ width: `${audience_insights?.second_location?.pct || 0}%` }} />
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-3 text-xs text-neutral-600 dark:text-neutral-300">
-                  <div><span className="font-semibold">Top city:</span> {audience_insights?.top_city || "—"}</div>
-                  <div><span className="font-semibold">Age range:</span> {audience_insights?.age_range || "—"}</div>
+                <div className="grid grid-cols-2 gap-3 text-xs text-neutral-700 dark:text-neutral-200">
+                  <div className="rounded-xl border border-neutral-200/80 dark:border-neutral-700 px-3 py-2 bg-white/70 dark:bg-neutral-800/60"><span className="font-semibold">Top city:</span> {audience_insights?.top_city || "—"}</div>
+                  <div className="rounded-xl border border-neutral-200/80 dark:border-neutral-700 px-3 py-2 bg-white/70 dark:bg-neutral-800/60"><span className="font-semibold">Peak age:</span> {audience_insights?.age_range || "—"}</div>
                 </div>
                 <div className="space-y-2">
                   <div className="flex items-center justify-between text-xs text-neutral-500">
                     <span>Gender split</span>
-                    <span>{audience_insights?.gender_split?.female || 0}% F / {audience_insights?.gender_split?.male || 0}% M</span>
+                    <span>{audience_insights?.gender_split?.female || 0}% Female / {audience_insights?.gender_split?.male || 0}% Male</span>
                   </div>
-                  <div className="overflow-hidden rounded-full border border-neutral-200 dark:border-neutral-700">
-                    <div className="flex h-7 text-[11px] font-semibold">
-                      <div className="grid place-items-center bg-indigo-600 text-white" style={{ width: `${audience_insights?.gender_split?.female || 0}%` }}>Female</div>
-                      <div className="grid place-items-center bg-neutral-200 text-neutral-700 dark:bg-neutral-700 dark:text-neutral-200" style={{ width: `${audience_insights?.gender_split?.male || 0}%` }}>Male</div>
+                  <div className="overflow-hidden rounded-full border border-neutral-200 dark:border-neutral-700 bg-white/70 dark:bg-neutral-900/40">
+                    <div className="flex h-8 text-[11px] font-semibold">
+                      <div className="grid place-items-center bg-gradient-to-r from-indigo-600 to-violet-500 text-white" style={{ width: `${audience_insights?.gender_split?.female || 0}%` }}>Female</div>
+                      <div className="grid place-items-center bg-gradient-to-r from-neutral-200 to-neutral-300 text-neutral-700 dark:from-neutral-700 dark:to-neutral-600 dark:text-neutral-200" style={{ width: `${audience_insights?.gender_split?.male || 0}%` }}>Male</div>
                     </div>
+                  </div>
+                </div>
+                <div>
+                  <div className="flex items-center justify-between text-xs text-neutral-500">
+                    <span>Audience geography</span>
+                    <span>{audience_insights?.second_location?.name || top_audience[1] || "US"} {audience_insights?.second_location?.pct || 0}%</span>
+                  </div>
+                  <div className="mt-2 h-2 rounded-full bg-neutral-100 dark:bg-neutral-800 overflow-hidden">
+                    <div className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-fuchsia-500" style={{ width: `${audience_insights?.top_location?.pct || 0}%` }} />
+                  </div>
+                  <div className="mt-2 h-2 rounded-full bg-neutral-100 dark:bg-neutral-800 overflow-hidden">
+                    <div className="h-full rounded-full bg-neutral-500" style={{ width: `${audience_insights?.second_location?.pct || 0}%` }} />
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-5 bg-white/70 dark:bg-neutral-900/40 backdrop-blur">
+            <div className="rounded-3xl border border-neutral-200/70 dark:border-neutral-800 p-5 sm:p-6 bg-gradient-to-br from-white/80 via-white/60 to-fuchsia-50/40 dark:from-neutral-900/70 dark:via-neutral-900/50 dark:to-fuchsia-950/20 backdrop-blur-xl shadow-[0_10px_40px_-20px_rgba(15,23,42,0.35)]">
               <div className="text-xs uppercase tracking-[0.2em] text-neutral-500">Recent campaigns</div>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 {recent_campaigns.slice(0, 2).map((campaign) => (
-                  <div key={`${campaign.brand}-${campaign.year}`} className="rounded-xl border border-neutral-200 dark:border-neutral-700 px-3 py-3 text-sm text-neutral-700 dark:text-neutral-200 bg-neutral-50/70 dark:bg-neutral-800/50">
-                    <p className="font-semibold">{campaign.brand} <span className="text-xs text-neutral-500">({campaign.year})</span></p>
-                    <p className="text-xs text-neutral-500 mt-1">{campaign.platforms} · {campaign.campaign_type}</p>
-                    <p className="text-xs mt-2">{campaign.result}</p>
+                  <div key={`${campaign.brand}-${campaign.year}`} className="rounded-2xl border border-neutral-200/80 dark:border-neutral-700 px-4 py-4 text-sm text-neutral-700 dark:text-neutral-200 bg-white/80 dark:bg-neutral-800/60">
+                    <p className="text-[11px] uppercase tracking-[0.2em] text-neutral-500">Campaign</p>
+                    <p className="mt-2 text-base font-semibold">{campaign.brand}</p>
                   </div>
                 ))}
               </div>
@@ -1568,7 +1565,7 @@ function CreatorProfile({ creator, onBack }) {
               className={BTN_PRIMARY_CLS}
               onClick={() => window.weardNav?.("contact")}
             >
-              Collab with {name.split(" ")[0]} <ArrowRight size={16} />
+              Collab with "{name === "Very British Problems" ? "Rob" : name === "Very British Korean" ? "Sumin" : name === "The Olive Tree Family" ? "The Olives" : name.split(" ")[0]}" <ArrowRight size={16} />
             </button>
             {instagram && (
               <a
