@@ -1,6 +1,6 @@
 
 
-import React, { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Instagram, Mail, ArrowRight, ArrowUp, Globe, Menu, X, Sparkles, Youtube, Users, Megaphone, Handshake, BarChart3 } from "lucide-react";
 // Simple TikTok icon (outline) to match lucide style
@@ -17,7 +17,6 @@ const TikTokIcon = ({ size = 16, className = "" }) => (
   </svg>
 );
 
-const WorldMap = React.lazy(() => import("./WorldMap"));
 
 /**
  * WEARD Management - Vite + React + Tailwind
@@ -26,7 +25,6 @@ const WorldMap = React.lazy(() => import("./WorldMap"));
  * - Disruptive "Who We Are" copy
  * - Global nav helper (window.weardNav)
  * - Roster "Submit profile" + About "Join the roster" -> Contact page
- * - Real world map with geographic hover glow (react-simple-maps)
  * - Clickable social stat tiles + image header links to default profile
  * - Followers set for Sophia, animated count-up + totals
  * - Hover video playback on cards
@@ -127,10 +125,6 @@ const ScrollToTopButton = ({ elevated = false }) => {
   );
 };
 // ======= CONFIG =======
-const SHEET_URL =
-  import.meta.env.VITE_SHEET_URL ||
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSe2hqUTFYnlYQVFXLmR0G2bI_APH9kkJqL7XJIvFIloG7QEjBAJqXkxGrUBYrvoaTg7jS-ucCQ1Uzj/pub?output=csv";
-const GEO_URL = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json";
 const EMAILJS_API_URL = "https://api.emailjs.com/api/v1.0/email/send";
 const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
 const EMAILJS_BRAND_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_BRAND_TEMPLATE_ID;
@@ -568,112 +562,9 @@ function CountTo({ to = 0, duration = 650, format = (x) => x.toLocaleString() })
   return <>{format(v)}</>;
 }
 
-// CSV with quoted fields
-function parseCSV(csv) {
-  const lines = csv.trim().split(/\\r?\\n/);
-  const headers = lines.shift().split(",").map((h) => h.trim());
-  return lines.map((line) => {
-    const out = [];
-    let cur = "";
-    let inQuotes = false;
-    for (let i = 0; i < line.length; i++) {
-      const ch = line[i];
-      const next = line[i + 1];
-      if (ch === '"') {
-        if (inQuotes && next === '"') {
-          cur += '"';
-          i++;
-        } else {
-          inQuotes = !inQuotes;
-        }
-      } else if (ch === "," && !inQuotes) {
-        out.push(cur);
-        cur = "";
-      } else {
-        cur += ch;
-      }
-    }
-    out.push(cur);
-    const obj = {};
-    headers.forEach((h, i) => (obj[h] = (out[i] || "").trim()));
-    return obj;
-  });
-}
-
-function useRosterHydration(initialCreators = STARTER_CREATORS) {
-  const [creators, setCreators] = useState(initialCreators);
-  useEffect(() => {
-    let canceled = false;
-    async function fetchSheet() {
-      try {
-        if (!SHEET_URL) return;
-        const res = await fetch(SHEET_URL, { cache: "no-store" });
-        if (!res.ok) throw new Error(`Sheet fetch failed: ${res.status}`);
-        const csv = await res.text();
-        const rows = parseCSV(csv);
-let mapped = rows
-  .filter((r) => r.name)
-  .filter((r) => !/amelie|amy\s*wyg/i.test(r.name))
- .map((r) => ({
-  name: r.name,
-  category: r.category || "Lifestyle",
-  instagram: r.instagram || "",
-  tiktok: r.tiktok || "",
-  youtube: r.youtube || "",                          // NEW
-  email: r.email || "",
-  location: r.location || "",
-  instagram_followers: cleanNum(r.instagram_followers),
-  tiktok_followers: cleanNum(r.tiktok_followers),
-  youtube_subscribers: cleanNum(r.youtube_subscribers), // NEW
-  profile_image: r.profile_image || MEDIA.creators.Sophia.photo,
-  tags: (r.tags || "").split("|").filter(Boolean),
-  photo: r.photo || MEDIA.creators.Sophia.photo,
-  video: r.video || MEDIA.creators.Sophia.video,
-  bio: r.bio || "",
-  top_audience: (r.top_audience || "")
-    .split("|")
-    .map(s => s.trim())
-    .filter(Boolean),
-}))
-
-        // Fallbacks for Sophia if sheet doesn’t supply numbers
-        mapped = mapped.map((c) => {
-          const name = c.name?.toLowerCase() || "";
-          if (name.includes("sophia")) {
-            c.instagram_followers ??= 721000;
-            c.tiktok_followers ??= 552900;
-          }
-          return c;
-        });
-
-        const existingNames = new Set(
-          mapped.map((creator) => creator.name?.toLowerCase()).filter(Boolean)
-        );
-        const merged = [
-          ...mapped,
-          ...initialCreators.filter(
-            (creator) => !existingNames.has(creator.name?.toLowerCase())
-          ),
-        ];
-
-        if (!canceled && merged.length) setCreators(merged);
-      } catch (e) {
-        console.warn("Roster hydration failed:", e);
-      }
-    }
-    fetchSheet();
-    const id = setInterval(fetchSheet, 60 * 60 * 1000);
-    return () => {
-      canceled = true;
-      clearInterval(id);
-    };
-  }, []);
-  return creators;
-}
-
 // ======= APP =======
 export default function App() {
-  const creators = useRosterHydration();
+  const creators = STARTER_CREATORS;
   const [isLoading, setIsLoading] = useState(true);
   const [loadProgress, setLoadProgress] = useState(0);
   const [activePage, setActivePage] = useState("home");
@@ -2207,7 +2098,7 @@ const CountryFlagIcon = ({ country }) => (
      />
 );
 
-// ======= WHERE WE WORK (real map + glow) =======
+// ======= WHERE WE WORK =======
 function WhereWeWork() {
   const offices = [
     { country: "United Kingdom", city: "London", coords: [-0.1276, 51.5072] },
@@ -2215,47 +2106,12 @@ function WhereWeWork() {
     { country: "Thailand", city: "Bangkok / Phuket", coords: [100.5018, 13.7563] },
   ];
   const [hoverCountry, setHoverCountry] = useState(null);
-  const [position, setPosition] = useState({ coordinates: [0, 20], zoom: 1.4 });
-  const [mapRef, mapInView] = useInView({ rootMargin: "300px" });
 
   return (
     <div className="mt-12">
       <h3 className="text-[22px] sm:text-2xl font-semibold">Our Growing Reach</h3>
       <p className="mt-1 text-xs text-neutral-500">United Kingdom · Hong Kong · Thailand</p>
-      <div className="mt-6 grid lg:grid-cols-3 gap-6">
-        {/* Map */}
-        <div
-          ref={mapRef}
-          className="lg:col-span-2 p-2 sm:p-4 rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 shadow-inner"
-        >
-          <div className="relative w-full aspect-[2/1] sm:aspect-[21/9] rounded-2xl overflow-hidden">
-            {mapInView ? (
-              <Suspense
-                fallback={
-                  <div className="absolute inset-0 grid place-items-center text-sm text-neutral-500">
-                    Loading world map…
-                  </div>
-                }
-              >
-                <WorldMap
-                  geoUrl={GEO_URL}
-                  offices={offices}
-                  hoverCountry={hoverCountry}
-                  setHoverCountry={setHoverCountry}
-                  position={position}
-                  setPosition={setPosition}
-                />
-              </Suspense>
-            ) : (
-              <div className="absolute inset-0 grid place-items-center text-sm text-neutral-500">
-                Map ready when you scroll
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Office list */}
-        <div className="grid gap-3">
+      <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {offices.map((o) => (
             <button
               key={o.country}
@@ -2278,7 +2134,6 @@ function WhereWeWork() {
             </button>
           ))}
         </div>
-      </div>
     </div>
   );
 }
