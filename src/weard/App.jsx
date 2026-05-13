@@ -169,9 +169,9 @@ const MEDIA = {
       video:  "/media/creators/sophia/sophia-hover.mp4",  // hover video
     },
     Amy: {
-      hero:   "/media/creators/amy/amy-hero.jpg", // main profile image
-      poster: "/media/creators/amy/amy-poster.jpg",// still frame before hover
-      video:  "/media/creators/amy/amy-hover.mp4",  // hover video
+      hero:   "/og-image.jpg", // main profile image
+      poster: "/og-image.jpg",// still frame before hover
+      video:  "",  // hover video
     },
     Josefine: {
     hero:   "/media/creators/josefine/josefine-hero-v2.jpg",
@@ -195,8 +195,8 @@ const MEDIA = {
       video: "/media/creators/verybritishproblems/verybritishproblems-hover.mp4",
     },
     Yen: {
-      hero: "/og-image.jpg",
-      poster: "/og-image.jpg",
+      hero: "/media/creators/Yen/yen-poster.jpg",
+      poster: "/media/creators/Yen/yen-poster.jpg",
       video: "/media/creators/Yen/yen-hover.mp4",
     },
   },
@@ -443,16 +443,6 @@ video: MEDIA.creators.OliveTreeFamily.video,
     { brand: "Fairy", platforms: "Facebook + Instagram", campaign_type: "Comedy native ad", result: "High share rate with UK households", year: "2025" },
     { brand: "Surfshark", platforms: "TikTok + Instagram", campaign_type: "Integrated sponsor skit", result: "Strong sponsor recall in comments", year: "2024" },
   ],
-},
-{
-  name: "Zophia",
-  category: "Lifestyle",
-  instagram: "https://www.instagram.com/zophia.zz/",
-  tiktok: "https://www.tiktok.com/@zophia.6905?lang=en",
-  instagram_followers: 251000,
-  tiktok_followers: 922400,
-  tags: ["Lifestyle", "Fashion"],
-  rosterVisible: false,
 },
 ];
 
@@ -2512,7 +2502,7 @@ function CreatorDirectory({ creators = [], onNav }) {
       </h3>
       <p className="mt-3 text-sm text-neutral-600 dark:text-neutral-400">
         Discover WEARD influencer management talent by full professional names and exact social usernames.
-        This includes Emily Uddman (@emily.uddman), Zophia.zz (@zophia.zz), and every creator represented
+        This includes Emily Uddman (@emily.uddman) and every creator represented
         by WEARD across Asia, APAC, Thailand, Hong Kong, and the UK.
       </p>
       <ul className="mt-3 grid gap-1 text-sm text-neutral-600 dark:text-neutral-400">
