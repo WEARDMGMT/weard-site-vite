@@ -232,6 +232,7 @@ const BRAND_LOGOS = [
 
 const WEARE_WORDS = ["DIFFERENT", "DISRUPTIVE", "DYNAMIC", "DISTINCT", "DRIVEN", "DECISIVE", "DEFIANT"];
 const HERO_VIDEOS = [
+  "/assets/videos/video-01.mp4",
   "/assets/videos/video-02.mp4",
   "/assets/videos/video-03.mp4",
   "/assets/videos/video-04.mp4",
