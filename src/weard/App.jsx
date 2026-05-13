@@ -256,6 +256,8 @@ const HERO_VIDEOS = [
   "/assets/videos/video-23.mp4",
   "/assets/videos/video-24.mp4",
   "/assets/videos/video-25.mp4",
+  "/assets/videos/video-26.mp4",
+  "/assets/videos/video-27.mp4",
 ];
 const HERO_LANES = [
   { seed: 0, speed: 54, pulse: 0.18 },
