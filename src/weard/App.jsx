@@ -1876,14 +1876,38 @@ function HeroCarousel() {
 
 function HeroCard({ src }) {
   const [hasError, setHasError] = useState(false);
+  const [shouldLoad, setShouldLoad] = useState(false);
+  const cardRef = useRef(null);
+
+  useEffect(() => {
+    if (shouldLoad) return undefined;
+    if (!cardRef.current || !window.IntersectionObserver) {
+      setShouldLoad(true);
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          setShouldLoad(true);
+          observer.disconnect();
+        });
+      },
+      { threshold: 0.01, rootMargin: "200px 0px 200px 0px" }
+    );
+
+    observer.observe(cardRef.current);
+    return () => observer.disconnect();
+  }, [shouldLoad]);
+
   return (
-    <div className="weard-hero__card">
+    <div className="weard-hero__card" ref={cardRef}>
       <video
-        src={src}
+        src={shouldLoad ? src : undefined}
         muted
         loop
         playsInline
-        autoPlay
         preload="metadata"
         onError={() => setHasError(true)}
       />
