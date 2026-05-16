@@ -353,7 +353,7 @@ video: MEDIA.creators.OliveTreeFamily.video,
   bio: "Ken, Lynsay and their two sons are a Scotland-based family who create warm, everyday storytelling content inspired by their Scottish life and the experiences of raising a young family. From countryside walks and coastal weekends to home cooking, school-run mornings and the meaningful moments in between, their content brings audiences along on their family adventures in an authentic and relatable way. Rooted in a strong sense of place and genuine connection, their recommendations are trusted, natural, and highly engaging to the community they have built around their family and lifestyle content.",
   top_audience: ["UK", "US"],
   audience_insights: {
-    top_location: { name: "UK", pct: 85 },
+    top_location: { name: "UK", pct: 58 },
     second_location: { name: "US", pct: 3.81 },
     gender_split: { female: 65, male: 35 },
     top_city: "Glasgow",
@@ -451,7 +451,6 @@ video: MEDIA.creators.OliveTreeFamily.video,
 
 const CATEGORIES = [
   { key: "Fashion", label: "Fashion" },
-  { key: "Sport", label: "Sport" },
   { key: "Family", label: "Family" },
   { key: "Travel", label: "Travel" },
   { key: "Beauty", label: "Beauty" },
@@ -494,7 +493,6 @@ const PAGE_PATHS = {
   about: "/about",
   roster: "/roster",
   contact: "/contact",
-  brands: "/brands",
   privacy: "/privacy",
   "apac-influencer-marketing": "/apac-influencer-marketing",
   "asia-to-uk-influencer-marketing": "/asia-to-uk-influencer-marketing",
@@ -746,11 +744,6 @@ useEffect(() => {
         description:
           "Work with WEARD Management on performance-driven influencer marketing, ROI-focused creator campaigns, and cross-border activations.",
       },
-      brands: {
-        title: "Brand Partnerships | WEARD Management Influencer Agency",
-        description:
-          "Partner with WEARD Management for brand-safe creator partnerships, global brand expansion, and influencer talent management across Asia, APAC, and the UK.",
-      },
       privacy: {
         title: "Privacy Policy | WEARD Management",
         description: "WEARD Management privacy policy and data protection information.",
@@ -844,7 +837,7 @@ useEffect(() => {
         <AnimatePresence mode="wait">
           {activePage === "home" && (
             <motion.section key="home" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
-              <Home onExploreRoster={() => navigate("roster")} onWorkWithUs={() => navigate("contact")} />
+              <Home onExploreRoster={() => navigate("roster")} onWorkWithUs={() => navigate("contact")} onNav={navigate} />
             </motion.section>
           )}
           {activePage === "about" && (
@@ -862,12 +855,7 @@ useEffect(() => {
               <Contact />
             </motion.section>
           )}
-          {activePage === "brands" && (
-            <motion.section key="brands" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
-              <BrandPartnerships onNav={navigate} />
-            </motion.section>
-          )}
-          {activePage === "privacy" && (
+                    {activePage === "privacy" && (
             <motion.section
             key="privacy" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}  exit={{ opacity: 0, y: -8 }}
   >
@@ -958,7 +946,7 @@ useEffect(() => {
                   "Cross-cultural strategy for Asia-to-UK campaign adaptation",
                   "Fast campaign execution for launches, seasonal pushes, and always-on creator programmes",
                 ]}
-                links={["roster", "asia-to-uk-influencer-marketing", "brands", "contact"]}
+                links={["roster", "asia-to-uk-influencer-marketing", "contact"]}
                 onNav={navigate}
               />
             </motion.section>
@@ -974,7 +962,7 @@ useEffect(() => {
                   "Content guardrails that protect tone, relevance, and inclusivity",
                   "Amplification options across paid social and creator whitelisting",
                 ]}
-                links={["brands", "roster", "diverse-creators", "contact"]}
+                links={["roster", "diverse-creators", "contact"]}
                 onNav={navigate}
               />
             </motion.section>
@@ -982,9 +970,7 @@ useEffect(() => {
         </AnimatePresence>
       </main>
       <StickyMobileCta onNav={navigate} />
-      <FloatingEnquiryButton onNav={navigate} />
-
-      <ScrollToTopButton elevated={cookieConsent == null} />
+            <ScrollToTopButton elevated={cookieConsent == null} />
 
       {cookieConsent == null && (
         <div className="fixed inset-x-0 bottom-0 z-50 border-t border-neutral-200 bg-white/95 px-4 py-4 shadow-lg backdrop-blur dark:border-neutral-800 dark:bg-neutral-950/95">
@@ -1507,6 +1493,9 @@ function CreatorProfile({ creator, onBack }) {
               </div>
               <div className="mt-7">
                 <p className="text-[11px] uppercase tracking-[0.32em] text-neutral-500">why brands collab with {whyBrandsCollabTitle}</p>
+                {name === "Very British Problems" && (
+                  <p className="mt-1 text-xs text-neutral-500">VeryBritishProblems @weardmgmt.com</p>
+                )}
                 <ul className="mt-3 space-y-2 text-sm text-neutral-600 dark:text-neutral-300">
                   {whyBrandsCollabItems.map((item) => (
                     <li key={item}>• {item}</li>
@@ -1554,23 +1543,10 @@ function StickyMobileCta({ onNav }) {
   );
 }
 
-function FloatingEnquiryButton({ onNav }) {
-  return (
-    <button
-      onClick={() => onNav?.("contact")}
-      className="fixed bottom-20 right-6 z-30 hidden items-center gap-2 rounded-full border border-white/15 bg-neutral-900/95 px-5 py-3 text-sm font-semibold text-white shadow-[0_16px_45px_rgba(0,0,0,0.35)] backdrop-blur transition hover:-translate-y-1 hover:bg-neutral-800 lg:inline-flex"
-      aria-label="Start your campaign brief"
-    >
-      Start your campaign brief <ArrowRight size={16} />
-    </button>
-  );
-}
-
 function DiscoveryLanding({ eyebrow, title, intro, points = [], links = [], onNav }) {
   const labels = {
     roster: "Explore roster",
     contact: "Contact WEARD",
-    brands: "Brand partnerships",
     "diverse-creators": "Diverse creators",
     "asian-influencers-uk": "Asian influencers UK",
     "cultural-campaign-creators": "Cultural campaign creators",
@@ -1608,7 +1584,7 @@ function DiscoveryLanding({ eyebrow, title, intro, points = [], links = [], onNa
 }
 
 // ======= HOME =======
-function Home({ onExploreRoster, onWorkWithUs }) {
+function Home({ onExploreRoster, onWorkWithUs, onNav }) {
   const visibleCreators = STARTER_CREATORS.filter((creator) => creator.rosterVisible !== false);
   const totalReach = visibleCreators.reduce((sum, creator) => {
     const ig = cleanNum(creator.instagram_followers) ?? 0;
@@ -1736,6 +1712,10 @@ function Home({ onExploreRoster, onWorkWithUs }) {
           </div>
         </div>
 
+      </div>
+
+      <div className="mt-8">
+        <BrandPartnerships onNav={onNav} />
       </div>
     </section>
   );
@@ -1889,6 +1869,8 @@ function HeroCarousel() {
   );
 }
 
+const HERO_VIDEO_POSTER = "/og-image.jpg";
+
 function HeroCard({ src }) {
   const [hasError, setHasError] = useState(false);
   return (
@@ -1899,7 +1881,9 @@ function HeroCard({ src }) {
         loop
         playsInline
         autoPlay
-        preload="metadata"
+        preload="none"
+        poster={HERO_VIDEO_POSTER}
+        loading="lazy"
         onError={() => setHasError(true)}
       />
       {hasError && (
@@ -2518,10 +2502,7 @@ function CreatorDirectory({ creators = [], onNav }) {
         <SiteLink to="apac-influencer-marketing" onNav={onNav} className="underline">
           APAC influencer talent management
         </SiteLink>
-        <SiteLink to="brands" onNav={onNav} className="underline">
-          Brand partnerships
-        </SiteLink>
-        <SiteLink to="asia-to-uk-influencer-marketing" onNav={onNav} className="underline">
+                <SiteLink to="asia-to-uk-influencer-marketing" onNav={onNav} className="underline">
           UK influencer marketing
         </SiteLink>
       </div>
@@ -3477,12 +3458,7 @@ function Contact() {
                 </p>
               </div>
               <div className="rounded-2xl border border-black/5 bg-white/55 px-5 py-5 text-sm text-neutral-700 shadow-[0_8px_26px_-18px_rgba(0,0,0,0.45)] backdrop-blur-sm dark:border-white/10 dark:bg-white/[0.04] dark:text-neutral-200">
-                <h3 className="text-base font-semibold text-neutral-900 dark:text-white">
-                  What happens next
-                </h3>
                 <ul className="mt-2 space-y-2 text-xs text-neutral-500 dark:text-neutral-400">
-                  <li>• Intro response with availability and timeline fit.</li>
-                  <li>• Curated creator recommendations and expected costs.</li>
                   <li>• Campaign rollout plan with clear deliverables.</li>
                 </ul>
               </div>
@@ -3519,9 +3495,6 @@ function Footer({ onNav }) {
         <div className="flex gap-4 text-sm justify-start md:justify-end">
           <button onClick={() => onNav("contact")} className="underline">
             Contact
-          </button>
-          <button onClick={() => onNav("brands")} className="underline">
-            Brands
           </button>
            <button onClick={() => onNav("privacy")} className="underline">
            Privacy
