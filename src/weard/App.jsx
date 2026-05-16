@@ -407,7 +407,7 @@ video: MEDIA.creators.OliveTreeFamily.video,
   bio: "Yen is a Hong Kong-Scottish creator who's gone viral for her unmistakable Scottish accent, blending streaming, behind-the-scenes content from her life as an actress, lifestyle moments, and wholesome fun with her mum into a feed that's funny, family-friendly, and unmistakably hers.",
   top_audience: ["UK", "US"],
   audience_insights: {
-    top_location: { name: "UK", pct: 85 },
+    top_location: { name: "UK", pct: 58 },
     second_location: { name: "US", pct: 5 },
     gender_split: { female: 42, male: 58 },
     top_city: "Glasgow",
@@ -1492,10 +1492,13 @@ function CreatorProfile({ creator, onBack }) {
                 ))}
               </div>
               <div className="mt-7">
-                <p className="text-[11px] uppercase tracking-[0.32em] text-neutral-500">why brands collab with {whyBrandsCollabTitle}</p>
-                {name === "Very British Problems" && (
-                  <p className="mt-1 text-xs text-neutral-500">VeryBritishProblems @weardmgmt.com</p>
-                )}
+                <p className="text-[11px] uppercase tracking-[0.32em] text-neutral-500">
+                  why brands collab with {whyBrandsCollabTitle}
+                  {name === "Very British Problems" && (
+                    <span className="normal-case tracking-normal ml-2">email VeryBritishProblems@weardmgmt.com</span>
+                  )}
+                </p>
+                
                 <ul className="mt-3 space-y-2 text-sm text-neutral-600 dark:text-neutral-300">
                   {whyBrandsCollabItems.map((item) => (
                     <li key={item}>• {item}</li>
@@ -2224,47 +2227,12 @@ function BrandPartnerships({ onNav }) {
   return (
     <section className="max-w-6xl mx-auto px-4 py-10 sm:py-12">
       <div className="rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white/90 dark:bg-neutral-950 p-5 sm:p-8">
-        <p className="text-xs uppercase tracking-[0.35em] text-neutral-400">Brand partnerships</p>
-        <h1 className="mt-4 text-4xl sm:text-5xl font-bold">
-          Premium creator partnerships designed to scale modern brands
-        </h1>
-        <p className="mt-4 text-sm text-neutral-600 dark:text-neutral-400 max-w-3xl">
-          WEARD builds campaigns that are culturally intelligent, commercially focused, and easy to execute.
-          From one-off launches to always-on programmes, we match the right creators to your growth goals.
-        </p>
-        <div className="mt-6 grid gap-4 md:grid-cols-2 text-sm text-neutral-600 dark:text-neutral-400">
-          <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4">
-            <p className="font-semibold">Always-on influencer strategy</p>
-            <p className="mt-2">
-              Localised creator strategy, multi-market activations, and paid social amplification
-              that deliver measurable ROI-focused creator campaigns.
-            </p>
-          </div>
-          <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4">
-            <p className="font-semibold">Campaign ideation to execution</p>
-            <p className="mt-2">
-              End-to-end influencer management with whitelisted content, reporting, and global
-              influencer campaigns that connect Asian brands to UK creators.
-            </p>
-          </div>
-        </div>
-        <div className="mt-8 flex flex-wrap gap-3">
-          <SiteLink to="apac-influencer-marketing" onNav={onNav} className="underline text-sm">
-            APAC influencer marketing
-          </SiteLink>
-          <SiteLink to="asia-to-uk-influencer-marketing" onNav={onNav} className="underline text-sm">
-            UK influencer marketing
-          </SiteLink>
-          <SiteLink to="roster" onNav={onNav} className="underline text-sm">
-            Explore creator roster
-          </SiteLink>
-          <button
-            onClick={() => onNav?.("contact")}
-            className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm text-white ${GRADIENT}`}
-          >
-            Start a campaign <ArrowRight size={14} />
-          </button>
-        </div>
+        <button
+          onClick={() => onNav?.("contact")}
+          className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm text-white ${GRADIENT}`}
+        >
+          Work with WEARD <ArrowRight size={14} />
+        </button>
       </div>
     </section>
   );
