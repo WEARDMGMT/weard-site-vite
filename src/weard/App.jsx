@@ -423,6 +423,7 @@ video: MEDIA.creators.OliveTreeFamily.video,
   instagram: "https://www.instagram.com/verybritishproblemsofficial/?hl=en",
   tiktok: "https://www.tiktok.com/@verybritishproblems",
   youtube: "https://www.youtube.com/@verybritishproblems",
+  email: "verybritishproblems@weardmgmt.com",
   facebook: "https://www.facebook.com/soverybritish/?locale=en_GB",
   location: "UK",
   instagram_followers: 1242892,
@@ -1494,9 +1495,6 @@ function CreatorProfile({ creator, onBack }) {
               <div className="mt-7">
                 <p className="text-[11px] uppercase tracking-[0.32em] text-neutral-500">
                   why brands collab with {whyBrandsCollabTitle}
-                  {name === "Very British Problems" && (
-                    <span className="normal-case tracking-normal ml-2">email VeryBritishProblems@weardmgmt.com</span>
-                  )}
                 </p>
                 
                 <ul className="mt-3 space-y-2 text-sm text-neutral-600 dark:text-neutral-300">
@@ -2804,7 +2802,6 @@ function HoverMedia({ photo, video, alt }) {
 // ======= LOGO CAROUSEL =======
 const LOGO_LANES = [
   { id: "orbit-a", speedSec: 42, direction: "normal", offset: 0 },
-  { id: "orbit-b", speedSec: 34, direction: "reverse", offset: 6 },
 ];
 
 function LogoCarousel({ rowHeight = 56 }) {
