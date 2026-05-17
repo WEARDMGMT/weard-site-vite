@@ -356,7 +356,7 @@ video: MEDIA.creators.OliveTreeFamily.video,
   bio: "Ken, Lynsay and their two sons are a Scotland-based family who create warm, everyday storytelling content inspired by their Scottish life and the experiences of raising a young family. From countryside walks and coastal weekends to home cooking, school-run mornings and the meaningful moments in between, their content brings audiences along on their family adventures in an authentic and relatable way. Rooted in a strong sense of place and genuine connection, their recommendations are trusted, natural, and highly engaging to the community they have built around their family and lifestyle content.",
   top_audience: ["UK", "US"],
   audience_insights: {
-    top_location: { name: "UK", pct: 58 },
+    top_location: { name: "UK", pct: 80 },
     second_location: { name: "US", pct: 3.81 },
     gender_split: { female: 65, male: 35 },
     top_city: "Glasgow",
