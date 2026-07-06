@@ -345,10 +345,10 @@ location: "Thailand",
   tags: ["Fashion", "Beauty", "Travel"],
   video: MEDIA.creators.Sophia.video,
   bio: "Sophia is a Thai-British creator with a photographer’s instinct and a fashion-forward eye that resonates across global style audiences. She blends aspirational fashion, honest beauty content, and elevated lifestyle moments into a feed that feels premium and genuinely relatable. Her storytelling is polished, culturally fluent, and commercially strong for brands seeking elevated campaigns with authentic relevance.",
-  top_audience: ["Thailand", "US"],
+  top_audience: ["Thailand", "APAC"],
   audience_insights: {
     top_location: { name: "Thailand", pct: 60 },
-    second_location: { name: "US", pct: 30 },
+    second_location: { name: "APAC", pct: 30 },
     gender_split: { female: 70, male: 30 },
     top_city: "Bangkok",
     age_range: "18–24",
@@ -401,10 +401,10 @@ photo: MEDIA.creators.OliveTreeFamily.poster,
 video: MEDIA.creators.OliveTreeFamily.video,
   tags: ["Family", "Lifestyle", "Travel"],
   bio: "Ken, Lynsay and their two sons are a Scotland-based family who create warm, everyday storytelling content inspired by their Scottish life and the experiences of raising a young family. From countryside walks and coastal weekends to home cooking, school-run mornings and the meaningful moments in between, their content brings audiences along on their family adventures in an authentic and relatable way. Rooted in a strong sense of place and genuine connection, their recommendations are trusted, natural, and highly engaging to the community they have built around their family and lifestyle content.",
-  top_audience: ["UK", "US"],
+  top_audience: ["UK", "APAC"],
   audience_insights: {
     top_location: { name: "UK", pct: 80 },
-    second_location: { name: "US", pct: 3.81 },
+    second_location: { name: "APAC", pct: 3.81 },
     gender_split: { female: 65, male: 35 },
     top_city: "Glasgow",
     age_range: "18–34",
@@ -427,10 +427,10 @@ video: MEDIA.creators.OliveTreeFamily.video,
   video: MEDIA.creators.VeryBritishKorean.video,
   tags: ["Lifestyle", "Comedy", "Beauty"],
   bio: "She moved to the UK and started noticing things that British people have completely stopped seeing. That observational gap, between how British culture looks from the outside and how it actually functions, is where her best content lives. Equal parts warm and deadpan, her videos about British friends, Korean food, and small cultural collisions have built a dedicated community across TikTok and Instagram. She is a strong fit for brands reaching multicultural UK audiences and growing interest in Korean culture, food, and beauty.",
-  top_audience: ["UK", "US"],
+  top_audience: ["UK", "APAC"],
   audience_insights: {
     top_location: { name: "UK", pct: 59 },
-    second_location: { name: "US", pct: 5 },
+    second_location: { name: "APAC", pct: 5 },
     gender_split: { female: 60, male: 40 },
     top_city: "Manchester",
     age_range: "18–34",
@@ -455,10 +455,10 @@ video: MEDIA.creators.OliveTreeFamily.video,
   video: MEDIA.creators.Yen.video,
   tags: ["Lifestyle", "Entertainment", "Gaming"],
   bio: "Yen is a Hong Kong-Scottish creator who's gone viral for her unmistakable Scottish accent, blending streaming, behind-the-scenes content from her life as an actress, lifestyle moments, and wholesome fun with her mum into a feed that's funny, family-friendly, and unmistakably hers.",
-  top_audience: ["UK", "US"],
+  top_audience: ["UK", "APAC"],
   audience_insights: {
     top_location: { name: "UK", pct: 58 },
-    second_location: { name: "US", pct: 5 },
+    second_location: { name: "APAC", pct: 5 },
     gender_split: { female: 42, male: 58 },
     top_city: "Glasgow",
     age_range: "18–34",
@@ -485,10 +485,10 @@ video: MEDIA.creators.OliveTreeFamily.video,
   video: MEDIA.creators.VeryBritishProblems.video,
   tags: ["Comedy", "Lifestyle"],
   bio: "Rob turns the silent agony of British daily life into comedy that feels like a shared confession, from self-checkouts to passive-aggressive emails and the classic \"you too\" moment at restaurants. His tone is unmistakably local yet broadly relatable, making his content highly shareable and commercially effective. Brands that feel distinctly British, or want to, benefit from his trust-led storytelling and cultural precision.",
-  top_audience: ["UK", "US"],
+  top_audience: ["UK", "APAC"],
   audience_insights: {
     top_location: { name: "UK", pct: 67 },
-    second_location: { name: "US", pct: 9 },
+    second_location: { name: "APAC", pct: 9 },
     gender_split: { female: 73, male: 27 },
     top_city: "Greater London",
     age_range: "18–34",
@@ -777,9 +777,9 @@ useEffect(() => {
     if (activePage === "profile") return;
     const meta = {
       home: {
-        title: "WEARD Management | Global Influencer Talent Management Agency",
+        title: "WEARD Management | Talent Management Agency",
         description:
-          "WEARD Management (WEARDMGMT) connects brands with creators across Asia, APAC, Thailand, Hong Kong, and the UK, delivering cross-border talent management and creator campaigns.",
+          "WEARD Management (WEARDMGMT) represents diverse creators and delivers cross-border influencer marketing campaigns for brands across Asia, APAC, Thailand, Hong Kong, and the UK.",
       },
       about: {
         title: "About WEARD Management | Cross-Border Influencer Management",
@@ -1504,7 +1504,7 @@ function CreatorProfile({ creator, onBack }) {
                 <p className="mt-2 text-2xl font-medium leading-tight tracking-tight">{audience_insights?.top_location?.name || top_audience[0] || "UK"}</p>
                 <div className="mt-4 space-y-1.5 text-sm text-neutral-500">
                   <p><span className="text-neutral-400">Top City:</span> <span className="text-neutral-700 dark:text-neutral-200">{audience_insights?.top_city || "—"}</span></p>
-                  <p><span className="text-neutral-400">Secondary audience:</span> <span className="text-neutral-700 dark:text-neutral-200">{audience_insights?.second_location?.name || top_audience[1] || "US"}</span></p>
+                  <p><span className="text-neutral-400">Secondary audience:</span> <span className="text-neutral-700 dark:text-neutral-200">{audience_insights?.second_location?.name || top_audience[1] || "APAC"}</span></p>
                   <p><span className="text-neutral-400">Age:</span> <span className="text-neutral-700 dark:text-neutral-200">{audience_insights?.age_range || "—"}</span></p>
                 </div>
               </div>
@@ -1521,7 +1521,7 @@ function CreatorProfile({ creator, onBack }) {
                 <p className="text-[11px] uppercase tracking-[0.2em] text-neutral-500">Secondary Audiences</p>
                 <div className="mt-2 space-y-2">
                 {[
-                  { name: audience_insights?.second_location?.name || top_audience[1] || "US", pct: audience_insights?.second_location?.pct || 0 },
+                  { name: audience_insights?.second_location?.name || top_audience[1] || "APAC", pct: audience_insights?.second_location?.pct || 0 },
                   { name: top_audience[2] || "Global", pct: Math.max(0, 100 - ((audience_insights?.top_location?.pct || 0) + (audience_insights?.second_location?.pct || 0))) },
                 ].map((market) => (
                   <div key={market.name} className="flex items-center justify-between rounded-full bg-neutral-100/80 dark:bg-neutral-900/70 px-4 py-2 text-sm">
@@ -1913,7 +1913,13 @@ function HeroCarousel() {
 
       <div className="weard-hero__overlay">
         <div className="weard-hero__glass">
-          <h1>WEARD</h1>
+          <h1>
+            <span className="weard-hero__brand">WEARD</span>
+            <span className="weard-hero__descriptor">Talent Management Agency</span>
+          </h1>
+          <p className="weard-hero__definition">
+            WEARD Management is a talent management and influencer marketing agency. We represent diverse, culturally influential creators — and deliver cross-border campaigns for brands across the UK and APAC.
+          </p>
           <p>WE • ARE • DIFFERENT</p>
         </div>
       </div>
@@ -1981,25 +1987,29 @@ function About() {
   const highlights = [
     {
       title: "Talent strategy",
-      body: "Full-service creator management from positioning and pricing to long-term brand alignment.",
+      audience: "Talent",
+      body: "Creator positioning, pricing, deal negotiation, contracts, payment collection, and long-term brand alignment.",
       accent: "from-blue-500/15 via-indigo-500/10 to-purple-500/15",
       icon: Users,
     },
     {
       title: "Campaign production",
-      body: "We handle creative direction, briefs, approvals, and delivery timelines across every platform.",
+      audience: "Brands",
+      body: "End-to-end campaign strategy, creator matching, briefing, production, approvals, and delivery timelines across every platform.",
       accent: "from-purple-500/15 via-pink-500/10 to-orange-400/15",
       icon: Megaphone,
     },
     {
       title: "Brand partnerships",
-      body: "We source, negotiate, and activate premium deals with brands that fit each creator’s voice.",
+      audience: "Both",
+      body: "We represent creators, negotiate premium deals, and deliver partnerships that fit each creator’s voice and each brand’s goals.",
       accent: "from-emerald-500/15 via-teal-500/10 to-blue-500/15",
       icon: Handshake,
     },
     {
       title: "Performance reporting",
-      body: "Post-campaign analytics, audience insights, and learnings to guide the next launch.",
+      audience: "Brands",
+      body: "Post-campaign analytics, audience insights, and clear learnings that report outcomes and guide the next launch.",
       accent: "from-amber-500/15 via-rose-500/10 to-purple-500/15",
       icon: BarChart3,
     },
@@ -2022,7 +2032,29 @@ function About() {
             Supporting Culturally Influential Creators.
           </h2>
           <p className="mt-4 text-neutral-700 dark:text-neutral-300 max-w-2xl">
-            WEARD Management was founded in 2025 to champion diverse creator voices with genuine cultural fluency, connecting them with the right brands and opportunities. Our roster delivers campaigns across the UK, US, and APAC region, bringing first-hand market understanding, established regional relationships, and a strong sense of what genuinely resonates with audiences in different territories. For brands, that means more than just creator content — it means campaigns shaped by cultural insight, authentic storytelling, and a stronger ability to connect with the audiences they want to reach.
+            WEARD Management was founded in 2025 to represent diverse creator voices with genuine cultural fluency, connecting them with the right brands and opportunities. Our roster delivers campaigns across the UK and APAC region, bringing first-hand market understanding, established regional relationships, and a clear view of what drives audiences in different territories. For brands, that means campaigns shaped by cultural insight, authentic storytelling, and measurable outcomes.
+          </p>
+          <p className="mt-4 text-sm font-semibold text-neutral-800 dark:text-neutral-200">
+            Creators building a career. Brands who want to reach real, engaged, multicultural audiences.
+          </p>
+          <div className="mt-6 grid gap-4 md:grid-cols-2">
+            <div className="rounded-3xl border border-neutral-200/80 bg-white/85 p-5 shadow-sm">
+              <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">For creators</p>
+              <h3 className="mt-3 text-xl font-semibold text-neutral-900">We are talent management</h3>
+              <p className="mt-3 text-sm leading-6 text-neutral-600 dark:text-neutral-400">
+                We manage the full commercial side of a creator&apos;s career: positioning, pricing, deal negotiation, contracts, payment collection, and IP protection. Our talent focus on the work; we protect their value, time, and image.
+              </p>
+            </div>
+            <div className="rounded-3xl border border-neutral-200/80 bg-white/85 p-5 shadow-sm">
+              <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">For brands</p>
+              <h3 className="mt-3 text-xl font-semibold text-neutral-900">We are an influencer marketing agency</h3>
+              <p className="mt-3 text-sm leading-6 text-neutral-600 dark:text-neutral-400">
+                We design and deliver campaigns end-to-end: strategy, creator matching, briefing, production, approvals, and reporting — with a specialism in cross-border UK–Asia activations that feel native, not translated.
+              </p>
+            </div>
+          </div>
+          <p className="mt-5 rounded-2xl border border-neutral-200/80 bg-neutral-950 px-5 py-4 text-sm leading-6 text-white shadow-sm">
+            <strong>What sets us apart:</strong> we sit on both sides of the table. Because we manage creators and run brand campaigns, we know exactly what makes a partnership work — commercially and culturally.
           </p>
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
             {values.map((value) => (
@@ -2071,7 +2103,7 @@ function About() {
               <div>
                 <h3 className="font-semibold text-lg text-neutral-900">{h.title}</h3>
                 <p className="text-[11px] uppercase tracking-[0.28em] text-neutral-400">
-                  WEARD service
+                  {h.audience}
                 </p>
               </div>
             </div>
@@ -2090,7 +2122,7 @@ function About() {
       <div className="mt-10 rounded-3xl border border-neutral-200/80 bg-white p-6 sm:p-8 shadow-sm">
         <p className="text-xs uppercase tracking-[0.35em] text-neutral-400">Who We Are</p>
         <p className="mt-4 text-sm sm:text-base leading-7 text-neutral-700 dark:text-neutral-300">
-          We work closely with creators who bring authentic perspectives, strong storytelling, and communities that trust their voice. Our role is to shape opportunities that respect each creator’s identity while delivering measurable value for partners. From brand partnerships and ambassador programmes to travel, fashion, beauty, lifestyle, and culture-led campaigns, we focus on creating collaborations that feel commercially effective whilst remaining culturally relevant. At its core, WEARD exists to bridge the gap between brands and audiences through creators who genuinely understand both worlds.
+          We represent creators who bring authentic perspectives, strong storytelling, and communities that trust their voice. We negotiate opportunities that protect each creator’s identity, value, time, and image while delivering measurable value for partners. From brand partnerships and ambassador programmes to travel, fashion, beauty, lifestyle, and culture-led campaigns, we deliver collaborations that are commercially effective and culturally relevant.
         </p>
       </div>
       <div className="mt-12 rounded-3xl border border-neutral-800 bg-neutral-900 p-6 sm:p-8">
@@ -2099,7 +2131,7 @@ function About() {
           <h3 className="mt-3 text-2xl sm:text-3xl font-semibold">Trusted by leading brands worldwide</h3>
           <p className="mt-2 text-sm text-white/80">Brands we've delivered campaigns for</p>
           <p className="mt-2 text-sm text-white/70">
-            From fast-growing disruptors to global icons, WEARD helps brands build creator campaigns that resonate.
+            From fast-growing disruptors to global icons, WEARD helps brands deliver creator campaigns with clear strategy, execution, and reporting.
           </p>
         </div>
         <div className="mt-6">
