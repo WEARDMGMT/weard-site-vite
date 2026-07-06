@@ -1917,9 +1917,6 @@ function HeroCarousel() {
             <span className="weard-hero__brand">WEARD</span>
             <span className="weard-hero__descriptor">Talent Management Agency</span>
           </h1>
-          <p className="weard-hero__definition">
-            WEARD Management is a talent management and influencer marketing agency. We represent diverse, culturally influential creators — and deliver cross-border campaigns for brands across the UK and APAC.
-          </p>
           <p>WE • ARE • DIFFERENT</p>
         </div>
       </div>
