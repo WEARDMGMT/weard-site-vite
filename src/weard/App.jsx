@@ -148,6 +148,10 @@ const CONSENT_STORAGE_KEY = "weard-cookie-consent";
 const LOADER_SESSION_KEY = "weard-loader-played";
 const HUBSPOT_SCRIPT_ID = "hs-script-loader";
 const HUBSPOT_SCRIPT_SRC = "https://js-eu1.hs-scripts.com/147478125.js";
+const APOLLO_SCRIPT_ID = "apollo-website-tracker";
+const APOLLO_APP_ID = "69f0a9a653fc2700218bc76e";
+const APOLLO_SCRIPT_SRC =
+  "https://assets.apollo.io/micro/website-tracker/tracker.iife.js";
 
 const loadExternalScript = ({ id, src, onLoad }) => {
   if (document.getElementById(id)) return;
@@ -165,6 +169,14 @@ const loadExternalScript = ({ id, src, onLoad }) => {
 const loadHubspotScript = () =>
   loadExternalScript({ id: HUBSPOT_SCRIPT_ID, src: HUBSPOT_SCRIPT_SRC });
 
+const loadApolloScript = () =>
+  loadExternalScript({
+    id: APOLLO_SCRIPT_ID,
+    src: `${APOLLO_SCRIPT_SRC}?nocache=${Math.random().toString(36).substring(7)}`,
+    onLoad: () => {
+      window.trackingFunctions?.onLoad?.({ appId: APOLLO_APP_ID });
+    },
+  });
 
 const SAFE_URL_PROTOCOLS = new Set(["https:", "mailto:"]);
 
@@ -753,6 +765,7 @@ useEffect(() => {
   useEffect(() => {
     if (cookieConsent !== "accepted") return;
     loadHubspotScript();
+    loadApolloScript();
   }, [cookieConsent]);
 
   const handleCookieConsent = (value) => {
