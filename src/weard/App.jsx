@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Instagram, Mail, ArrowRight, ArrowUp, Globe, Menu, X, Sparkles, Youtube, Users, Megaphone, Handshake, BarChart3 } from "lucide-react";
+import { Instagram, Mail, ArrowRight, ArrowUp, Globe, Menu, X, Sparkles, Youtube, UploadCloud, ShieldCheck } from "lucide-react";
 // Simple TikTok icon (outline) to match lucide style
 const TikTokIcon = ({ size = 16, className = "" }) => (
   <svg
@@ -144,6 +144,9 @@ const TEXT_GRAD = "bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 b
 const INPUT_CLS =
   "w-full px-4 py-2 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 placeholder-neutral-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500";
 const BTN_PRIMARY_CLS = `${GRADIENT} inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500`;
+const TALENT_STATS_MAX_FILES = 3;
+const TALENT_STATS_MAX_FILE_SIZE = 2 * 1024 * 1024;
+const TALENT_STATS_ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 const CONSENT_STORAGE_KEY = "weard-cookie-consent";
 const LOADER_SESSION_KEY = "weard-loader-played";
 const HUBSPOT_SCRIPT_ID = "hs-script-loader";
@@ -206,6 +209,16 @@ const isValidHttpUrl = (value) => {
     return false;
   }
 };
+
+const formatFileSize = (bytes) => `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+
+const fileToBase64 = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result || ""));
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
 
 // Media placeholders (swap with real assets when ready)
 const MEDIA = {
@@ -351,7 +364,7 @@ location: "Thailand",
     second_location: { name: "APAC", pct: 30 },
     gender_split: { female: 70, male: 30 },
     top_city: "Bangkok",
-    age_range: "18–24",
+    age_range: "18-24",
   },
   recent_campaigns: [
     { brand: "Mediheal", platforms: "Instagram + TikTok", campaign_type: "Beauty launch", result: "High save-rate skincare reels", year: "2025" },
@@ -378,7 +391,7 @@ location: "Thailand",
     second_location: { name: "Sweden", pct: 10 },
     gender_split: { female: 72, male: 28 },
     top_city: "Bangkok",
-    age_range: "18–24",
+    age_range: "18-24",
   },
   recent_campaigns: [
     { brand: "TRESemmé", platforms: "TikTok + Instagram", campaign_type: "Haircare routine", result: "Consistent engagement across short-form", year: "2025" },
@@ -407,7 +420,7 @@ video: MEDIA.creators.OliveTreeFamily.video,
     second_location: { name: "APAC", pct: 3.81 },
     gender_split: { female: 65, male: 35 },
     top_city: "Glasgow",
-    age_range: "18–34",
+    age_range: "18-34",
   },
   recent_campaigns: [
     { brand: "Amazon", platforms: "Instagram + TikTok", campaign_type: "Family lifestyle", result: "Multi-format content with strong completion", year: "2025" },
@@ -433,7 +446,7 @@ video: MEDIA.creators.OliveTreeFamily.video,
     second_location: { name: "APAC", pct: 5 },
     gender_split: { female: 60, male: 40 },
     top_city: "Manchester",
-    age_range: "18–34",
+    age_range: "18-34",
   },
   recent_campaigns: [
     { brand: "Samsung", platforms: "TikTok + Instagram", campaign_type: "Tech-lifestyle crossover", result: "Strong retention on skit format", year: "2025" },
@@ -461,7 +474,7 @@ video: MEDIA.creators.OliveTreeFamily.video,
     second_location: { name: "APAC", pct: 5 },
     gender_split: { female: 42, male: 58 },
     top_city: "Glasgow",
-    age_range: "18–34",
+    age_range: "18-34",
   },
   recent_campaigns: [
     { brand: "haruharu wonder", platforms: "Instagram", campaign_type: "Featured partnership", result: "Strong engagement from UK beauty audience", year: "2025" },
@@ -491,7 +504,7 @@ video: MEDIA.creators.OliveTreeFamily.video,
     second_location: { name: "APAC", pct: 9 },
     gender_split: { female: 73, male: 27 },
     top_city: "Greater London",
-    age_range: "18–34",
+    age_range: "18-34",
   },
   recent_campaigns: [
     { brand: "Fairy", platforms: "Facebook + Instagram", campaign_type: "Comedy native ad", result: "High share rate with UK households", year: "2025" },
@@ -528,7 +541,7 @@ const cleanNum = (v) => {
 };
 
 const shortFormat = (n) => {
-  if (n == null) return "—";
+  if (n == null) return "-";
   if (n < 1_000) return String(n);
   if (n < 1_000_000) return `${(n / 1_000).toFixed(n % 1000 === 0 ? 0 : 1)}K`;
   return `${(n / 1_000_000).toFixed(n % 1_000_000 === 0 ? 0 : 1)}M`;
@@ -1351,7 +1364,7 @@ function CreatorProfile({ creator, onBack }) {
             <div className="relative aspect-[4/5] sm:aspect-[3/4]">
               <img
                 src={photo || creator.profile_image}
-                alt={`${name} — WEARD Management creator`}
+                alt={`${name} - WEARD Management creator`}
                 className="absolute inset-0 h-full w-full object-cover scale-[1.01] transition-transform duration-[1200ms] group-hover:scale-[1.04]"
                 loading="lazy"
                 decoding="async"
@@ -1503,9 +1516,9 @@ function CreatorProfile({ creator, onBack }) {
                 <p className="mt-1 text-xs uppercase tracking-[0.18em] text-neutral-500">of audience from</p>
                 <p className="mt-2 text-2xl font-medium leading-tight tracking-tight">{audience_insights?.top_location?.name || top_audience[0] || "UK"}</p>
                 <div className="mt-4 space-y-1.5 text-sm text-neutral-500">
-                  <p><span className="text-neutral-400">Top City:</span> <span className="text-neutral-700 dark:text-neutral-200">{audience_insights?.top_city || "—"}</span></p>
+                  <p><span className="text-neutral-400">Top City:</span> <span className="text-neutral-700 dark:text-neutral-200">{audience_insights?.top_city || "-"}</span></p>
                   <p><span className="text-neutral-400">Secondary audience:</span> <span className="text-neutral-700 dark:text-neutral-200">{audience_insights?.second_location?.name || top_audience[1] || "APAC"}</span></p>
-                  <p><span className="text-neutral-400">Age:</span> <span className="text-neutral-700 dark:text-neutral-200">{audience_insights?.age_range || "—"}</span></p>
+                  <p><span className="text-neutral-400">Age:</span> <span className="text-neutral-700 dark:text-neutral-200">{audience_insights?.age_range || "-"}</span></p>
                 </div>
               </div>
               <div className="mt-5">
@@ -1981,152 +1994,91 @@ function About() {
     const yt = cleanNum(creator.youtube_subscribers) ?? 0;
     return sum + ig + tt + yt;
   }, 0);
+  const pillars = [
+    { label: "Cultural fluency", value: "UK x APAC", note: "Campaigns that feel native to the people watching." },
+    { label: "Creator care", value: "Protected", note: "Negotiation, pricing, image rights, contracts, and payment support." },
+    { label: "Brand fit", value: "Premium", note: "Partnerships chosen for relevance, not just reach." },
+  ];
   const highlights = [
-    {
-      title: "Talent strategy",
-      audience: "Talent",
-      body: "Creator positioning, pricing, deal negotiation, contracts, payment collection, and long-term brand alignment.",
-      accent: "from-blue-500/15 via-indigo-500/10 to-purple-500/15",
-      icon: Users,
-    },
-    {
-      title: "Campaign production",
-      audience: "Brands",
-      body: "End-to-end campaign strategy, creator matching, briefing, production, approvals, and delivery timelines across every platform.",
-      accent: "from-purple-500/15 via-pink-500/10 to-orange-400/15",
-      icon: Megaphone,
-    },
-    {
-      title: "Brand partnerships",
-      audience: "Both",
-      body: "We represent creators, negotiate premium deals, and deliver partnerships that fit each creator’s voice and each brand’s goals.",
-      accent: "from-emerald-500/15 via-teal-500/10 to-blue-500/15",
-      icon: Handshake,
-    },
-    {
-      title: "Performance reporting",
-      audience: "Brands",
-      body: "Post-campaign analytics, audience insights, and clear learnings that report outcomes and guide the next launch.",
-      accent: "from-amber-500/15 via-rose-500/10 to-purple-500/15",
-      icon: BarChart3,
-    },
+    { title: "Build the angle", body: "We sharpen the creator story, then match it to brands that make sense." },
+    { title: "Run the deal", body: "Briefs, rates, timelines, usage, approvals, and reporting stay handled." },
+    { title: "Cross the culture gap", body: "We connect Asian and Western audiences with content that lands naturally." },
   ];
-  const values = [
-    "Creator-first management with long-term career planning",
-    "Cross-border campaign execution across APAC and the UK",
-    "Clear communication, measurable outcomes, and premium brand fit",
-  ];
+
   return (
     <section className="max-w-7xl mx-auto px-4 py-12">
       <PronunciationReveal />
-      <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_280px] lg:items-start">
-        <div className="max-w-3xl">
-          <div className="inline-flex items-center gap-2 rounded-full border border-neutral-200/70 bg-white/80 px-4 py-1 text-[11px] uppercase tracking-[0.35em] text-neutral-500 shadow-sm">
-            <span className="h-2 w-2 rounded-full bg-emerald-400" aria-hidden="true" />
-            Boutique agency, global execution
+
+      <div className="relative mt-10 overflow-hidden rounded-[2rem] border border-neutral-200/80 bg-neutral-950 p-6 text-white shadow-xl sm:p-8 lg:p-10">
+        <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-indigo-500/30 blur-3xl" aria-hidden="true" />
+        <div className="pointer-events-none absolute -bottom-28 left-10 h-72 w-72 rounded-full bg-fuchsia-500/20 blur-3xl" aria-hidden="true" />
+        <div className="relative grid gap-10 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-end">
+          <div>
+            <p className="inline-flex rounded-full border border-white/15 bg-white/10 px-4 py-1 text-[11px] uppercase tracking-[0.35em] text-white/70">
+              Boutique talent management
+            </p>
+            <h2 className="mt-6 max-w-4xl text-5xl font-black uppercase leading-[0.9] tracking-tight sm:text-7xl">
+              We make different make sense.
+            </h2>
+            <p className="mt-5 max-w-2xl text-base leading-7 text-white/75 sm:text-lg">
+              WEARD manages culturally influential creators and builds brand partnerships across the UK and APAC. We keep the work sharp, commercially smart, and true to the creator.
+            </p>
           </div>
-          <h2 className="mt-5 text-4xl sm:text-5xl font-bold text-neutral-700 dark:text-neutral-200">
-            Supporting Culturally Influential Creators.
-          </h2>
-          <p className="mt-4 text-neutral-700 dark:text-neutral-300 max-w-2xl">
-            WEARD Management was founded in 2025 to represent diverse creator voices with genuine cultural fluency, connecting them with the right brands and opportunities. Our roster delivers campaigns across the UK and APAC region, bringing first-hand market understanding, established regional relationships, and a clear view of what drives audiences in different territories. For brands, that means campaigns shaped by cultural insight, authentic storytelling, and measurable outcomes.
-          </p>
-          <p className="mt-4 text-sm font-semibold text-neutral-800 dark:text-neutral-200">
-            Creators building a career. Brands who want to reach real, engaged, multicultural audiences.
-          </p>
-          <div className="mt-6 grid gap-4 md:grid-cols-2">
-            <div className="rounded-3xl border border-neutral-200/80 bg-white/85 p-5 shadow-sm">
-              <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">For creators</p>
-              <h3 className="mt-3 text-xl font-semibold text-neutral-900">We are talent management</h3>
-              <p className="mt-3 text-sm leading-6 text-neutral-600 dark:text-neutral-400">
-                We manage the full commercial side of a creator&apos;s career: positioning, pricing, deal negotiation, contracts, payment collection, and IP protection. Our talent focus on the work; we protect their value, time, and image.
-              </p>
+          <div className="grid gap-3">
+            <div className="rounded-3xl border border-white/15 bg-white/10 p-5 backdrop-blur">
+              <p className="text-xs uppercase tracking-[0.3em] text-white/50">Roster</p>
+              <p className="mt-2 text-4xl font-black"><CountTo to={totalCreators} />+</p>
+              <p className="text-sm text-white/65">Creators with communities that move culture.</p>
             </div>
-            <div className="rounded-3xl border border-neutral-200/80 bg-white/85 p-5 shadow-sm">
-              <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">For brands</p>
-              <h3 className="mt-3 text-xl font-semibold text-neutral-900">We are an influencer marketing agency</h3>
-              <p className="mt-3 text-sm leading-6 text-neutral-600 dark:text-neutral-400">
-                We design and deliver campaigns end-to-end: strategy, creator matching, briefing, production, approvals, and reporting — with a specialism in cross-border UK–Asia activations that feel native, not translated.
-              </p>
-            </div>
-          </div>
-          <p className="mt-5 rounded-2xl border border-neutral-200/80 bg-neutral-950 px-5 py-4 text-sm leading-6 text-white shadow-sm">
-            <strong>What sets us apart:</strong> we sit on both sides of the table. Because we manage creators and run brand campaigns, we know exactly what makes a partnership work — commercially and culturally.
-          </p>
-          <div className="mt-6 grid gap-3 sm:grid-cols-2">
-            {values.map((value) => (
-              <div
-                key={value}
-                className="flex items-start gap-3 rounded-2xl border border-neutral-200/80 bg-white/85 px-4 py-3 text-sm text-neutral-600 shadow-sm"
-              >
-                <span className="mt-1 h-2 w-2 rounded-full bg-indigo-500" aria-hidden="true" />
-                <span>{value}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="rounded-3xl border border-neutral-200/80 bg-white p-6 shadow-sm">
-          <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">Roster snapshot</p>
-          <div className="mt-5 space-y-4">
-            <div className="rounded-2xl border border-neutral-200/70 bg-neutral-50 px-4 py-3">
-              <div className="text-xs uppercase tracking-[0.25em] text-neutral-500">Total creators</div>
-              <div className="mt-2 text-3xl font-bold text-neutral-900">
-                <CountTo to={totalCreators} />+
-              </div>
-            </div>
-            <div className="rounded-2xl border border-neutral-200/70 bg-neutral-50 px-4 py-3">
-              <div className="text-xs uppercase tracking-[0.25em] text-neutral-500">Combined social following</div>
-              <div className="mt-2 text-3xl font-bold text-neutral-900">
-                <CountTo to={totalFollowing} format={shortFormat} />+
-              </div>
+            <div className="rounded-3xl border border-white/15 bg-white/10 p-5 backdrop-blur">
+              <p className="text-xs uppercase tracking-[0.3em] text-white/50">Reach</p>
+              <p className="mt-2 text-4xl font-black"><CountTo to={totalFollowing} format={shortFormat} />+</p>
+              <p className="text-sm text-white/65">Combined social following across platforms.</p>
             </div>
           </div>
         </div>
       </div>
-      <div className="mt-10 grid gap-6 sm:grid-cols-2">
-        {highlights.map((h) => (
-          <div
-            key={h.title}
-            className="group relative overflow-hidden rounded-3xl border border-neutral-200/80 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
-          >
-            <div
-              className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${h.accent} opacity-0 transition duration-300 group-hover:opacity-100`}
-            />
-            <div className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full bg-neutral-100/70 blur-2xl transition duration-300 group-hover:bg-white/80" />
-            <div className="flex items-center gap-2">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-neutral-200 bg-white/90 shadow-sm">
-                <h.icon size={16} className="text-neutral-900" aria-hidden="true" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-lg text-neutral-900">{h.title}</h3>
-                <p className="text-[11px] uppercase tracking-[0.28em] text-neutral-400">
-                  {h.audience}
-                </p>
-              </div>
-            </div>
-            <p className="mt-3 text-sm text-neutral-600 dark:text-neutral-400">{h.body}</p>
-            <a
-              className="mt-5 inline-flex items-center gap-2 text-xs font-semibold text-neutral-500 hover:text-neutral-800"
-              href="mailto:hello@weardmgmt.com?subject=Service%20Details%20Request"
-              aria-label={`Email for more details about ${h.title}`}
-            >
-              Email for details
-              <ArrowRight size={12} className="transition group-hover:translate-x-1" />
-            </a>
+
+      <div className="mt-8 grid gap-4 md:grid-cols-3">
+        {pillars.map((pillar) => (
+          <div key={pillar.label} className="rounded-3xl border border-neutral-200/80 bg-white p-5 shadow-sm">
+            <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">{pillar.label}</p>
+            <p className="mt-4 text-3xl font-black uppercase text-neutral-900">{pillar.value}</p>
+            <p className="mt-3 text-sm leading-6 text-neutral-600 dark:text-neutral-400">{pillar.note}</p>
           </div>
         ))}
       </div>
-      <div className="mt-10 rounded-3xl border border-neutral-200/80 bg-white p-6 sm:p-8 shadow-sm">
-        <p className="text-xs uppercase tracking-[0.35em] text-neutral-400">Who We Are</p>
-        <p className="mt-4 text-sm sm:text-base leading-7 text-neutral-700 dark:text-neutral-300">
-          We represent creators who bring authentic perspectives, strong storytelling, and communities that trust their voice. We negotiate opportunities that protect each creator’s identity, value, time, and image while delivering measurable value for partners. From brand partnerships and ambassador programmes to travel, fashion, beauty, lifestyle, and culture-led campaigns, we deliver collaborations that are commercially effective and culturally relevant.
-        </p>
+
+      <div className="mt-8 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="rounded-3xl border border-neutral-200/80 bg-white p-6 shadow-sm">
+          <p className="text-xs uppercase tracking-[0.35em] text-neutral-400">What we do</p>
+          <h3 className="mt-4 text-3xl font-black uppercase tracking-tight text-neutral-900">Talent first. Brand ready.</h3>
+          <p className="mt-4 text-sm leading-7 text-neutral-600 dark:text-neutral-400">
+            We handle management, strategy, deal flow, campaign delivery, and reporting so creators can stay creative and brands can move with confidence.
+          </p>
+          <button
+            type="button"
+            onClick={() => window.weardNav?.("contact")}
+            className={`mt-6 inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white ${GRADIENT}`}
+          >
+            Work with WEARD <ArrowRight size={16} />
+          </button>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-3">
+          {highlights.map((item) => (
+            <div key={item.title} className="rounded-3xl border border-neutral-200/80 bg-neutral-50 p-5 shadow-sm transition hover:-translate-y-1 hover:bg-white hover:shadow-lg">
+              <div className="mb-5 h-2 w-14 rounded-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500" />
+              <h4 className="text-lg font-bold text-neutral-900">{item.title}</h4>
+              <p className="mt-3 text-sm leading-6 text-neutral-600 dark:text-neutral-400">{item.body}</p>
+            </div>
+          ))}
+        </div>
       </div>
+
       <div className="mt-12 rounded-3xl border border-neutral-800 bg-neutral-900 p-6 sm:p-8">
         <div className="text-center text-white">
           <p className="text-xs uppercase tracking-[0.35em] text-white/60">Brand partners</p>
           <h3 className="mt-3 text-2xl sm:text-3xl font-semibold">Trusted by leading brands worldwide</h3>
-          <p className="mt-2 text-sm text-white/80">Brands we've delivered campaigns for</p>
           <p className="mt-2 text-sm text-white/70">
             From fast-growing disruptors to global icons, WEARD helps brands deliver creator campaigns with clear strategy, execution, and reporting.
           </p>
@@ -2135,12 +2087,6 @@ function About() {
           <LogoCarousel />
         </div>
       </div>
-      <button
-        onClick={() => window.weardNav?.("contact")}
-        className={`mt-10 inline-flex items-center gap-2 px-5 py-3 rounded-full text-white ${GRADIENT}`}
-      >
-        Work with WEARD <ArrowRight size={16} />
-      </button>
       <WhereWeWork />
     </section>
   );
@@ -2539,10 +2485,10 @@ function CreatorDirectory({ creators = [], onNav }) {
         by WEARD across Asia, APAC, Thailand, Hong Kong, and the UK.
       </p>
       <ul className="mt-3 grid gap-1 text-sm text-neutral-600 dark:text-neutral-400">
-        <li>Sophia Price — sophiapriceyyy, XsophiapriceyX, xsophiapriceyx</li>
-        <li>Emily Uddman — emily.uddman, Emily Janrawee Uddman</li>
-        <li>Josefine Uddman — josefine.ku.ud, Josefine Kuanroethai Uddman, Bakhamnoi</li>
-        <li>The Olive Tree Family — theolivetreefamily, TheOliveTreeFamily, W Ken | Lynsay | Chung Family</li>
+        <li>Sophia Price - sophiapriceyyy, XsophiapriceyX, xsophiapriceyx</li>
+        <li>Emily Uddman - emily.uddman, Emily Janrawee Uddman</li>
+        <li>Josefine Uddman - josefine.ku.ud, Josefine Kuanroethai Uddman, Bakhamnoi</li>
+        <li>The Olive Tree Family - theolivetreefamily, TheOliveTreeFamily, W Ken | Lynsay | Chung Family</li>
       </ul>
       <div className="mt-4 flex flex-wrap gap-2 text-xs text-neutral-500">
         <SiteLink to="apac-influencer-marketing" onNav={onNav} className="underline">
@@ -2587,7 +2533,7 @@ function SocialStat({ label, icon: Icon, url, value }) {
       target={isLink ? "_blank" : undefined}
       rel={isLink ? "noopener noreferrer" : undefined}
       className="p-3 rounded-xl bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 hover:border-indigo-400/60 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition block"
-      aria-label={isLink ? `${label} — open profile` : label}
+      aria-label={isLink ? `${label} - open profile` : label}
     >
       <div className="flex items-center gap-2">
         <Icon size={14} aria-hidden="true" />
@@ -2681,7 +2627,7 @@ function CreatorCard({ p }) {
         {/* Base photo */}
         <img
           src={p.photo || avatar}
-          alt={`${p.name} — WEARD Management creator`}
+          alt={`${p.name} - WEARD Management creator`}
           className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           loading="lazy"
           decoding="async"
@@ -3021,6 +2967,7 @@ function Contact() {
   const [isSendingTalent, setIsSendingTalent] = useState(false);
   const [brandNotice, setBrandNotice] = useState("");
   const [talentNotice, setTalentNotice] = useState("");
+  const [talentStatsFiles, setTalentStatsFiles] = useState([]);
   const [form, setForm] = useState({
     brand: "",
     role: "",
@@ -3042,6 +2989,7 @@ function Contact() {
     availability: "",
     notes: "",
     audience: "",
+    statsSummary: "",
     whyWeard: "",
   });
 
@@ -3087,7 +3035,7 @@ function Contact() {
       return;
     }
     setBrandNotice("");
-    const subject = `WEARD Brief – ${safeForm.brand}`;
+    const subject = `WEARD Brief - ${safeForm.brand}`;
     const body =
       `Brand: ${safeForm.brand}\n` +
       `Role: ${safeForm.role}\n` +
@@ -3136,10 +3084,32 @@ function Contact() {
     }
   }
 
+  function handleTalentStatsFiles(e) {
+    const files = Array.from(e.target.files || []);
+    const accepted = [];
+    for (const file of files.slice(0, TALENT_STATS_MAX_FILES)) {
+      if (!TALENT_STATS_ALLOWED_TYPES.has(file.type)) {
+        alert("Please upload only JPG, PNG, or WebP screenshots.");
+        e.target.value = "";
+        return;
+      }
+      if (file.size > TALENT_STATS_MAX_FILE_SIZE) {
+        alert(`Each screenshot must be ${formatFileSize(TALENT_STATS_MAX_FILE_SIZE)} or smaller.`);
+        e.target.value = "";
+        return;
+      }
+      accepted.push(file);
+    }
+    if (files.length > TALENT_STATS_MAX_FILES) {
+      alert(`Please upload up to ${TALENT_STATS_MAX_FILES} screenshots.`);
+    }
+    setTalentStatsFiles(accepted);
+  }
+
   async function handleTalentSubmit(e) {
     e.preventDefault();
     const safeTalent = Object.fromEntries(
-      Object.entries(talent).map(([key, value]) => [key, normalizeTextField(value, ["audience", "whyWeard", "notes"].includes(key) ? 3000 : 300)])
+      Object.entries(talent).map(([key, value]) => [key, normalizeTextField(value, ["audience", "statsSummary", "whyWeard", "notes"].includes(key) ? 3000 : 300)])
     );
     if (!safeTalent.name || !safeTalent.email || !safeTalent.ig || !safeTalent.category) {
       alert("Please complete name, email, Instagram URL, and category.");
@@ -3154,7 +3124,7 @@ function Contact() {
       return;
     }
     setTalentNotice("");
-    const subject = `Join the Roster – ${safeTalent.name}`;
+    const subject = `Join the Roster - ${safeTalent.name}`;
     const body =
       `Name: ${safeTalent.name}\n` +
       `Email: ${safeTalent.email}\n` +
@@ -3163,7 +3133,9 @@ function Contact() {
       `TikTok: ${safeTalent.tt}\n` +
       `Other: ${safeTalent.other}\n` +
       `Category: ${safeTalent.category}\n\n` +
-      `Audience info: ${safeTalent.audience}\n` +
+      `Audience demographic / stats: ${safeTalent.audience}\n` +
+      `Stats summary: ${safeTalent.statsSummary}\n` +
+      `Stats screenshots: ${talentStatsFiles.length ? talentStatsFiles.map((file) => `${file.name} (${formatFileSize(file.size)})`).join(", ") : "None uploaded"}\n` +
       `Location: ${safeTalent.location}\n` +
       `Availability: ${safeTalent.availability}\n\n` +
       `Why WEARD:\n${safeTalent.whyWeard}\n\n` +
@@ -3184,6 +3156,16 @@ function Contact() {
           location: safeTalent.location,
           availability: safeTalent.availability,
           audience: safeTalent.audience,
+          stats_summary: safeTalent.statsSummary,
+          stats_screenshots: talentStatsFiles.length
+            ? await Promise.all(talentStatsFiles.map(async (file) => ({
+                name: file.name.replace(/[^a-zA-Z0-9._-]/g, "_"),
+                type: file.type,
+                size: file.size,
+                data: await fileToBase64(file),
+              })))
+            : [],
+          stats_screenshot_names: talentStatsFiles.map((file) => file.name).join(", "),
           why_weard: safeTalent.whyWeard,
           notes: safeTalent.notes,
           message: body,
@@ -3193,10 +3175,14 @@ function Contact() {
         sendMailto(
           subject,
           body,
-          "We’ve copied your message to the clipboard. Please paste it into an email to info@weardmgmt.com."
+          talentStatsFiles.length
+          ? "We’ve copied your message to the clipboard. Please attach your stats screenshots before sending the email to info@weardmgmt.com."
+          : "We’ve copied your message to the clipboard. Please paste it into an email to info@weardmgmt.com."
         );
         setTalentNotice(
-          "Submission completed. Please send the email that opened to reach info@weardmgmt.com."
+          talentStatsFiles.length
+            ? "Submission completed. Please attach your stats screenshots to the email that opened before sending."
+            : "Submission completed. Please send the email that opened to reach info@weardmgmt.com."
         );
       }
     } catch {
@@ -3350,6 +3336,58 @@ function Contact() {
                 </label>
               </div>
 
+              <div className="rounded-3xl border border-neutral-200/80 bg-white/85 p-5 shadow-sm">
+                <div className="flex items-start gap-3">
+                  <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-neutral-950 text-white">
+                    <UploadCloud size={18} aria-hidden="true" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-neutral-900">
+                      Audience demographic / stats
+                    </p>
+                    <p className="mt-1 text-xs leading-5 text-neutral-500">
+                      Add screenshots from Instagram, TikTok, or YouTube analytics so we can review audience fit. JPG, PNG, or WebP only. Up to 3 files, max 2 MB each.
+                    </p>
+                  </div>
+                </div>
+                <label className="mt-4 grid gap-1">
+                  <span className="text-sm font-medium">Stats summary</span>
+                  <textarea
+                    placeholder="e.g., top countries, age split, gender split, monthly views, engagement rate"
+                    className={`${INPUT_CLS} min-h-24`}
+                    value={talent.statsSummary}
+                    onChange={(e) => setTalent({ ...talent, statsSummary: e.target.value })}
+                    maxLength={1500}
+                  />
+                </label>
+                <label className="mt-4 grid gap-2 rounded-2xl border border-dashed border-neutral-300 bg-neutral-50 p-4 text-sm text-neutral-600">
+                  <span className="font-medium text-neutral-900">Upload stats screenshots</span>
+                  <input
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp"
+                    multiple
+                    className="text-sm file:mr-3 file:rounded-full file:border-0 file:bg-neutral-900 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white"
+                    onChange={handleTalentStatsFiles}
+                  />
+                </label>
+                {talentStatsFiles.length ? (
+                  <ul className="mt-3 space-y-2 text-xs text-neutral-600">
+                    {talentStatsFiles.map((file) => (
+                      <li key={`${file.name}-${file.size}`} className="flex items-center justify-between gap-3 rounded-xl bg-neutral-50 px-3 py-2">
+                        <span className="truncate">{file.name}</span>
+                        <span className="shrink-0 text-neutral-400">{formatFileSize(file.size)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+                <div className="mt-3 flex items-start gap-2 text-xs leading-5 text-neutral-500">
+                  <ShieldCheck size={15} className="mt-0.5 shrink-0 text-emerald-500" aria-hidden="true" />
+                  <span>
+                    For safety, uploads are limited to image screenshots only. Do not upload passwords, addresses, bank details, or private messages.
+                  </span>
+                </div>
+              </div>
+
               <label className="grid gap-1">
                 <span className="text-sm font-medium">Why WEARD?</span>
                 <textarea
@@ -3448,9 +3486,9 @@ function Contact() {
                   >
                     <option value="">Select…</option>
                     <option value="Under £5k">Under £5k</option>
-                    <option value="£5k–£10k">£5k–£10k</option>
-                    <option value="£10k–£25k">£10k–£25k</option>
-                    <option value="£25k–£50k">£25k–£50k</option>
+                    <option value="£5k-£10k">£5k-£10k</option>
+                    <option value="£10k-£25k">£10k-£25k</option>
+                    <option value="£25k-£50k">£25k-£50k</option>
                     <option value="£50k+">£50k+</option>
                   </select>
                 </label>
