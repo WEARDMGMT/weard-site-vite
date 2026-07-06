@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#0a0a0a" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self' https://api.emailjs.com mailto:; script-src 'self' 'unsafe-inline' https://assets.apollo.io https://js-eu1.hs-scripts.com; connect-src 'self' https://api.emailjs.com https://*.hubspot.com https://*.hubapi.com https://assets.apollo.io; img-src 'self' data: https://weardmgmt.com https://flagcdn.com https://*.hubspot.com https://*.apollo.io; media-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; upgrade-insecure-requests" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     <link rel="canonical" href="https://weardmgmt.com/" />
     <meta name="robots" content="index, follow" />
 
@@ -89,20 +91,10 @@
       }
     </script>
 
-    <script>
-      function initApollo() {
-        var n = Math.random().toString(36).substring(7),
-          o = document.createElement("script");
-        o.src = "https://assets.apollo.io/micro/website-tracker/tracker.iife.js?nocache=" + n;
-        o.async = !0;
-        o.defer = !0;
-        o.onload = function () {
-          window.trackingFunctions.onLoad({ appId: "68a22dfe4a08780011a8e023" });
-        };
-        document.head.appendChild(o);
-      }
-      initApollo();
-    </script>
+    <script>function initApollo(){var n=Math.random().toString(36).substring(7),o=document.createElement("script");
+o.src="https://assets.apollo.io/micro/website-tracker/tracker.iife.js?nocache="+n,o.async=!0,o.defer=!0,
+o.onload=function(){window.trackingFunctions.onLoad({appId:"69f0a9a653fc2700218bc76e"})},
+document.head.appendChild(o)}initApollo();</script>
   </head>
 
   <body class="min-h-screen bg-white text-neutral-900">

@@ -147,17 +147,52 @@ const BTN_PRIMARY_CLS = `${GRADIENT} inline-flex items-center justify-center gap
 const CONSENT_STORAGE_KEY = "weard-cookie-consent";
 const LOADER_SESSION_KEY = "weard-loader-played";
 const HUBSPOT_SCRIPT_ID = "hs-script-loader";
-const HUBSPOT_SCRIPT_SRC = "//js-eu1.hs-scripts.com/147478125.js";
+const HUBSPOT_SCRIPT_SRC = "https://js-eu1.hs-scripts.com/147478125.js";
 
-const loadHubspotScript = () => {
-  if (document.getElementById(HUBSPOT_SCRIPT_ID)) return;
+const loadExternalScript = ({ id, src, onLoad }) => {
+  if (document.getElementById(id)) return;
   const script = document.createElement("script");
   script.type = "text/javascript";
-  script.id = HUBSPOT_SCRIPT_ID;
+  script.id = id;
   script.async = true;
   script.defer = true;
-  script.src = HUBSPOT_SCRIPT_SRC;
+  script.referrerPolicy = "strict-origin-when-cross-origin";
+  script.src = src;
+  if (onLoad) script.onload = onLoad;
   document.body.appendChild(script);
+};
+
+const loadHubspotScript = () =>
+  loadExternalScript({ id: HUBSPOT_SCRIPT_ID, src: HUBSPOT_SCRIPT_SRC });
+
+
+const SAFE_URL_PROTOCOLS = new Set(["https:", "mailto:"]);
+
+const getSafeExternalUrl = (url) => {
+  if (!url || typeof url !== "string") return undefined;
+  try {
+    const parsed = new URL(url, window.location.origin);
+    return SAFE_URL_PROTOCOLS.has(parsed.protocol) ? parsed.href : undefined;
+  } catch {
+    return undefined;
+  }
+};
+
+const normalizeTextField = (value, maxLength = 1200) =>
+  String(value || "")
+    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "")
+    .trim()
+    .slice(0, maxLength);
+
+const isValidEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value || "").trim());
+const isValidHttpUrl = (value) => {
+  if (!value) return true;
+  try {
+    const parsed = new URL(value);
+    return parsed.protocol === "https:";
+  } catch {
+    return false;
+  }
 };
 
 // Media placeholders (swap with real assets when ready)
@@ -1373,7 +1408,7 @@ function CreatorProfile({ creator, onBack }) {
               {tiktok && (
                 <a
                   className="h-9 w-9 rounded-full bg-neutral-100 dark:bg-neutral-800 grid place-items-center"
-                  href={tiktok}
+                  href={getSafeExternalUrl(tiktok)}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Open TikTok"
@@ -1385,7 +1420,7 @@ function CreatorProfile({ creator, onBack }) {
               {instagram && (
                 <a
                   className="h-9 w-9 rounded-full bg-neutral-100 dark:bg-neutral-800 grid place-items-center"
-                  href={instagram}
+                  href={getSafeExternalUrl(instagram)}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Open Instagram"
@@ -1397,7 +1432,7 @@ function CreatorProfile({ creator, onBack }) {
       {youtube && (
   <a
     className="h-9 w-9 rounded-full bg-neutral-100 dark:bg-neutral-800 grid place-items-center"
-    href={youtube}
+    href={getSafeExternalUrl(youtube)}
     target="_blank"
     rel="noopener noreferrer"
     aria-label="Open YouTube"
@@ -2501,11 +2536,12 @@ function CreatorDirectory({ creators = [], onNav }) {
 }
 
 function SocialStat({ label, icon: Icon, url, value }) {
-  const isLink = !!url;
+  const safeUrl = getSafeExternalUrl(url);
+  const isLink = !!safeUrl;
   const Cmp = isLink ? "a" : "div";
   return (
     <Cmp
-      href={isLink ? url : undefined}
+      href={isLink ? safeUrl : undefined}
       target={isLink ? "_blank" : undefined}
       rel={isLink ? "noopener noreferrer" : undefined}
       className="p-3 rounded-xl bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 hover:border-indigo-400/60 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition block"
@@ -2997,33 +3033,40 @@ function Contact() {
 
   async function handleBrandSubmit(e) {
     e.preventDefault();
-    if (!form.brand || !form.email || !form.outline) {
+    const safeForm = Object.fromEntries(
+      Object.entries(form).map(([key, value]) => [key, normalizeTextField(value, key === "outline" ? 3000 : 300)])
+    );
+    if (!safeForm.brand || !safeForm.email || !safeForm.outline) {
       alert("Please fill required fields.");
       return;
     }
+    if (!isValidEmail(safeForm.email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
     setBrandNotice("");
-    const subject = `WEARD Brief – ${form.brand}`;
+    const subject = `WEARD Brief – ${safeForm.brand}`;
     const body =
-      `Brand: ${form.brand}\n` +
-      `Role: ${form.role}\n` +
-      `Email: ${form.email}\n` +
-      `Number: ${form.number}\n` +
-      `Budget: ${form.budget}\n\n` +
-      `Timeline: ${form.timeline}\n\n` +
-      `Outline:\n${form.outline}`;
+      `Brand: ${safeForm.brand}\n` +
+      `Role: ${safeForm.role}\n` +
+      `Email: ${safeForm.email}\n` +
+      `Number: ${safeForm.number}\n` +
+      `Budget: ${safeForm.budget}\n\n` +
+      `Timeline: ${safeForm.timeline}\n\n` +
+      `Outline:\n${safeForm.outline}`;
 
     try {
       if (EMAILJS_SERVICE_ID && EMAILJS_PUBLIC_KEY && EMAILJS_BRAND_TEMPLATE_ID) {
         setIsSendingBrand(true);
         await sendEmail(EMAILJS_BRAND_TEMPLATE_ID, {
           subject,
-          brand: form.brand,
-          role: form.role,
-          email: form.email,
-          number: form.number,
-          budget: form.budget,
-          timeline: form.timeline,
-          outline: form.outline,
+          brand: safeForm.brand,
+          role: safeForm.role,
+          email: safeForm.email,
+          number: safeForm.number,
+          budget: safeForm.budget,
+          timeline: safeForm.timeline,
+          outline: safeForm.outline,
           message: body,
         });
         setBrandNotice("Submission completed.");
@@ -3053,43 +3096,54 @@ function Contact() {
 
   async function handleTalentSubmit(e) {
     e.preventDefault();
-    if (!talent.name || !talent.email || !talent.ig || !talent.category) {
+    const safeTalent = Object.fromEntries(
+      Object.entries(talent).map(([key, value]) => [key, normalizeTextField(value, ["audience", "whyWeard", "notes"].includes(key) ? 3000 : 300)])
+    );
+    if (!safeTalent.name || !safeTalent.email || !safeTalent.ig || !safeTalent.category) {
       alert("Please complete name, email, Instagram URL, and category.");
       return;
     }
+    if (!isValidEmail(safeTalent.email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+    if (![safeTalent.ig, safeTalent.tt, safeTalent.other].every(isValidHttpUrl)) {
+      alert("Please use secure https:// links for social profiles.");
+      return;
+    }
     setTalentNotice("");
-    const subject = `Join the Roster – ${talent.name}`;
+    const subject = `Join the Roster – ${safeTalent.name}`;
     const body =
-      `Name: ${talent.name}\n` +
-      `Email: ${talent.email}\n` +
-      `Number: ${talent.number}\n` +
-      `Instagram: ${talent.ig}\n` +
-      `TikTok: ${talent.tt}\n` +
-      `Other: ${talent.other}\n` +
-      `Category: ${talent.category}\n\n` +
-      `Audience info: ${talent.audience}\n` +
-      `Location: ${talent.location}\n` +
-      `Availability: ${talent.availability}\n\n` +
-      `Why WEARD:\n${talent.whyWeard}\n\n` +
-      `Notes:\n${talent.notes}`;
+      `Name: ${safeTalent.name}\n` +
+      `Email: ${safeTalent.email}\n` +
+      `Number: ${safeTalent.number}\n` +
+      `Instagram: ${safeTalent.ig}\n` +
+      `TikTok: ${safeTalent.tt}\n` +
+      `Other: ${safeTalent.other}\n` +
+      `Category: ${safeTalent.category}\n\n` +
+      `Audience info: ${safeTalent.audience}\n` +
+      `Location: ${safeTalent.location}\n` +
+      `Availability: ${safeTalent.availability}\n\n` +
+      `Why WEARD:\n${safeTalent.whyWeard}\n\n` +
+      `Notes:\n${safeTalent.notes}`;
 
     try {
       if (EMAILJS_SERVICE_ID && EMAILJS_PUBLIC_KEY && EMAILJS_TALENT_TEMPLATE_ID) {
         setIsSendingTalent(true);
         await sendEmail(EMAILJS_TALENT_TEMPLATE_ID, {
           subject,
-          name: talent.name,
-          email: talent.email,
-          number: talent.number,
-          instagram: talent.ig,
-          tiktok: talent.tt,
-          other: talent.other,
-          category: talent.category,
-          location: talent.location,
-          availability: talent.availability,
-          audience: talent.audience,
-          why_weard: talent.whyWeard,
-          notes: talent.notes,
+          name: safeTalent.name,
+          email: safeTalent.email,
+          number: safeTalent.number,
+          instagram: safeTalent.ig,
+          tiktok: safeTalent.tt,
+          other: safeTalent.other,
+          category: safeTalent.category,
+          location: safeTalent.location,
+          availability: safeTalent.availability,
+          audience: safeTalent.audience,
+          why_weard: safeTalent.whyWeard,
+          notes: safeTalent.notes,
           message: body,
         });
         setTalentNotice("Submission completed.");
