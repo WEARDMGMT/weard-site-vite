@@ -259,6 +259,11 @@ const MEDIA = {
       poster: "/media/creators/Yen/yen-poster.jpg",
       video: "/media/creators/Yen/yen-hover.mp4",
     },
+    Hungry: {
+      hero: "/media/creators/Hungry/jenna-poster -hero.jpg",
+      poster: "/media/creators/Hungry/jenna-posted.jpg",
+      video: "/media/creators/Hungry/Jenna-hover.mp4",
+    },
   },
 };
 
@@ -515,8 +520,9 @@ video: MEDIA.creators.OliveTreeFamily.video,
   location: "UK",
   instagram_followers: 14000,
   tiktok_followers: 14400,
-  profile_image: "/og-image.jpg",
-  photo: "/og-image.jpg",
+  profile_image: MEDIA.creators.Hungry.hero,
+  photo: MEDIA.creators.Hungry.poster,
+  video: MEDIA.creators.Hungry.video,
   tags: ["Food", "Lifestyle", "Travel"],
   bio: "Jenna creates engaging content showcasing the very best places to eat, visit and experience. While she's best known for uncovering London's vibrant food scene, her content also extends to travel, lifestyle, unique experiences and destination discovery, inspiring her audience with ideas for where to go, what to do and what not to miss.",
   top_audience: ["UK", "Travel"],
