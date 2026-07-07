@@ -264,6 +264,11 @@ const MEDIA = {
       poster: "/media/creators/Hungry/jenna-posted.jpg",
       video: "/media/creators/Hungry/Jenna-hover.mp4",
     },
+    JNO: {
+      hero: "/media/creators/JNO/JNO-poster-hero.jpg",
+      poster: "/media/creators/JNO/JNO-poster.jpg",
+      video: "/media/creators/JNO/JNO-hover.mp4.mp4",
+    },
   },
 };
 
@@ -349,6 +354,7 @@ const CREATOR_ALIASES = {
 const STARTER_CREATORS = [
   {
      name: "Sophia Price",
+  rosterName: "Sophia",
   category: "Fashion",
   instagram: "https://www.instagram.com/xsophiapriceyx",
   tiktok: "https://www.tiktok.com/@sophiapriceyyy",
@@ -378,6 +384,7 @@ location: "Thailand",
 
   },
      {name: "Josefine Uddman",
+  rosterName: "Josefine",
   category: "Beauty",
   instagram: "https://www.instagram.com/josefine.ku.ud/",
   tiktok: "https://www.tiktok.com/@josefine.ku.ud",
@@ -434,6 +441,8 @@ video: MEDIA.creators.OliveTreeFamily.video,
 },
 {
   name: "Very British Korean",
+  rosterName: "Sumin",
+  rosterHandle: "Very British Korean",
   category: "Lifestyle",
   instagram: "https://www.instagram.com/verybritishkorean/?hl=en",
   tiktok: "https://www.tiktok.com/@verybritishkorean",
@@ -488,14 +497,17 @@ video: MEDIA.creators.OliveTreeFamily.video,
 
 {
   name: "JNO PWR",
+  rosterName: "JNO",
+  rosterHandle: "JNO_PWNR",
   category: "Finance",
   instagram: "https://www.instagram.com/jno_pwnr/",
   tiktok: "https://www.tiktok.com/@jno_pwnr/",
   location: "UK",
   instagram_followers: 17500,
   tiktok_followers: 41800,
-  profile_image: "/og-image.jpg",
-  photo: "/og-image.jpg",
+  profile_image: MEDIA.creators.JNO.hero,
+  photo: MEDIA.creators.JNO.poster,
+  video: MEDIA.creators.JNO.video,
   tags: ["Finance", "Budgeting", "Lifestyle"],
   bio: "JNO PWR creates honest, practical content that makes personal finance feel approachable. From budgeting and saving to investing, financial literacy and building location-independent income, he breaks down complex topics into simple, actionable advice that empowers his audience to make smarter financial decisions.",
   top_audience: ["UK", "Global"],
@@ -514,6 +526,8 @@ video: MEDIA.creators.OliveTreeFamily.video,
 },
 {
   name: "I'm Hungry In London",
+  rosterName: "Jenna",
+  rosterHandle: "Imhungryinlondon",
   category: "Food",
   instagram: "https://www.instagram.com/imhungryinlondon/",
   tiktok: "https://www.tiktok.com/@imhungryinlondon/",
@@ -541,6 +555,8 @@ video: MEDIA.creators.OliveTreeFamily.video,
 },
 {
   name: "Very British Problems",
+  rosterName: "Rob",
+  rosterHandle: "Very British Problems",
   category: "Lifestyle",
   instagram: "https://www.instagram.com/verybritishproblemsofficial/?hl=en",
   tiktok: "https://www.tiktok.com/@verybritishproblems",
@@ -2372,11 +2388,16 @@ function Roster({ creators, onNav }) {
     const normalizedQuery = query.replace(/[^a-z0-9]/g, "");
     if (query) {
       data = data.filter((c) => {
-        const name = c.name?.toLowerCase() || "";
-        const normalizedName = name.replace(/[^a-z0-9]/g, "");
-        const nameMatch =
-          name.includes(query) || (normalizedQuery && normalizedName.includes(normalizedQuery));
+        const names = [c.name, c.rosterName, c.rosterHandle]
+          .filter(Boolean)
+          .map((value) => String(value).toLowerCase());
+        const nameMatch = names.some((name) => {
+          const normalizedName = name.replace(/[^a-z0-9]/g, "");
+          return name.includes(query) ||
+            (normalizedQuery && normalizedName.includes(normalizedQuery));
+        });
         const handles = [
+          c.rosterHandle,
           getUsernameFromUrl(c.instagram),
           getUsernameFromUrl(c.tiktok),
           getUsernameFromUrl(c.youtube),
@@ -2391,19 +2412,11 @@ function Roster({ creators, onNav }) {
       });
     }
 
-    data = data.sort((a, b) => {
-      const totalA =
-        (cleanNum(a.instagram_followers) || 0) +
-        (cleanNum(a.tiktok_followers) || 0) +
-        (cleanNum(a.youtube_subscribers) || 0) +
-        (cleanNum(a.facebook_followers) || 0);
-      const totalB =
-        (cleanNum(b.instagram_followers) || 0) +
-        (cleanNum(b.tiktok_followers) || 0) +
-        (cleanNum(b.youtube_subscribers) || 0) +
-        (cleanNum(b.facebook_followers) || 0);
-      return totalB - totalA;
-    });
+    data = data.sort((a, b) =>
+      (a.rosterName || a.name || "").localeCompare(b.rosterName || b.name || "", undefined, {
+        sensitivity: "base",
+      })
+    );
 
     return data;
   }, [tab, region, creatorsData, search]);
@@ -2659,7 +2672,9 @@ function CreatorCard({ p }) {
   const total = (ig > 0 ? ig : 0) + (tt > 0 ? tt : 0) + (yts > 0 ? yts : 0);
 
   const profilePath = `/creators/${slugify(p.name || "creator")}`;
+  const rosterName = p.rosterName || p.name;
   const handle =
+    p.rosterHandle ||
     getUsernameFromUrl(p.instagram) ||
     getUsernameFromUrl(p.tiktok) ||
     getUsernameFromUrl(p.youtube);
@@ -2741,9 +2756,13 @@ function CreatorCard({ p }) {
   <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5">
     <div className="rounded-xl px-3 py-2 sm:px-4 sm:py-3 bg-black/60 backdrop-blur">
       <div className="text-white font-extrabold leading-[1.05] text-2xl sm:text-3xl tracking-tight">
-        {p.name}
+        {rosterName}
       </div>
-      {handle && <div className="text-white/90 text-xs sm:text-sm">@{handle}</div>}
+      {handle && (
+        <div className="text-white/90 text-xs sm:text-sm">
+          {handle.startsWith("@") ? handle : `@${handle}`}
+        </div>
+      )}
     </div>
   </div>
 
