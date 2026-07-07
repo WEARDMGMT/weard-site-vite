@@ -510,7 +510,8 @@ video: MEDIA.creators.OliveTreeFamily.video,
   photo: MEDIA.creators.JNO.poster,
   video: MEDIA.creators.JNO.video,
   tags: ["Finance", "Budgeting", "Lifestyle"],
-  bio: "JNO PWR creates honest, practical content that makes personal finance feel approachable. From budgeting and saving to investing, financial literacy and building location-independent income, he breaks down complex topics into simple, actionable advice that empowers his audience to make smarter financial decisions.",
+  bio: "JNO makes money make sense. Through sharp, entertaining budgeting challenges — how far £30 really stretches in London, where the value actually is, what's worth it and what isn't — he's built a young UK audience that trusts him on spending decisions. It's finance without the lecture: practical, funny and genuinely useful, with TikTok-led reach and strong engagement.",
+  seoDescription: "JNO (@JNO_PWNR) — UK finance and budgeting creator represented by WEARD Management. 59K+ engaged audience for fintech, banking, retail and value-brand campaigns.",
   top_audience: ["UK", "Global"],
   audience_insights: {
     top_location: { name: "UK", pct: 36 },
@@ -520,9 +521,11 @@ video: MEDIA.creators.OliveTreeFamily.video,
     age_range: "25-34",
   },
   recent_campaigns: [
-    { brand: "Money, fintech and lifestyle brands", platforms: "Instagram + TikTok", campaign_type: "Personal finance education", result: "Connects brands with audiences looking to improve financial wellbeing", year: "2026" },
-    { brand: "Budgeting, banking and investing tools", platforms: "Short-form social", campaign_type: "Practical product education", result: "Clean, saveable content that positions brands as useful solutions", year: "2026" },
-    { brand: "Travel, productivity and digital nomad brands", platforms: "Instagram + TikTok", campaign_type: "Lifestyle integration", result: "Authentic recommendations backed by real-world examples", year: "2026" },
+    { brand: "Fintech & banking", category: "Featured partnership category", year: "2026" },
+    { brand: "Budgeting & money apps", category: "Featured partnership category", year: "2026" },
+    { brand: "Retail & value brands", category: "Featured partnership category", year: "2026" },
+    { brand: "Value dining (food & drink)", category: "Featured partnership category", year: "2026" },
+    { brand: "Budget travel", category: "Featured partnership category", year: "2026" },
   ],
 },
 {
@@ -540,7 +543,8 @@ video: MEDIA.creators.OliveTreeFamily.video,
   photo: MEDIA.creators.Hungry.poster,
   video: MEDIA.creators.Hungry.video,
   tags: ["Food", "Lifestyle", "Travel"],
-  bio: "Jenna creates engaging content showcasing the very best places to eat, visit and experience. While she's best known for uncovering London's vibrant food scene, her content also extends to travel, lifestyle, unique experiences and destination discovery, inspiring her audience with ideas for where to go, what to do and what not to miss.",
+  bio: "Jenna is London’s go-to guide for where to eat, what to do, and what’s worth discovering next. Through I’m Hungry In London, she curates the city’s best restaurants, new openings, hidden neighbourhood gems, and must-visit experiences into highly trusted recommendations that her audience actively saves, shares, and books. Her content naturally extends into travel, lifestyle, and destination discovery, giving brands access to a warm, high-intent London audience that looks to her for inspiration and genuinely values her recommendations.",
+  seoDescription: "I'm Hungry In London (Jenna) — London food, travel and lifestyle creator represented by WEARD Management. 28K+ engaged UK audience for hospitality, restaurant and destination campaigns.",
   top_audience: ["UK", "Travel"],
   audience_insights: {
     top_location: { name: "UK", pct: 81.4 },
@@ -550,9 +554,10 @@ video: MEDIA.creators.OliveTreeFamily.video,
     age_range: "25-35",
   },
   recent_campaigns: [
-    { brand: "Hospitality, food and lifestyle brands", platforms: "Instagram + TikTok", campaign_type: "Trusted recommendations", result: "Organic discovery content for places to dine, visit and spend", year: "2026" },
-    { brand: "Tourism and destination partners", platforms: "Short-form social", campaign_type: "Destination discovery", result: "Saveable guides that help audiences plan weekends, date nights and city breaks", year: "2026" },
-    { brand: "Retail and experience brands", platforms: "Instagram + TikTok", campaign_type: "Interactive content", result: "Inspires real-world visits, bookings and memorable experiences", year: "2026" },
+    { brand: "Hospitality & restaurants", category: "Featured partnership category", year: "2026" },
+    { brand: "Food & drink brands", category: "Featured partnership category", year: "2026" },
+    { brand: "Tourism & destination marketing", category: "Featured partnership category", year: "2026" },
+    { brand: "Experiences & lifestyle retail", category: "Featured partnership category", year: "2026" },
   ],
 },
 {
@@ -609,6 +614,60 @@ const FOLLOWER_RANGES = [
   { label: "500K-1M", min: 500000, max: 1000000 },
   { label: "1M+", min: 1000000, max: Infinity },
 ];
+
+
+const CREATOR_ARCHETYPE_FILTERS = [
+  "Beauty",
+  "Family",
+  "Fashion",
+  "Finance",
+  "Food",
+  "Lifestyle",
+  "Travel",
+];
+
+const REGION_FILTERS = ["All", "UK", "Asia"];
+
+const SOCIAL_FOLLOWER_FIELDS = [
+  "instagram_followers",
+  "tiktok_followers",
+  "youtube_subscribers",
+  "facebook_followers",
+];
+
+const creatorMatchesArchetype = (creator, archetype) => {
+  if (archetype === "All") return true;
+  const target = archetype.toLowerCase();
+  const categoryMatch = String(creator.category || "").toLowerCase() === target;
+  const tags = Array.isArray(creator.tags) ? creator.tags : [];
+  return categoryMatch || tags.some((tag) => String(tag).toLowerCase() === target);
+};
+
+const creatorMatchesRegion = (creator, selectedRegion) => {
+  if (selectedRegion === "All") return true;
+  const loc = creator.location?.toLowerCase() || "";
+  if (selectedRegion === "UK") return loc.includes("uk") || loc.includes("united kingdom");
+  if (selectedRegion === "Asia") {
+    return (
+      loc.includes("thailand") ||
+      loc.includes("hong kong") ||
+      loc.includes("china") ||
+      loc.includes("asia")
+    );
+  }
+  return true;
+};
+
+const creatorHasIndividualFollowingInRange = (creator, rangeLabel) => {
+  if (rangeLabel === "All") return true;
+  const activeRange = FOLLOWER_RANGES.find((range) => range.label === rangeLabel);
+  if (!activeRange) return true;
+
+  return SOCIAL_FOLLOWER_FIELDS.some((field) => {
+    const count = cleanNum(creator[field]) ?? 0;
+    return count >= activeRange.min && count < activeRange.max;
+  });
+};
 
 // ======= UTIL =======
 const cn = (...c) => c.filter(Boolean).join(" ");
@@ -1326,9 +1385,9 @@ function CreatorProfile({ creator, onBack }) {
       .filter(Boolean)
       .map((handle) => `@${handle}`)
       .join(", ");
-    const description = name
+    const description = creator?.seoDescription || (name
       ? `${name} (${handles || "creator"}) represented by WEARD Management for global influencer campaigns and creator representation.`
-      : "Creator profile on WEARD Management.";
+      : "Creator profile on WEARD Management.");
     const descriptionTag =
       document.querySelector('meta[name="description"]') ||
       document.head.appendChild(document.createElement("meta"));
@@ -1400,7 +1459,11 @@ function CreatorProfile({ creator, onBack }) {
         ? "Sumin"
         : name === "The Olive Tree Family"
           ? "The Olives"
-          : name.split(" ")[0];
+          : name === "I'm Hungry In London"
+            ? "Jenna"
+            : name === "JNO PWR"
+              ? "JNO"
+              : name.split(" ")[0];
   const whyBrandsCollabCopy = {
     "Sophia Pricey": [
       "A sunny, half-British half-Thai voice that celebrates the joy of growing up between two worlds, giving brands a heartfelt place in stories of heritage, family and belonging.",
@@ -1421,6 +1484,18 @@ function CreatorProfile({ creator, onBack }) {
       "A joyful celebration of UK and Korean culture coming together, helping brands tell stories of curiosity, openness and the beauty of cross-cultural connection.",
       "A warm, encouraging community built on genuine kindness and shared discovery, where brand moments feel like recommendations from a trusted friend.",
       "Champions representation and cultural pride in a way that uplifts audiences on both sides of the world, giving brands a meaningful, feel-good role in the K-wave story.",
+    ],
+    Jenna: [
+      "London food authority — a trusted local voice with genuine influence over where her audience eats, drinks and visits.",
+      "High-intent, decision-ready audience — 81% UK and London-concentrated, ideal for driving real footfall and bookings, not just views.",
+      "Premium visual storytelling with a consistent, appetising brand tone that makes venues and products look their best.",
+      "Valuable 25–35 demographic, female-led (69%) — strong fit for hospitality, food & drink, travel and lifestyle launches.",
+    ],
+    JNO: [
+      "Trusted money voice - real credibility on value and spending, the hardest kind of influence to fake.",
+      "TikTok-led reach with high engagement — 41.8K on TikTok driving a 59K+ combined following that watches to the end.",
+      "Purchase-decision framing — his \"is it worth it?\" format naturally showcases value, making him a strong fit for pricing-led and challenger brands.",
+      "Young UK audience — ideal for fintech, banking, budgeting apps, retail and value-driven food, drink and travel.",
     ],
   };
   const whyBrandsCollabTitle = collabName === "The Olives" ? "The Olives" : collabName;
@@ -1638,7 +1713,7 @@ function CreatorProfile({ creator, onBack }) {
             <div className="px-1">
               <div className="text-[11px] uppercase tracking-[0.32em] text-neutral-500">Featured Partnerships</div>
               <div className="mt-4 grid gap-3">
-                {recent_campaigns.slice(0, 3).map((campaign) => (
+                {recent_campaigns.map((campaign) => (
                   <div key={`${campaign.brand}-${campaign.year}`} className="group rounded-2xl border border-black/5 bg-white/60 px-4 py-4 shadow-[0_8px_28px_-20px_rgba(0,0,0,0.6)] backdrop-blur-[2px] transition hover:-translate-y-0.5 hover:shadow-[0_16px_36px_-24px_rgba(0,0,0,0.65)] dark:border-white/10 dark:bg-white/[0.03]">
                     <p className="mt-2 text-base font-semibold">{campaign.brand}</p>
                     <p className="text-xs text-neutral-500">{campaign.category || "Brand partnership"}</p>
@@ -2388,63 +2463,75 @@ function BrandPartnerships({ onNav }) {
 // ======= ROSTER =======
 function Roster({ creators, onNav }) {
   const creatorsData = creators ?? [];
+  const visibleCreators = useMemo(
+    () => creatorsData.filter((creator) => creator.rosterVisible !== false),
+    [creatorsData]
+  );
 
-  // Category tabs
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const [tab, setTab] = useState("All");
-  const tabs = useMemo(() => ["All", ...CATEGORIES.map((c) => c.label)], []);
-
-  // Region filter tabs
   const [region, setRegion] = useState("All");
-  const regions = ["All", "UK", "Asia"];
-
   const [followingRange, setFollowingRange] = useState("All");
-
   const [search, setSearch] = useState("");
+
+  const availableArchetypes = useMemo(() => {
+    return CREATOR_ARCHETYPE_FILTERS.filter((archetype) =>
+      visibleCreators.some(
+        (creator) =>
+          creatorMatchesArchetype(creator, archetype) &&
+          creatorMatchesRegion(creator, region) &&
+          creatorHasIndividualFollowingInRange(creator, followingRange)
+      )
+    );
+  }, [visibleCreators, region, followingRange]);
+
+  const archetypeOptions = useMemo(() => ["All", ...availableArchetypes], [availableArchetypes]);
+
+  const availableRegions = useMemo(() => {
+    return REGION_FILTERS.filter((regionOption) =>
+      visibleCreators.some(
+        (creator) =>
+          creatorMatchesArchetype(creator, tab) &&
+          creatorMatchesRegion(creator, regionOption) &&
+          creatorHasIndividualFollowingInRange(creator, followingRange)
+      )
+    );
+  }, [visibleCreators, tab, followingRange]);
+
+  const availableFollowerRanges = useMemo(() => {
+    return FOLLOWER_RANGES.filter((range) =>
+      visibleCreators.some(
+        (creator) =>
+          creatorMatchesArchetype(creator, tab) &&
+          creatorMatchesRegion(creator, region) &&
+          creatorHasIndividualFollowingInRange(creator, range.label)
+      )
+    );
+  }, [visibleCreators, tab, region]);
+
+  useEffect(() => {
+    if (tab !== "All" && !availableArchetypes.includes(tab)) setTab("All");
+  }, [tab, availableArchetypes]);
+
+  useEffect(() => {
+    if (!availableRegions.includes(region)) setRegion("All");
+  }, [region, availableRegions]);
+
+  useEffect(() => {
+    if (!availableFollowerRanges.some((range) => range.label === followingRange)) {
+      setFollowingRange("All");
+    }
+  }, [followingRange, availableFollowerRanges]);
+
+  const activeFilterCount = [tab !== "All", region !== "All", followingRange !== "All"].filter(Boolean).length;
 
   // Filter creators
   const filtered = useMemo(() => {
-    let data = creatorsData.filter((creator) => creator.rosterVisible !== false);
+    let data = [...visibleCreators];
 
-    // category filter
-    if (tab !== "All") {
-      const t = tab.toLowerCase();
-      data = data.filter((c) => {
-        const catMatch = c.category && c.category.toLowerCase() === t;
-        const tags = Array.isArray(c.tags) ? c.tags : [];
-        const tagMatch = tags.some((tag) => String(tag).toLowerCase() === t);
-        return catMatch || tagMatch;
-      });
-    }
-
-    // region filter
-    if (region !== "All") {
-      data = data.filter((c) => {
-        const loc = c.location?.toLowerCase() || "";
-        if (region === "UK") return loc.includes("uk") || loc.includes("united kingdom");
-        if (region === "Asia")
-          return (
-            loc.includes("thailand") ||
-            loc.includes("hong kong") ||
-            loc.includes("china") ||
-            loc.includes("asia")
-          );
-        return true;
-      });
-    }
-
-    if (followingRange !== "All") {
-      const activeRange = FOLLOWER_RANGES.find((range) => range.label === followingRange);
-      if (activeRange) {
-        data = data.filter((c) => {
-          const totalFollowing =
-            (cleanNum(c.instagram_followers) ?? 0) +
-            (cleanNum(c.tiktok_followers) ?? 0) +
-            (cleanNum(c.youtube_subscribers) ?? 0) +
-            (cleanNum(c.facebook_followers) ?? 0);
-          return totalFollowing >= activeRange.min && totalFollowing < activeRange.max;
-        });
-      }
-    }
+    data = data.filter((creator) => creatorMatchesArchetype(creator, tab));
+    data = data.filter((creator) => creatorMatchesRegion(creator, region));
+    data = data.filter((creator) => creatorHasIndividualFollowingInRange(creator, followingRange));
 
     const query = search.trim().toLowerCase();
     const normalizedQuery = query.replace(/[^a-z0-9]/g, "");
@@ -2481,7 +2568,7 @@ function Roster({ creators, onNav }) {
     );
 
     return data;
-  }, [tab, region, followingRange, creatorsData, search]);
+  }, [tab, region, followingRange, visibleCreators, search]);
 
   return (
     <section className="weard-section max-w-7xl mx-auto px-4 pt-8 sm:pt-10 pb-28 md:pb-20">
@@ -2507,67 +2594,63 @@ function Roster({ creators, onNav }) {
         </div>
       </div>
 
-      {/* Category tabs */}
-      <div
-        className="
-          sticky top-[57px] sm:top-0 z-10
-          -mx-4 px-4 py-3
-          flex flex-wrap gap-2
-          bg-white/90 dark:bg-neutral-950/90
-          backdrop-blur supports-[backdrop-filter]:bg-white/70
-          border-y border-neutral-200 dark:border-neutral-800
-        "
-      >
-        {tabs.map((t) => (
-          <button
-            key={t}
-            onClick={() => setTab(t)}
-            className={cn(
-              "px-4 py-2 rounded-full text-sm border min-h-[44px] focus:outline-none focus:ring-2 focus:ring-indigo-500",
-              tab === t ? cn("text-white", GRADIENT, "border-transparent") : "border-neutral-300 dark:border-neutral-700"
-            )}
-          >
-            {t}
-          </button>
-        ))}
+      <div className="relative z-10 mt-6 rounded-[2rem] border border-neutral-200/80 bg-white/80 p-4 shadow-sm backdrop-blur dark:border-neutral-800/80 dark:bg-neutral-950/70">
+        <button
+          type="button"
+          onClick={() => setFiltersOpen((open) => !open)}
+          className={cn(
+            "flex w-full items-center justify-between gap-3 rounded-2xl border px-4 py-3 text-left text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-indigo-500",
+            filtersOpen || activeFilterCount > 0
+              ? cn("text-white", GRADIENT, "border-transparent")
+              : "border-neutral-300 bg-white text-neutral-800 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
+          )}
+          aria-expanded={filtersOpen}
+          aria-controls="roster-filters"
+        >
+          <span>Filter creators{activeFilterCount > 0 ? ` (${activeFilterCount})` : ""}</span>
+          <span aria-hidden="true">{filtersOpen ? "−" : "+"}</span>
+        </button>
+
+        {filtersOpen && (
+          <div id="roster-filters" className="mt-4 grid gap-5 lg:grid-cols-3">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-neutral-400">Creator Architypes</p>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {archetypeOptions.map((option) => (
+                  <FilterPill key={option} active={tab === option} onClick={() => setTab(option)}>
+                    {option}
+                  </FilterPill>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-neutral-400">Following size</p>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {availableFollowerRanges.map((range) => (
+                  <FilterPill key={range.label} active={followingRange === range.label} onClick={() => setFollowingRange(range.label)}>
+                    {range.label}
+                  </FilterPill>
+                ))}
+              </div>
+              <p className="mt-2 text-xs text-neutral-500 dark:text-neutral-400">Matched against each social platform individually, not combined reach.</p>
+            </div>
+
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-neutral-400">Region</p>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {availableRegions.map((option) => (
+                  <FilterPill key={option} active={region === option} onClick={() => setRegion(option)}>
+                    {option}
+                  </FilterPill>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* Region tabs */}
-      <div className="mt-4 flex flex-wrap gap-2">
-        {regions.map((r) => (
-          <button
-            key={r}
-            onClick={() => setRegion(r)}
-            className={cn(
-              "px-4 py-2 rounded-full text-sm border min-h-[44px] focus:outline-none focus:ring-2 focus:ring-indigo-500",
-              region === r ? cn("text-white", GRADIENT, "border-transparent") : "border-neutral-300 dark:border-neutral-700"
-            )}
-          >
-            {r}
-          </button>
-        ))}
-      </div>
-
-      {/* Following size tabs */}
-      <div className="mt-4">
-        <p className="text-xs font-semibold uppercase tracking-[0.25em] text-neutral-400">Following size</p>
-        <div className="mt-2 flex flex-wrap gap-2">
-          {FOLLOWER_RANGES.map((range) => (
-            <button
-              key={range.label}
-              onClick={() => setFollowingRange(range.label)}
-              className={cn(
-                "px-4 py-2 rounded-full text-sm border min-h-[44px] focus:outline-none focus:ring-2 focus:ring-indigo-500",
-                followingRange === range.label ? cn("text-white", GRADIENT, "border-transparent") : "border-neutral-300 dark:border-neutral-700"
-              )}
-            >
-              {range.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400">Showing {filtered.length} creator{filtered.length === 1 ? "" : "s"}.</p>
+      <p className="relative z-10 mt-3 text-sm text-neutral-500 dark:text-neutral-400">Showing {filtered.length} creator{filtered.length === 1 ? "" : "s"}.</p>
 
       <motion.div layout className="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-3 relative z-10">
   {filtered.map((p) => (
@@ -2607,6 +2690,21 @@ function Roster({ creators, onNav }) {
       )}
       <CreatorDirectory creators={creatorsData} onNav={onNav} />
     </section>
+  );
+}
+
+function FilterPill({ active, onClick, children }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(
+        "min-h-[44px] rounded-full border px-4 py-2 text-sm transition focus:outline-none focus:ring-2 focus:ring-indigo-500",
+        active ? cn("text-white", GRADIENT, "border-transparent") : "border-neutral-300 dark:border-neutral-700"
+      )}
+    >
+      {children}
+    </button>
   );
 }
 
