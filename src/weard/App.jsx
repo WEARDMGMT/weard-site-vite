@@ -361,7 +361,7 @@ const STARTER_CREATORS = [
   youtube: "https://www.youtube.com/channel/UCKDFGIM9V-KRGxlISDODpPQ", 
   email: "sophia@weardmgmt.com",
 location: "Thailand",
-  instagram_followers: 703248,
+  instagram_followers: 696000,
   tiktok_followers: 700100,
   youtube_subscribers: 8390,                       
   profile_image: MEDIA.creators.Sophia.hero,   // static profile image
@@ -390,8 +390,8 @@ location: "Thailand",
   tiktok: "https://www.tiktok.com/@josefine.ku.ud",
   email: "josefine@weardmgmt.com",
   location: "Thailand",
-  instagram_followers: 13800,
-  tiktok_followers: 83300,
+  instagram_followers: 15300,
+  tiktok_followers: 87700,
   profile_image: MEDIA.creators.Josefine.hero, // static profile image
   photo: MEDIA.creators.Josefine.poster,          // still frame before hover
   tags: ["Beauty", "Lifestyle"],
@@ -418,9 +418,9 @@ location: "Thailand",
   youtube: "https://www.youtube.com/@theolivetreefamily", 
   email: "theolivetreefamily@weardmgmt.com",
   location: "UK",
-  instagram_followers: 68388,
-  tiktok_followers: 69800,
-  youtube_subscribers: 7650,                       
+  instagram_followers: 72600,
+  tiktok_followers: 72400,
+  youtube_subscribers: 9890,                       
  profile_image: MEDIA.creators.OliveTreeFamily.hero,
 photo: MEDIA.creators.OliveTreeFamily.poster,
 video: MEDIA.creators.OliveTreeFamily.video,
@@ -447,8 +447,8 @@ video: MEDIA.creators.OliveTreeFamily.video,
   instagram: "https://www.instagram.com/verybritishkorean/?hl=en",
   tiktok: "https://www.tiktok.com/@verybritishkorean",
   location: "UK",
-  instagram_followers: 97283,
-  tiktok_followers: 12700,
+  instagram_followers: 111000,
+  tiktok_followers: 14700,
   profile_image: MEDIA.creators.VeryBritishKorean.hero,
   photo: MEDIA.creators.VeryBritishKorean.poster,
   video: MEDIA.creators.VeryBritishKorean.video,
@@ -503,6 +503,7 @@ video: MEDIA.creators.OliveTreeFamily.video,
   instagram: "https://www.instagram.com/jno_pwnr/",
   tiktok: "https://www.tiktok.com/@jno_pwnr/",
   location: "UK",
+  email: "JNO@weardmgmt.com",
   instagram_followers: 17500,
   tiktok_followers: 41800,
   profile_image: MEDIA.creators.JNO.hero,
@@ -532,6 +533,7 @@ video: MEDIA.creators.OliveTreeFamily.video,
   instagram: "https://www.instagram.com/imhungryinlondon/",
   tiktok: "https://www.tiktok.com/@imhungryinlondon/",
   location: "UK",
+  email: "imhungryinlondon@weardmgmt.com",
   instagram_followers: 14000,
   tiktok_followers: 14400,
   profile_image: MEDIA.creators.Hungry.hero,
@@ -565,8 +567,8 @@ video: MEDIA.creators.OliveTreeFamily.video,
   facebook: "https://www.facebook.com/soverybritish/?locale=en_GB",
   location: "UK",
   instagram_followers: 1242892,
-  tiktok_followers: 234400,
-  youtube_subscribers: 36500,
+  tiktok_followers: 237900,
+  youtube_subscribers: 47300,
   facebook_followers: 1200000,
   profile_image: MEDIA.creators.VeryBritishProblems.hero,
   photo: MEDIA.creators.VeryBritishProblems.poster,
@@ -589,13 +591,23 @@ video: MEDIA.creators.OliveTreeFamily.video,
 ];
 
 const CATEGORIES = [
-  { key: "Fashion", label: "Fashion" },
-  { key: "Family", label: "Family" },
-  { key: "Travel", label: "Travel" },
   { key: "Beauty", label: "Beauty" },
-  { key: "Lifestyle", label: "Lifestyle" },
+  { key: "Family", label: "Family" },
+  { key: "Fashion", label: "Fashion" },
   { key: "Finance", label: "Finance" },
   { key: "Food", label: "Food" },
+  { key: "Lifestyle", label: "Lifestyle" },
+  { key: "Travel", label: "Travel" },
+];
+
+const FOLLOWER_RANGES = [
+  { label: "All", min: 0, max: Infinity },
+  { label: "10-50K", min: 10000, max: 50000 },
+  { label: "50-100K", min: 50000, max: 100000 },
+  { label: "100K-250K", min: 100000, max: 250000 },
+  { label: "250K-500K", min: 250000, max: 500000 },
+  { label: "500K-1M", min: 500000, max: 1000000 },
+  { label: "1M+", min: 1000000, max: Infinity },
 ];
 
 // ======= UTIL =======
@@ -1859,6 +1871,32 @@ function Home({ onExploreRoster, onWorkWithUs, onNav }) {
       <div className="mt-8">
         <BrandPartnerships onNav={onNav} />
       </div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 18, scale: 0.98 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+        viewport={{ once: true, amount: 0.4 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="mx-auto mb-24 mt-2 max-w-5xl px-4 text-center"
+      >
+        <div className="relative overflow-hidden rounded-[2rem] border border-neutral-200 bg-neutral-950 px-6 py-10 text-white shadow-2xl sm:px-10 sm:py-14">
+          <motion.span
+            className="pointer-events-none absolute left-1/2 top-0 h-40 w-40 -translate-x-1/2 rounded-full bg-fuchsia-500/30 blur-3xl"
+            animate={{ scale: [1, 1.25, 1], opacity: [0.55, 0.9, 0.55] }}
+            transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut" }}
+            aria-hidden="true"
+          />
+          <p className="relative text-xs font-semibold uppercase tracking-[0.35em] text-white/55">WEARD energy</p>
+          <motion.p
+            className="relative mt-4 text-3xl font-black uppercase tracking-tight sm:text-5xl"
+            animate={{ y: [0, -4, 0] }}
+            transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+          >
+            Because normal doesn&apos;t trend.
+          </motion.p>
+          <p className="relative mt-3 text-sm text-white/65 sm:text-base">Animation alive, built to move with culture.</p>
+        </div>
+      </motion.div>
     </section>
   );
 }
@@ -2116,6 +2154,14 @@ function About() {
         </div>
       </div>
 
+      <div className="mt-8 rounded-3xl border border-neutral-200/80 bg-white p-6 shadow-sm sm:p-8">
+        <p className="text-xs uppercase tracking-[0.35em] text-neutral-400">About us</p>
+        <h3 className="mt-3 text-3xl font-black uppercase tracking-tight text-neutral-900">Built By WEARD</h3>
+        <p className="mt-3 max-w-3xl text-sm leading-7 text-neutral-600 dark:text-neutral-400">
+          Built by a team that understands creator culture, brand expectations, and the commercial detail needed to turn distinctive voices into campaigns that travel.
+        </p>
+      </div>
+
       <div className="mt-8 grid gap-4 md:grid-cols-3">
         {pillars.map((pillar) => (
           <div key={pillar.label} className="rounded-3xl border border-neutral-200/80 bg-white p-5 shadow-sm">
@@ -2351,6 +2397,8 @@ function Roster({ creators, onNav }) {
   const [region, setRegion] = useState("All");
   const regions = ["All", "UK", "Asia"];
 
+  const [followingRange, setFollowingRange] = useState("All");
+
   const [search, setSearch] = useState("");
 
   // Filter creators
@@ -2382,6 +2430,20 @@ function Roster({ creators, onNav }) {
           );
         return true;
       });
+    }
+
+    if (followingRange !== "All") {
+      const activeRange = FOLLOWER_RANGES.find((range) => range.label === followingRange);
+      if (activeRange) {
+        data = data.filter((c) => {
+          const totalFollowing =
+            (cleanNum(c.instagram_followers) ?? 0) +
+            (cleanNum(c.tiktok_followers) ?? 0) +
+            (cleanNum(c.youtube_subscribers) ?? 0) +
+            (cleanNum(c.facebook_followers) ?? 0);
+          return totalFollowing >= activeRange.min && totalFollowing < activeRange.max;
+        });
+      }
     }
 
     const query = search.trim().toLowerCase();
@@ -2419,7 +2481,7 @@ function Roster({ creators, onNav }) {
     );
 
     return data;
-  }, [tab, region, creatorsData, search]);
+  }, [tab, region, followingRange, creatorsData, search]);
 
   return (
     <section className="weard-section max-w-7xl mx-auto px-4 pt-8 sm:pt-10 pb-28 md:pb-20">
@@ -2484,6 +2546,25 @@ function Roster({ creators, onNav }) {
             {r}
           </button>
         ))}
+      </div>
+
+      {/* Following size tabs */}
+      <div className="mt-4">
+        <p className="text-xs font-semibold uppercase tracking-[0.25em] text-neutral-400">Following size</p>
+        <div className="mt-2 flex flex-wrap gap-2">
+          {FOLLOWER_RANGES.map((range) => (
+            <button
+              key={range.label}
+              onClick={() => setFollowingRange(range.label)}
+              className={cn(
+                "px-4 py-2 rounded-full text-sm border min-h-[44px] focus:outline-none focus:ring-2 focus:ring-indigo-500",
+                followingRange === range.label ? cn("text-white", GRADIENT, "border-transparent") : "border-neutral-300 dark:border-neutral-700"
+              )}
+            >
+              {range.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400">Showing {filtered.length} creator{filtered.length === 1 ? "" : "s"}.</p>
