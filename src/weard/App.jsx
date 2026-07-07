@@ -717,6 +717,7 @@ const PAGE_PATHS = {
   roster: "/roster",
   contact: "/contact",
   privacy: "/privacy",
+  "influencer-marketing-agency": "/influencer-marketing-agency",
   "apac-influencer-marketing": "/apac-influencer-marketing",
   "asia-to-uk-influencer-marketing": "/asia-to-uk-influencer-marketing",
   "diverse-creators": "/diverse-creators",
@@ -972,6 +973,11 @@ useEffect(() => {
         title: "Privacy Policy | WEARD Management",
         description: "WEARD Management privacy policy and data protection information.",
       },
+      "influencer-marketing-agency": {
+        title: "Influencer Marketing Agency Services | WEARD Management",
+        description:
+          "Full-service influencer marketing agency support from strategy and creator discovery to onboarding, campaign management, and reporting.",
+      },
       "apac-influencer-marketing": {
         title: "APAC Influencer Marketing | WEARD Management",
         description:
@@ -1099,6 +1105,11 @@ useEffect(() => {
     />
   </motion.section>
 )}
+          {activePage === "influencer-marketing-agency" && (
+            <motion.section key="influencer-marketing-agency" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
+              <InfluencerMarketingAgencyPage onNav={navigate} />
+            </motion.section>
+          )}
           {activePage === "apac-influencer-marketing" && (
             <motion.section key="apac-influencer-marketing" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
               <MarketingLanding
@@ -1871,18 +1882,28 @@ function Home({ onExploreRoster, onWorkWithUs, onNav }) {
           creators with ambitious brands. We build culturally sharp campaigns that perform across
           the UK and Asia.
         </p>
-        <div className="mt-8 flex flex-wrap gap-3 justify-center">
-          <button
-            onClick={onWorkWithUs}
-            className={`inline-flex items-center gap-2 px-5 py-3 rounded-full text-white hover:-translate-y-0.5 transition focus:outline-none focus:ring-2 focus:ring-indigo-500 ${GRADIENT}`}
-          >
-            Collab with our talent <ArrowRight size={16} />
-          </button>
+        <div className="mt-10 grid w-full max-w-5xl gap-4 text-left sm:gap-5">
           <button
             onClick={onExploreRoster}
-            className="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-neutral-300 dark:border-neutral-700 hover:-translate-y-0.5 transition focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="group rounded-[1.6rem] border border-neutral-200 bg-neutral-950 px-5 py-5 text-white shadow-2xl transition hover:-translate-y-1 hover:border-neutral-950 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:px-7 sm:py-6"
           >
-            Influencer Marketing Agency <ArrowRight size={16} />
+            <span className="block text-[clamp(2.5rem,9vw,6.2rem)] font-black uppercase leading-[0.9] tracking-[-0.08em]">
+              We are talent management
+            </span>
+            <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.22em] text-white/70 group-hover:text-white">
+              View the roster <ArrowRight size={16} />
+            </span>
+          </button>
+          <button
+            onClick={() => onNav?.("influencer-marketing-agency")}
+            className="group rounded-[1.6rem] border border-neutral-200 bg-white px-5 py-5 text-neutral-950 shadow-xl transition hover:-translate-y-1 hover:border-neutral-950 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-neutral-100 sm:px-7 sm:py-6"
+          >
+            <span className="block text-[clamp(2.5rem,9vw,6.2rem)] font-black uppercase leading-[0.9] tracking-[-0.08em]">
+              We are influencer marketing agency
+            </span>
+            <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.22em] text-neutral-500 group-hover:text-neutral-950">
+              Explore campaign services <ArrowRight size={16} />
+            </span>
           </button>
         </div>
       </div>
@@ -2370,6 +2391,99 @@ function WhereWeWork() {
           ))}
         </div>
     </div>
+  );
+}
+
+
+function InfluencerMarketingAgencyPage({ onNav }) {
+  const services = [
+    {
+      title: "Strategy",
+      body: "We define the audience, campaign angle, channel mix, creator brief, budget plan, and success metrics before outreach begins.",
+    },
+    {
+      title: "Discovery",
+      body: "We build creator shortlists around audience fit, culture fit, content quality, brand safety, and commercial relevance.",
+    },
+    {
+      title: "Onboarding",
+      body: "We manage outreach, negotiation, contracts, usage rights, posting requirements, timelines, and creator briefing.",
+    },
+    {
+      title: "Campaign management",
+      body: "We coordinate content production, feedback, approvals, go-live tracking, deliverables, and day-to-day creator comms.",
+    },
+    {
+      title: "Reporting",
+      body: "We turn performance data into clear campaign reporting with results, learnings, and practical recommendations for what to do next.",
+    },
+  ];
+
+  return (
+    <section className="max-w-7xl mx-auto px-4 py-10 sm:py-14">
+      <div className="overflow-hidden rounded-[2rem] border border-neutral-200 bg-neutral-950 text-white shadow-2xl dark:border-neutral-800">
+        <div className="px-5 py-8 sm:px-8 sm:py-12 lg:px-10">
+          <p className="text-xs font-semibold uppercase tracking-[0.38em] text-white/50">
+            Full-service influencer marketing agency
+          </p>
+          <h1 className="mt-5 max-w-5xl text-[clamp(3rem,10vw,8rem)] font-black uppercase leading-[0.88] tracking-[-0.08em]">
+            We build creator campaigns end to end
+          </h1>
+          <p className="mt-6 max-w-3xl text-base leading-7 text-white/70 sm:text-lg">
+            WEARD plans and manages influencer marketing campaigns from strategy through reporting.
+            We help brands find the right creators, onboard them smoothly, manage every moving part,
+            and report back with clear performance learnings.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <button
+              onClick={() => onNav?.("contact")}
+              className={`inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white ${GRADIENT}`}
+            >
+              Start a campaign <ArrowRight size={16} />
+            </button>
+            <button
+              onClick={() => onNav?.("roster")}
+              className="inline-flex items-center gap-2 rounded-full border border-white/25 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-neutral-950"
+            >
+              View our talent <ArrowRight size={16} />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+        {services.map((service, index) => (
+          <article
+            key={service.title}
+            className="rounded-3xl border border-neutral-200 bg-white/90 p-5 shadow-sm dark:border-neutral-800 dark:bg-neutral-950"
+          >
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-neutral-400">
+              0{index + 1}
+            </p>
+            <h2 className="mt-4 text-2xl font-black uppercase tracking-[-0.04em]">{service.title}</h2>
+            <p className="mt-3 text-sm leading-6 text-neutral-600 dark:text-neutral-300">{service.body}</p>
+          </article>
+        ))}
+      </div>
+
+      <div className="mt-8 rounded-3xl border border-neutral-200 bg-white/90 p-5 dark:border-neutral-800 dark:bg-neutral-950 sm:p-8">
+        <p className="text-xs font-semibold uppercase tracking-[0.32em] text-neutral-400">What full campaign management includes</p>
+        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            "Campaign strategy and creative direction",
+            "Creator discovery and shortlist presentation",
+            "Creator outreach, negotiation, and onboarding",
+            "Briefing, approvals, posting schedules, and delivery management",
+            "Live campaign tracking and creator communication",
+            "Post-campaign reporting with insights and recommendations",
+          ].map((item) => (
+            <div key={item} className="rounded-2xl bg-neutral-100 p-4 text-sm font-medium dark:bg-neutral-900">
+              {item}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
