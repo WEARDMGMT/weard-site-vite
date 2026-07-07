@@ -1868,6 +1868,8 @@ function Home({ onExploreRoster, onWorkWithUs, onNav }) {
 
       </div>
 
+      <VibeUpgrade onExploreRoster={onExploreRoster} onWorkWithUs={onWorkWithUs} />
+
       <div className="mt-8">
         <BrandPartnerships onNav={onNav} />
       </div>
@@ -1897,6 +1899,72 @@ function Home({ onExploreRoster, onWorkWithUs, onNav }) {
           <p className="relative mt-3 text-sm text-white/65 sm:text-base">Animation alive, built to move with culture.</p>
         </div>
       </motion.div>
+    </section>
+  );
+}
+
+
+function VibeUpgrade({ onExploreRoster, onWorkWithUs }) {
+  const highlights = [
+    { value: "01", title: "Culture first", body: "Creator ideas built from lived behaviour, not recycled ad formats." },
+    { value: "02", title: "Premium pacing", body: "Sharp strategy, polished delivery, and enough restraint to keep it cool." },
+    { value: "03", title: "Social proof", body: "Campaigns designed to look native in-feed while still feeling elevated." },
+  ];
+
+  return (
+    <section className="weard-vibe mx-auto max-w-7xl px-4 py-20 sm:py-24" aria-labelledby="vibe-title">
+      <div className="weard-vibe__shell">
+        <div className="weard-vibe__aurora" aria-hidden="true" />
+        <div className="weard-vibe__grid" aria-hidden="true" />
+        <div className="relative grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-end">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.35 }}
+            transition={{ duration: 0.55, ease: "easeOut" }}
+          >
+            <p className="weard-vibe__eyebrow">Less agency deck. More cultural signal.</p>
+            <h2 id="vibe-title" className="mt-5 max-w-4xl text-4xl font-black uppercase leading-[0.95] tracking-[-0.06em] text-white sm:text-6xl lg:text-7xl">
+              Stylish creator work that feels expensive, never try-hard.
+            </h2>
+            <p className="mt-6 max-w-2xl text-base leading-8 text-white/68 sm:text-lg">
+              WEARD blends entertainment, taste, and commercial discipline: the polish brands want with the edge audiences actually stop for.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <button type="button" onClick={onWorkWithUs} className="weard-vibe__button weard-vibe__button--primary">
+                Build a campaign <ArrowRight size={16} />
+              </button>
+              <button type="button" onClick={onExploreRoster} className="weard-vibe__button weard-vibe__button--ghost">
+                Meet the roster <Sparkles size={16} />
+              </button>
+            </div>
+          </motion.div>
+
+          <div className="weard-vibe__panel">
+            <div className="weard-vibe__ticker" aria-hidden="true">
+              <span>WE ARE DIFFERENT</span><span>UK ↔ ASIA</span><span>CREATOR LED</span>
+            </div>
+            <div className="grid gap-3">
+              {highlights.map((item, index) => (
+                <motion.article
+                  key={item.title}
+                  className="weard-vibe__card"
+                  initial={{ opacity: 0, x: 18 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, amount: 0.35 }}
+                  transition={{ duration: 0.45, delay: index * 0.08 }}
+                >
+                  <span>{item.value}</span>
+                  <div>
+                    <h3>{item.title}</h3>
+                    <p>{item.body}</p>
+                  </div>
+                </motion.article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }
