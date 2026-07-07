@@ -728,3 +728,185 @@ body.weard-loading {
     animation: none;
   }
 }
+
+.weard-vibe {
+  position: relative;
+}
+
+.weard-vibe__shell {
+  position: relative;
+  overflow: hidden;
+  border-radius: clamp(28px, 4vw, 48px);
+  padding: clamp(26px, 5vw, 64px);
+  background:
+    radial-gradient(680px 420px at 8% 8%, rgba(217, 255, 90, 0.16), transparent 62%),
+    radial-gradient(720px 460px at 92% 18%, rgba(99, 102, 241, 0.22), transparent 64%),
+    radial-gradient(620px 420px at 70% 100%, rgba(236, 72, 153, 0.16), transparent 66%),
+    linear-gradient(135deg, #050508 0%, #0c0c12 48%, #050507 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 32px 90px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  isolation: isolate;
+}
+
+.weard-vibe__aurora,
+.weard-vibe__grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.weard-vibe__aurora {
+  background: conic-gradient(from 120deg at 50% 50%, transparent, rgba(217, 255, 90, 0.16), transparent, rgba(56, 189, 248, 0.14), transparent);
+  filter: blur(34px);
+  opacity: 0.7;
+  animation: vibeAurora 11s ease-in-out infinite alternate;
+  z-index: -2;
+}
+
+.weard-vibe__grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+  background-size: 46px 46px;
+  mask-image: linear-gradient(135deg, rgba(0, 0, 0, 0.95), transparent 72%);
+  opacity: 0.24;
+  z-index: -1;
+}
+
+.weard-vibe__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  padding: 9px 13px;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  backdrop-filter: blur(18px);
+}
+
+.weard-vibe__eyebrow::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #d9ff5a;
+  box-shadow: 0 0 18px rgba(217, 255, 90, 0.8);
+}
+
+.weard-vibe__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: 999px;
+  padding: 13px 18px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+}
+
+.weard-vibe__button:hover {
+  transform: translateY(-2px);
+}
+
+.weard-vibe__button--primary {
+  background: #f6ff7a;
+  color: #070707;
+  box-shadow: 0 18px 40px rgba(217, 255, 90, 0.2);
+}
+
+.weard-vibe__button--ghost {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.055);
+  color: #fff;
+  backdrop-filter: blur(18px);
+}
+
+.weard-vibe__panel {
+  position: relative;
+  overflow: hidden;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  padding: 16px;
+  backdrop-filter: blur(22px);
+}
+
+.weard-vibe__ticker {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 14px;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.44);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.22em;
+}
+
+.weard-vibe__ticker span {
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 7px 10px;
+}
+
+.weard-vibe__card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.045));
+  padding: 18px;
+  color: #fff;
+  transition: transform 0.22s ease, background 0.22s ease;
+}
+
+.weard-vibe__card:hover {
+  transform: translateX(-3px);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.065));
+}
+
+.weard-vibe__card > span {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 16px;
+  background: rgba(217, 255, 90, 0.12);
+  color: #d9ff5a;
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.weard-vibe__card h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 900;
+}
+
+.weard-vibe__card p {
+  margin: 6px 0 0;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.92rem;
+  line-height: 1.65;
+}
+
+@keyframes vibeAurora {
+  from {
+    transform: translate3d(-4%, -2%, 0) rotate(-4deg) scale(1);
+  }
+  to {
+    transform: translate3d(4%, 3%, 0) rotate(6deg) scale(1.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .weard-vibe__aurora {
+    animation: none;
+  }
+}
