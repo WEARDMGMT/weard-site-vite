@@ -628,6 +628,8 @@ const CREATOR_ARCHETYPE_FILTERS = [
 
 const REGION_FILTERS = ["All", "UK", "Asia"];
 
+const SOCIAL_PLATFORM_FILTERS = ["All", "Instagram", "TikTok", "YouTube", "Facebook"];
+
 const SOCIAL_FOLLOWER_FIELDS = [
   "instagram_followers",
   "tiktok_followers",
@@ -667,6 +669,15 @@ const creatorHasIndividualFollowingInRange = (creator, rangeLabel) => {
     const count = cleanNum(creator[field]) ?? 0;
     return count >= activeRange.min && count < activeRange.max;
   });
+};
+
+const creatorMatchesSocialPlatform = (creator, platform) => {
+  if (platform === "All") return true;
+  if (platform === "Instagram") return Boolean(creator.instagram || cleanNum(creator.instagram_followers));
+  if (platform === "TikTok") return Boolean(creator.tiktok || cleanNum(creator.tiktok_followers));
+  if (platform === "YouTube") return Boolean(creator.youtube || cleanNum(creator.youtube_subscribers));
+  if (platform === "Facebook") return Boolean(creator.facebook || cleanNum(creator.facebook_followers));
+  return true;
 };
 
 // ======= UTIL =======
@@ -1865,13 +1876,13 @@ function Home({ onExploreRoster, onWorkWithUs, onNav }) {
             onClick={onWorkWithUs}
             className={`inline-flex items-center gap-2 px-5 py-3 rounded-full text-white hover:-translate-y-0.5 transition focus:outline-none focus:ring-2 focus:ring-indigo-500 ${GRADIENT}`}
           >
-            Start a Campaign Brief <ArrowRight size={16} />
+            Collab with our talent <ArrowRight size={16} />
           </button>
           <button
             onClick={onExploreRoster}
             className="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-neutral-300 dark:border-neutral-700 hover:-translate-y-0.5 transition focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
-            Explore Roster <ArrowRight size={16} />
+            Influencer Marketing Agency <ArrowRight size={16} />
           </button>
         </div>
       </div>
@@ -2472,6 +2483,7 @@ function Roster({ creators, onNav }) {
   const [tab, setTab] = useState("All");
   const [region, setRegion] = useState("All");
   const [followingRange, setFollowingRange] = useState("All");
+  const [socialPlatform, setSocialPlatform] = useState("All");
   const [search, setSearch] = useState("");
 
   const availableArchetypes = useMemo(() => {
@@ -2480,10 +2492,11 @@ function Roster({ creators, onNav }) {
         (creator) =>
           creatorMatchesArchetype(creator, archetype) &&
           creatorMatchesRegion(creator, region) &&
-          creatorHasIndividualFollowingInRange(creator, followingRange)
+          creatorHasIndividualFollowingInRange(creator, followingRange) &&
+          creatorMatchesSocialPlatform(creator, socialPlatform)
       )
     );
-  }, [visibleCreators, region, followingRange]);
+  }, [visibleCreators, region, followingRange, socialPlatform]);
 
   const archetypeOptions = useMemo(() => ["All", ...availableArchetypes], [availableArchetypes]);
 
@@ -2493,10 +2506,11 @@ function Roster({ creators, onNav }) {
         (creator) =>
           creatorMatchesArchetype(creator, tab) &&
           creatorMatchesRegion(creator, regionOption) &&
-          creatorHasIndividualFollowingInRange(creator, followingRange)
+          creatorHasIndividualFollowingInRange(creator, followingRange) &&
+          creatorMatchesSocialPlatform(creator, socialPlatform)
       )
     );
-  }, [visibleCreators, tab, followingRange]);
+  }, [visibleCreators, tab, followingRange, socialPlatform]);
 
   const availableFollowerRanges = useMemo(() => {
     return FOLLOWER_RANGES.filter((range) =>
@@ -2504,10 +2518,11 @@ function Roster({ creators, onNav }) {
         (creator) =>
           creatorMatchesArchetype(creator, tab) &&
           creatorMatchesRegion(creator, region) &&
-          creatorHasIndividualFollowingInRange(creator, range.label)
+          creatorHasIndividualFollowingInRange(creator, range.label) &&
+          creatorMatchesSocialPlatform(creator, socialPlatform)
       )
     );
-  }, [visibleCreators, tab, region]);
+  }, [visibleCreators, tab, region, socialPlatform]);
 
   useEffect(() => {
     if (tab !== "All" && !availableArchetypes.includes(tab)) setTab("All");
@@ -2517,13 +2532,36 @@ function Roster({ creators, onNav }) {
     if (!availableRegions.includes(region)) setRegion("All");
   }, [region, availableRegions]);
 
+  const availableSocialPlatforms = useMemo(() => {
+    return SOCIAL_PLATFORM_FILTERS.filter((platform) =>
+      visibleCreators.some(
+        (creator) =>
+          creatorMatchesArchetype(creator, tab) &&
+          creatorMatchesRegion(creator, region) &&
+          creatorHasIndividualFollowingInRange(creator, followingRange) &&
+          creatorMatchesSocialPlatform(creator, platform)
+      )
+    );
+  }, [visibleCreators, tab, region, followingRange]);
+
   useEffect(() => {
     if (!availableFollowerRanges.some((range) => range.label === followingRange)) {
       setFollowingRange("All");
     }
   }, [followingRange, availableFollowerRanges]);
 
-  const activeFilterCount = [tab !== "All", region !== "All", followingRange !== "All"].filter(Boolean).length;
+  useEffect(() => {
+    if (!availableSocialPlatforms.includes(socialPlatform)) setSocialPlatform("All");
+  }, [socialPlatform, availableSocialPlatforms]);
+
+  const resetFilters = () => {
+    setTab("All");
+    setRegion("All");
+    setFollowingRange("All");
+    setSocialPlatform("All");
+  };
+
+  const activeFilterCount = [tab !== "All", region !== "All", followingRange !== "All", socialPlatform !== "All"].filter(Boolean).length;
 
   // Filter creators
   const filtered = useMemo(() => {
@@ -2532,6 +2570,7 @@ function Roster({ creators, onNav }) {
     data = data.filter((creator) => creatorMatchesArchetype(creator, tab));
     data = data.filter((creator) => creatorMatchesRegion(creator, region));
     data = data.filter((creator) => creatorHasIndividualFollowingInRange(creator, followingRange));
+    data = data.filter((creator) => creatorMatchesSocialPlatform(creator, socialPlatform));
 
     const query = search.trim().toLowerCase();
     const normalizedQuery = query.replace(/[^a-z0-9]/g, "");
@@ -2568,7 +2607,7 @@ function Roster({ creators, onNav }) {
     );
 
     return data;
-  }, [tab, region, followingRange, visibleCreators, search]);
+  }, [tab, region, followingRange, socialPlatform, visibleCreators, search]);
 
   return (
     <section className="weard-section max-w-7xl mx-auto px-4 pt-8 sm:pt-10 pb-28 md:pb-20">
@@ -2612,7 +2651,7 @@ function Roster({ creators, onNav }) {
         </button>
 
         {filtersOpen && (
-          <div id="roster-filters" className="mt-4 grid gap-5 lg:grid-cols-3">
+          <div id="roster-filters" className="mt-4 grid gap-5 lg:grid-cols-4">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.25em] text-neutral-400">Creator Architypes</p>
               <div className="mt-2 flex flex-wrap gap-2">
@@ -2645,6 +2684,28 @@ function Roster({ creators, onNav }) {
                   </FilterPill>
                 ))}
               </div>
+            </div>
+
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-neutral-400">Social platform</p>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {availableSocialPlatforms.map((option) => (
+                  <FilterPill key={option} active={socialPlatform === option} onClick={() => setSocialPlatform(option)}>
+                    {option}
+                  </FilterPill>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex items-end lg:col-span-4">
+              <button
+                type="button"
+                onClick={resetFilters}
+                disabled={activeFilterCount === 0}
+                className="inline-flex items-center justify-center rounded-full border border-neutral-300 px-4 py-2 text-sm font-semibold text-neutral-700 transition hover:-translate-y-0.5 hover:bg-neutral-50 disabled:cursor-not-allowed disabled:opacity-45 disabled:hover:translate-y-0 disabled:hover:bg-transparent dark:border-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-900"
+              >
+                Reset filters
+              </button>
             </div>
           </div>
         )}
