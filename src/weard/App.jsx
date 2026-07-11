@@ -510,8 +510,8 @@ video: MEDIA.creators.OliveTreeFamily.video,
   photo: MEDIA.creators.JNO.poster,
   video: MEDIA.creators.JNO.video,
   tags: ["Finance", "Budgeting", "Lifestyle"],
-  bio: "JNO makes money make sense. Through sharp, entertaining budgeting challenges — how far £30 really stretches in London, where the value actually is, what's worth it and what isn't — he's built a young UK audience that trusts him on spending decisions. It's finance without the lecture: practical, funny and genuinely useful, with TikTok-led reach and strong engagement.",
-  seoDescription: "JNO (@JNO_PWNR) — UK finance and budgeting creator represented by WEARD Management. 59K+ engaged audience for fintech, banking, retail and value-brand campaigns.",
+  bio: "JNO makes money make sense. Through sharp, entertaining budgeting challenges, how far £30 really stretches in London, where the value actually is, what's worth it and what isn't, he's built a young UK audience that trusts him on spending decisions. It's finance without the lecture: practical, funny and genuinely useful, with TikTok-led reach and strong engagement.",
+  seoDescription: "JNO (@JNO_PWNR), UK finance and budgeting creator represented by WEARD Management. 59K+ engaged audience for fintech, banking, retail and value-brand campaigns.",
   top_audience: ["UK", "Global"],
   audience_insights: {
     top_location: { name: "UK", pct: 36 },
@@ -544,7 +544,7 @@ video: MEDIA.creators.OliveTreeFamily.video,
   video: MEDIA.creators.Hungry.video,
   tags: ["Food", "Lifestyle", "Travel"],
   bio: "Jenna is London’s go-to guide for where to eat, what to do, and what’s worth discovering next. Through I’m Hungry In London, she curates the city’s best restaurants, new openings, hidden neighbourhood gems, and must-visit experiences into highly trusted recommendations that her audience actively saves, shares, and books. Her content naturally extends into travel, lifestyle, and destination discovery, giving brands access to a warm, high-intent London audience that looks to her for inspiration and genuinely values her recommendations.",
-  seoDescription: "I'm Hungry In London (Jenna) — London food, travel and lifestyle creator represented by WEARD Management. 28K+ engaged UK audience for hospitality, restaurant and destination campaigns.",
+  seoDescription: "I'm Hungry In London (Jenna), London food, travel and lifestyle creator represented by WEARD Management. 28K+ engaged UK audience for hospitality, restaurant and destination campaigns.",
   top_audience: ["UK", "Travel"],
   audience_insights: {
     top_location: { name: "UK", pct: 81.4 },
@@ -1508,16 +1508,16 @@ function CreatorProfile({ creator, onBack }) {
       "Champions representation and cultural pride in a way that uplifts audiences on both sides of the world, giving brands a meaningful, feel-good role in the K-wave story.",
     ],
     Jenna: [
-      "London food authority — a trusted local voice with genuine influence over where her audience eats, drinks and visits.",
-      "High-intent, decision-ready audience — 81% UK and London-concentrated, ideal for driving real footfall and bookings, not just views.",
+      "London food authority, a trusted local voice with genuine influence over where her audience eats, drinks and visits.",
+      "High-intent, decision-ready audience, 81% UK and London-concentrated, ideal for driving real footfall and bookings, not just views.",
       "Premium visual storytelling with a consistent, appetising brand tone that makes venues and products look their best.",
-      "Valuable 25–35 demographic, female-led (69%) — strong fit for hospitality, food & drink, travel and lifestyle launches.",
+      "Valuable 25 to 35 demographic, female-led (69%), strong fit for hospitality, food & drink, travel and lifestyle launches.",
     ],
     JNO: [
       "Trusted money voice - real credibility on value and spending, the hardest kind of influence to fake.",
-      "TikTok-led reach with high engagement — 41.8K on TikTok driving a 59K+ combined following that watches to the end.",
-      "Purchase-decision framing — his \"is it worth it?\" format naturally showcases value, making him a strong fit for pricing-led and challenger brands.",
-      "Young UK audience — ideal for fintech, banking, budgeting apps, retail and value-driven food, drink and travel.",
+      "TikTok-led reach with high engagement, 41.8K on TikTok driving a 59K+ combined following that watches to the end.",
+      "Purchase-decision framing, his \"is it worth it?\" format naturally showcases value, making him a strong fit for pricing-led and challenger brands.",
+      "Young UK audience, ideal for fintech, banking, budgeting apps, retail and value-driven food, drink and travel.",
     ],
   };
   const whyBrandsCollabTitle = collabName === "The Olives" ? "The Olives" : collabName;
@@ -1899,7 +1899,7 @@ function Home({ onExploreRoster, onWorkWithUs, onNav }) {
             className="group rounded-[1.6rem] border border-neutral-200 bg-white px-5 py-5 text-neutral-950 shadow-xl transition hover:-translate-y-1 hover:border-neutral-950 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-neutral-100 sm:px-7 sm:py-6"
           >
             <span className="block text-[clamp(2.5rem,9vw,6.2rem)] font-black uppercase leading-[0.9] tracking-[-0.08em]">
-              We are influencer marketing agency
+              We are influencer marketing
             </span>
             <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.22em] text-neutral-500 group-hover:text-neutral-950">
               Explore campaign services <ArrowRight size={16} />
@@ -1993,15 +1993,13 @@ function Home({ onExploreRoster, onWorkWithUs, onNav }) {
             transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut" }}
             aria-hidden="true"
           />
-          <p className="relative text-xs font-semibold uppercase tracking-[0.35em] text-white/55">WEARD energy</p>
           <motion.p
-            className="relative mt-4 text-3xl font-black uppercase tracking-tight sm:text-5xl"
+            className="relative mx-auto max-w-3xl text-3xl font-black uppercase tracking-tight sm:text-5xl"
             animate={{ y: [0, -4, 0] }}
             transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
           >
             Because normal doesn&apos;t trend.
           </motion.p>
-          <p className="relative mt-3 text-sm text-white/65 sm:text-base">Animation alive, built to move with culture.</p>
         </div>
       </motion.div>
     </section>
@@ -2217,14 +2215,17 @@ function About() {
     return sum + ig + tt + yt;
   }, 0);
   const pillars = [
-    { label: "Cultural fluency", value: "UK x APAC", note: "Campaigns that feel native to the people watching." },
-    { label: "Creator care", value: "Protected", note: "Negotiation, pricing, image rights, contracts, and payment support." },
-    { label: "Brand fit", value: "Premium", note: "Partnerships chosen for relevance, not just reach." },
+    { label: "01", title: "Creator positioning", note: "We turn a creator's difference into a clear commercial angle, so brands understand the audience, the formats, and the value fast." },
+    { label: "02", title: "Brand partnerships", note: "We source and shape collaborations that feel natural on camera, commercially fair, and useful for both sides." },
+    { label: "03", title: "Campaign delivery", note: "Briefs, pricing, usage, approvals, timelines, reporting, and payment support stay organised from first message to final recap." },
   ];
   const highlights = [
-    { title: "Build the angle", body: "We sharpen the creator story, then match it to brands that make sense." },
-    { title: "Run the deal", body: "Briefs, rates, timelines, usage, approvals, and reporting stay handled." },
-    { title: "Cross the culture gap", body: "We connect Asian and Western audiences with content that lands naturally." },
+    "Creator management",
+    "Influencer strategy",
+    "Brand outreach",
+    "Negotiation and usage",
+    "Campaign production",
+    "Reporting and wrap-up",
   ];
 
   return (
@@ -2261,47 +2262,63 @@ function About() {
         </div>
       </div>
 
-      <div className="mt-8 rounded-3xl border border-neutral-200/80 bg-white p-6 shadow-sm sm:p-8">
-        <p className="text-xs uppercase tracking-[0.35em] text-neutral-400">About us</p>
-        <h3 className="mt-3 text-3xl font-black uppercase tracking-tight text-neutral-900">Built By WEARD</h3>
-        <p className="mt-3 max-w-3xl text-sm leading-7 text-neutral-600 dark:text-neutral-400">
-          Built by a team that understands creator culture, brand expectations, and the commercial detail needed to turn distinctive voices into campaigns that travel.
-        </p>
-      </div>
-
-      <div className="mt-8 grid gap-4 md:grid-cols-3">
-        {pillars.map((pillar) => (
-          <div key={pillar.label} className="rounded-3xl border border-neutral-200/80 bg-white p-5 shadow-sm">
-            <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">{pillar.label}</p>
-            <p className="mt-4 text-3xl font-black uppercase text-neutral-900">{pillar.value}</p>
-            <p className="mt-3 text-sm leading-6 text-neutral-600 dark:text-neutral-400">{pillar.note}</p>
-          </div>
-        ))}
-      </div>
-
-      <div className="mt-8 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-        <div className="rounded-3xl border border-neutral-200/80 bg-white p-6 shadow-sm">
-          <p className="text-xs uppercase tracking-[0.35em] text-neutral-400">What we do</p>
-          <h3 className="mt-4 text-3xl font-black uppercase tracking-tight text-neutral-900">Talent first. Brand ready.</h3>
-          <p className="mt-4 text-sm leading-7 text-neutral-600 dark:text-neutral-400">
-            We handle management, strategy, deal flow, campaign delivery, and reporting so creators can stay creative and brands can move with confidence.
-          </p>
-          <button
-            type="button"
-            onClick={() => window.weardNav?.("contact")}
-            className={`mt-6 inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white ${GRADIENT}`}
-          >
-            Work with WEARD <ArrowRight size={16} />
-          </button>
-        </div>
-        <div className="grid gap-4 sm:grid-cols-3">
-          {highlights.map((item) => (
-            <div key={item.title} className="rounded-3xl border border-neutral-200/80 bg-neutral-50 p-5 shadow-sm transition hover:-translate-y-1 hover:bg-white hover:shadow-lg">
-              <div className="mb-5 h-2 w-14 rounded-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500" />
-              <h4 className="text-lg font-bold text-neutral-900">{item.title}</h4>
-              <p className="mt-3 text-sm leading-6 text-neutral-600 dark:text-neutral-400">{item.body}</p>
+      <div className="mt-8 overflow-hidden rounded-[2rem] border border-neutral-200/80 bg-white shadow-sm">
+        <div className="grid lg:grid-cols-[0.95fr_1.05fr]">
+          <div className="relative overflow-hidden bg-neutral-950 p-6 text-white sm:p-8 lg:p-10">
+            <div className="pointer-events-none absolute -left-20 top-8 h-64 w-64 rounded-full bg-blue-500/25 blur-3xl" aria-hidden="true" />
+            <div className="pointer-events-none absolute bottom-0 right-0 h-56 w-56 rounded-full bg-fuchsia-500/20 blur-3xl" aria-hidden="true" />
+            <div className="relative">
+              <p className="text-xs uppercase tracking-[0.35em] text-white/50">About us</p>
+              <h3 className="mt-4 max-w-xl text-4xl font-black uppercase leading-none tracking-tight sm:text-6xl">
+                Talent first. Brand ready.
+              </h3>
+              <p className="mt-5 max-w-xl text-sm leading-7 text-white/70 sm:text-base">
+                WEARD is an influencer marketing partner for creators who move culture and brands that want work with a point of view. We manage the commercial details without sanding down what makes the talent different.
+              </p>
+              <button
+                type="button"
+                onClick={() => window.weardNav?.("contact")}
+                className={`mt-7 inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white ${GRADIENT}`}
+              >
+                Work with WEARD <ArrowRight size={16} />
+              </button>
             </div>
-          ))}
+          </div>
+          <div className="p-6 sm:p-8 lg:p-10">
+            <p className="text-xs uppercase tracking-[0.35em] text-neutral-400">What we handle</p>
+            <div className="mt-6 grid gap-5">
+              {pillars.map((pillar) => (
+                <div key={pillar.label} className="group grid gap-4 rounded-3xl border border-neutral-200/80 bg-neutral-50 p-5 transition hover:-translate-y-1 hover:bg-white hover:shadow-lg sm:grid-cols-[56px_1fr]">
+                  <div className={`flex h-12 w-12 items-center justify-center rounded-2xl text-sm font-black text-white ${GRADIENT}`}>{pillar.label}</div>
+                  <div>
+                    <h4 className="text-xl font-black uppercase tracking-tight text-neutral-900">{pillar.title}</h4>
+                    <p className="mt-2 text-sm leading-6 text-neutral-600 dark:text-neutral-400">{pillar.note}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className="border-t border-neutral-200/80 bg-neutral-50 px-6 py-5 sm:px-8 lg:px-10">
+          <div className="flex flex-wrap gap-3">
+            {highlights.map((item) => (
+              <span key={item} className="rounded-full border border-neutral-200 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-neutral-600">
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-8 rounded-[2rem] border border-neutral-200/80 bg-white p-6 shadow-sm sm:p-8 lg:p-10">
+        <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+          <div>
+            <p className="text-xs uppercase tracking-[0.35em] text-neutral-400">Why it works</p>
+            <h3 className="mt-4 text-3xl font-black uppercase tracking-tight text-neutral-900">Different, with direction.</h3>
+          </div>
+          <p className="text-sm leading-7 text-neutral-600 dark:text-neutral-400">
+            The best creator campaigns do not feel bolted on. They start with a real audience truth, a brand that belongs in the conversation, and a delivery process that keeps the idea intact.
+          </p>
         </div>
       </div>
 
