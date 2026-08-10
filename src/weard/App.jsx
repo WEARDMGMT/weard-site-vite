@@ -340,6 +340,7 @@ const HERO_LANES = [
 ];
 
 const CREATOR_ALIASES = {
+  "alissa-eady": ["justalissahere", "JustAlissaHere", "Alissa Eady"],
   "sophia-price": ["sophiapriceyyy", "XsophiapriceyX", "xsophiapriceyx", "Sophia Price"],
   "emily-uddman": ["emily.uddman", "Emily Janrawee Uddman"],
   "josefine-uddman": [
@@ -352,6 +353,26 @@ const CREATOR_ALIASES = {
 };
 
 const STARTER_CREATORS = [
+  {
+    name: "Alissa Eady",
+    rosterName: "Alissa",
+    rosterHandle: "justalissahere",
+    category: "Lifestyle",
+    instagram: "https://www.instagram.com/justalissahere/",
+    tiktok: "https://www.tiktok.com/@justalissahere",
+    email: "Alissa@weardmgmt.com",
+    location: "UK",
+    instagram_followers: 53300,
+    tiktok_followers: 20700,
+    profile_image: "/og-image.jpg",
+    photo: "/og-image.jpg",
+    video: "",
+    tags: ["Lifestyle", "Cooking", "Fashion", "Beauty", "Model"],
+    bio: "Alissa Eady is a UK-based lifestyle and cooking creator who invites her audience into the moments that make everyday life feel considered, comforting and full of personality. From approachable recipes and relaxed kitchen content to beauty routines, fashion finds and candid slices of daily life, Alissa creates polished yet relatable storytelling that feels like a recommendation from a trusted friend. Her warm on-camera presence and modelling background give brands a versatile partner for food, home, lifestyle, beauty and fashion campaigns.",
+    seoDescription: "Alissa Eady (@justalissahere), UK lifestyle and cooking creator represented by WEARD Management for food, home, beauty and fashion campaigns.",
+    top_audience: ["UK", "Global"],
+    recent_campaigns: [],
+  },
   {
      name: "Sophia Price",
   rosterName: "Sophia",
