@@ -223,6 +223,11 @@ const fileToBase64 = (file) =>
 // Media placeholders (swap with real assets when ready)
 const MEDIA = {
   creators: {
+    Alissa: {
+      hero: "/media/creators/Alissa/alissa-hero.jpg",
+      poster: "/media/creators/Alissa/alissa-poster.jpg",
+      video: "/media/creators/Alissa/alissa-hover.mp4",
+    },
     Sophia: {
       hero:   "/media/creators/sophia/sophia-hero.jpg",   // main profile image
       poster: "/media/creators/sophia/sophia-poster.jpg", // still frame before hover
@@ -364,13 +369,68 @@ const STARTER_CREATORS = [
     location: "UK",
     instagram_followers: 53300,
     tiktok_followers: 20700,
-    profile_image: "/og-image.jpg",
-    photo: "/og-image.jpg",
-    video: "",
+    profile_image: MEDIA.creators.Alissa.hero,
+    photo: MEDIA.creators.Alissa.poster,
+    video: MEDIA.creators.Alissa.video,
     tags: ["Lifestyle", "Cooking", "Fashion", "Beauty", "Model"],
     bio: "Alissa Eady is a UK-based lifestyle and cooking creator who invites her audience into the moments that make everyday life feel considered, comforting and full of personality. From approachable recipes and relaxed kitchen content to beauty routines, fashion finds and candid slices of daily life, Alissa creates polished yet relatable storytelling that feels like a recommendation from a trusted friend. Her warm on-camera presence and modelling background give brands a versatile partner for food, home, lifestyle, beauty and fashion campaigns.",
     seoDescription: "Alissa Eady (@justalissahere), UK lifestyle and cooking creator represented by WEARD Management for food, home, beauty and fashion campaigns.",
-    top_audience: ["UK", "Global"],
+    interests: ["Music", "Food", "Cooking", "Arts & crafts", "Nature", "Fashion", "Photography", "Figure skating", "Singing"],
+    top_audience: ["United States", "United Kingdom", "Thailand"],
+    audience_insights: {
+      top_location: { name: "United States", pct: 22.1 },
+      second_location: { name: "United Kingdom", pct: 19.7 },
+      gender_split: { female: 47.2, male: 52.8 },
+      top_city: "Bangkok",
+      age_range: "25-34",
+      top_countries: [
+        { name: "United States", pct: 22.1 },
+        { name: "United Kingdom", pct: 19.7 },
+        { name: "Thailand", pct: 12.1 },
+        { name: "Australia", pct: 5.2 },
+        { name: "Canada", pct: 3.1 },
+      ],
+      top_cities: [
+        { name: "Bangkok", pct: 19.6 },
+        { name: "London", pct: 10.9 },
+        { name: "Sydney", pct: 5.6 },
+        { name: "Singapore", pct: 5.1 },
+        { name: "New York", pct: 4.7 },
+      ],
+    },
+    performance_insights: [
+      {
+        platform: "Instagram",
+        period: "20 Jun - 20 Jul 2026",
+        metrics: [
+          { label: "Reel views", value: "335K" },
+          { label: "Accounts reached", value: "159K" },
+          { label: "Likes", value: "29K" },
+          { label: "Shares", value: "1.8K" },
+          { label: "Saves", value: "1.8K" },
+          { label: "Reels", value: "15" },
+        ],
+      },
+      {
+        platform: "TikTok",
+        period: "13-19 Jul 2026",
+        metrics: [
+          { label: "Post views", value: "12.7K" },
+          { label: "Profile views", value: "227" },
+          { label: "Likes", value: "615" },
+          { label: "Comments", value: "2" },
+          { label: "Shares", value: "38" },
+        ],
+      },
+    ],
+    collaboration_groups: [
+      { category: "Featured", brands: ["Timberland", "OMODA"] },
+      { category: "Beauty", brands: ["House of Hur", "Rare Beauty", "Carolina Herrera", "Giorgio Armani", "Flower Knows", "GlossyBox"] },
+      { category: "Hair", brands: ["Insert Name Here", "Beauty Works"] },
+      { category: "Clothing · Asia", brands: ["IDK Beachwear", "Blackbough Swim", "Machnhaduong", "Sweet Chilling", "SMFK", "Taglioni", "WISKII Activewear"] },
+      { category: "Clothing · UK", brands: ["Oh Polly", "House of CB", "EGO", "Public Desire", "Cernucci", "Studiio96", "Nasty Gal", "Boohoo", "PrettyLittleThing", "Caramella"] },
+      { category: "Fitness", brands: ["Gym King", "NA-KD Apparel"] },
+    ],
     recent_campaigns: [],
   },
   {
@@ -1477,6 +1537,9 @@ function CreatorProfile({ creator, onBack }) {
     top_audience = [],
     recent_campaigns = [],
     audience_insights,
+    performance_insights = [],
+    interests = [],
+    collaboration_groups = [],
   } = creator;
 
   const [mediaRef, mediaInView] = useInView({ rootMargin: "200px" });
@@ -1715,6 +1778,43 @@ function CreatorProfile({ creator, onBack }) {
             <p>{bio}</p>
           </div>
 
+          {interests.length > 0 && (
+            <div className="mt-6">
+              <p className="text-[11px] uppercase tracking-[0.24em] text-neutral-500">Interests & Expertise</p>
+              <ul className="mt-3 flex flex-wrap gap-2" aria-label={`${name}'s interests and expertise`}>
+                {interests.map((interest) => (
+                  <li key={interest} className="rounded-full border border-neutral-200 bg-white/60 px-3 py-1.5 text-sm dark:border-neutral-800 dark:bg-white/[0.03]">
+                    {interest}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {performance_insights.length > 0 && (
+            <div className="mt-9">
+              <div className="text-[11px] uppercase tracking-[0.32em] text-neutral-500">Recent Performance</div>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                {performance_insights.map((report) => (
+                  <div key={`${report.platform}-${report.period}`} className="rounded-2xl border border-black/5 bg-white/60 p-5 shadow-[0_8px_28px_-20px_rgba(0,0,0,0.6)] dark:border-white/10 dark:bg-white/[0.03]">
+                    <div className="flex items-baseline justify-between gap-3">
+                      <p className="text-base font-semibold">{report.platform}</p>
+                      <p className="text-xs text-neutral-500">{report.period}</p>
+                    </div>
+                    <dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-3">
+                      {report.metrics.map((metric) => (
+                        <div key={metric.label}>
+                          <dd className="text-xl font-semibold tracking-tight">{metric.value}</dd>
+                          <dt className="text-[11px] leading-tight text-neutral-500">{metric.label}</dt>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           <div className="mt-10 grid gap-8 md:grid-cols-2">
             <div className="px-1">
               <div className="text-[11px] uppercase tracking-[0.32em] text-neutral-500">Audience Insights</div>
@@ -1738,12 +1838,12 @@ function CreatorProfile({ creator, onBack }) {
                 </div>
               </div>
               <div className="mt-6">
-                <p className="text-[11px] uppercase tracking-[0.2em] text-neutral-500">Secondary Audiences</p>
+                <p className="text-[11px] uppercase tracking-[0.2em] text-neutral-500">Top Markets</p>
                 <div className="mt-2 space-y-2">
-                {[
+                {(audience_insights?.top_countries || [
                   { name: audience_insights?.second_location?.name || top_audience[1] || "APAC", pct: audience_insights?.second_location?.pct || 0 },
                   { name: top_audience[2] || "Global", pct: Math.max(0, 100 - ((audience_insights?.top_location?.pct || 0) + (audience_insights?.second_location?.pct || 0))) },
-                ].map((market) => (
+                ]).map((market) => (
                   <div key={market.name} className="flex items-center justify-between rounded-full bg-neutral-100/80 dark:bg-neutral-900/70 px-4 py-2 text-sm">
                     <span>{market.name}</span>
                     <span className="font-medium">{Number(market.pct).toFixed(2).replace(/\.00$/, "")}%</span>
@@ -1755,7 +1855,23 @@ function CreatorProfile({ creator, onBack }) {
 
             <div className="px-1">
               <div className="text-[11px] uppercase tracking-[0.32em] text-neutral-500">Featured Partnerships</div>
-              <div className="mt-4 grid gap-3">
+              {collaboration_groups.length > 0 && (
+                <div className="mt-4 space-y-5">
+                  {collaboration_groups.map((group) => (
+                    <div key={group.category}>
+                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-500">{group.category}</p>
+                      <ul className="mt-2 flex flex-wrap gap-2" aria-label={`${group.category} collaborations`}>
+                        {group.brands.map((brand) => (
+                          <li key={brand} className="rounded-full border border-black/5 bg-white/60 px-3 py-1.5 text-sm shadow-sm dark:border-white/10 dark:bg-white/[0.03]">
+                            {brand}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <div className={`${collaboration_groups.length > 0 ? "mt-5" : "mt-4"} grid gap-3`}>
                 {recent_campaigns.map((campaign) => (
                   <div key={`${campaign.brand}-${campaign.year}`} className="group rounded-2xl border border-black/5 bg-white/60 px-4 py-4 shadow-[0_8px_28px_-20px_rgba(0,0,0,0.6)] backdrop-blur-[2px] transition hover:-translate-y-0.5 hover:shadow-[0_16px_36px_-24px_rgba(0,0,0,0.65)] dark:border-white/10 dark:bg-white/[0.03]">
                     <p className="mt-2 text-base font-semibold">{campaign.brand}</p>
