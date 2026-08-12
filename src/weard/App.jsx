@@ -1025,7 +1025,7 @@ useEffect(() => {
       asaincy: {
         title: "ASAINCY | The Agency Division of WEARD",
         description:
-          "Meet ASAINCY, WEARD's culture-first agency division for bold creative strategy, creator campaigns, and brands moving between Asia and the world.",
+          "Meet ASAINCY, WEARD's culture-first agency division helping APAC brands launch, establish, and grow in the UK through creative strategy and creator campaigns.",
       },
       "influencer-marketing-agency": {
         title: "Influencer Marketing Agency Services | WEARD Management",
@@ -1953,16 +1953,16 @@ function DiscoveryLanding({ eyebrow, title, intro, points = [], links = [], onNa
 // ======= HOME =======
 function Asaincy({ onNav }) {
   const services = [
-    ["01", "Market entry", "Positioning, audience intelligence, and a practical route into the UK and Western markets."],
+    ["01", "Market growth", "Positioning, audience intelligence, and a practical plan for your brand's next stage in the UK."],
     ["02", "Culture-first creative", "Big campaign ideas translated through local behaviour—not just local language."],
-    ["03", "Creator ecosystems", "The right voices, communities, and cultural connectors to make your arrival matter."],
-    ["04", "Launch & learn", "Production, activation, reporting, and rapid iteration from one cross-border team."],
+    ["03", "Creator ecosystems", "The right voices, communities, and cultural connectors to build deeper local relevance."],
+    ["04", "Activate & optimise", "Production, activation, reporting, and rapid iteration from one cross-border team."],
   ];
   const steps = [
-    ["01 / Decode", "We find the cultural opening", "Category codes, competitors, communities, and the tensions your brand can credibly own."],
-    ["02 / Reframe", "We make the story travel", "A Western-market proposition with the original spark of the brand still fully intact."],
-    ["03 / Enter", "We create the moment", "Creators, content, partnerships, and launch experiences designed to earn attention."],
-    ["04 / Scale", "We turn traction into growth", "Live insight, optimisation, and a repeatable playbook for the next market."],
+    ["01 / Understand", "We find the cultural opportunity", "Category codes, competitors, communities, and the space your brand can credibly own."],
+    ["02 / Position", "We make the story connect", "A UK proposition that keeps the original spark of the brand fully intact."],
+    ["03 / Activate", "We create sustained attention", "Creators, content, partnerships, and experiences built to deepen recognition and demand."],
+    ["04 / Scale", "We turn momentum into growth", "Live insight, optimisation, and a repeatable playbook for continued growth."],
   ];
 
   return (
@@ -1978,25 +1978,25 @@ function Asaincy({ onNav }) {
           className="asaincy-hero"
         >
           <div className="asaincy-kicker"><span /> The cross-cultural agency by WEARD</div>
-          <div className="asaincy-hero__stamp" aria-hidden="true">APAC<br />→ UK</div>
+          <div className="asaincy-hero__stamp" aria-hidden="true">APAC<br />↔ UK</div>
           <h1 className="asaincy-wordmark" aria-label="ASAINCY">ASAINCY<span>.</span></h1>
           <div className="asaincy-intro">
-            <p>Born in Asia.<br />Built to travel.</p>
+            <p>Born in Asia.<br />Built for what’s next.</p>
             <div className="asaincy-intro__copy">
-              <p>We help ambitious APAC brands enter the UK and Western markets with the cultural intelligence, creator networks, and creative firepower to feel instantly relevant.</p>
-              <button type="button" onClick={() => onNav("contact")}>Plan your market entry <ArrowRight size={16} /></button>
+              <p>We help ambitious APAC brands launch, establish, and grow in the UK with the cultural intelligence, creator networks, and creative firepower to build lasting relevance.</p>
+              <button type="button" onClick={() => onNav("contact")}>Plan your next stage <ArrowRight size={16} /></button>
             </div>
           </div>
         </motion.div>
 
         <div className="asaincy-ticker" aria-label="Our markets and capabilities">
-          <div><span>APAC BRANDS</span><i>✦</i><span>UK CULTURE</span><i>✦</i><span>WESTERN MARKETS</span><i>✦</i><span>CREATOR POWER</span><i>✦</i><span>LOCAL RELEVANCE</span></div>
+          <div><span>APAC AMBITION</span><i>✦</i><span>UK CULTURE</span><i>✦</i><span>WESTERN GROWTH</span><i>✦</i><span>CREATOR POWER</span><i>✦</i><span>LOCAL RELEVANCE</span></div>
         </div>
 
         <div className="asaincy-statement">
           <p className="asaincy-section-label">The opportunity</p>
-          <h2>Your brand does not need to become <em>less Asian</em> to win in the West.</h2>
-          <p>It needs the right translation of meaning, momentum, and culture. ASAINCY is the bridge between what makes APAC brands magnetic at home and what makes audiences care abroad.</p>
+          <h2>Growth starts with what already makes your brand <em>matter.</em></h2>
+          <p>Whether you are preparing to launch or building on an established UK presence, ASAINCY turns the strength of your brand into local relevance, demand, and lasting momentum.</p>
         </div>
 
         <div className="asaincy-services">
@@ -2018,8 +2018,8 @@ function Asaincy({ onNav }) {
 
         <div className="asaincy-playbook">
           <div className="asaincy-playbook__head">
-            <p className="asaincy-section-label">The market-entry playbook</p>
-            <h2>From unknown<br />to unmissable.</h2>
+            <p className="asaincy-section-label">The growth playbook</p>
+            <h2>Build relevance.<br />Keep growing.</h2>
           </div>
           <div className="asaincy-steps">
             {steps.map(([eyebrow, title, body], index) => (
@@ -2031,13 +2031,13 @@ function Asaincy({ onNav }) {
         </div>
 
         <div className="asaincy-proof">
-          <p>Strategy in London.</p><p>Insight across APAC.</p><p>Ideas without borders.</p>
+          <p>APAC perspective.</p><p>UK market fluency.</p><p>Ideas built for growth.</p>
         </div>
 
         <div className="asaincy-cta">
-          <div><span>Ready when you are</span><p>Make your<br />arrival felt.</p></div>
+          <div><span>Ready when you are</span><p>Turn momentum<br />into lasting growth.</p></div>
           <button type="button" onClick={() => onNav("contact")}>
-            Enter the West with us <ArrowRight size={18} />
+            Grow with us <ArrowRight size={18} />
           </button>
         </div>
       </div>
