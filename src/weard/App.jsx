@@ -1126,7 +1126,7 @@ useEffect(() => {
           )}
           {activePage === "about" && (
             <motion.section key="about" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
-              <About />
+              <About onNav={navigate} />
             </motion.section>
           )}
           {activePage === "roster" && (
@@ -1953,9 +1953,16 @@ function DiscoveryLanding({ eyebrow, title, intro, points = [], links = [], onNa
 // ======= HOME =======
 function Asaincy({ onNav }) {
   const services = [
-    ["01", "Culture-led strategy", "Ideas built from real audience behaviour, not recycled trend reports."],
-    ["02", "Creator campaigns", "Casting, creative direction, production, and delivery in one sharp workflow."],
-    ["03", "Asia ↔ world", "Local nuance and global ambition for brands crossing cultures and borders."],
+    ["01", "Market entry", "Positioning, audience intelligence, and a practical route into the UK and Western markets."],
+    ["02", "Culture-first creative", "Big campaign ideas translated through local behaviour—not just local language."],
+    ["03", "Creator ecosystems", "The right voices, communities, and cultural connectors to make your arrival matter."],
+    ["04", "Launch & learn", "Production, activation, reporting, and rapid iteration from one cross-border team."],
+  ];
+  const steps = [
+    ["01 / Decode", "We find the cultural opening", "Category codes, competitors, communities, and the tensions your brand can credibly own."],
+    ["02 / Reframe", "We make the story travel", "A Western-market proposition with the original spark of the brand still fully intact."],
+    ["03 / Enter", "We create the moment", "Creators, content, partnerships, and launch experiences designed to earn attention."],
+    ["04 / Scale", "We turn traction into growth", "Live insight, optimisation, and a repeatable playbook for the next market."],
   ];
 
   return (
@@ -1970,13 +1977,27 @@ function Asaincy({ onNav }) {
           transition={{ duration: 0.7 }}
           className="asaincy-hero"
         >
-          <div className="asaincy-kicker"><span /> The agency division of WEARD</div>
-          <h1 className="asaincy-wordmark" aria-label="ASAINCY">ASAINCY</h1>
+          <div className="asaincy-kicker"><span /> The cross-cultural agency by WEARD</div>
+          <div className="asaincy-hero__stamp" aria-hidden="true">APAC<br />→ UK</div>
+          <h1 className="asaincy-wordmark" aria-label="ASAINCY">ASAINCY<span>.</span></h1>
           <div className="asaincy-intro">
-            <p>Creative built between cultures.</p>
-            <p className="asaincy-intro__copy">We connect Asian cultural intelligence with global creative energy—making campaigns people choose to care about.</p>
+            <p>Born in Asia.<br />Built to travel.</p>
+            <div className="asaincy-intro__copy">
+              <p>We help ambitious APAC brands enter the UK and Western markets with the cultural intelligence, creator networks, and creative firepower to feel instantly relevant.</p>
+              <button type="button" onClick={() => onNav("contact")}>Plan your market entry <ArrowRight size={16} /></button>
+            </div>
           </div>
         </motion.div>
+
+        <div className="asaincy-ticker" aria-label="Our markets and capabilities">
+          <div><span>APAC BRANDS</span><i>✦</i><span>UK CULTURE</span><i>✦</i><span>WESTERN MARKETS</span><i>✦</i><span>CREATOR POWER</span><i>✦</i><span>LOCAL RELEVANCE</span></div>
+        </div>
+
+        <div className="asaincy-statement">
+          <p className="asaincy-section-label">The opportunity</p>
+          <h2>Your brand does not need to become <em>less Asian</em> to win in the West.</h2>
+          <p>It needs the right translation of meaning, momentum, and culture. ASAINCY is the bridge between what makes APAC brands magnetic at home and what makes audiences care abroad.</p>
+        </div>
 
         <div className="asaincy-services">
           {services.map(([number, title, body], index) => (
@@ -1995,10 +2016,28 @@ function Asaincy({ onNav }) {
           ))}
         </div>
 
+        <div className="asaincy-playbook">
+          <div className="asaincy-playbook__head">
+            <p className="asaincy-section-label">The market-entry playbook</p>
+            <h2>From unknown<br />to unmissable.</h2>
+          </div>
+          <div className="asaincy-steps">
+            {steps.map(([eyebrow, title, body], index) => (
+              <motion.article key={eyebrow} initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: index * .08 }}>
+                <span>{eyebrow}</span><h3>{title}</h3><p>{body}</p>
+              </motion.article>
+            ))}
+          </div>
+        </div>
+
+        <div className="asaincy-proof">
+          <p>Strategy in London.</p><p>Insight across APAC.</p><p>Ideas without borders.</p>
+        </div>
+
         <div className="asaincy-cta">
-          <p>Different markets.<br />One magnetic idea.</p>
+          <div><span>Ready when you are</span><p>Make your<br />arrival felt.</p></div>
           <button type="button" onClick={() => onNav("contact")}>
-            Build something different <ArrowRight size={18} />
+            Enter the West with us <ArrowRight size={18} />
           </button>
         </div>
       </div>
@@ -2382,7 +2421,7 @@ function RotatingWords({ words }) {
 }
 
 // ======= ABOUT =======
-function About() {
+function About({ onNav }) {
   const totalCreators = STARTER_CREATORS.length;
   const totalFollowing = STARTER_CREATORS.reduce((sum, creator) => {
     const ig = cleanNum(creator.instagram_followers) ?? 0;
@@ -2405,8 +2444,24 @@ function About() {
   ];
 
   return (
-    <section className="max-w-7xl mx-auto px-4 py-12">
-      <PronunciationReveal />
+    <section className="about-page">
+      <div className="about-shell">
+        <div className="about-hero">
+          <div className="about-hero__eyebrow"><span>Independent. International. Intentionally different.</span><span>Est. in London</span></div>
+          <h1>We build careers<br />that <em>move culture.</em></h1>
+          <div className="about-hero__footer">
+            <p>WEARD is a cross-border talent and creative company representing the people shaping what the world watches, wears, tastes, and talks about.</p>
+            <div className="about-hero__mark">W<span>✦</span></div>
+          </div>
+        </div>
+
+        <div className="about-manifesto">
+          <p className="about-label">Our point of view</p>
+          <h2>Difference isn't a niche.<br />It's the advantage.</h2>
+          <div><p>We started WEARD because the most interesting creators were too often being flattened into categories. We saw something else: global stories, commercially powerful communities, and talent with the ability to shift culture.</p><p>So we built the management company they deserved—personal enough to know every ambition, international enough to unlock new markets, and sharp enough to turn influence into an enduring career.</p></div>
+        </div>
+
+        <PronunciationReveal />
 
       <div className="relative mt-10 overflow-hidden rounded-[2rem] border border-neutral-200/80 bg-neutral-950 p-6 text-white shadow-xl sm:p-8 lg:p-10">
         <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-indigo-500/30 blur-3xl" aria-hidden="true" />
@@ -2453,7 +2508,7 @@ function About() {
               </p>
               <button
                 type="button"
-                onClick={() => window.weardNav?.("contact")}
+                onClick={() => onNav?.("contact")}
                 className={`mt-7 inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white ${GRADIENT}`}
               >
                 Work with WEARD <ArrowRight size={16} />
@@ -2511,6 +2566,11 @@ function About() {
         </div>
       </div>
       <WhereWeWork />
+      <div className="about-final">
+        <p>For talent with somewhere to go.<br />For brands with something to say.</p>
+        <button type="button" onClick={() => onNav?.("contact")}>Let's make it matter <ArrowRight size={18} /></button>
+      </div>
+      </div>
     </section>
   );
 }
