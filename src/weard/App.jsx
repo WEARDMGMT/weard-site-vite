@@ -765,6 +765,7 @@ const PAGE_PATHS = {
   roster: "/roster",
   contact: "/contact",
   privacy: "/privacy",
+  asaincy: "/asaincy",
   "influencer-marketing-agency": "/influencer-marketing-agency",
   "apac-influencer-marketing": "/apac-influencer-marketing",
   "asia-to-uk-influencer-marketing": "/asia-to-uk-influencer-marketing",
@@ -1021,6 +1022,11 @@ useEffect(() => {
         title: "Privacy Policy | WEARD Management",
         description: "WEARD Management privacy policy and data protection information.",
       },
+      asaincy: {
+        title: "ASAINCY | The Agency Division of WEARD",
+        description:
+          "Meet ASAINCY, WEARD's culture-first agency division for bold creative strategy, creator campaigns, and brands moving between Asia and the world.",
+      },
       "influencer-marketing-agency": {
         title: "Influencer Marketing Agency Services | WEARD Management",
         description:
@@ -1131,6 +1137,11 @@ useEffect(() => {
           {activePage === "contact" && (
             <motion.section key="contact" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
               <Contact />
+            </motion.section>
+          )}
+          {activePage === "asaincy" && (
+            <motion.section key="asaincy" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              <Asaincy onNav={navigate} />
             </motion.section>
           )}
                     {activePage === "privacy" && (
@@ -1303,6 +1314,7 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
     { k: "home", label: "Home" },
     { k: "about", label: "About Us" },
     { k: "roster", label: "Roster" },
+    { k: "asaincy", label: "ASAINCY" },
     { k: "contact", label: "Contact" },
   ];
 
@@ -1939,6 +1951,61 @@ function DiscoveryLanding({ eyebrow, title, intro, points = [], links = [], onNa
 }
 
 // ======= HOME =======
+function Asaincy({ onNav }) {
+  const services = [
+    ["01", "Culture-led strategy", "Ideas built from real audience behaviour, not recycled trend reports."],
+    ["02", "Creator campaigns", "Casting, creative direction, production, and delivery in one sharp workflow."],
+    ["03", "Asia ↔ world", "Local nuance and global ambition for brands crossing cultures and borders."],
+  ];
+
+  return (
+    <section className="asaincy-page">
+      <div className="asaincy-noise" aria-hidden="true" />
+      <div className="asaincy-orb asaincy-orb--one" aria-hidden="true" />
+      <div className="asaincy-orb asaincy-orb--two" aria-hidden="true" />
+      <div className="asaincy-shell">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          className="asaincy-hero"
+        >
+          <div className="asaincy-kicker"><span /> The agency division of WEARD</div>
+          <h1 className="asaincy-wordmark" aria-label="ASAINCY">ASAINCY</h1>
+          <div className="asaincy-intro">
+            <p>Creative built between cultures.</p>
+            <p className="asaincy-intro__copy">We connect Asian cultural intelligence with global creative energy—making campaigns people choose to care about.</p>
+          </div>
+        </motion.div>
+
+        <div className="asaincy-services">
+          {services.map(([number, title, body], index) => (
+            <motion.article
+              key={number}
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ delay: index * 0.1 }}
+              className="asaincy-service"
+            >
+              <span>{number}</span>
+              <h2>{title}</h2>
+              <p>{body}</p>
+            </motion.article>
+          ))}
+        </div>
+
+        <div className="asaincy-cta">
+          <p>Different markets.<br />One magnetic idea.</p>
+          <button type="button" onClick={() => onNav("contact")}>
+            Build something different <ArrowRight size={18} />
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Home({ onExploreRoster, onWorkWithUs, onNav }) {
   const visibleCreators = STARTER_CREATORS.filter((creator) => creator.rosterVisible !== false);
   const totalReach = visibleCreators.reduce((sum, creator) => {
@@ -1974,6 +2041,11 @@ function Home({ onExploreRoster, onWorkWithUs, onNav }) {
   return (
     <section className="relative overflow-hidden">
       <HeroCarousel onExploreRoster={onExploreRoster} onWorkWithUs={onWorkWithUs} />
+      <button type="button" onClick={() => onNav?.("asaincy")} className="asaincy-home-banner">
+        <span className="asaincy-home-banner__eyebrow">Introducing our agency division</span>
+        <span className="asaincy-home-banner__name">ASAINCY</span>
+        <span className="asaincy-home-banner__link">Enter the agency <ArrowRight size={16} /></span>
+      </button>
       <div className="min-h-[82vh] sm:min-h-screen flex flex-col items-center justify-center px-4 text-center">
         <p className="rounded-full border border-neutral-200/70 bg-white/80 px-4 py-1 text-[11px] font-semibold uppercase tracking-[0.3em] text-neutral-500 shadow-sm">
           Influencer management for ambitious brands
