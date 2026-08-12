@@ -2080,11 +2080,6 @@ function Home({ onExploreRoster, onWorkWithUs, onNav }) {
   return (
     <section className="relative overflow-hidden">
       <HeroCarousel onExploreRoster={onExploreRoster} onWorkWithUs={onWorkWithUs} />
-      <button type="button" onClick={() => onNav?.("asaincy")} className="asaincy-home-banner">
-        <span className="asaincy-home-banner__eyebrow">Introducing our agency division</span>
-        <span className="asaincy-home-banner__name">ASAINCY</span>
-        <span className="asaincy-home-banner__link">Enter the agency <ArrowRight size={16} /></span>
-      </button>
       <div className="min-h-[82vh] sm:min-h-screen flex flex-col items-center justify-center px-4 text-center">
         <p className="rounded-full border border-neutral-200/70 bg-white/80 px-4 py-1 text-[11px] font-semibold uppercase tracking-[0.3em] text-neutral-500 shadow-sm">
           Influencer management for ambitious brands
@@ -2109,17 +2104,30 @@ function Home({ onExploreRoster, onWorkWithUs, onNav }) {
               View the roster <ArrowRight size={16} />
             </span>
           </button>
-          <button
-            onClick={() => onNav?.("influencer-marketing-agency")}
-            className="group rounded-[1.6rem] border border-neutral-200 bg-white px-5 py-5 text-neutral-950 shadow-xl transition hover:-translate-y-1 hover:border-neutral-950 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-neutral-100 sm:px-7 sm:py-6"
-          >
+          <article className="group relative overflow-hidden rounded-[1.6rem] border border-neutral-200 bg-white px-5 py-5 text-neutral-950 shadow-xl transition hover:-translate-y-1 hover:border-neutral-950 dark:bg-neutral-100 sm:px-7 sm:py-6">
+            <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.28em] text-neutral-400">
+              Introducing our agency division · <span className="text-indigo-600">ASAINCY</span>
+            </p>
             <span className="block text-[clamp(2.5rem,9vw,6.2rem)] font-black uppercase leading-[0.9] tracking-[-0.08em]">
               We are influencer marketing
             </span>
-            <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.22em] text-neutral-500 group-hover:text-neutral-950">
-              Explore campaign services <ArrowRight size={16} />
-            </span>
-          </button>
+            <div className="mt-5 flex flex-wrap gap-x-6 gap-y-3">
+              <button
+                type="button"
+                onClick={() => onNav?.("influencer-marketing-agency")}
+                className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-neutral-500 transition hover:text-neutral-950 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+              >
+                Explore campaign services <ArrowRight size={16} />
+              </button>
+              <button
+                type="button"
+                onClick={() => onNav?.("asaincy")}
+                className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-indigo-600 transition hover:text-indigo-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+              >
+                Enter ASAINCY <ArrowRight size={16} />
+              </button>
+            </div>
+          </article>
         </div>
       </div>
       <div className="max-w-7xl mx-auto px-4 pb-24 md:pb-16 space-y-10">
@@ -2461,8 +2469,6 @@ function About({ onNav }) {
           <div><p>We started WEARD because the most interesting creators were too often being flattened into categories. We saw something else: global stories, commercially powerful communities, and talent with the ability to shift culture.</p><p>So we built the management company they deserved—personal enough to know every ambition, international enough to unlock new markets, and sharp enough to turn influence into an enduring career.</p></div>
         </div>
 
-        <PronunciationReveal />
-
       <div className="relative mt-10 overflow-hidden rounded-[2rem] border border-neutral-200/80 bg-neutral-950 p-6 text-white shadow-xl sm:p-8 lg:p-10">
         <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-indigo-500/30 blur-3xl" aria-hidden="true" />
         <div className="pointer-events-none absolute -bottom-28 left-10 h-72 w-72 rounded-full bg-fuchsia-500/20 blur-3xl" aria-hidden="true" />
@@ -2570,27 +2576,6 @@ function About({ onNav }) {
         <p>For talent with somewhere to go.<br />For brands with something to say.</p>
         <button type="button" onClick={() => onNav?.("contact")}>Let's make it matter <ArrowRight size={18} /></button>
       </div>
-      </div>
-    </section>
-  );
-}
-
-function PronunciationReveal() {
-  return (
-    <section
-      className="relative overflow-hidden rounded-3xl border border-neutral-800/90 bg-neutral-950 px-4 py-16 sm:px-8"
-      aria-label="Pronunciation of WEARD"
-    >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(99,102,241,0.35),transparent_55%)]" aria-hidden="true" />
-      <div className="relative mx-auto max-w-4xl text-center text-white">
-        <div className="mt-5">
-          <p className="text-4xl font-extrabold tracking-[0.16em] text-white/35 sm:text-6xl">
-            WEARD
-          </p>
-          <p className="mt-5 whitespace-nowrap text-2xl font-black uppercase tracking-[0.22em] text-white sm:text-6xl sm:tracking-[0.35em]">
-            WE · ARE · DIFFERENT
-          </p>
-        </div>
       </div>
     </section>
   );
