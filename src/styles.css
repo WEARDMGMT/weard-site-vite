@@ -651,10 +651,7 @@ body.weard-loading {
   transition: transform .3s cubic-bezier(.22, 1, .36, 1), box-shadow .3s ease;
 }
 
-.weard-logo-carousel__footer { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 16px 4px 2px; color: rgba(255,255,255,.6); font-size: .75rem; }
-.weard-logo-carousel__footer p span { color: #bef264; font-weight: 900; letter-spacing: .12em; }
-.weard-logo-carousel__footer button { display: inline-flex; flex-shrink: 0; align-items: center; gap: 6px; border: 1px solid rgba(255,255,255,.18); border-radius: 999px; padding: 8px 12px; color: #fff; font-weight: 700; transition: background .2s, border-color .2s; }
-.weard-logo-carousel__footer button:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.35); }
+.weard-logo-carousel__footer { padding: 16px 4px 2px; color: rgba(255,255,255,.6); font-size: .75rem; }
 
 .nav-new-badge { position: absolute; left: 50%; top: -16px; transform: translateX(-50%) rotate(-4deg); border-radius: 999px; background: #bef264; padding: 1px 6px; color: #171717; font-size: 8px; font-weight: 900; line-height: 1.35; letter-spacing: .12em; text-transform: uppercase; box-shadow: 0 4px 12px rgba(101,163,13,.22); }
 
@@ -662,8 +659,6 @@ body.weard-loading {
   .weard-logo-carousel { padding: 9px; }
   .weard-logo-stage { padding-block: 13px; }
   .weard-logo-carousel__card { width: 136px; padding-inline: 18px; }
-  .weard-logo-carousel__footer { align-items: flex-end; }
-  .weard-logo-carousel__footer p { max-width: 13rem; }
 }
 
 .weard-logo-carousel__logo {
@@ -702,10 +697,6 @@ body.weard-loading {
 
 @media (prefers-reduced-motion: reduce) {
   .weard-logo-carousel__track { animation-play-state: paused; }
-}
-
-.weard-logo-carousel--paused .weard-logo-carousel__track {
-  animation-play-state: paused;
 }
 
 @keyframes weard-logo-scroll {
