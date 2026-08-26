@@ -3506,54 +3506,57 @@ function HoverMedia({ photo, video, alt }) {
 
 // ======= LOGO CAROUSEL =======
 function LogoCarousel({ rowHeight = 76 }) {
-  const LOGOS_PER_VIEW = 5;
-  const [startIndex, setStartIndex] = useState(0);
-  const visibleLogos = Array.from(
-    { length: LOGOS_PER_VIEW },
-    (_, index) => BRAND_LOGOS[(startIndex + index) % BRAND_LOGOS.length]
+  const [paused, setPaused] = useState(false);
+  const uniqueLogos = useMemo(
+    () => BRAND_LOGOS.filter(
+      (logo, index, logos) => logos.findIndex(({ alt }) => alt.toLowerCase() === logo.alt.toLowerCase()) === index
+    ),
+    []
   );
-  const revealNext = () => setStartIndex((current) => (current + LOGOS_PER_VIEW) % BRAND_LOGOS.length);
 
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
-    const timer = window.setInterval(revealNext, 5000);
-    return () => window.clearInterval(timer);
-  }, []);
+  const logoSet = (duplicate = false) => (
+    <div className="weard-logo-carousel__set" aria-hidden={duplicate || undefined}>
+      {uniqueLogos.map((logo) => (
+        <div
+          key={`${duplicate ? "duplicate-" : ""}${logo.src}`}
+          className="weard-logo-carousel__card"
+          aria-label={duplicate ? undefined : logo.alt}
+        >
+          <img
+            src={logo.src}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            className="weard-logo-carousel__logo"
+            onError={(event) => {
+              event.currentTarget.style.display = "none";
+              const fallback = event.currentTarget.nextElementSibling;
+              if (fallback) fallback.hidden = false;
+            }}
+          />
+          <span className="weard-logo-carousel__fallback" hidden>
+            {logo.alt}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
 
   return (
     <div
-      className="weard-logo-carousel"
+      className={`weard-logo-carousel${paused ? " weard-logo-carousel--paused" : ""}`}
       style={{ "--logo-row-height": `${rowHeight}px` }}
     >
-      <div className="weard-logo-stage" aria-label="A rotating selection of brand partners" aria-live="polite">
-                {visibleLogos.map((logo, index) => (
-                  <div
-                    key={logo.src}
-                    className={`weard-logo-carousel__card weard-logo-carousel__card--${index}`}
-                    style={{ "--logo-delay": `${Math.min(index, 12) * 35}ms` }}
-                  >
-                    <img
-                      src={logo.src}
-                      alt={logo.alt}
-                      loading="lazy"
-                      decoding="async"
-                      className="weard-logo-carousel__logo"
-                      onError={(event) => {
-                        event.currentTarget.style.display = "none";
-                        const fallback = event.currentTarget.nextElementSibling;
-                        if (fallback) fallback.hidden = false;
-                      }}
-                    />
-                    <span className="weard-logo-carousel__fallback" hidden>
-                      {logo.alt}
-                    </span>
-                  </div>
-                ))}
+      <div className="weard-logo-stage" aria-label="Brand partners">
+        <div className="weard-logo-carousel__track">
+          {logoSet()}
+          {logoSet(true)}
+        </div>
       </div>
       <div className="weard-logo-carousel__footer">
-        <p><span>{String(startIndex + 1).padStart(2, "0")}</span> / {String(BRAND_LOGOS.length).padStart(2, "0")} &nbsp; A new constellation every few seconds.</p>
-        <button type="button" onClick={revealNext}>
-          Shuffle the wall <ArrowRight size={14} aria-hidden="true" />
+        <p><span>{String(uniqueLogos.length).padStart(2, "0")}</span> collaborations, one growing network.</p>
+        <button type="button" onClick={() => setPaused((current) => !current)} aria-pressed={paused}>
+          {paused ? "Resume logos" : "Pause logos"}
         </button>
       </div>
     </div>

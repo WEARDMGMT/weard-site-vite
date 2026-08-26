@@ -592,82 +592,55 @@ body.weard-loading {
 
 .weard-logo-stage {
   position: relative;
-  min-height: 330px;
   overflow: hidden;
+  padding: 18px 0;
   border-radius: 19px;
   background:
-    radial-gradient(circle at 50% 45%, rgba(167, 139, 250, .18), transparent 28%),
-    radial-gradient(circle at 15% 18%, rgba(125, 211, 252, .11), transparent 24%),
-    linear-gradient(135deg, rgba(255,255,255,.045), rgba(255,255,255,.012));
+    linear-gradient(90deg, rgba(125, 211, 252, .06), rgba(167, 139, 250, .1), rgba(190, 242, 100, .05)),
+    rgba(255,255,255,.02);
 }
 
-.weard-logo-stage::before {
+.weard-logo-stage::before,
+.weard-logo-stage::after {
   content: "";
   position: absolute;
-  inset: 50% auto auto 50%;
-  width: 390px;
-  aspect-ratio: 1;
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  box-shadow: 0 0 0 70px rgba(255,255,255,.025), 0 0 0 140px rgba(255,255,255,.015);
-}
-
-.weard-logo-carousel__edges {
-  position: absolute;
-  inset: 0;
+  z-index: 2;
+  inset-block: 0;
+  width: clamp(30px, 7vw, 100px);
   pointer-events: none;
 }
 
-.weard-logo-carousel__edge {
-  position: absolute;
-  inset-y: 0;
-  width: 80px;
-  z-index: 2;
-}
-
-.weard-logo-carousel__edge--left {
+.weard-logo-stage::before {
   left: 0;
-  background: linear-gradient(90deg, rgba(3, 3, 3, 0.95), rgba(3, 3, 3, 0));
+  background: linear-gradient(90deg, #101014, transparent);
 }
 
-.weard-logo-carousel__edge--right {
+.weard-logo-stage::after {
   right: 0;
-  background: linear-gradient(-90deg, rgba(3, 3, 3, 0.95), rgba(3, 3, 3, 0));
-}
-
-.weard-logo-carousel__lanes {
-  position: relative;
-  display: grid;
-  gap: 16px;
-  z-index: 1;
-}
-
-.weard-logo-carousel__lane {
-  position: relative;
-  overflow: hidden;
-  border-radius: 18px;
-  padding: 12px 0;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(12px);
+  background: linear-gradient(-90deg, #101014, transparent);
 }
 
 .weard-logo-carousel__track {
-  display: inline-flex;
+  display: flex;
+  width: max-content;
   align-items: center;
-  gap: 28px;
-  height: var(--logo-row-height, 56px);
-  padding-inline: 10px;
-  animation: weard-logo-scroll var(--duration, 40s) linear infinite;
+  animation: weard-logo-scroll 55s linear infinite;
   will-change: transform;
-  transform: translate3d(0, 0, 0);
+}
+
+.weard-logo-carousel__set {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 18px;
+  padding-right: 18px;
 }
 
 .weard-logo-carousel__card {
   height: var(--logo-row-height, 56px);
-  min-width: clamp(136px, 15vw, 190px);
-  padding: 10px 22px;
+  width: clamp(145px, 15vw, 190px);
+  flex-shrink: 0;
+  padding: 12px 24px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -675,53 +648,20 @@ body.weard-loading {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(245, 247, 255, 0.94));
   border: 1px solid rgba(15, 15, 15, 0.08);
   box-shadow: 0 10px 22px rgba(0, 0, 0, 0.14);
-  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s ease;
-  animation: logo-card-in .45s both;
-  animation-delay: var(--logo-delay, 0ms);
+  transition: transform .3s cubic-bezier(.22, 1, .36, 1), box-shadow .3s ease;
 }
-
-.weard-logo-stage .weard-logo-carousel__card {
-  position: absolute;
-  width: clamp(126px, 19vw, 205px);
-  min-width: 0;
-  z-index: 1;
-  animation: logo-constellation-in .45s both;
-  animation-delay: var(--logo-delay, 0ms);
-}
-
-.weard-logo-stage .weard-logo-carousel__card--0 {
-  left: 50%;
-  top: 50%;
-  width: clamp(170px, 24vw, 250px);
-  height: calc(var(--logo-row-height, 56px) * 1.2);
-  transform: translate(-50%, -50%);
-  z-index: 2;
-  box-shadow: 0 20px 50px rgba(0,0,0,.32), 0 0 35px rgba(167,139,250,.15);
-}
-.weard-logo-stage .weard-logo-carousel__card--1 { left: 5%; top: 9%; transform: rotate(-4deg); }
-.weard-logo-stage .weard-logo-carousel__card--2 { right: 4%; top: 13%; transform: rotate(3deg); }
-.weard-logo-stage .weard-logo-carousel__card--3 { left: 9%; bottom: 9%; transform: rotate(3deg); }
-.weard-logo-stage .weard-logo-carousel__card--4 { right: 7%; bottom: 8%; transform: rotate(-4deg); }
 
 .weard-logo-carousel__footer { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 16px 4px 2px; color: rgba(255,255,255,.6); font-size: .75rem; }
 .weard-logo-carousel__footer p span { color: #bef264; font-weight: 900; letter-spacing: .12em; }
 .weard-logo-carousel__footer button { display: inline-flex; flex-shrink: 0; align-items: center; gap: 6px; border: 1px solid rgba(255,255,255,.18); border-radius: 999px; padding: 8px 12px; color: #fff; font-weight: 700; transition: background .2s, border-color .2s; }
 .weard-logo-carousel__footer button:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.35); }
 
-@keyframes logo-card-in { from { opacity: 0; transform: translateY(8px); } }
-@keyframes logo-constellation-in { from { opacity: 0; filter: blur(6px); } }
-
 .nav-new-badge { position: absolute; left: 50%; top: -16px; transform: translateX(-50%) rotate(-4deg); border-radius: 999px; background: #bef264; padding: 1px 6px; color: #171717; font-size: 8px; font-weight: 900; line-height: 1.35; letter-spacing: .12em; text-transform: uppercase; box-shadow: 0 4px 12px rgba(101,163,13,.22); }
 
 @media (max-width: 639px) {
-  .weard-logo-stage { min-height: 390px; }
-  .weard-logo-stage::before { width: 260px; }
-  .weard-logo-stage .weard-logo-carousel__card { width: 120px; padding-inline: 14px; }
-  .weard-logo-stage .weard-logo-carousel__card--0 { width: 180px; }
-  .weard-logo-stage .weard-logo-carousel__card--1 { left: 3%; top: 8%; }
-  .weard-logo-stage .weard-logo-carousel__card--2 { right: 3%; top: 9%; }
-  .weard-logo-stage .weard-logo-carousel__card--3 { left: 4%; bottom: 8%; }
-  .weard-logo-stage .weard-logo-carousel__card--4 { right: 4%; bottom: 7%; }
+  .weard-logo-carousel { padding: 9px; }
+  .weard-logo-stage { padding-block: 13px; }
+  .weard-logo-carousel__card { width: 136px; padding-inline: 18px; }
   .weard-logo-carousel__footer { align-items: flex-end; }
   .weard-logo-carousel__footer p { max-width: 13rem; }
 }
@@ -755,26 +695,13 @@ body.weard-loading {
   padding-inline: 4px;
 }
 
-.weard-logo-carousel:hover .weard-logo-carousel__track {
-  animation-play-state: running;
-}
-
 .weard-logo-carousel__card:hover {
-  transform: translateY(-5px) rotate(0);
+  transform: translateY(-3px);
   box-shadow: 0 18px 28px rgba(56, 189, 248, 0.2);
 }
 
-.weard-logo-stage .weard-logo-carousel__card:hover {
-  box-shadow: 0 18px 32px rgba(56, 189, 248, 0.22);
-}
-.weard-logo-stage .weard-logo-carousel__card--0:hover { transform: translate(-50%, -50%); }
-.weard-logo-stage .weard-logo-carousel__card--1:hover { transform: rotate(-4deg); }
-.weard-logo-stage .weard-logo-carousel__card--2:hover { transform: rotate(3deg); }
-.weard-logo-stage .weard-logo-carousel__card--3:hover { transform: rotate(3deg); }
-.weard-logo-stage .weard-logo-carousel__card--4:hover { transform: rotate(-4deg); }
-
 @media (prefers-reduced-motion: reduce) {
-  .weard-logo-carousel__card { animation: none; }
+  .weard-logo-carousel__track { animation-play-state: paused; }
 }
 
 .weard-logo-carousel--paused .weard-logo-carousel__track {
