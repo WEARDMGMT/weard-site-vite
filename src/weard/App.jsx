@@ -1326,7 +1326,7 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
     { k: "home", label: "Home" },
     { k: "about", label: "About Us" },
     { k: "roster", label: "Roster" },
-    { k: "asaincy", label: "ASAINCY" },
+    { k: "asaincy", label: "Asiansy", isNew: true },
     { k: "contact", label: "Contact" },
   ];
 
@@ -1384,7 +1384,10 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
               )}
               aria-current={active === n.k ? "page" : undefined}
             >
-              {n.label}
+              <span className="relative inline-flex items-center">
+                {n.isNew && <span className="nav-new-badge" aria-label="New">New</span>}
+                {n.label}
+              </span>
             </button>
           ))}
           <button
@@ -1448,7 +1451,10 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
     : "bg-neutral-800 text-neutral-200 border-white/15 hover:bg-neutral-800/80"
                   )}
                 >
-                  {n.label}
+                  <span className="flex items-center justify-between gap-3">
+                    {n.label}
+                    {n.isNew && <span className="rounded-full bg-lime-300 px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.16em] text-neutral-950">New</span>}
+                  </span>
                 </button>
               ))}
               <button
@@ -1991,7 +1997,7 @@ function Asaincy({ onNav }) {
         >
           <div className="asaincy-kicker"><span /> The cross-cultural agency by WEARD</div>
           <div className="asaincy-hero__stamp" aria-hidden="true">APAC<br />↔ UK</div>
-          <h1 className="asaincy-wordmark" aria-label="ASAINCY">ASAINCY<span>.</span></h1>
+          <h1 className="asaincy-wordmark" aria-label="Asiansy">Asiansy<span>.</span></h1>
           <div className="asaincy-intro">
             <p>Born in Asia.<br />Built for what’s next.</p>
             <div className="asaincy-intro__copy">
@@ -2008,7 +2014,7 @@ function Asaincy({ onNav }) {
         <div className="asaincy-statement">
           <p className="asaincy-section-label">The opportunity</p>
           <h2>Growth starts with what already makes your brand <em>matter.</em></h2>
-          <p>Whether you are preparing to launch or building on an established UK presence, ASAINCY turns the strength of your brand into local relevance, demand, and lasting momentum.</p>
+          <p>Whether you are preparing to launch or building on an established UK presence, Asiansy turns the strength of your brand into local relevance, demand, and lasting momentum.</p>
         </div>
 
         <div className="asaincy-services">
@@ -3511,46 +3517,20 @@ function HoverMedia({ photo, video, alt }) {
 }
 
 // ======= LOGO CAROUSEL =======
-const LOGO_LANES = [
-  { id: "orbit-a", speedSec: 42, direction: "normal", offset: 0 },
-];
-
-function LogoCarousel({ rowHeight = 56 }) {
-  const [carouselRef, carouselInView] = useInView({ rootMargin: "200px" });
+function LogoCarousel({ rowHeight = 76 }) {
+  const [showAll, setShowAll] = useState(false);
+  const visibleLogos = showAll ? BRAND_LOGOS : BRAND_LOGOS.slice(0, 12);
   return (
     <div
-      ref={carouselRef}
-      className={cn(
-        "weard-logo-carousel",
-        !carouselInView && "weard-logo-carousel--paused"
-      )}
+      className="weard-logo-carousel"
       style={{ "--logo-row-height": `${rowHeight}px` }}
     >
-      <div className="weard-logo-carousel__edges" aria-hidden="true">
-        <div className="weard-logo-carousel__edge weard-logo-carousel__edge--left" />
-        <div className="weard-logo-carousel__edge weard-logo-carousel__edge--right" />
-      </div>
-      <div className="weard-logo-carousel__lanes">
-        {LOGO_LANES.map((lane, laneIndex) => {
-          const start = lane.offset % BRAND_LOGOS.length;
-          const ordered = [
-            ...BRAND_LOGOS.slice(start),
-            ...BRAND_LOGOS.slice(0, start),
-          ];
-          const rows = [...ordered, ...ordered];
-          return (
-            <div className="weard-logo-carousel__lane" key={lane.id}>
-              <div
-                className="weard-logo-carousel__track"
-                style={{
-                  "--duration": `${lane.speedSec}s`,
-                  animationDirection: lane.direction,
-                }}
-              >
-                {rows.map((logo, index) => (
+      <div className="weard-logo-grid" aria-label="Selected brand partners">
+                {visibleLogos.map((logo, index) => (
                   <div
-                    key={`${logo.src}-${laneIndex}-${index}`}
+                    key={logo.src}
                     className="weard-logo-carousel__card"
+                    style={{ "--logo-delay": `${Math.min(index, 12) * 35}ms` }}
                   >
                     <img
                       src={logo.src}
@@ -3569,10 +3549,12 @@ function LogoCarousel({ rowHeight = 56 }) {
                     </span>
                   </div>
                 ))}
-              </div>
-            </div>
-          );
-        })}
+      </div>
+      <div className="weard-logo-carousel__footer">
+        <p>{BRAND_LOGOS.length} brands across beauty, lifestyle, food, finance and entertainment.</p>
+        <button type="button" onClick={() => setShowAll((value) => !value)} aria-expanded={showAll}>
+          {showAll ? "Show selected" : `View all ${BRAND_LOGOS.length}`} <ArrowRight size={14} aria-hidden="true" />
+        </button>
       </div>
     </div>
   );
