@@ -593,7 +593,8 @@ body.weard-loading {
 .weard-logo-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  gap: 12px;
+  padding: 8px;
 }
 
 .weard-logo-carousel__edges {
@@ -663,6 +664,11 @@ body.weard-loading {
   animation-delay: var(--logo-delay, 0ms);
 }
 
+.weard-logo-carousel__card:nth-child(4n + 1) { transform: rotate(-1.2deg) translateY(3px); }
+.weard-logo-carousel__card:nth-child(4n + 2) { transform: rotate(.8deg) translateY(-2px); }
+.weard-logo-carousel__card:nth-child(4n + 3) { transform: rotate(.5deg) translateY(4px); }
+.weard-logo-carousel__card:nth-child(4n) { transform: rotate(-.7deg) translateY(-3px); }
+
 .weard-logo-carousel__footer { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 16px 4px 2px; color: rgba(255,255,255,.6); font-size: .75rem; }
 .weard-logo-carousel__footer button { display: inline-flex; flex-shrink: 0; align-items: center; gap: 6px; border: 1px solid rgba(255,255,255,.18); border-radius: 999px; padding: 8px 12px; color: #fff; font-weight: 700; transition: background .2s, border-color .2s; }
 .weard-logo-carousel__footer button:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.35); }
@@ -708,8 +714,12 @@ body.weard-loading {
 }
 
 .weard-logo-carousel__card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-5px) rotate(0);
   box-shadow: 0 18px 28px rgba(56, 189, 248, 0.2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .weard-logo-carousel__card { animation: none; }
 }
 
 .weard-logo-carousel--paused .weard-logo-carousel__track {

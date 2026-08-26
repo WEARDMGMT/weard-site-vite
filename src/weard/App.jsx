@@ -1011,7 +1011,7 @@ useEffect(() => {
     if (activePage === "profile") return;
     const meta = {
       home: {
-        title: "WEARD Management | Talent Management Agency",
+        title: "WEARD Management | Creator Talent & Influencer Marketing",
         description:
           "WEARD Management (WEARDMGMT) represents diverse creators and delivers cross-border influencer marketing campaigns for brands across Asia, APAC, Thailand, Hong Kong, and the UK.",
       },
@@ -2474,7 +2474,7 @@ function About({ onNav }) {
       <div className="about-shell">
         <div className="about-hero">
           <div className="about-hero__eyebrow"><span>Independent. International. Intentionally different.</span><span>Est. in London</span></div>
-          <h1>We build careers<br />that <em>move culture.</em></h1>
+          <h1>We work with creators<br />that <em>move culture.</em></h1>
           <div className="about-hero__footer">
             <p>WEARD is a cross-border talent and creative company representing the people shaping what the world watches, wears, tastes, and talks about.</p>
             <div className="about-hero__mark">W<span>✦</span></div>
@@ -2483,7 +2483,7 @@ function About({ onNav }) {
 
         <div className="about-manifesto">
           <p className="about-label">Our point of view</p>
-          <h2>Difference isn't a niche.<br />It's the advantage.</h2>
+          <h2>Difference is<br />the advantage.</h2>
           <div><p>We started WEARD because the most interesting creators were too often being flattened into categories. We saw something else: global stories, commercially powerful communities, and talent with the ability to shift culture.</p><p>So we built the management company they deserved—personal enough to know every ambition, international enough to unlock new markets, and sharp enough to turn influence into an enduring career.</p></div>
         </div>
 
@@ -2496,7 +2496,7 @@ function About({ onNav }) {
               Boutique talent management
             </p>
             <h2 className="mt-6 max-w-4xl text-5xl font-black uppercase leading-[0.9] tracking-tight sm:text-7xl">
-              We make different make sense.
+              Built for creators going further.
             </h2>
             <p className="mt-5 max-w-2xl text-base leading-7 text-white/75 sm:text-lg">
               WEARD manages culturally influential creators and builds brand partnerships across the UK and APAC. We keep the work sharp, commercially smart, and true to the creator.
@@ -2565,24 +2565,12 @@ function About({ onNav }) {
         </div>
       </div>
 
-      <div className="mt-8 rounded-[2rem] border border-neutral-200/80 bg-white p-6 shadow-sm sm:p-8 lg:p-10">
-        <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
-          <div>
-            <p className="text-xs uppercase tracking-[0.35em] text-neutral-400">Why it works</p>
-            <h3 className="mt-4 text-3xl font-black uppercase tracking-tight text-neutral-900">Different, with direction.</h3>
-          </div>
-          <p className="text-sm leading-7 text-neutral-600 dark:text-neutral-400">
-            The best creator campaigns do not feel bolted on. They start with a real audience truth, a brand that belongs in the conversation, and a delivery process that keeps the idea intact.
-          </p>
-        </div>
-      </div>
-
       <div className="mt-12 rounded-3xl border border-neutral-800 bg-neutral-900 p-6 sm:p-8">
         <div className="text-center text-white">
           <p className="text-xs uppercase tracking-[0.35em] text-white/60">Brand partners</p>
-          <h3 className="mt-3 text-2xl sm:text-3xl font-semibold">Trusted by leading brands worldwide</h3>
+          <h3 className="mt-3 text-2xl sm:text-3xl font-semibold">A few brands our creators have worked with</h3>
           <p className="mt-2 text-sm text-white/70">
-            From fast-growing disruptors to global icons, WEARD helps brands deliver creator campaigns with clear strategy, execution, and reporting.
+            A changing snapshot of collaborations across beauty, lifestyle, food, finance, and entertainment.
           </p>
         </div>
         <div className="mt-6">
@@ -3518,14 +3506,19 @@ function HoverMedia({ photo, video, alt }) {
 
 // ======= LOGO CAROUSEL =======
 function LogoCarousel({ rowHeight = 76 }) {
-  const [showAll, setShowAll] = useState(false);
-  const visibleLogos = showAll ? BRAND_LOGOS : BRAND_LOGOS.slice(0, 12);
+  const LOGOS_PER_VIEW = 8;
+  const [startIndex, setStartIndex] = useState(0);
+  const visibleLogos = Array.from(
+    { length: LOGOS_PER_VIEW },
+    (_, index) => BRAND_LOGOS[(startIndex + index) % BRAND_LOGOS.length]
+  );
+  const revealNext = () => setStartIndex((current) => (current + LOGOS_PER_VIEW) % BRAND_LOGOS.length);
   return (
     <div
       className="weard-logo-carousel"
       style={{ "--logo-row-height": `${rowHeight}px` }}
     >
-      <div className="weard-logo-grid" aria-label="Selected brand partners">
+      <div className="weard-logo-grid" aria-label="A rotating selection of brand partners" aria-live="polite">
                 {visibleLogos.map((logo, index) => (
                   <div
                     key={logo.src}
@@ -3551,9 +3544,9 @@ function LogoCarousel({ rowHeight = 76 }) {
                 ))}
       </div>
       <div className="weard-logo-carousel__footer">
-        <p>{BRAND_LOGOS.length} brands across beauty, lifestyle, food, finance and entertainment.</p>
-        <button type="button" onClick={() => setShowAll((value) => !value)} aria-expanded={showAll}>
-          {showAll ? "Show selected" : `View all ${BRAND_LOGOS.length}`} <ArrowRight size={14} aria-hidden="true" />
+        <p>Just a glimpse. There is always more behind the work.</p>
+        <button type="button" onClick={revealNext}>
+          Reveal more <ArrowRight size={14} aria-hidden="true" />
         </button>
       </div>
     </div>
@@ -3922,7 +3915,7 @@ function Contact() {
                   </span>
                   <input
                     required
-                    placeholder="e.g., Sophia Price"
+                    placeholder="e.g., Alex Morgan"
                     className={INPUT_CLS}
                     value={talent.name}
                     onChange={(e) => setTalent({ ...talent, name: e.target.value })}
