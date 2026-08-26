@@ -3506,23 +3506,30 @@ function HoverMedia({ photo, video, alt }) {
 
 // ======= LOGO CAROUSEL =======
 function LogoCarousel({ rowHeight = 76 }) {
-  const LOGOS_PER_VIEW = 8;
+  const LOGOS_PER_VIEW = 5;
   const [startIndex, setStartIndex] = useState(0);
   const visibleLogos = Array.from(
     { length: LOGOS_PER_VIEW },
     (_, index) => BRAND_LOGOS[(startIndex + index) % BRAND_LOGOS.length]
   );
   const revealNext = () => setStartIndex((current) => (current + LOGOS_PER_VIEW) % BRAND_LOGOS.length);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
+    const timer = window.setInterval(revealNext, 5000);
+    return () => window.clearInterval(timer);
+  }, []);
+
   return (
     <div
       className="weard-logo-carousel"
       style={{ "--logo-row-height": `${rowHeight}px` }}
     >
-      <div className="weard-logo-grid" aria-label="A rotating selection of brand partners" aria-live="polite">
+      <div className="weard-logo-stage" aria-label="A rotating selection of brand partners" aria-live="polite">
                 {visibleLogos.map((logo, index) => (
                   <div
                     key={logo.src}
-                    className="weard-logo-carousel__card"
+                    className={`weard-logo-carousel__card weard-logo-carousel__card--${index}`}
                     style={{ "--logo-delay": `${Math.min(index, 12) * 35}ms` }}
                   >
                     <img
@@ -3544,9 +3551,9 @@ function LogoCarousel({ rowHeight = 76 }) {
                 ))}
       </div>
       <div className="weard-logo-carousel__footer">
-        <p>Just a glimpse. There is always more behind the work.</p>
+        <p><span>{String(startIndex + 1).padStart(2, "0")}</span> / {String(BRAND_LOGOS.length).padStart(2, "0")} &nbsp; A new constellation every few seconds.</p>
         <button type="button" onClick={revealNext}>
-          Reveal more <ArrowRight size={14} aria-hidden="true" />
+          Shuffle the wall <ArrowRight size={14} aria-hidden="true" />
         </button>
       </div>
     </div>
