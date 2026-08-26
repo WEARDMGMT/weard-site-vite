@@ -303,6 +303,18 @@ const BRAND_LOGOS = [
   { src: "/media/logos/yepoda.png", alt: "Yepoda" },
   { src: "/media/logos/simify.png", alt: "simify" },
   { src: "/media/logos/ikea.png", alt: "IKEA" },
+  { src: "/media/logos/autorader.png", alt: "Auto Trader" },
+  { src: "/media/logos/BYD.png", alt: "BYD" },
+  { src: "/media/logos/FUSSY.png", alt: "Fussy" },
+  { src: "/media/logos/hellofresh.png", alt: "HelloFresh" },
+  { src: "/media/logos/HEYTEA.png", alt: "HEYTEA" },
+  { src: "/media/logos/KITCHEN JOY.png", alt: "Kitchen Joy" },
+  { src: "/media/logos/NOUS.png", alt: "NOUS" },
+  { src: "/media/logos/STENA LINE.png", alt: "Stena Line" },
+  { src: "/media/logos/TES.jpeg", alt: "TES" },
+  { src: "/media/logos/VINTED.png", alt: "Vinted" },
+  { src: "/media/logos/VITA COCO.jpeg", alt: "Vita Coco" },
+  { src: "/media/logos/YFOOD.png", alt: "yfood" },
 ];
 
 const WEARE_WORDS = ["DIFFERENT", "DISRUPTIVE", "DYNAMIC", "DISTINCT", "DRIVEN", "DECISIVE", "DEFIANT"];
