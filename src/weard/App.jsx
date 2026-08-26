@@ -2568,9 +2568,9 @@ function About({ onNav }) {
       <div className="mt-12 rounded-3xl border border-neutral-800 bg-neutral-900 p-6 sm:p-8">
         <div className="text-center text-white">
           <p className="text-xs uppercase tracking-[0.35em] text-white/60">Brand partners</p>
-          <h3 className="mt-3 text-2xl sm:text-3xl font-semibold">A few brands our creators have worked with</h3>
+          <h3 className="mt-3 text-2xl sm:text-3xl font-semibold">Brands our creators have partnered with</h3>
           <p className="mt-2 text-sm text-white/70">
-            A changing snapshot of collaborations across beauty, lifestyle, food, finance, and entertainment.
+            An evolving mix of partnerships spanning beauty, lifestyle, food, finance, and entertainment.
           </p>
         </div>
         <div className="mt-6">
@@ -3506,7 +3506,6 @@ function HoverMedia({ photo, video, alt }) {
 
 // ======= LOGO CAROUSEL =======
 function LogoCarousel({ rowHeight = 76 }) {
-  const [paused, setPaused] = useState(false);
   const uniqueLogos = useMemo(
     () => BRAND_LOGOS.filter(
       (logo, index, logos) => logos.findIndex(({ alt }) => alt.toLowerCase() === logo.alt.toLowerCase()) === index
@@ -3544,7 +3543,7 @@ function LogoCarousel({ rowHeight = 76 }) {
 
   return (
     <div
-      className={`weard-logo-carousel${paused ? " weard-logo-carousel--paused" : ""}`}
+      className="weard-logo-carousel"
       style={{ "--logo-row-height": `${rowHeight}px` }}
     >
       <div className="weard-logo-stage" aria-label="Brand partners">
@@ -3554,10 +3553,7 @@ function LogoCarousel({ rowHeight = 76 }) {
         </div>
       </div>
       <div className="weard-logo-carousel__footer">
-        <p><span>{String(uniqueLogos.length).padStart(2, "0")}</span> collaborations, one growing network.</p>
-        <button type="button" onClick={() => setPaused((current) => !current)} aria-pressed={paused}>
-          {paused ? "Resume logos" : "Pause logos"}
-        </button>
+        <p>One growing network.</p>
       </div>
     </div>
   );
