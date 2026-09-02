@@ -388,16 +388,16 @@ const STARTER_CREATORS = [
     bio: "Alissa Eady is a UK-based lifestyle and cooking creator who invites her audience into the moments that make everyday life feel considered, comforting and full of personality. From approachable recipes and relaxed kitchen content to beauty routines, fashion finds and candid slices of daily life, Alissa creates polished yet relatable storytelling that feels like a recommendation from a trusted friend. Her warm on-camera presence and modelling background give brands a versatile partner for food, home, lifestyle, beauty and fashion campaigns.",
     seoDescription: "Alissa Eady (@justalissahere), UK lifestyle and cooking creator represented by WEARD Management for food, home, beauty and fashion campaigns.",
     interests: ["Music", "Food", "Cooking", "Arts & crafts", "Nature", "Fashion", "Photography", "Figure skating", "Singing"],
-    top_audience: ["United States", "United Kingdom", "Thailand"],
+    top_audience: ["United Kingdom", "United States", "Thailand"],
     audience_insights: {
-      top_location: { name: "United States", pct: 22.1 },
-      second_location: { name: "United Kingdom", pct: 19.7 },
+      top_location: { name: "United Kingdom", pct: 36.39 },
+      second_location: { name: "United States", pct: 22.1 },
       gender_split: { female: 47.2, male: 52.8 },
       top_city: "Bangkok",
       age_range: "25-34",
       top_countries: [
+        { name: "United Kingdom", pct: 36.39 },
         { name: "United States", pct: 22.1 },
-        { name: "United Kingdom", pct: 19.7 },
         { name: "Thailand", pct: 12.1 },
       ],
       top_cities: [
