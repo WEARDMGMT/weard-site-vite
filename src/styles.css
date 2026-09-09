@@ -81,6 +81,52 @@ body.weard-loading {
     linear-gradient(160deg, #050506, #0b0b11 58%, #07070a);
 }
 
+/* Shared culture-led canvas used by every primary company page. The fixed
+   wash keeps the light consistent even where content uses a centred shell. */
+.culture-page {
+  --culture-line: rgba(255, 255, 255, 0.18);
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  color: #f8f8fb;
+  background-color: #07070a;
+  background-image:
+    radial-gradient(900px 500px at 10% 0%, rgba(37, 99, 235, 0.2), transparent 65%),
+    radial-gradient(800px 500px at 90% 15%, rgba(168, 85, 247, 0.2), transparent 65%),
+    linear-gradient(160deg, #050506, #0b0b11 58%, #07070a);
+}
+
+.culture-page::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0 calc(50% - 50vw);
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(115deg, transparent 0 8px, rgba(255,255,255,.018) 9px),
+    radial-gradient(700px 430px at 88% 4%, rgba(41, 214, 232, 0.08), transparent 68%);
+}
+
+.culture-page.weard-section::before {
+  width: auto;
+  height: auto;
+  right: calc(50% - 50vw);
+  left: calc(50% - 50vw);
+  top: 0;
+  bottom: 0;
+  border-radius: 0;
+  opacity: 1;
+  background:
+    repeating-linear-gradient(115deg, transparent 0 8px, rgba(255,255,255,.018) 9px),
+    radial-gradient(700px 430px at 88% 4%, rgba(41, 214, 232, 0.08), transparent 68%);
+}
+
+.roster-page > div:first-of-type h2,
+.contact-page h2,
+.contact-page label > span { color: #fff; }
+.roster-page > div:first-of-type p,
+.contact-page > div > div:first-child > p { color: rgba(255,255,255,.62); }
+
 .asiancy-page::after {
   content: "";
   position: absolute;
@@ -167,9 +213,9 @@ body.weard-loading {
 }
 
 /* ABOUT — editorial, confident, human */
-.about-page { overflow: hidden; color: #171717; background: radial-gradient(800px 420px at 8% 0%, rgba(59,130,246,.1), transparent 68%), radial-gradient(700px 380px at 92% 8%, rgba(168,85,247,.1), transparent 68%), #fafafa; }
+.about-page { overflow: hidden; color: #f8f8fb; }
 .about-shell { width: min(1240px, calc(100% - 32px)); margin: auto; padding: clamp(4rem,8vw,7rem) 0; }
-.about-hero { position: relative; padding: 2rem 0 5rem; border-top: 1px solid #222; }
+.about-hero { position: relative; padding: 2rem 0 5rem; border-top: 1px solid rgba(255,255,255,.5); }
 .about-hero__eyebrow { display: flex; justify-content: space-between; gap: 1rem; padding-top: 1rem; font-size: .68rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
 .about-hero h1 { margin-top: 9vw; max-width: 1160px; font-size: clamp(4rem,10.8vw,9.5rem); font-weight: 950; line-height: .82; letter-spacing: -.075em; text-transform: uppercase; }
 .about-hero h1 em { position: relative; background: linear-gradient(90deg,#2563eb,#7c3aed,#a855f7); -webkit-background-clip: text; background-clip: text; color: transparent; font-style: normal; white-space: nowrap; }
@@ -178,23 +224,36 @@ body.weard-loading {
 .about-hero__footer > p { max-width: 570px; font-size: clamp(1.05rem,2vw,1.4rem); line-height: 1.55; }
 .about-hero__mark { display: flex; align-items: center; gap: .1em; font-size: 5rem; font-weight: 950; line-height: .7; }
 .about-hero__mark span { color: #ff5c35; font-size: 2rem; }
-.about-manifesto { display: grid; grid-template-columns: .5fr 1.5fr; gap: 3rem; margin: 5rem 0; padding: 6rem 0; border-block: 1px solid rgba(0,0,0,.18); }
+.about-manifesto { display: grid; grid-template-columns: .5fr 1.5fr; gap: 3rem; margin: 5rem 0; padding: 6rem 0; border-block: 1px solid rgba(255,255,255,.18); }
 .about-label { font-size: .68rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; }
 .about-manifesto h2 { font-size: clamp(2.6rem,5.4vw,5.2rem); font-weight: 900; line-height: .95; letter-spacing: -.055em; }
 .about-manifesto > div { grid-column: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
-.about-manifesto > div p { color: #545454; line-height: 1.75; }
+.about-manifesto > div p { color: rgba(255,255,255,.64); line-height: 1.75; }
 .about-page .about-shell > .relative, .about-page .about-shell > .mt-8, .about-page .about-shell > .mt-12 { box-shadow: 0 20px 60px rgba(20,16,40,.08); }
 .about-page .about-shell > .mt-8 { border-color: rgba(0,0,0,.1); }
 .about-page .about-shell > .mt-12 { border-color: transparent; }
-.about-final { display: flex; justify-content: space-between; align-items: end; gap: 2rem; margin-top: 5rem; padding: clamp(2rem,5vw,4.5rem); color: #fff; background: linear-gradient(120deg,#2563eb,#4f46e5 48%,#9333ea); border-radius: 2rem; box-shadow: 0 24px 70px rgba(79,70,229,.22); }
+.about-final { display: flex; justify-content: space-between; align-items: end; gap: 2rem; margin-top: 5rem; padding: clamp(2rem,5vw,4.5rem) 0; color: #fff; border-block: 1px solid rgba(255,255,255,.2); }
 .about-final p { font-size: clamp(2.4rem,5vw,5rem); font-weight: 950; line-height: .94; letter-spacing: -.05em; text-transform: uppercase; }
 .about-final button { display: inline-flex; flex-shrink: 0; align-items: center; gap: .7rem; padding: 1rem 1.35rem; border-radius: 999px; background: #b8ff36; color: #111; font-size: .8rem; font-weight: 900; text-transform: uppercase; }
+.about-feature { background: transparent; box-shadow: none; }
+.about-text-link { border-bottom: 1px solid #38e8dc; }
+.about-services { background: transparent; box-shadow: none; }
+.about-page .about-pillar h4 { color: #fff; }
+.about-page .about-pillar p { color: rgba(255,255,255,.62); }
+.about-capabilities span:nth-child(odd) { padding-right: 1rem; }
+.about-capabilities span:nth-child(even) { padding-left: 1rem; }
+.about-partners { background: transparent; }
+.about-page .mt-12 > h3,
+.about-page .mt-12 button { color: #fff; }
+.about-page .mt-12 > p { color: rgba(255,255,255,.55); }
+.about-page .mt-12 button { border-color: rgba(255,255,255,.18); border-radius: 0; }
 @media (max-width: 720px) {
   .about-hero h1 { margin-top: 5rem; }
   .about-hero__footer, .about-final { align-items: flex-start; flex-direction: column; }
   .about-hero__mark { display: none; }
   .about-manifesto { grid-template-columns: 1fr; padding: 4rem 0; }
   .about-manifesto > div { grid-column: 1; grid-template-columns: 1fr; }
+  .about-capabilities span:nth-child(n) { padding-inline: 0; }
 }
 
 .weard-section::before {
