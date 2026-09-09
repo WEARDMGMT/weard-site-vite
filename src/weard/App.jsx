@@ -1995,7 +1995,7 @@ function Asiancy({ onNav }) {
   ];
 
   return (
-    <section className="asiancy-page">
+    <section className="asiancy-page culture-page">
       <div className="asiancy-noise" aria-hidden="true" />
       <div className="asiancy-orb asiancy-orb--one" aria-hidden="true" />
       <div className="asiancy-orb asiancy-orb--two" aria-hidden="true" />
@@ -2500,7 +2500,7 @@ function About({ onNav }) {
   ];
 
   return (
-    <section className="about-page">
+    <section className="about-page culture-page">
       <div className="about-shell">
         <div className="about-hero">
           <div className="about-hero__eyebrow"><span>Independent. International. Intentionally different.</span><span>Est. in London</span></div>
@@ -2517,12 +2517,12 @@ function About({ onNav }) {
           <div><p>We started WEARD because the most interesting creators were too often being flattened into categories. We saw something else: global stories, commercially powerful communities, and talent with the ability to shift culture.</p><p>So we built the management company they deserved—personal enough to know every ambition, international enough to unlock new markets, and sharp enough to turn influence into an enduring career.</p></div>
         </div>
 
-      <div className="relative mt-10 overflow-hidden rounded-[2rem] border border-neutral-200/80 bg-neutral-950 p-6 text-white shadow-xl sm:p-8 lg:p-10">
+      <div className="about-feature relative mt-10 overflow-hidden border-y border-white/20 py-12 text-white sm:py-16">
         <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-indigo-500/30 blur-3xl" aria-hidden="true" />
         <div className="pointer-events-none absolute -bottom-28 left-10 h-72 w-72 rounded-full bg-fuchsia-500/20 blur-3xl" aria-hidden="true" />
         <div className="relative grid gap-10 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-end">
           <div>
-            <p className="inline-flex rounded-full border border-white/15 bg-white/10 px-4 py-1 text-[11px] uppercase tracking-[0.35em] text-white/70">
+            <p className="about-label text-white/60">
               Boutique talent management
             </p>
             <h2 className="mt-6 max-w-4xl text-5xl font-black uppercase leading-[0.9] tracking-tight sm:text-7xl">
@@ -2533,12 +2533,12 @@ function About({ onNav }) {
             </p>
           </div>
           <div className="grid gap-3">
-            <div className="rounded-3xl border border-white/15 bg-white/10 p-5 backdrop-blur">
+            <div className="about-stat border-t border-white/20 py-5">
               <p className="text-xs uppercase tracking-[0.3em] text-white/50">Roster</p>
               <p className="mt-2 text-4xl font-black"><CountTo to={totalCreators} />+</p>
               <p className="text-sm text-white/65">Creators with communities that move culture.</p>
             </div>
-            <div className="rounded-3xl border border-white/15 bg-white/10 p-5 backdrop-blur">
+            <div className="about-stat border-t border-white/20 py-5">
               <p className="text-xs uppercase tracking-[0.3em] text-white/50">Reach</p>
               <p className="mt-2 text-4xl font-black"><CountTo to={totalFollowing} format={shortFormat} />+</p>
               <p className="text-sm text-white/65">Combined social following across platforms.</p>
@@ -2547,9 +2547,9 @@ function About({ onNav }) {
         </div>
       </div>
 
-      <div className="mt-8 overflow-hidden rounded-[2rem] border border-neutral-200/80 bg-white shadow-sm">
+      <div className="about-services mt-20 overflow-hidden border-y border-white/20">
         <div className="grid lg:grid-cols-[0.95fr_1.05fr]">
-          <div className="relative overflow-hidden bg-neutral-950 p-6 text-white sm:p-8 lg:p-10">
+          <div className="relative overflow-hidden py-12 pr-6 text-white sm:py-16 sm:pr-8 lg:pr-16">
             <div className="pointer-events-none absolute -left-20 top-8 h-64 w-64 rounded-full bg-blue-500/25 blur-3xl" aria-hidden="true" />
             <div className="pointer-events-none absolute bottom-0 right-0 h-56 w-56 rounded-full bg-fuchsia-500/20 blur-3xl" aria-hidden="true" />
             <div className="relative">
@@ -2563,18 +2563,18 @@ function About({ onNav }) {
               <button
                 type="button"
                 onClick={() => onNav?.("contact")}
-                className={`mt-7 inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white ${GRADIENT}`}
+                className="about-text-link mt-7 inline-flex items-center gap-2 pb-1 text-sm font-semibold text-white"
               >
                 Work with WEARD <ArrowRight size={16} />
               </button>
             </div>
           </div>
-          <div className="p-6 sm:p-8 lg:p-10">
+          <div className="border-t border-white/20 py-12 sm:py-16 lg:border-l lg:border-t-0 lg:pl-12">
             <p className="text-xs uppercase tracking-[0.35em] text-neutral-400">What we handle</p>
             <div className="mt-6 grid gap-5">
               {pillars.map((pillar) => (
-                <div key={pillar.label} className="group grid gap-4 rounded-3xl border border-neutral-200/80 bg-neutral-50 p-5 transition hover:-translate-y-1 hover:bg-white hover:shadow-lg sm:grid-cols-[56px_1fr]">
-                  <div className={`flex h-12 w-12 items-center justify-center rounded-2xl text-sm font-black text-white ${GRADIENT}`}>{pillar.label}</div>
+                <div key={pillar.label} className="about-pillar group grid gap-4 border-t border-white/20 py-6 sm:grid-cols-[56px_1fr]">
+                  <div className="text-sm font-black text-cyan-300">{pillar.label}</div>
                   <div>
                     <h4 className="text-xl font-black uppercase tracking-tight text-neutral-900">{pillar.title}</h4>
                     <p className="mt-2 text-sm leading-6 text-neutral-600 dark:text-neutral-400">{pillar.note}</p>
@@ -2584,10 +2584,10 @@ function About({ onNav }) {
             </div>
           </div>
         </div>
-        <div className="border-t border-neutral-200/80 bg-neutral-50 px-6 py-5 sm:px-8 lg:px-10">
-          <div className="flex flex-wrap gap-3">
+        <div className="border-t border-white/20 py-6">
+          <div className="about-capabilities grid sm:grid-cols-2 lg:grid-cols-3">
             {highlights.map((item) => (
-              <span key={item} className="rounded-full border border-neutral-200 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-neutral-600">
+              <span key={item} className="border-b border-white/15 py-4 text-xs font-semibold uppercase tracking-[0.18em] text-white/65">
                 {item}
               </span>
             ))}
@@ -2595,7 +2595,7 @@ function About({ onNav }) {
         </div>
       </div>
 
-      <div className="mt-12 rounded-3xl border border-neutral-800 bg-neutral-900 p-6 sm:p-8">
+      <div className="about-partners mt-20 border-y border-white/20 py-12 sm:py-16">
         <div className="text-center text-white">
           <p className="text-xs uppercase tracking-[0.35em] text-white/60">Brand partners</p>
           <h3 className="mt-3 text-2xl sm:text-3xl font-semibold">Brands our creators have partnered with</h3>
@@ -2998,7 +2998,7 @@ function Roster({ creators, onNav }) {
   }, [tab, region, followingRange, socialPlatform, visibleCreators, search]);
 
   return (
-    <section className="weard-section max-w-7xl mx-auto px-4 pt-8 sm:pt-10 pb-28 md:pb-20">
+    <section className="culture-page roster-page weard-section max-w-7xl mx-auto px-4 pt-8 sm:pt-10 pb-28 md:pb-20">
       <div className="relative z-10 flex items-center justify-between flex-wrap gap-3 sm:gap-4">
         <div>
           <p className="text-xs uppercase tracking-[0.35em] text-neutral-400">Talent</p>
@@ -3865,7 +3865,7 @@ function Contact() {
   }
 
   return (
-    <section className="max-w-7xl mx-auto px-4 pt-14 pb-24 sm:pt-20 sm:pb-28" id="contact">
+    <section className="culture-page contact-page max-w-7xl mx-auto px-4 pt-14 pb-24 sm:pt-20 sm:pb-28" id="contact">
       <div className="rounded-2xl bg-transparent">
         <div className="px-4 pt-4 pb-8 sm:px-8 sm:pt-8 sm:pb-12 lg:px-10">
           <div className="text-[10px] sm:text-xs uppercase tracking-[0.35em] text-neutral-500">
