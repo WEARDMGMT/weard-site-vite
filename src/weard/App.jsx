@@ -773,7 +773,7 @@ const PAGE_PATHS = {
   roster: "/roster",
   contact: "/contact",
   privacy: "/privacy",
-  asaincy: "/asaincy",
+  asiancy: "/asiancy",
   "influencer-marketing-agency": "/influencer-marketing-agency",
   "apac-influencer-marketing": "/apac-influencer-marketing",
   "asia-to-uk-influencer-marketing": "/asia-to-uk-influencer-marketing",
@@ -886,6 +886,13 @@ export default function App() {
         setActivePage("profile");
         return;
       }
+    }
+    // Keep old shared links working while presenting the corrected ASIANCY URL.
+    if (normalized === "/asaincy") {
+      window.history.replaceState({}, "", PAGE_PATHS.asiancy);
+      setSelectedCreator(null);
+      setActivePage("asiancy");
+      return;
     }
     const match = Object.entries(PAGE_PATHS).find(([, p]) => p === normalized);
     setSelectedCreator(null);
@@ -1030,10 +1037,10 @@ useEffect(() => {
         title: "Privacy Policy | WEARD Management",
         description: "WEARD Management privacy policy and data protection information.",
       },
-      asaincy: {
-        title: "ASAINCY | The Agency Division of WEARD",
+      asiancy: {
+        title: "ASIANCY | The Agency Division of WEARD",
         description:
-          "Meet ASAINCY, WEARD's culture-first agency division helping APAC brands launch, establish, and grow in the UK through creative strategy and creator campaigns.",
+          "Meet ASIANCY, WEARD's culture-first agency division helping APAC brands launch, establish, and grow in the UK through creative strategy and creator campaigns.",
       },
       "influencer-marketing-agency": {
         title: "Influencer Marketing Agency Services | WEARD Management",
@@ -1147,9 +1154,9 @@ useEffect(() => {
               <Contact />
             </motion.section>
           )}
-          {activePage === "asaincy" && (
-            <motion.section key="asaincy" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              <Asaincy onNav={navigate} />
+          {activePage === "asiancy" && (
+            <motion.section key="asiancy" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              <Asiancy onNav={navigate} />
             </motion.section>
           )}
                     {activePage === "privacy" && (
@@ -1322,7 +1329,7 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
     { k: "home", label: "Home" },
     { k: "about", label: "About Us" },
     { k: "roster", label: "Roster" },
-    { k: "asaincy", label: "Asiansy", isNew: true },
+    { k: "asiancy", label: "ASIANCY", isNew: true },
     { k: "contact", label: "Contact" },
   ];
 
@@ -1965,7 +1972,7 @@ function DiscoveryLanding({ eyebrow, title, intro, points = [], links = [], onNa
 }
 
 // ======= HOME =======
-function Asaincy({ onNav }) {
+function Asiancy({ onNav }) {
   const services = [
     ["01", "Market growth", "Positioning, audience intelligence, and a practical plan for your brand's next stage in the UK."],
     ["02", "Culture-first creative", "Big campaign ideas translated through local behaviour—not just local language."],
@@ -1978,42 +1985,50 @@ function Asaincy({ onNav }) {
     ["03 / Activate", "We create sustained attention", "Creators, content, partnerships, and experiences built to deepen recognition and demand."],
     ["04 / Scale", "We turn momentum into growth", "Live insight, optimisation, and a repeatable playbook for continued growth."],
   ];
+  const deliverables = [
+    "Market-entry strategy",
+    "Cultural insight",
+    "Creative platform",
+    "Creator casting",
+    "Campaign production",
+    "Measurement & learning",
+  ];
 
   return (
-    <section className="asaincy-page">
-      <div className="asaincy-noise" aria-hidden="true" />
-      <div className="asaincy-orb asaincy-orb--one" aria-hidden="true" />
-      <div className="asaincy-orb asaincy-orb--two" aria-hidden="true" />
-      <div className="asaincy-shell">
+    <section className="asiancy-page">
+      <div className="asiancy-noise" aria-hidden="true" />
+      <div className="asiancy-orb asiancy-orb--one" aria-hidden="true" />
+      <div className="asiancy-orb asiancy-orb--two" aria-hidden="true" />
+      <div className="asiancy-shell">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="asaincy-hero"
+          className="asiancy-hero"
         >
-          <div className="asaincy-kicker"><span /> The cross-cultural agency by WEARD</div>
-          <div className="asaincy-hero__stamp" aria-hidden="true">APAC<br />↔ UK</div>
-          <h1 className="asaincy-wordmark" aria-label="Asiansy">Asiansy<span>.</span></h1>
-          <div className="asaincy-intro">
+          <div className="asiancy-kicker"><span /> The cross-cultural agency by WEARD</div>
+          <div className="asiancy-hero__stamp" aria-hidden="true">APAC<br />↔ UK</div>
+          <h1 className="asiancy-wordmark" aria-label="ASIANCY">ASIANCY<span>.</span></h1>
+          <div className="asiancy-intro">
             <p>Born in Asia.<br />Built for what’s next.</p>
-            <div className="asaincy-intro__copy">
+            <div className="asiancy-intro__copy">
               <p>We help ambitious APAC brands launch, establish, and grow in the UK with the cultural intelligence, creator networks, and creative firepower to build lasting relevance.</p>
               <button type="button" onClick={() => onNav("contact")}>Plan your next stage <ArrowRight size={16} /></button>
             </div>
           </div>
         </motion.div>
 
-        <div className="asaincy-ticker" aria-label="Our markets and capabilities">
+        <div className="asiancy-ticker" aria-label="Our markets and capabilities">
           <div><span>APAC AMBITION</span><i>✦</i><span>UK CULTURE</span><i>✦</i><span>WESTERN GROWTH</span><i>✦</i><span>CREATOR POWER</span><i>✦</i><span>LOCAL RELEVANCE</span></div>
         </div>
 
-        <div className="asaincy-statement">
-          <p className="asaincy-section-label">The opportunity</p>
+        <div className="asiancy-statement">
+          <p className="asiancy-section-label">The opportunity</p>
           <h2>Growth starts with what already makes your brand <em>matter.</em></h2>
-          <p>Whether you are preparing to launch or building on an established UK presence, Asiansy turns the strength of your brand into local relevance, demand, and lasting momentum.</p>
+          <p>Whether you are preparing to launch or building on an established UK presence, ASIANCY turns the strength of your brand into local relevance, demand, and lasting momentum.</p>
         </div>
 
-        <div className="asaincy-services">
+        <div className="asiancy-services">
           {services.map(([number, title, body], index) => (
             <motion.article
               key={number}
@@ -2021,21 +2036,40 @@ function Asaincy({ onNav }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ delay: index * 0.1 }}
-              className="asaincy-service"
+              className="asiancy-service"
             >
               <span>{number}</span>
-              <h2>{title}</h2>
+              <h3>{title}</h3>
               <p>{body}</p>
             </motion.article>
           ))}
         </div>
 
-        <div className="asaincy-playbook">
-          <div className="asaincy-playbook__head">
-            <p className="asaincy-section-label">The growth playbook</p>
+        <motion.section
+          className="asiancy-deliverables"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.25 }}
+          aria-labelledby="asiancy-deliverables-title"
+        >
+          <div>
+            <p className="asiancy-section-label">One connected team</p>
+            <h2 id="asiancy-deliverables-title">From first insight<br />to market impact.</h2>
+          </div>
+          <div>
+            <p className="asiancy-deliverables__intro">No hand-offs between strategy and execution. One senior, cross-border team stays close from the first workshop to the final learning report.</p>
+            <ul>
+              {deliverables.map((deliverable) => <li key={deliverable}>{deliverable}</li>)}
+            </ul>
+          </div>
+        </motion.section>
+
+        <div className="asiancy-playbook">
+          <div className="asiancy-playbook__head">
+            <p className="asiancy-section-label">The growth playbook</p>
             <h2>Build relevance.<br />Keep growing.</h2>
           </div>
-          <div className="asaincy-steps">
+          <div className="asiancy-steps">
             {steps.map(([eyebrow, title, body], index) => (
               <motion.article key={eyebrow} initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: index * .08 }}>
                 <span>{eyebrow}</span><h3>{title}</h3><p>{body}</p>
@@ -2044,11 +2078,11 @@ function Asaincy({ onNav }) {
           </div>
         </div>
 
-        <div className="asaincy-proof">
+        <div className="asiancy-proof">
           <p>APAC perspective.</p><p>UK market fluency.</p><p>Ideas built for growth.</p>
         </div>
 
-        <div className="asaincy-cta">
+        <div className="asiancy-cta">
           <div><span>Ready when you are</span><p>Turn momentum<br />into lasting growth.</p></div>
           <button type="button" onClick={() => onNav("contact")}>
             Grow with us <ArrowRight size={18} />
@@ -2120,7 +2154,7 @@ function Home({ onExploreRoster, onWorkWithUs, onNav }) {
           </button>
           <article className="group relative overflow-hidden rounded-[1.6rem] border border-neutral-200 bg-white px-5 py-5 text-neutral-950 shadow-xl transition hover:-translate-y-1 hover:border-neutral-950 dark:bg-neutral-100 sm:px-7 sm:py-6">
             <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.28em] text-neutral-400">
-              Introducing our agency division · <span className="text-indigo-600">ASAINCY</span>
+              Introducing our agency division · <span className="text-indigo-600">ASIANCY</span>
             </p>
             <span className="block text-[clamp(2.5rem,9vw,6.2rem)] font-black uppercase leading-[0.9] tracking-[-0.08em]">
               We are influencer marketing
@@ -2135,10 +2169,10 @@ function Home({ onExploreRoster, onWorkWithUs, onNav }) {
               </button>
               <button
                 type="button"
-                onClick={() => onNav?.("asaincy")}
+                onClick={() => onNav?.("asiancy")}
                 className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-indigo-600 transition hover:text-indigo-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
               >
-                Enter ASAINCY <ArrowRight size={16} />
+                Enter ASIANCY <ArrowRight size={16} />
               </button>
             </div>
           </article>
