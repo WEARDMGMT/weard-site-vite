@@ -125,11 +125,7 @@ const ScrollToTopButton = ({ elevated = false }) => {
   );
 };
 // ======= CONFIG =======
-const EMAILJS_API_URL = "https://api.emailjs.com/api/v1.0/email/send";
-const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-const EMAILJS_BRAND_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_BRAND_TEMPLATE_ID;
-const EMAILJS_TALENT_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TALENT_TEMPLATE_ID;
-const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+const CONTACT_API_URL = "/api/contact";
 
 // Accurate country flags
 const FLAG_SRC = {
@@ -145,7 +141,7 @@ const INPUT_CLS =
   "w-full px-4 py-2 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 placeholder-neutral-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500";
 const BTN_PRIMARY_CLS = `${GRADIENT} inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500`;
 const TALENT_STATS_MAX_FILES = 3;
-const TALENT_STATS_MAX_FILE_SIZE = 2 * 1024 * 1024;
+const TALENT_STATS_MAX_FILE_SIZE = 1024 * 1024;
 const TALENT_STATS_ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 const CONSENT_STORAGE_KEY = "weard-cookie-consent";
 const LOADER_SESSION_KEY = "weard-loader-played";
@@ -3669,16 +3665,12 @@ function Contact() {
     }
   }
 
-  async function sendEmail(templateId, templateParams) {
-    const response = await fetch(EMAILJS_API_URL, {
+  async function sendEmail(kind, templateParams) {
+    const response = await fetch(CONTACT_API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        service_id: EMAILJS_SERVICE_ID,
-        template_id: templateId,
-        user_id: EMAILJS_PUBLIC_KEY,
-        template_params: templateParams,
-      }),
+      credentials: "same-origin",
+      body: JSON.stringify({ kind, website: "", fields: templateParams }),
     });
 
     if (!response.ok) {
@@ -3711,9 +3703,8 @@ function Contact() {
       `Outline:\n${safeForm.outline}`;
 
     try {
-      if (EMAILJS_SERVICE_ID && EMAILJS_PUBLIC_KEY && EMAILJS_BRAND_TEMPLATE_ID) {
-        setIsSendingBrand(true);
-        await sendEmail(EMAILJS_BRAND_TEMPLATE_ID, {
+      setIsSendingBrand(true);
+      await sendEmail("brand", {
           subject,
           brand: safeForm.brand,
           role: safeForm.role,
@@ -3723,18 +3714,8 @@ function Contact() {
           timeline: safeForm.timeline,
           outline: safeForm.outline,
           message: body,
-        });
-        setBrandNotice("Submission completed.");
-      } else {
-        sendMailto(
-          subject,
-          body,
-          "We’ve copied your brief to the clipboard. Please paste it into an email to info@weardmgmt.com."
-        );
-        setBrandNotice(
-          "Submission completed. Please send the email that opened to reach info@weardmgmt.com."
-        );
-      }
+      });
+      setBrandNotice("Submission completed.");
     } catch {
       sendMailto(
         subject,
@@ -3807,9 +3788,8 @@ function Contact() {
       `Notes:\n${safeTalent.notes}`;
 
     try {
-      if (EMAILJS_SERVICE_ID && EMAILJS_PUBLIC_KEY && EMAILJS_TALENT_TEMPLATE_ID) {
-        setIsSendingTalent(true);
-        await sendEmail(EMAILJS_TALENT_TEMPLATE_ID, {
+      setIsSendingTalent(true);
+      await sendEmail("talent", {
           subject,
           name: safeTalent.name,
           email: safeTalent.email,
@@ -3834,22 +3814,8 @@ function Contact() {
           why_weard: safeTalent.whyWeard,
           notes: safeTalent.notes,
           message: body,
-        });
-        setTalentNotice("Submission completed.");
-      } else {
-        sendMailto(
-          subject,
-          body,
-          talentStatsFiles.length
-          ? "We’ve copied your message to the clipboard. Please attach your stats screenshots before sending the email to info@weardmgmt.com."
-          : "We’ve copied your message to the clipboard. Please paste it into an email to info@weardmgmt.com."
-        );
-        setTalentNotice(
-          talentStatsFiles.length
-            ? "Submission completed. Please attach your stats screenshots to the email that opened before sending."
-            : "Submission completed. Please send the email that opened to reach info@weardmgmt.com."
-        );
-      }
+      });
+      setTalentNotice("Submission completed.");
     } catch {
       sendMailto(
         subject,
