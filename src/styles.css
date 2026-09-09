@@ -87,6 +87,9 @@ body.weard-loading {
   --culture-line: rgba(255, 255, 255, 0.18);
   position: relative;
   isolation: isolate;
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
   min-height: 100vh;
   color: #f8f8fb;
   background-color: #07070a;
@@ -94,6 +97,15 @@ body.weard-loading {
     radial-gradient(900px 500px at 10% 0%, rgba(37, 99, 235, 0.2), transparent 65%),
     radial-gradient(800px 500px at 90% 15%, rgba(168, 85, 247, 0.2), transparent 65%),
     linear-gradient(160deg, #050506, #0b0b11 58%, #07070a);
+}
+
+/* Roster and contact previously put their width constraint on the page itself,
+   which also constrained its background. Keep the canvas viewport-wide and
+   constrain only the page content. */
+.roster-page > *,
+.contact-page > * {
+  width: min(100%, 80rem);
+  margin-inline: auto;
 }
 
 .culture-page::before {
