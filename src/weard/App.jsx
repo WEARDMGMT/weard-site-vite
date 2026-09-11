@@ -3661,18 +3661,104 @@ function PrivacyPolicy() {
   }
 
 function Terms() {
+  useEffect(() => {
+    document.title = "Website Terms • WEARD Management";
+    return () => { document.title = "WEARD Management"; };
+  }, []);
+
+  const sectionClass = "mt-10 text-xl font-semibold";
+  const copyClass = "mt-3 text-neutral-700 dark:text-neutral-300";
+  const listClass = "mt-3 list-disc space-y-2 pl-6 text-neutral-700 dark:text-neutral-300";
+
   return (
     <section className="max-w-3xl mx-auto px-4 pt-10 pb-20">
-      <h1 className="text-3xl sm:text-4xl font-bold">Website Terms</h1>
-      <p className="mt-6 text-neutral-700 dark:text-neutral-300">By using this website, you agree to use it lawfully and not to interfere with its operation. Content is provided for general information and does not constitute professional advice or a binding offer.</p>
-      <h2 className="mt-8 text-xl font-semibold">Intellectual property</h2>
-      <p className="mt-3 text-neutral-700 dark:text-neutral-300">Unless otherwise stated, WEARD Management Limited owns or licenses the website content. You may not reproduce or commercially exploit it without written permission.</p>
-      <h2 className="mt-8 text-xl font-semibold">Enquiries and availability</h2>
-      <p className="mt-3 text-neutral-700 dark:text-neutral-300">Submitting an enquiry does not create a contract or guarantee creator availability. Campaign terms are agreed separately in writing.</p>
-      <h2 className="mt-8 text-xl font-semibold">Liability and law</h2>
-      <p className="mt-3 text-neutral-700 dark:text-neutral-300">We take reasonable care over this website but do not guarantee uninterrupted access or that all content is error-free. Nothing excludes liability that cannot lawfully be excluded. These terms are governed by the laws of England and Wales.</p>
-      <h2 className="mt-8 text-xl font-semibold">Contact</h2>
-      <p className="mt-3 text-neutral-700 dark:text-neutral-300">Questions may be sent to <a className="underline" href="mailto:info@weardmgmt.com">info@weardmgmt.com</a>.</p>
+      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-indigo-500">Legal</p>
+      <h1 className="mt-3 text-3xl font-bold sm:text-4xl">Website Terms of Use</h1>
+      <p className="mt-2 text-sm text-neutral-500">Last updated: 11 September 2026</p>
+      <p className={copyClass}>
+        These terms govern your use of weardmgmt.com (the “Site”). By accessing or using the Site, you confirm that you accept these terms. If you do not accept them, please do not use the Site.
+      </p>
+
+      <h2 className={sectionClass}>1. About us</h2>
+      <p className={copyClass}>
+        The Site is operated by WEARD Management Limited (“WEARD”, “we”, “us” or “our”), a company registered in England and Wales under company number 16730275. Our registered office is at 71–75 Shelton Street, Covent Garden, London WC2H 9JQ.
+      </p>
+
+      <h2 className={sectionClass}>2. Changes to these terms and the Site</h2>
+      <p className={copyClass}>
+        We may update these terms from time to time. The date above shows when they were last revised. We may also change, suspend or withdraw any part of the Site without notice. Please check this page whenever you use the Site to understand the terms that apply at that time.
+      </p>
+
+      <h2 className={sectionClass}>3. Access to the Site</h2>
+      <p className={copyClass}>
+        The Site is made available free of charge. We do not guarantee that it, or any content on it, will always be available, uninterrupted, secure or error-free. You are responsible for arranging your own access to the Site and for ensuring that anyone who accesses it through your connection is aware of and complies with these terms.
+      </p>
+
+      <h2 className={sectionClass}>4. Information on the Site</h2>
+      <p className={copyClass}>
+        Content is provided for general information only. It is not professional advice, a recommendation, or a binding offer. Although we take reasonable care to keep information current and accurate, we make no guarantee that it is complete, accurate or up to date. Creator profiles, audience figures, past work and availability may change.
+      </p>
+
+      <h2 className={sectionClass}>5. Enquiries and services</h2>
+      <p className={copyClass}>
+        Sending an enquiry, submitting a creator profile or communicating with us through the Site does not create an agency relationship, contract, booking or guarantee of representation or creator availability. Any campaign, representation or other service will be subject to separate written terms agreed by the relevant parties.
+      </p>
+
+      <h2 className={sectionClass}>6. Acceptable use</h2>
+      <p className={copyClass}>You must not use the Site:</p>
+      <ul className={listClass}>
+        <li>in breach of any applicable law or regulation, or for any fraudulent or harmful purpose;</li>
+        <li>to introduce viruses, malicious code or other technologically harmful material;</li>
+        <li>to gain unauthorised access to the Site, its server, or any connected system or database;</li>
+        <li>to scrape, harvest or systematically extract data from the Site without our written permission; or</li>
+        <li>to infringe our rights or the rights of any creator, brand or third party.</li>
+      </ul>
+
+      <h2 className={sectionClass}>7. Intellectual property</h2>
+      <p className={copyClass}>
+        We are the owner or licensee of the intellectual property rights in the Site and its content, including text, branding, graphics, photographs, video and layout. Those rights are protected by intellectual property laws. You may view the Site and print or download reasonable extracts for your personal, non-commercial use. You must not modify, reproduce, republish, distribute, sell or commercially exploit Site content without our prior written permission or that of the relevant rights holder. Our status, and that of any identified contributor, must always be acknowledged.
+      </p>
+
+      <h2 className={sectionClass}>8. Material you send us</h2>
+      <p className={copyClass}>
+        You are responsible for information and files you submit through the Site. You confirm that you have the right to send them, that they are accurate to the best of your knowledge, and that they do not infringe another person’s rights. Submission does not transfer ownership to us, but you permit us to review, copy and internally share the material as reasonably necessary to respond to your enquiry or assess a proposed collaboration. Personal information is handled in accordance with our Privacy Policy.
+      </p>
+
+      <h2 className={sectionClass}>9. Third-party websites and external links</h2>
+      <p className={copyClass}>
+        The Site may contain links to social platforms, creator profiles, brand websites and other third-party sites. These links are provided for convenience and information only and do not mean that we endorse or control those sites. Third-party sites have their own terms and privacy practices. We are not responsible for their availability, security, content, accuracy, products, services or practices, or for loss or damage arising from your use of them. You should review the applicable terms and policies before using a third-party site or making a transaction.
+      </p>
+
+      <h2 className={sectionClass}>10. Our responsibility for loss or damage</h2>
+      <p className={copyClass}>
+        Nothing in these terms excludes or limits liability where it would be unlawful to do so, including liability for death or personal injury caused by negligence, fraud or fraudulent misrepresentation.
+      </p>
+      <p className={copyClass}>
+        If you use the Site for business purposes, to the fullest extent permitted by law we exclude implied warranties and are not liable for loss of profits, sales, business, revenue, anticipated savings, business opportunity, goodwill or reputation, or for indirect or consequential loss arising from use of, or inability to use, the Site or reliance on its content.
+      </p>
+      <p className={copyClass}>
+        If you use the Site as a consumer, we are responsible for loss or damage that is a foreseeable result of our breach of these terms or failure to use reasonable care and skill, but not for loss or damage that is not foreseeable. The Site is provided for private use as well as business enquiries; we are not liable to consumers for business losses.
+      </p>
+
+      <h2 className={sectionClass}>11. Privacy and cookies</h2>
+      <p className={copyClass}>
+        Our <a className="underline underline-offset-2" href="/privacy">Privacy Policy</a> explains how we collect and use personal information and how our optional analytics technologies operate.
+      </p>
+
+      <h2 className={sectionClass}>12. Breach of these terms</h2>
+      <p className={copyClass}>
+        If we reasonably believe that you have breached these terms, we may suspend or block your access to the Site and take any other action reasonably necessary to protect the Site, our users and our rights.
+      </p>
+
+      <h2 className={sectionClass}>13. Governing law and courts</h2>
+      <p className={copyClass}>
+        These terms and any non-contractual dispute arising from them are governed by the laws of England and Wales. If you are a consumer, you may also benefit from mandatory protections under the law of the country where you live and may bring proceedings in the courts available to you under applicable law. If you use the Site for business purposes, the courts of England and Wales have exclusive jurisdiction.
+      </p>
+
+      <h2 className={sectionClass}>14. Contact</h2>
+      <p className={copyClass}>
+        Questions about these terms may be sent to <a className="underline underline-offset-2" href="mailto:info@weardmgmt.com">info@weardmgmt.com</a> or by post to our registered office above.
+      </p>
     </section>
   );
 }
@@ -4283,8 +4369,6 @@ function Footer({ onNav }) {
         </div>
         <div className="text-sm text-neutral-600 dark:text-neutral-400 text-center md:text-left">
           <div>© {new Date().getFullYear()} WEARD Management Limited. All rights reserved.</div>
-          <div className="mt-2 text-xs">Registered in England and Wales · Company no. 16730275</div>
-          <div className="mt-1 text-xs">Registered office: 71–75 Shelton Street, Covent Garden, London WC2H 9JQ</div>
           <div className="mt-1">Built for premium campaigns, trusted partnerships, and measurable growth.</div>
         </div>
         <div className="flex gap-4 text-sm justify-start md:justify-end">
