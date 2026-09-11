@@ -773,7 +773,7 @@ const PAGE_PATHS = {
   roster: "/roster",
   contact: "/contact",
   privacy: "/privacy",
-  asiancy: "/asiancy",
+  asiancy: "/asaincy",
   "influencer-marketing-agency": "/influencer-marketing-agency",
   "apac-influencer-marketing": "/apac-influencer-marketing",
   "asia-to-uk-influencer-marketing": "/asia-to-uk-influencer-marketing",
@@ -887,8 +887,8 @@ export default function App() {
         return;
       }
     }
-    // Keep old shared links working while presenting the corrected ASIANCY URL.
-    if (normalized === "/asaincy") {
+    // Keep old shared links working after the agency division name change.
+    if (normalized === "/asiancy") {
       window.history.replaceState({}, "", PAGE_PATHS.asiancy);
       setSelectedCreator(null);
       setActivePage("asiancy");
@@ -1038,9 +1038,9 @@ useEffect(() => {
         description: "WEARD Management privacy policy and data protection information.",
       },
       asiancy: {
-        title: "ASIANCY | The Agency Division of WEARD",
+        title: "Asaincy | The Agency Division of WEARD",
         description:
-          "Meet ASIANCY, WEARD's culture-first agency division helping APAC brands launch, establish, and grow in the UK through creative strategy and creator campaigns.",
+          "Meet Asaincy, WEARD's culture-first agency division helping APAC brands launch, establish, and grow in the UK through creative strategy and creator campaigns.",
       },
       "influencer-marketing-agency": {
         title: "Influencer Marketing Agency Services | WEARD Management",
@@ -1329,7 +1329,7 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
     { k: "home", label: "Home" },
     { k: "about", label: "About Us" },
     { k: "roster", label: "Roster" },
-    { k: "asiancy", label: "ASIANCY", isNew: true },
+    { k: "asiancy", label: "Asaincy", isNew: true },
     { k: "contact", label: "Contact" },
   ];
 
@@ -1382,7 +1382,7 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
               className={cn(
                 "rounded-full px-3 py-1.5 text-sm transition focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400",
                 active === n.k
-                  ? "bg-neutral-900/5 font-semibold text-neutral-900 shadow-[inset_0_0_0_1px_rgba(15,23,42,0.14)]"
+                  ? "bg-neutral-900 font-bold text-white shadow-[0_8px_20px_rgba(15,23,42,0.22)]"
                   : "text-neutral-500 hover:bg-neutral-900/5 hover:text-neutral-800"
               )}
               aria-current={active === n.k ? "page" : undefined}
@@ -1390,12 +1390,17 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
               <span className="relative inline-flex items-center">
                 {n.isNew && <span className="nav-new-badge" aria-label="New">New</span>}
                 {n.label}
+                {active === n.k && <span className="ml-2 h-1.5 w-1.5 rounded-full bg-lime-300" aria-hidden="true" />}
               </span>
             </button>
           ))}
           <button
             onClick={() => onNav("contact")}
-            className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold text-white ${GRADIENT}`}
+            className={cn(
+              `inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold text-white ${GRADIENT}`,
+              active === "contact" && "ring-2 ring-neutral-900 ring-offset-2"
+            )}
+            aria-current={active === "contact" ? "page" : undefined}
           >
             Start a Campaign <ArrowRight size={14} />
           </button>
@@ -1403,7 +1408,13 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
         <div className="md:hidden flex items-center gap-2">
           <button
             onClick={() => onNav("contact")}
-            className="inline-flex items-center rounded-full border border-white/30 px-3 py-2 text-xs font-semibold"
+            className={cn(
+              "inline-flex items-center rounded-full border px-3 py-2 text-xs font-semibold",
+              active === "contact"
+                ? "border-neutral-900 bg-neutral-900 text-white"
+                : "border-neutral-300 text-neutral-700"
+            )}
+            aria-current={active === "contact" ? "page" : undefined}
           >
             Contact
           </button>
@@ -1453,6 +1464,7 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
     ? "bg-white text-neutral-900 font-semibold border-white"
     : "bg-neutral-800 text-neutral-200 border-white/15 hover:bg-neutral-800/80"
                   )}
+                  aria-current={active === n.k ? "page" : undefined}
                 >
                   <span className="flex items-center justify-between gap-3">
                     {n.label}
@@ -2008,7 +2020,7 @@ function Asiancy({ onNav }) {
         >
           <div className="asiancy-kicker"><span /> The cross-cultural agency by WEARD</div>
           <div className="asiancy-hero__stamp" aria-hidden="true">APAC<br />↔ UK</div>
-          <h1 className="asiancy-wordmark" aria-label="ASIANCY">ASIANCY<span>.</span></h1>
+          <h1 className="asiancy-wordmark" aria-label="Asaincy">Asaincy<span>.</span></h1>
           <div className="asiancy-intro">
             <p>Born in Asia.<br />Built for what’s next.</p>
             <div className="asiancy-intro__copy">
@@ -2025,7 +2037,7 @@ function Asiancy({ onNav }) {
         <div className="asiancy-statement">
           <p className="asiancy-section-label">The opportunity</p>
           <h2>Growth starts with what already makes your brand <em>matter.</em></h2>
-          <p>Whether you are preparing to launch or building on an established UK presence, ASIANCY turns the strength of your brand into local relevance, demand, and lasting momentum.</p>
+          <p>Whether you are preparing to launch or building on an established UK presence, Asaincy turns the strength of your brand into local relevance, demand, and lasting momentum.</p>
         </div>
 
         <div className="asiancy-services">
@@ -2154,7 +2166,7 @@ function Home({ onExploreRoster, onWorkWithUs, onNav }) {
           </button>
           <article className="group relative overflow-hidden rounded-[1.6rem] border border-neutral-200 bg-white px-5 py-5 text-neutral-950 shadow-xl transition hover:-translate-y-1 hover:border-neutral-950 dark:bg-neutral-100 sm:px-7 sm:py-6">
             <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.28em] text-neutral-400">
-              Introducing our agency division · <span className="text-indigo-600">ASIANCY</span>
+              Introducing our agency division · <span className="text-indigo-600">Asaincy</span>
             </p>
             <span className="block text-[clamp(2.5rem,9vw,6.2rem)] font-black uppercase leading-[0.9] tracking-[-0.08em]">
               We are influencer marketing
@@ -2172,7 +2184,7 @@ function Home({ onExploreRoster, onWorkWithUs, onNav }) {
                 onClick={() => onNav?.("asiancy")}
                 className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-indigo-600 transition hover:text-indigo-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
               >
-                Enter ASIANCY <ArrowRight size={16} />
+                Enter Asaincy <ArrowRight size={16} />
               </button>
             </div>
           </article>
@@ -2482,29 +2494,29 @@ function About({ onNav }) {
     {
       label: "01",
       title: "Distinct by nature",
-      subtitle: "We represent creators worth noticing.",
-      body: ["We aren't interested in building a roster that looks like everyone else's.", "WEARD represents creators with distinctive personalities, perspectives, communities and ideas. Talent who bring something recognisable to the table and give audiences a reason to keep watching.", "That individuality leads to better content, stronger partnerships and more memorable campaigns."],
+      subtitle: "We represent creators people remember.",
+      body: ["Our roster is built on individuality, not volume.", "WEARD represents creators with distinctive personalities, perspectives, communities and ideas — talent who bring something recognisable to the table and give audiences a reason to keep watching.", "That individuality is what makes content work harder: better creative, stronger partnerships and more memorable campaigns."],
       signoff: "Standout talent creates standout work.",
     },
     {
       label: "02",
       title: "Culturally fluent",
-      subtitle: "We understand culture, not just audiences.",
-      body: ["Culture shapes what people find funny, interesting, relevant and worth sharing.", "Our creators bring their own experiences, communities and perspectives into their work, giving brands the opportunity to create campaigns that feel more original, considered and culturally relevant.", "We look beyond audience demographics to understand the people behind the numbers and what actually connects with them."],
+      subtitle: "We understand the culture behind the audience.",
+      body: ["Culture shapes what people find funny, interesting, relevant and worth sharing.", "Our creators bring their own experiences, communities and perspectives into their work, giving brands campaigns that feel original, considered and culturally relevant.", "We read the people behind the numbers, so the work lands with the audience it was made for."],
       signoff: "Different perspectives make better ideas.",
     },
     {
       label: "03",
       title: "Built for the long term",
       subtitle: "We build careers, not moments.",
-      body: ["A creator's career is bigger than their next campaign.", "We think about where our talent is going, not simply what they can book today.", "From positioning and partnerships to pricing, audience development and new opportunities, we help creators make decisions that strengthen their careers over time.", "The goal is sustainable growth, stronger personal brands and careers with longevity."],
+      body: ["A creator's career is bigger than their next campaign, and we plan it that way.", "From positioning and partnerships to pricing, audience development and new markets, we help creators make decisions that compound over time.", "It's the same instinct that makes us good partners for brands: we invest in relationships we want to repeat, not one-off bookings."],
       signoff: "Every opportunity should lead somewhere.",
     },
     {
       label: "04",
       title: "Global by mindset",
       subtitle: "We think beyond one market.",
-      body: ["Creators, audiences and brands are increasingly global.", "With roots and relationships across the UK and Asia, WEARD connects talent and opportunities across markets while understanding the cultural differences between them.", "We are particularly focused on building stronger connections between the UK and APAC, helping creators access new brands, audiences and opportunities as their careers develop.", "The goal isn't to be everywhere. It's to create the right opportunities wherever a creator's career can go next."],
+      body: ["Creators, audiences and brands are increasingly global.", "With roots and relationships across the UK and Asia, WEARD connects talent and opportunities across markets while understanding the cultural differences between them.", "We're particularly focused on building stronger links between the UK and APAC, opening up new brands, audiences and opportunities as a creator's career develops.", "Our focus is the right opportunities in the right markets — wherever a creator's career goes next."],
       signoff: "Local understanding. Global ambition.",
     },
   ];
@@ -2527,7 +2539,6 @@ function About({ onNav }) {
             <p className="about-pillars-intro__lead">WEARD represents creators who stand out.</p>
             <p>Distinct voices, original perspectives and creators with something people genuinely want to follow.</p>
             <p>Our approach combines cultural understanding, long-term career development and international thinking to connect exceptional talent with the right opportunities.</p>
-            <p>Everything we do is shaped by four core pillars.</p>
           </div>
         </div>
 
