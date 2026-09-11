@@ -315,8 +315,36 @@ const BRAND_LOGOS = [
 
 const WEARE_WORDS = ["DIFFERENT", "DISRUPTIVE", "DYNAMIC", "DISTINCT", "DRIVEN", "DECISIVE", "DEFIANT"];
 const HERO_VIDEOS = [
+  "/assets/videos/video-01.mp4",
   "/assets/videos/video-02.mp4",
+  "/assets/videos/video-03.mp4",
+  "/assets/videos/video-04.mp4",
+  "/assets/videos/video-05.mp4",
+  "/assets/videos/video-06.mp4",
+  "/assets/videos/video-07.mp4",
+  "/assets/videos/video-08.mp4",
+  "/assets/videos/video-09.mp4",
+  "/assets/videos/video-10.mp4",
   "/assets/videos/video-11.mp4",
+  "/assets/videos/video-12.mp4",
+  "/assets/videos/video-13.mp4",
+  "/assets/videos/video-14.mp4",
+  "/assets/videos/video-15.mp4",
+  "/assets/videos/video-16.mp4",
+  "/assets/videos/video-17.mp4",
+  "/assets/videos/video-18.mp4",
+  "/assets/videos/video-19.mp4",
+  "/assets/videos/video-20.mp4",
+  "/assets/videos/video-21.mp4",
+  "/assets/videos/video-22.mp4",
+  "/assets/videos/video-23.mp4",
+  "/assets/videos/video-24.mp4",
+  "/assets/videos/video-25.mp4",
+  "/assets/videos/video-26.mp4",
+  "/assets/videos/video-27.mp4",
+  "/assets/videos/video-28.VBP.mp4",
+  "/assets/videos/video-29.VBP.mp4",
+  "/assets/videos/video-30.VBK.mp4",
 ];
 const HERO_LANES = [
   { seed: 0, speed: 54, pulse: 0.18 },
@@ -2293,13 +2321,9 @@ function HeroCarousel() {
   const shuffleSeed = useMemo(() => Math.floor(Math.random() * 10_000), []);
   const baseOrder = useMemo(() => shuffleWithSeed(HERO_VIDEOS, shuffleSeed), [shuffleSeed]);
   const laneOrders = useMemo(
-    () => {
-      const laneStride = Math.ceil(baseOrder.length / HERO_LANES.length);
-      return HERO_LANES.map((_, laneIndex) => {
-        const offset = (laneIndex * laneStride) % baseOrder.length;
-        return [...baseOrder.slice(offset), ...baseOrder.slice(0, offset)];
-      });
-    },
+    () => HERO_LANES.map((_, laneIndex) =>
+      baseOrder.filter((__, videoIndex) => videoIndex % HERO_LANES.length === laneIndex)
+    ),
     [baseOrder]
   );
 
@@ -2368,30 +2392,6 @@ function HeroCarousel() {
     };
   }, []);
 
-  useEffect(() => {
-    if (!containerRef.current || !window.IntersectionObserver) return undefined;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const video = entry.target.querySelector("video");
-          if (!video) return;
-          if (entry.isIntersecting) {
-            video.play().catch(() => {});
-          } else {
-            video.pause();
-          }
-        });
-      },
-      { threshold: 0.01, rootMargin: "15% 0px 15% 0px" }
-    );
-
-    const cards = containerRef.current.querySelectorAll(".weard-hero__card");
-    cards.forEach((card) => observer.observe(card));
-
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <section className="weard-hero" ref={containerRef}>
       <div className="weard-hero__lanes">
@@ -2412,10 +2412,10 @@ function HeroCarousel() {
                 }}
               >
                 {ordered.map((src, index) => (
-                  <HeroCard key={`${src}-${index}-a`} src={src} playClip={index === 0} />
+                  <HeroCard key={`${src}-${index}-a`} src={src} />
                 ))}
                 {ordered.map((src, index) => (
-                  <HeroCard key={`${src}-${index}-b`} src={src} playClip={index === 0} />
+                  <HeroCard key={`${src}-${index}-b`} src={src} />
                 ))}
               </div>
             </div>
@@ -2440,17 +2440,50 @@ function HeroCarousel() {
 
 const HERO_VIDEO_POSTER = "/og-image.jpg";
 
-function HeroCard({ src, playClip = false }) {
+function HeroCard({ src }) {
+  const cardRef = useRef(null);
+  const videoRef = useRef(null);
+  const [shouldLoad, setShouldLoad] = useState(false);
   const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    const card = cardRef.current;
+    if (!card) return undefined;
+
+    if (!window.IntersectionObserver) {
+      setShouldLoad(true);
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoad(true);
+          videoRef.current?.play().catch(() => {});
+        } else {
+          videoRef.current?.pause();
+        }
+      },
+      { threshold: 0.01, rootMargin: "25% 0px 25% 0px" }
+    );
+
+    observer.observe(card);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (shouldLoad) videoRef.current?.play().catch(() => {});
+  }, [shouldLoad]);
+
   return (
-    <div className="weard-hero__card">
-      {playClip ? (
+    <div className="weard-hero__card" ref={cardRef}>
+      {shouldLoad ? (
         <video
+          ref={videoRef}
           src={src}
           muted
           loop
           playsInline
-          autoPlay
           preload="none"
           poster={HERO_VIDEO_POSTER}
           onError={() => setHasError(true)}
