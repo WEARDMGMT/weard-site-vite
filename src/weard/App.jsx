@@ -315,36 +315,8 @@ const BRAND_LOGOS = [
 
 const WEARE_WORDS = ["DIFFERENT", "DISRUPTIVE", "DYNAMIC", "DISTINCT", "DRIVEN", "DECISIVE", "DEFIANT"];
 const HERO_VIDEOS = [
-  "/assets/videos/video-01.mp4",
   "/assets/videos/video-02.mp4",
-  "/assets/videos/video-03.mp4",
-  "/assets/videos/video-04.mp4",
-  "/assets/videos/video-05.mp4",
-  "/assets/videos/video-06.mp4",
-  "/assets/videos/video-07.mp4",
-  "/assets/videos/video-08.mp4",
-  "/assets/videos/video-09.mp4",
-  "/assets/videos/video-10.mp4",
   "/assets/videos/video-11.mp4",
-  "/assets/videos/video-12.mp4",
-  "/assets/videos/video-13.mp4",
-  "/assets/videos/video-14.mp4",
-  "/assets/videos/video-15.mp4",
-  "/assets/videos/video-16.mp4",
-  "/assets/videos/video-17.mp4",
-  "/assets/videos/video-18.mp4",
-  "/assets/videos/video-19.mp4",
-  "/assets/videos/video-20.mp4",
-  "/assets/videos/video-21.mp4",
-  "/assets/videos/video-22.mp4",
-  "/assets/videos/video-23.mp4",
-  "/assets/videos/video-24.mp4",
-  "/assets/videos/video-25.mp4",
-  "/assets/videos/video-26.mp4",
-  "/assets/videos/video-27.mp4",
-  "/assets/videos/video-28.VBP.mp4",
-  "/assets/videos/video-29.VBP.mp4",
-  "/assets/videos/video-30.VBK.mp4",
 ];
 const HERO_LANES = [
   { seed: 0, speed: 54, pulse: 0.18 },
@@ -553,6 +525,7 @@ video: MEDIA.creators.OliveTreeFamily.video,
 
 {
   name: "JNO PWR",
+  slug: "jno-pwnr",
   rosterName: "JNO",
   rosterHandle: "JNO_PWNR",
   category: "Finance",
@@ -586,6 +559,7 @@ video: MEDIA.creators.OliveTreeFamily.video,
 },
 {
   name: "I'm Hungry In London",
+  slug: "imhungryinlondon",
   rosterName: "Jenna",
   rosterHandle: "Imhungryinlondon",
   category: "Food",
@@ -766,6 +740,7 @@ const slugify = (value = "") =>
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
+const creatorSlug = (creator = {}) => creator.slug || slugify(creator.name || "creator");
 
 const PAGE_PATHS = {
   home: "/",
@@ -774,7 +749,7 @@ const PAGE_PATHS = {
   contact: "/contact",
   privacy: "/privacy",
   terms: "/terms",
-  asiancy: "/asaincy",
+  asiancy: "/asiancy",
   "influencer-marketing-agency": "/influencer-marketing-agency",
 };
 
@@ -866,7 +841,7 @@ export default function App() {
   const creatorSlugMap = useMemo(() => {
     const map = new Map();
     creators.forEach((creator) => {
-      if (creator?.name) map.set(slugify(creator.name), creator);
+      if (creator?.name) map.set(creatorSlug(creator), creator);
     });
     return map;
   }, [creators]);
@@ -881,13 +856,6 @@ export default function App() {
         setActivePage("profile");
         return;
       }
-    }
-    // Keep old shared links working after the agency division name change.
-    if (normalized === "/asiancy") {
-      window.history.replaceState({}, "", PAGE_PATHS.asiancy);
-      setSelectedCreator(null);
-      setActivePage("asiancy");
-      return;
     }
     if (RETIRED_SEO_PATHS.has(normalized)) {
       window.history.replaceState({}, "", PAGE_PATHS.asiancy);
@@ -916,7 +884,7 @@ useEffect(() => {
   window.weardNav = (k) => navigate(k);
   window.weardOpenProfile = (creator) => {
     if (!creator) return;
-    const slug = slugify(creator.name || "creator");
+    const slug = creatorSlug(creator);
     setSelectedCreator(creator);
     navigate("profile", { path: `/creators/${slug}` });
   };
@@ -1043,9 +1011,9 @@ useEffect(() => {
         description: "Terms governing use of the WEARD Management website.",
       },
       asiancy: {
-        title: "Asaincy | The Agency Division of WEARD",
+        title: "Asiancy | The Agency Division of WEARD",
         description:
-          "Meet Asaincy, WEARD's culture-first agency division helping APAC brands launch, establish, and grow in the UK through creative strategy and creator campaigns.",
+          "Meet Asiancy, WEARD's culture-first agency division helping APAC brands launch, establish, and grow in the UK through creative strategy and creator campaigns.",
       },
       "influencer-marketing-agency": {
         title: "Influencer Marketing Agency Services | WEARD Management",
@@ -1106,7 +1074,7 @@ useEffect(() => {
   useEffect(() => {
     const people = creators.map((creator) => {
       const sameAs = [creator.instagram, creator.tiktok, creator.youtube].filter(Boolean);
-      const slug = slugify(creator.name);
+      const slug = creatorSlug(creator);
       const handleAliases = sameAs
         .map((url) => getUsernameFromUrl(url))
         .filter(Boolean)
@@ -1349,7 +1317,7 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
     { k: "home", label: "Home" },
     { k: "about", label: "About Us" },
     { k: "roster", label: "Roster" },
-    { k: "asiancy", label: "Asaincy", isNew: true },
+    { k: "asiancy", label: "Asiancy", isNew: true },
     { k: "contact", label: "Contact" },
   ];
 
@@ -1539,7 +1507,7 @@ function CreatorProfile({ creator, onBack }) {
     canonical.setAttribute("rel", "canonical");
     canonical.setAttribute(
       "href",
-      name ? `https://weardmgmt.com/creators/${slugify(name)}` : "https://weardmgmt.com/roster"
+      name ? `https://weardmgmt.com/creators/${creatorSlug(creator)}` : "https://weardmgmt.com/roster"
     );
     return () => { document.title = "WEARD Management"; };
   }, [creator]);
@@ -2047,7 +2015,7 @@ function Asiancy({ onNav }) {
         >
           <div className="asiancy-kicker"><span /> The cross-cultural agency by WEARD</div>
           <div className="asiancy-hero__stamp" aria-hidden="true">APAC<br />↔ UK</div>
-          <h1 className="asiancy-wordmark" aria-label="Asaincy">Asaincy<span>.</span></h1>
+          <h1 className="asiancy-wordmark" aria-label="Asiancy">Asiancy<span>.</span></h1>
           <div className="asiancy-intro">
             <p>Born in Asia.<br />Built for what’s next.</p>
             <div className="asiancy-intro__copy">
@@ -2064,7 +2032,7 @@ function Asiancy({ onNav }) {
         <div className="asiancy-statement">
           <p className="asiancy-section-label">The opportunity</p>
           <h2>Growth starts with what already makes your brand <em>matter.</em></h2>
-          <p>Whether you are preparing to launch or building on an established UK presence, Asaincy turns the strength of your brand into local relevance, demand, and lasting momentum.</p>
+          <p>Whether you are preparing to launch or building on an established UK presence, Asiancy turns the strength of your brand into local relevance, demand, and lasting momentum.</p>
         </div>
 
         <div className="asiancy-services">
@@ -2179,7 +2147,10 @@ function Home({ onExploreRoster, onWorkWithUs, onNav }) {
           creators with ambitious brands. We build culturally sharp campaigns that perform across
           the UK and Asia.
         </p>
-        <div className="mt-10 grid w-full max-w-5xl gap-4 text-left sm:gap-5">
+        <h2 className="mt-8 max-w-3xl text-xl font-bold sm:text-2xl">
+          Talent management and influencer marketing, built differently.
+        </h2>
+        <div className="mt-6 grid w-full max-w-5xl gap-4 text-left sm:gap-5">
           <button
             onClick={onExploreRoster}
             className="group rounded-[1.6rem] border border-neutral-200 bg-neutral-950 px-5 py-5 text-white shadow-2xl transition hover:-translate-y-1 hover:border-neutral-950 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:px-7 sm:py-6"
@@ -2193,7 +2164,7 @@ function Home({ onExploreRoster, onWorkWithUs, onNav }) {
           </button>
           <article className="group relative overflow-hidden rounded-[1.6rem] border border-neutral-200 bg-white px-5 py-5 text-neutral-950 shadow-xl transition hover:-translate-y-1 hover:border-neutral-950 dark:bg-neutral-100 sm:px-7 sm:py-6">
             <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.28em] text-neutral-400">
-              Introducing our agency division · <span className="text-indigo-600">Asaincy</span>
+              Introducing our agency division · <span className="text-indigo-600">Asiancy</span>
             </p>
             <span className="block text-[clamp(2.5rem,9vw,6.2rem)] font-black uppercase leading-[0.9] tracking-[-0.08em]">
               We are influencer marketing
@@ -2211,7 +2182,7 @@ function Home({ onExploreRoster, onWorkWithUs, onNav }) {
                 onClick={() => onNav?.("asiancy")}
                 className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-indigo-600 transition hover:text-indigo-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
               >
-                Enter Asaincy <ArrowRight size={16} />
+                Enter Asiancy <ArrowRight size={16} />
               </button>
             </div>
           </article>
@@ -2441,10 +2412,10 @@ function HeroCarousel() {
                 }}
               >
                 {ordered.map((src, index) => (
-                  <HeroCard key={`${src}-${index}-a`} src={src} />
+                  <HeroCard key={`${src}-${index}-a`} src={src} playClip={index === 0} />
                 ))}
                 {ordered.map((src, index) => (
-                  <HeroCard key={`${src}-${index}-b`} src={src} />
+                  <HeroCard key={`${src}-${index}-b`} src={src} playClip={index === 0} />
                 ))}
               </div>
             </div>
@@ -2456,10 +2427,10 @@ function HeroCarousel() {
 
       <div className="weard-hero__overlay">
         <div className="weard-hero__glass">
-          <h1>
+          <div className="weard-hero__title">
             <span className="weard-hero__brand">WEARD</span>
             <span className="weard-hero__descriptor">Talent Management Agency</span>
-          </h1>
+          </div>
           <p>WE • ARE • DIFFERENT</p>
         </div>
       </div>
@@ -2469,21 +2440,24 @@ function HeroCarousel() {
 
 const HERO_VIDEO_POSTER = "/og-image.jpg";
 
-function HeroCard({ src }) {
+function HeroCard({ src, playClip = false }) {
   const [hasError, setHasError] = useState(false);
   return (
     <div className="weard-hero__card">
-      <video
-        src={src}
-        muted
-        loop
-        playsInline
-        autoPlay
-        preload="none"
-        poster={HERO_VIDEO_POSTER}
-        loading="lazy"
-        onError={() => setHasError(true)}
-      />
+      {playClip ? (
+        <video
+          src={src}
+          muted
+          loop
+          playsInline
+          autoPlay
+          preload="none"
+          poster={HERO_VIDEO_POSTER}
+          onError={() => setHasError(true)}
+        />
+      ) : (
+        <img src={HERO_VIDEO_POSTER} alt="" loading="lazy" decoding="async" />
+      )}
       {hasError && (
         <div className="weard-hero__fallback">Add MP4 at: {src}</div>
       )}
@@ -3172,7 +3146,7 @@ function CreatorDirectory({ creators = [], onNav }) {
       name: creator.name,
       handles,
       location: creator.location,
-      slug: slugify(creator.name || ""),
+      slug: creatorSlug(creator),
     };
   });
 
@@ -3301,7 +3275,7 @@ function CreatorCard({ p }) {
   const yts = cleanNum(p.youtube_subscribers) ?? 0;
   const total = (ig > 0 ? ig : 0) + (tt > 0 ? tt : 0) + (yts > 0 ? yts : 0);
 
-  const profilePath = `/creators/${slugify(p.name || "creator")}`;
+  const profilePath = `/creators/${creatorSlug(p)}`;
   const rosterName = p.rosterName || p.name;
   const handle =
     p.rosterHandle ||
@@ -3438,7 +3412,7 @@ function CreatorCard({ p }) {
   <div className="flex items-start justify-between gap-3">
   <div /> {/* name now only appears on the media */}
   <a
-    href={`/creators/${slugify(p.name)}`}
+    href={`/creators/${creatorSlug(p)}`}
     onClick={(event) => {
       if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       event.preventDefault();
@@ -3681,7 +3655,7 @@ function Terms() {
 
       <h2 className={sectionClass}>1. About us</h2>
       <p className={copyClass}>
-        The Site is operated by WEARD Management Limited (“WEARD”, “we”, “us” or “our”), a company registered in England and Wales under company number 16730275. Our registered office is at 71–75 Shelton Street, Covent Garden, London WC2H 9JQ.
+        The Site is operated by WEARD Management Limited (“WEARD”, “we”, “us” or “our”), a company registered in England and Wales under company number 16730275.
       </p>
 
       <h2 className={sectionClass}>2. Changes to these terms and the Site</h2>
@@ -3757,7 +3731,7 @@ function Terms() {
 
       <h2 className={sectionClass}>14. Contact</h2>
       <p className={copyClass}>
-        Questions about these terms may be sent to <a className="underline underline-offset-2" href="mailto:info@weardmgmt.com">info@weardmgmt.com</a> or by post to our registered office above.
+        Questions about these terms may be sent to <a className="underline underline-offset-2" href="mailto:info@weardmgmt.com">info@weardmgmt.com</a>.
       </p>
     </section>
   );

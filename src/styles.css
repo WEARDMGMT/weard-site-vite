@@ -359,7 +359,8 @@ body.weard-loading {
   margin-bottom: 10px;
 }
 
-.weard-hero__card video {
+.weard-hero__card video,
+.weard-hero__card img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -400,7 +401,7 @@ body.weard-loading {
   animation: weard-glass-float 7s ease-in-out infinite;
 }
 
-.weard-hero__glass h1 {
+.weard-hero__title {
   margin: 0;
   display: grid;
   gap: 0.45rem;
@@ -915,7 +916,7 @@ body.weard-loading {
     padding: 22px;
   }
 
-  .weard-hero__glass h1 {
+  .weard-hero__title {
     letter-spacing: 0.16em;
   }
 

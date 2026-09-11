@@ -17,7 +17,12 @@
       ]
     }
   ],
+  "redirects": [
+    { "source": "/asaincy", "destination": "/asiancy", "permanent": true },
+    { "source": "/creators/jno-pwr", "destination": "/creators/jno-pwnr", "permanent": true },
+    { "source": "/creators/i-m-hungry-in-london", "destination": "/creators/imhungryinlondon", "permanent": true }
+  ],
   "rewrites": [
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
