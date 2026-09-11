@@ -2478,25 +2478,35 @@ function RotatingWords({ words }) {
 
 // ======= ABOUT =======
 function About({ onNav }) {
-  const totalCreators = STARTER_CREATORS.length;
-  const totalFollowing = STARTER_CREATORS.reduce((sum, creator) => {
-    const ig = cleanNum(creator.instagram_followers) ?? 0;
-    const tt = cleanNum(creator.tiktok_followers) ?? 0;
-    const yt = cleanNum(creator.youtube_subscribers) ?? 0;
-    return sum + ig + tt + yt;
-  }, 0);
   const pillars = [
-    { label: "01", title: "Creator positioning", note: "We turn a creator's difference into a clear commercial angle, so brands understand the audience, the formats, and the value fast." },
-    { label: "02", title: "Brand partnerships", note: "We source and shape collaborations that feel natural on camera, commercially fair, and useful for both sides." },
-    { label: "03", title: "Campaign delivery", note: "Briefs, pricing, usage, approvals, timelines, reporting, and payment support stay organised from first message to final recap." },
-  ];
-  const highlights = [
-    "Creator management",
-    "Influencer strategy",
-    "Brand outreach",
-    "Negotiation and usage",
-    "Campaign production",
-    "Reporting and wrap-up",
+    {
+      label: "01",
+      title: "Distinct by nature",
+      subtitle: "We represent creators worth noticing.",
+      body: ["We aren't interested in building a roster that looks like everyone else's.", "WEARD represents creators with distinctive personalities, perspectives, communities and ideas. Talent who bring something recognisable to the table and give audiences a reason to keep watching.", "That individuality leads to better content, stronger partnerships and more memorable campaigns."],
+      signoff: "Standout talent creates standout work.",
+    },
+    {
+      label: "02",
+      title: "Culturally fluent",
+      subtitle: "We understand culture, not just audiences.",
+      body: ["Culture shapes what people find funny, interesting, relevant and worth sharing.", "Our creators bring their own experiences, communities and perspectives into their work, giving brands the opportunity to create campaigns that feel more original, considered and culturally relevant.", "We look beyond audience demographics to understand the people behind the numbers and what actually connects with them."],
+      signoff: "Different perspectives make better ideas.",
+    },
+    {
+      label: "03",
+      title: "Built for the long term",
+      subtitle: "We build careers, not moments.",
+      body: ["A creator's career is bigger than their next campaign.", "We think about where our talent is going, not simply what they can book today.", "From positioning and partnerships to pricing, audience development and new opportunities, we help creators make decisions that strengthen their careers over time.", "The goal is sustainable growth, stronger personal brands and careers with longevity."],
+      signoff: "Every opportunity should lead somewhere.",
+    },
+    {
+      label: "04",
+      title: "Global by mindset",
+      subtitle: "We think beyond one market.",
+      body: ["Creators, audiences and brands are increasingly global.", "With roots and relationships across the UK and Asia, WEARD connects talent and opportunities across markets while understanding the cultural differences between them.", "We are particularly focused on building stronger connections between the UK and APAC, helping creators access new brands, audiences and opportunities as their careers develop.", "The goal isn't to be everywhere. It's to create the right opportunities wherever a creator's career can go next."],
+      signoff: "Local understanding. Global ambition.",
+    },
   ];
 
   return (
@@ -2507,93 +2517,45 @@ function About({ onNav }) {
           <h1>We work with creators<br />that <em>move culture.</em></h1>
           <div className="about-hero__footer">
             <p>WEARD is a cross-border talent and creative company representing the people shaping what the world watches, wears, tastes, and talks about.</p>
-            <div className="about-hero__mark">W<span>✦</span></div>
           </div>
         </div>
 
-        <div className="about-manifesto">
-          <p className="about-label">Our point of view</p>
-          <h2>Difference is<br />the advantage.</h2>
-          <div><p>We started WEARD because the most interesting creators were too often being flattened into categories. We saw something else: global stories, commercially powerful communities, and talent with the ability to shift culture.</p><p>So we built the management company they deserved—personal enough to know every ambition, international enough to unlock new markets, and sharp enough to turn influence into an enduring career.</p></div>
-        </div>
-
-      <div className="about-feature relative mt-10 overflow-hidden border-y border-white/20 py-12 text-white sm:py-16">
-        <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-indigo-500/30 blur-3xl" aria-hidden="true" />
-        <div className="pointer-events-none absolute -bottom-28 left-10 h-72 w-72 rounded-full bg-fuchsia-500/20 blur-3xl" aria-hidden="true" />
-        <div className="relative grid gap-10 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-end">
+        <div className="about-pillars-intro">
+          <p className="about-label">Our pillars</p>
           <div>
-            <p className="about-label text-white/60">
-              Boutique talent management
-            </p>
-            <h2 className="mt-6 max-w-4xl text-5xl font-black uppercase leading-[0.9] tracking-tight sm:text-7xl">
-              Built for creators going further.
-            </h2>
-            <p className="mt-5 max-w-2xl text-base leading-7 text-white/75 sm:text-lg">
-              WEARD manages culturally influential creators and builds brand partnerships across the UK and APAC. We keep the work sharp, commercially smart, and true to the creator.
-            </p>
-          </div>
-          <div className="grid gap-3">
-            <div className="about-stat border-t border-white/20 py-5">
-              <p className="text-xs uppercase tracking-[0.3em] text-white/50">Roster</p>
-              <p className="mt-2 text-4xl font-black"><CountTo to={totalCreators} />+</p>
-              <p className="text-sm text-white/65">Creators with communities that move culture.</p>
-            </div>
-            <div className="about-stat border-t border-white/20 py-5">
-              <p className="text-xs uppercase tracking-[0.3em] text-white/50">Reach</p>
-              <p className="mt-2 text-4xl font-black"><CountTo to={totalFollowing} format={shortFormat} />+</p>
-              <p className="text-sm text-white/65">Combined social following across platforms.</p>
-            </div>
+            <h2>We. Are. Different.</h2>
+            <p className="about-pillars-intro__lead">WEARD represents creators who stand out.</p>
+            <p>Distinct voices, original perspectives and creators with something people genuinely want to follow.</p>
+            <p>Our approach combines cultural understanding, long-term career development and international thinking to connect exceptional talent with the right opportunities.</p>
+            <p>Everything we do is shaped by four core pillars.</p>
           </div>
         </div>
-      </div>
 
-      <div className="about-services mt-20 overflow-hidden border-y border-white/20">
-        <div className="grid lg:grid-cols-[0.95fr_1.05fr]">
-          <div className="relative overflow-hidden py-12 pr-6 text-white sm:py-16 sm:pr-8 lg:pr-16">
-            <div className="pointer-events-none absolute -left-20 top-8 h-64 w-64 rounded-full bg-blue-500/25 blur-3xl" aria-hidden="true" />
-            <div className="pointer-events-none absolute bottom-0 right-0 h-56 w-56 rounded-full bg-fuchsia-500/20 blur-3xl" aria-hidden="true" />
-            <div className="relative">
-              <p className="text-xs uppercase tracking-[0.35em] text-white/50">About us</p>
-              <h3 className="mt-4 max-w-xl text-4xl font-black uppercase leading-none tracking-tight sm:text-6xl">
-                Talent first. Brand ready.
-              </h3>
-              <p className="mt-5 max-w-xl text-sm leading-7 text-white/70 sm:text-base">
-                WEARD is an influencer marketing partner for creators who move culture and brands that want work with a point of view. We manage the commercial details without sanding down what makes the talent different.
-              </p>
-              <button
-                type="button"
-                onClick={() => onNav?.("contact")}
-                className="about-text-link mt-7 inline-flex items-center gap-2 pb-1 text-sm font-semibold text-white"
-              >
-                Work with WEARD <ArrowRight size={16} />
-              </button>
-            </div>
-          </div>
-          <div className="border-t border-white/20 py-12 sm:py-16 lg:border-l lg:border-t-0 lg:pl-12">
-            <p className="text-xs uppercase tracking-[0.35em] text-neutral-400">What we handle</p>
-            <div className="mt-6 grid gap-5">
-              {pillars.map((pillar) => (
-                <div key={pillar.label} className="about-pillar group grid gap-4 border-t border-white/20 py-6 sm:grid-cols-[56px_1fr]">
-                  <div className="text-sm font-black text-cyan-300">{pillar.label}</div>
-                  <div>
-                    <h4 className="text-xl font-black uppercase tracking-tight text-neutral-900">{pillar.title}</h4>
-                    <p className="mt-2 text-sm leading-6 text-neutral-600 dark:text-neutral-400">{pillar.note}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+        <div className="about-pillars">
+          {pillars.map((pillar) => (
+            <article key={pillar.label} className="about-pillar">
+              <span>{pillar.label}</span>
+              <div>
+                <h3>{pillar.title}</h3>
+                <h4>{pillar.subtitle}</h4>
+                {pillar.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                <strong>{pillar.signoff}</strong>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div className="about-approach">
+          <p className="about-label">Our approach</p>
+          <div>
+            <h2>Strong representation matters.</h2>
+            <p>Creativity has value, and we believe it should be properly represented.</p>
+            <p>We approach every partnership with a clear understanding of the value our creators bring through their ideas, content, audience and influence.</p>
+            <p>That means negotiating properly, protecting creator value and making sure opportunities work creatively, commercially and strategically.</p>
+            <p>We want brands and creators to build great work together on terms that respect both sides.</p>
+            <strong>Great talent deserves great representation.</strong>
           </div>
         </div>
-        <div className="border-t border-white/20 py-6">
-          <div className="about-capabilities grid sm:grid-cols-2 lg:grid-cols-3">
-            {highlights.map((item) => (
-              <span key={item} className="border-b border-white/15 py-4 text-xs font-semibold uppercase tracking-[0.18em] text-white/65">
-                {item}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
 
       <div className="about-partners mt-20 border-y border-white/20 py-12 sm:py-16">
         <div className="text-center text-white">
