@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Opening WEARD Management…</title>
+    <script>
+      // GitHub Pages cannot rewrite SPA routes. Preserve the requested path in
+      // the query string, load the root document, and let index.html restore it
+      // before React starts. This also supports nested creator profile URLs.
+      (function (location) {
+        var root = location.protocol + "//" + location.host;
+        var route = location.pathname.replace(/^\//, "").replace(/&/g, "~and~");
+        var query = location.search
+          ? "&" + location.search.slice(1).replace(/&/g, "~and~")
+          : "";
+
+        location.replace(root + "/?/" + route + query + location.hash);
+      })(window.location);
+    </script>
+  </head>
+  <body>
+    <p>Opening <a href="/">WEARD Management</a>…</p>
+  </body>
+</html>
+
