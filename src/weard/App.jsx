@@ -141,7 +141,7 @@ const INPUT_CLS =
   "w-full px-4 py-2 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 placeholder-neutral-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500";
 const BTN_PRIMARY_CLS = `${GRADIENT} inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500`;
 const TALENT_STATS_MAX_FILES = 3;
-const TALENT_STATS_MAX_FILE_SIZE = 1024 * 1024;
+const TALENT_STATS_MAX_FILE_SIZE = 2 * 1024 * 1024;
 const TALENT_STATS_ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 const CONSENT_STORAGE_KEY = "weard-cookie-consent";
 const LOADER_SESSION_KEY = "weard-loader-played";
@@ -773,14 +773,19 @@ const PAGE_PATHS = {
   roster: "/roster",
   contact: "/contact",
   privacy: "/privacy",
+  terms: "/terms",
   asiancy: "/asaincy",
   "influencer-marketing-agency": "/influencer-marketing-agency",
-  "apac-influencer-marketing": "/apac-influencer-marketing",
-  "asia-to-uk-influencer-marketing": "/asia-to-uk-influencer-marketing",
-  "diverse-creators": "/diverse-creators",
-  "asian-influencers-uk": "/asian-influencers-uk",
-  "cultural-campaign-creators": "/cultural-campaign-creators",
 };
+
+const RETIRED_SEO_PATHS = new Set([
+  "/apac-influencer-marketing",
+  "/asia-to-uk-influencer-marketing",
+  "/diverse-creators",
+  "/asian-influencers-uk",
+  "/cultural-campaign-creators",
+  "/brands",
+]);
 
 // Lightweight intersection observer for lazy loading
 function useInView(options) {
@@ -839,20 +844,10 @@ function getUsernameFromUrl(url) {
   }
 }
 
-function CountTo({ to = 0, duration = 650, format = (x) => x.toLocaleString() }) {
-  const [v, setV] = useState(0);
-  useEffect(() => {
-    let start = null;
-    let raf;
-    const step = (t) => {
-      if (!start) start = t;
-      const p = Math.min((t - start) / duration, 1);
-      setV(Math.round(p * to));
-      if (p < 1) raf = requestAnimationFrame(step);
-    };
-    raf = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(raf);
-  }, [to, duration]);
+function CountTo({ to = 0, format = (x) => x.toLocaleString() }) {
+  // Keep the meaningful value in the initial HTML. Motion must never hide data
+  // from crawlers, reduced-motion users, or a quickly captured screenshot.
+  const v = to;
   return <>{format(v)}</>;
 }
 
@@ -889,6 +884,12 @@ export default function App() {
     }
     // Keep old shared links working after the agency division name change.
     if (normalized === "/asiancy") {
+      window.history.replaceState({}, "", PAGE_PATHS.asiancy);
+      setSelectedCreator(null);
+      setActivePage("asiancy");
+      return;
+    }
+    if (RETIRED_SEO_PATHS.has(normalized)) {
       window.history.replaceState({}, "", PAGE_PATHS.asiancy);
       setSelectedCreator(null);
       setActivePage("asiancy");
@@ -1037,6 +1038,10 @@ useEffect(() => {
         title: "Privacy Policy | WEARD Management",
         description: "WEARD Management privacy policy and data protection information.",
       },
+      terms: {
+        title: "Website Terms | WEARD Management",
+        description: "Terms governing use of the WEARD Management website.",
+      },
       asiancy: {
         title: "Asaincy | The Agency Division of WEARD",
         description:
@@ -1086,6 +1091,16 @@ useEffect(() => {
       document.head.appendChild(document.createElement("link"));
     canonical.setAttribute("rel", "canonical");
     canonical.setAttribute("href", `https://weardmgmt.com${PAGE_PATHS[activePage] || "/"}`);
+    const socialUrl = `https://weardmgmt.com${PAGE_PATHS[activePage] || "/"}`;
+    const setMeta = (selector, attribute, value) => {
+      const tag = document.querySelector(selector);
+      if (tag) tag.setAttribute(attribute, value);
+    };
+    setMeta('meta[property="og:title"]', "content", metaConfig.title);
+    setMeta('meta[property="og:description"]', "content", metaConfig.description);
+    setMeta('meta[property="og:url"]', "content", socialUrl);
+    setMeta('meta[name="twitter:title"]', "content", metaConfig.title);
+    setMeta('meta[name="twitter:description"]', "content", metaConfig.description);
   }, [activePage]);
 
   useEffect(() => {
@@ -1159,13 +1174,18 @@ useEffect(() => {
               <Asiancy onNav={navigate} />
             </motion.section>
           )}
-                    {activePage === "privacy" && (
+          {activePage === "privacy" && (
             <motion.section
             key="privacy" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}  exit={{ opacity: 0, y: -8 }}
   >
     <PrivacyPolicy />
   </motion.section>
 )}
+          {activePage === "terms" && (
+            <motion.section key="terms" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              <Terms />
+            </motion.section>
+          )}
           {activePage === "profile" && (
   <motion.section
     key="profile"
@@ -1289,13 +1309,13 @@ useEffect(() => {
               <p>
                 We use cookies to understand site traffic and improve your experience. You can accept or decline analytics cookies.
                 Review our{" "}
-                <button
-                  type="button"
-                  onClick={() => navigate("privacy")}
+                <SiteLink
+                  to="privacy"
+                  onNav={navigate}
                   className="font-semibold text-indigo-600 underline underline-offset-4 dark:text-indigo-300"
                 >
                   Privacy Policy
-                </button>
+                </SiteLink>
                 .
               </p>
             </div>
@@ -1376,9 +1396,10 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
         </div>
         <nav className="hidden md:flex items-center gap-6" aria-label="Primary">
           {nav.map((n) => (
-            <button
+            <SiteLink
               key={n.k}
-              onClick={() => onNav(n.k)}
+              to={n.k}
+              onNav={onNav}
               className={cn(
                 "rounded-full px-3 py-1.5 text-sm transition focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400",
                 active === n.k
@@ -1392,10 +1413,11 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
                 {n.label}
                 {active === n.k && <span className="ml-2 h-1.5 w-1.5 rounded-full bg-lime-300" aria-hidden="true" />}
               </span>
-            </button>
+            </SiteLink>
           ))}
-          <button
-            onClick={() => onNav("contact")}
+          <SiteLink
+            to="contact"
+            onNav={onNav}
             className={cn(
               `inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold text-white ${GRADIENT}`,
               active === "contact" && "ring-2 ring-neutral-900 ring-offset-2"
@@ -1403,11 +1425,12 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
             aria-current={active === "contact" ? "page" : undefined}
           >
             Start a Campaign <ArrowRight size={14} />
-          </button>
+          </SiteLink>
         </nav>
         <div className="md:hidden flex items-center gap-2">
-          <button
-            onClick={() => onNav("contact")}
+          <SiteLink
+            to="contact"
+            onNav={onNav}
             className={cn(
               "inline-flex items-center rounded-full border px-3 py-2 text-xs font-semibold",
               active === "contact"
@@ -1417,7 +1440,7 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
             aria-current={active === "contact" ? "page" : undefined}
           >
             Contact
-          </button>
+          </SiteLink>
           <button
             aria-label="Open menu"
             aria-expanded={menuOpen}
@@ -1455,9 +1478,10 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
             </div>
             <div className="mt-6 grid gap-3">
               {nav.map((n) => (
-                <button
+                <SiteLink
                   key={n.k}
-                  onClick={() => onNav(n.k)}
+                  to={n.k}
+                  onNav={onNav}
                   className={cn(
   "w-full text-left px-4 py-3 rounded-xl border transition focus:outline-none focus:ring-2 focus:ring-indigo-500",
   active === n.k
@@ -1470,14 +1494,15 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
                     {n.label}
                     {n.isNew && <span className="rounded-full bg-lime-300 px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.16em] text-neutral-950">New</span>}
                   </span>
-                </button>
+                </SiteLink>
               ))}
-              <button
-                onClick={() => onNav("contact")}
+              <SiteLink
+                to="contact"
+                onNav={onNav}
                 className={`mt-2 w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold text-white ${GRADIENT}`}
               >
                 Start a Campaign <ArrowRight size={14} />
-              </button>
+              </SiteLink>
             </div>
           </motion.div>
         )}
@@ -1920,6 +1945,7 @@ function SiteLink({ to, onNav, className, children }) {
       href={href}
       onClick={(event) => {
         if (!onNav || !pageKey) return;
+        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
         event.preventDefault();
         onNav(pageKey);
       }}
@@ -1933,12 +1959,13 @@ function SiteLink({ to, onNav, className, children }) {
 function StickyMobileCta({ onNav }) {
   return (
     <div className="fixed inset-x-0 bottom-0 z-30 border-t border-neutral-200 bg-white/95 p-3 backdrop-blur dark:border-neutral-800 dark:bg-neutral-950/95 md:hidden">
-      <button
-        onClick={() => onNav?.("contact")}
+      <SiteLink
+        to="contact"
+        onNav={onNav}
         className={`w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-full text-sm font-semibold text-white ${GRADIENT}`}
       >
         Start Your Campaign <ArrowRight size={16} />
-      </button>
+      </SiteLink>
     </div>
   );
 }
@@ -2971,11 +2998,11 @@ function Roster({ creators, onNav }) {
   }, [tab, region, followingRange, socialPlatform, visibleCreators, search]);
 
   return (
-    <section className="culture-page roster-page weard-section max-w-7xl mx-auto px-4 pt-8 sm:pt-10 pb-28 md:pb-20">
+    <section className="culture-page roster-page weard-section max-w-7xl mx-auto px-4 pt-12 sm:pt-16 pb-28 md:pb-20">
       <div className="relative z-10 flex items-center justify-between flex-wrap gap-3 sm:gap-4">
         <div>
           <p className="text-xs uppercase tracking-[0.35em] text-neutral-400">Talent</p>
-          <h2 className="mt-2 text-3xl sm:text-4xl font-bold">Roster</h2>
+          <h1 className="mt-2 text-3xl sm:text-4xl font-bold">Roster</h1>
           <p className="mt-2 text-base leading-7 text-neutral-500 dark:text-neutral-400 max-w-xl">
             A handpicked roster of diverse creators selected for cultural relevance, creative quality, and campaign performance.
           </p>
@@ -3097,12 +3124,13 @@ function Roster({ creators, onNav }) {
               Sport, Travel, and Family. If you are building a serious personal brand, we should talk.
             </p>
           </div>
-          <button
-            onClick={() => window.weardNav?.("contact")}
+          <SiteLink
+            to="contact"
+            onNav={onNav}
             className="mt-6 inline-flex items-center gap-2 text-sm underline"
           >
             Submit your profile <ArrowRight size={14} />
-          </button>
+          </SiteLink>
         </div>
       </motion.div>
       {filtered.length === 0 && (
@@ -3179,6 +3207,7 @@ function CreatorDirectory({ creators = [], onNav }) {
             <a
               href={`/creators/${entry.slug}`}
               onClick={(event) => {
+                if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
                 event.preventDefault();
                 const creator = creators.find((item) => slugify(item.name) === entry.slug);
                 window.weardOpenProfile?.(creator);
@@ -3292,6 +3321,7 @@ function CreatorCard({ p }) {
         ref={mediaRef}
         href={profilePath}
         onClick={(event) => {
+          if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
           event.preventDefault();
           window.weardOpenProfile?.(p);
         }}
@@ -3410,6 +3440,7 @@ function CreatorCard({ p }) {
   <a
     href={`/creators/${slugify(p.name)}`}
     onClick={(event) => {
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       event.preventDefault();
       window.weardOpenProfile?.(p);
     }}
@@ -3617,7 +3648,7 @@ function PrivacyPolicy() {
 
       <h2 className="mt-8 text-xl font-semibold">Cookies</h2>
       <p className="mt-3 text-neutral-700 dark:text-neutral-300">
-        Our website may use cookies or similar technologies for analytics and functionality. You can disable cookies in your browser settings if you prefer.
+        With your consent, HubSpot uses analytics cookies (including <code>hubspotutk</code> and <code>__hstc</code>) to help us understand site use. Apollo's website visitor tracker may also process business-network and IP-derived company information. Neither service loads until you select “Accept” in our cookie banner. You may decline without losing access to the site.
       </p>
 
       <h2 className="mt-8 text-xl font-semibold">Contact Us</h2>
@@ -3628,6 +3659,23 @@ function PrivacyPolicy() {
     </section>
   );
   }
+
+function Terms() {
+  return (
+    <section className="max-w-3xl mx-auto px-4 pt-10 pb-20">
+      <h1 className="text-3xl sm:text-4xl font-bold">Website Terms</h1>
+      <p className="mt-6 text-neutral-700 dark:text-neutral-300">By using this website, you agree to use it lawfully and not to interfere with its operation. Content is provided for general information and does not constitute professional advice or a binding offer.</p>
+      <h2 className="mt-8 text-xl font-semibold">Intellectual property</h2>
+      <p className="mt-3 text-neutral-700 dark:text-neutral-300">Unless otherwise stated, WEARD Management Limited owns or licenses the website content. You may not reproduce or commercially exploit it without written permission.</p>
+      <h2 className="mt-8 text-xl font-semibold">Enquiries and availability</h2>
+      <p className="mt-3 text-neutral-700 dark:text-neutral-300">Submitting an enquiry does not create a contract or guarantee creator availability. Campaign terms are agreed separately in writing.</p>
+      <h2 className="mt-8 text-xl font-semibold">Liability and law</h2>
+      <p className="mt-3 text-neutral-700 dark:text-neutral-300">We take reasonable care over this website but do not guarantee uninterrupted access or that all content is error-free. Nothing excludes liability that cannot lawfully be excluded. These terms are governed by the laws of England and Wales.</p>
+      <h2 className="mt-8 text-xl font-semibold">Contact</h2>
+      <p className="mt-3 text-neutral-700 dark:text-neutral-300">Questions may be sent to <a className="underline" href="mailto:info@weardmgmt.com">info@weardmgmt.com</a>.</p>
+    </section>
+  );
+}
 // ======= CONTACT =======
 function Contact() {
   const [mode, setMode] = useState("default");
@@ -3844,9 +3892,9 @@ function Contact() {
           <div className="text-[10px] sm:text-xs uppercase tracking-[0.35em] text-neutral-500">
             UK ↔ APAC · CREATOR CAMPAIGNS · TALENT MANAGEMENT
           </div>
-          <h2 className="mt-4 text-5xl sm:text-7xl font-black uppercase leading-[0.92] tracking-tight text-neutral-900 dark:text-white whitespace-pre-line">
+          <h1 className="mt-4 text-5xl sm:text-7xl font-black uppercase leading-[0.92] tracking-tight text-neutral-900 dark:text-white whitespace-pre-line">
             {mode === "talent" ? "WANT TO JOIN\nTHE ROSTER?" : "LET’S BUILD\nSOMETHING"}
-          </h2>
+          </h1>
           <p className="mt-5 max-w-2xl text-sm sm:text-base text-neutral-600 dark:text-neutral-300">
             {mode === "talent"
               ? "Tell us about you."
@@ -3896,6 +3944,7 @@ function Contact() {
                     required
                     placeholder="e.g., Alex Morgan"
                     className={INPUT_CLS}
+                    name="name"
                     value={talent.name}
                     onChange={(e) => setTalent({ ...talent, name: e.target.value })}
                     autoComplete="name"
@@ -3911,6 +3960,7 @@ function Contact() {
                     type="email"
                     placeholder="you@email.com"
                     className={INPUT_CLS}
+                    name="email"
                     value={talent.email}
                     onChange={(e) => setTalent({ ...talent, email: e.target.value })}
                     autoComplete="email"
@@ -3927,6 +3977,7 @@ function Contact() {
                     required
                     placeholder="https://instagram.com/username"
                     className={INPUT_CLS}
+                    name="ig"
                     value={talent.ig}
                     onChange={(e) => setTalent({ ...talent, ig: e.target.value })}
                   />
@@ -3937,6 +3988,7 @@ function Contact() {
                   <input
                     placeholder="https://tiktok.com/@username"
                     className={INPUT_CLS}
+                    name="tt"
                     value={talent.tt}
                     onChange={(e) => setTalent({ ...talent, tt: e.target.value })}
                   />
@@ -3951,6 +4003,7 @@ function Contact() {
                   <select
                     required
                     className={INPUT_CLS}
+                    name="category"
                     value={talent.category}
                     onChange={(e) =>
                       setTalent({ ...talent, category: e.target.value })
@@ -3968,6 +4021,7 @@ function Contact() {
                   <input
                     placeholder="e.g., 70% UK women 18-34"
                     className={INPUT_CLS}
+                    name="audience"
                     value={talent.audience}
                     onChange={(e) => setTalent({ ...talent, audience: e.target.value })}
                   />
@@ -3993,6 +4047,7 @@ function Contact() {
                   <textarea
                     placeholder="e.g., top countries, age split, gender split, monthly views, engagement rate"
                     className={`${INPUT_CLS} min-h-24`}
+                    name="statsSummary"
                     value={talent.statsSummary}
                     onChange={(e) => setTalent({ ...talent, statsSummary: e.target.value })}
                     maxLength={1500}
@@ -4002,6 +4057,7 @@ function Contact() {
                   <span className="font-medium text-neutral-900">Upload stats screenshots</span>
                   <input
                     type="file"
+                    name="statsScreenshots"
                     accept="image/png,image/jpeg,image/webp"
                     multiple
                     className="text-sm file:mr-3 file:rounded-full file:border-0 file:bg-neutral-900 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white"
@@ -4031,7 +4087,8 @@ function Contact() {
                 <textarea
                   placeholder="Tell us why you'd like to join."
                   className={`${INPUT_CLS} min-h-28`}
-                  value={talent.whyWeard}
+                  name="whyWeard"
+                    value={talent.whyWeard}
                   onChange={(e) => setTalent({ ...talent, whyWeard: e.target.value })}
                 />
               </label>
@@ -4040,7 +4097,8 @@ function Contact() {
                 <textarea
                   placeholder="Niche, availability, recent work…"
                   className={`${INPUT_CLS} min-h-36`}
-                  value={talent.notes}
+                  name="notes"
+                    value={talent.notes}
                   onChange={(e) => setTalent({ ...talent, notes: e.target.value })}
                   maxLength={1500}
                 />
@@ -4062,7 +4120,8 @@ function Contact() {
                   required
                   placeholder="e.g., Weard Mgmt"
                   className={INPUT_CLS}
-                  value={form.brand}
+                  name="brand"
+                    value={form.brand}
                   onChange={(e) => setForm({ ...form, brand: e.target.value })}
                   autoComplete="organization"
                 />
@@ -4074,6 +4133,7 @@ function Contact() {
                   <input
                     placeholder="e.g., Brand Manager"
                     className={INPUT_CLS}
+                    name="role"
                     value={form.role}
                     onChange={(e) => setForm({ ...form, role: e.target.value })}
                     autoComplete="organization-title"
@@ -4089,6 +4149,7 @@ function Contact() {
                     type="email"
                     placeholder="name@company.com"
                     className={INPUT_CLS}
+                    name="email"
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
                     autoComplete="email"
@@ -4104,6 +4165,7 @@ function Contact() {
                   <input
                     placeholder="+44 …"
                     className={INPUT_CLS}
+                    name="number"
                     value={form.number}
                     onChange={(e) => setForm({ ...form, number: e.target.value })}
                     inputMode="tel"
@@ -4115,15 +4177,15 @@ function Contact() {
 
                 <label className="grid gap-1">
                   <span className="text-sm font-medium">
-                    Budget Range (optional)
+                    Indicative budget (optional)
                   </span>
                   <select
                     className={INPUT_CLS}
+                    name="budget"
                     value={form.budget}
                     onChange={(e) => setForm({ ...form, budget: e.target.value })}
                   >
                     <option value="">Select…</option>
-                    <option value="Under £5k">Under £5k</option>
                     <option value="£5k-£10k">£5k-£10k</option>
                     <option value="£10k-£25k">£10k-£25k</option>
                     <option value="£25k-£50k">£25k-£50k</option>
@@ -4137,7 +4199,8 @@ function Contact() {
                 <input
                   placeholder="e.g., Launching in Q3"
                   className={INPUT_CLS}
-                  value={form.timeline}
+                  name="timeline"
+                    value={form.timeline}
                   onChange={(e) => setForm({ ...form, timeline: e.target.value })}
                 />
               </label>
@@ -4150,7 +4213,8 @@ function Contact() {
                   required
                   placeholder="Campaign goal, deliverables, timing…"
                   className={`${INPUT_CLS} min-h-36`}
-                  value={form.outline}
+                  name="outline"
+                    value={form.outline}
                   onChange={(e) => setForm({ ...form, outline: e.target.value })}
                   maxLength={2000}
                   aria-describedby="brand-outline-count"
@@ -4212,33 +4276,21 @@ function Contact() {
 function Footer({ onNav }) {
   return (
     <footer className="border-t border-neutral-200 dark:border-neutral-800">
-      <div className="max-w-7xl mx-auto px-4 py-8 grid md:grid-cols-4 gap-6 items-start">
+      <div className="max-w-7xl mx-auto px-4 py-8 grid md:grid-cols-3 gap-6 items-start">
         <div>
           <div className={cn("inline-block font-black tracking-widest", TEXT_GRAD)}>WEARD</div>
           <div className="text-xs uppercase tracking-[0.25em] text-neutral-500">Management</div>
         </div>
         <div className="text-sm text-neutral-600 dark:text-neutral-400 text-center md:text-left">
-          <div>© {new Date().getFullYear()} WEARD Management. All rights reserved.</div>
+          <div>© {new Date().getFullYear()} WEARD Management Limited. All rights reserved.</div>
+          <div className="mt-2 text-xs">Registered in England and Wales · Company no. 16730275</div>
+          <div className="mt-1 text-xs">Registered office: 71–75 Shelton Street, Covent Garden, London WC2H 9JQ</div>
           <div className="mt-1">Built for premium campaigns, trusted partnerships, and measurable growth.</div>
         </div>
-        <div className="hidden text-sm text-neutral-600 dark:text-neutral-400" aria-hidden="true">
-          <div className="text-xs uppercase tracking-[0.25em] text-neutral-400">Markets</div>
-          <div className="mt-2 grid gap-1">
-            <SiteLink to="asia-to-uk-influencer-marketing" onNav={onNav} className="underline">
-              UK influencer marketing
-            </SiteLink>
-            <SiteLink to="apac-influencer-marketing" onNav={onNav} className="underline">
-              APAC influencer marketing
-            </SiteLink>
-          </div>
-        </div>
         <div className="flex gap-4 text-sm justify-start md:justify-end">
-          <button onClick={() => onNav("contact")} className="underline">
-            Contact
-          </button>
-           <button onClick={() => onNav("privacy")} className="underline">
-           Privacy
-           </button> {/* NEW */}
+          <SiteLink to="contact" onNav={onNav} className="underline">Contact</SiteLink>
+          <SiteLink to="privacy" onNav={onNav} className="underline">Privacy</SiteLink>
+          <SiteLink to="terms" onNav={onNav} className="underline">Terms</SiteLink>
         </div>
       </div>
     </footer>
