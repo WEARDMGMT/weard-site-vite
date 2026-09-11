@@ -854,6 +854,29 @@ function CountTo({ to = 0, format = (x) => x.toLocaleString() }) {
   return <>{format(v)}</>;
 }
 
+function NotFound({ onNav }) {
+  return (
+    <section className="flex min-h-[65vh] items-center justify-center px-4 py-16 text-center">
+      <div className="max-w-2xl">
+        <p className="text-sm font-bold uppercase tracking-[0.35em] text-indigo-600 dark:text-indigo-400">
+          Error 404
+        </p>
+        <h1 className="mt-5 text-5xl font-black tracking-tight sm:text-7xl">Page not found</h1>
+        <p className="mx-auto mt-6 max-w-lg text-base leading-7 text-neutral-600 dark:text-neutral-300">
+          The page you are looking for does not exist or may have moved. Head back home to explore WEARD.
+        </p>
+        <button
+          type="button"
+          onClick={() => onNav("home")}
+          className={`${BTN_PRIMARY_CLS} mt-8 rounded-full px-6 py-3`}
+        >
+          Back to homepage <ArrowRight size={16} aria-hidden="true" />
+        </button>
+      </div>
+    </section>
+  );
+}
+
 // ======= APP =======
 export default function App() {
   const creators = STARTER_CREATORS;
@@ -893,7 +916,7 @@ export default function App() {
     }
     const match = Object.entries(PAGE_PATHS).find(([, p]) => p === normalized);
     setSelectedCreator(null);
-    setActivePage(match?.[0] || "home");
+    setActivePage(match?.[0] || "not-found");
   };
 
   const navigate = (k, options = {}) => {
@@ -1048,6 +1071,10 @@ useEffect(() => {
         description:
           "Full-service influencer marketing agency support from strategy and creator discovery to onboarding, campaign management, and reporting.",
       },
+      "not-found": {
+        title: "Page Not Found | WEARD Management",
+        description: "The requested page could not be found. Return to the WEARD Management homepage.",
+      },
       "apac-influencer-marketing": {
         title: "APAC Influencer Marketing | WEARD Management",
         description:
@@ -1074,7 +1101,7 @@ useEffect(() => {
           "Plan cultural campaigns with creators who understand Lunar New Year, Ramadan, Diwali, Mid-Autumn Festival, and multicultural audience moments.",
       },
     };
-    const metaConfig = meta[activePage] || meta.home;
+    const metaConfig = meta[activePage] || meta["not-found"];
     document.title = metaConfig.title;
     const descriptionTag =
       document.querySelector('meta[name="description"]') ||
@@ -1082,12 +1109,19 @@ useEffect(() => {
     descriptionTag.setAttribute("name", "description");
     descriptionTag.setAttribute("content", metaConfig.description);
 
+    const robotsTag =
+      document.querySelector('meta[name="robots"]') ||
+      document.head.appendChild(document.createElement("meta"));
+    robotsTag.setAttribute("name", "robots");
+    robotsTag.setAttribute("content", activePage === "not-found" ? "noindex, follow" : "index, follow");
+
     const canonical =
       document.querySelector('link[rel="canonical"]') ||
       document.head.appendChild(document.createElement("link"));
     canonical.setAttribute("rel", "canonical");
-    canonical.setAttribute("href", `https://weardmgmt.com${PAGE_PATHS[activePage] || "/"}`);
-    const socialUrl = `https://weardmgmt.com${PAGE_PATHS[activePage] || "/"}`;
+    const pagePath = PAGE_PATHS[activePage] || window.location.pathname;
+    canonical.setAttribute("href", `https://weardmgmt.com${pagePath}`);
+    const socialUrl = `https://weardmgmt.com${pagePath}`;
     const setMeta = (selector, attribute, value) => {
       const tag = document.querySelector(selector);
       if (tag) tag.setAttribute(attribute, value);
@@ -1198,6 +1232,11 @@ useEffect(() => {
           {activePage === "influencer-marketing-agency" && (
             <motion.section key="influencer-marketing-agency" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
               <InfluencerMarketingAgencyPage onNav={navigate} />
+            </motion.section>
+          )}
+          {activePage === "not-found" && (
+            <motion.section key="not-found" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
+              <NotFound onNav={navigate} />
             </motion.section>
           )}
           {activePage === "apac-influencer-marketing" && (
