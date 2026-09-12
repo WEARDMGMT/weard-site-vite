@@ -503,7 +503,7 @@ body.weard-loading {
   z-index: 60;
   display: grid;
   place-items: center;
-  background: #050505;
+  background: #030303;
   color: #f4f6e9;
   overflow: hidden;
 }
@@ -547,7 +547,7 @@ body.weard-loading {
 
 .weard-loader__core {
   display: grid;
-  gap: 20px;
+  gap: 26px;
   align-items: center;
   justify-items: center;
   text-align: center;
@@ -555,8 +555,15 @@ body.weard-loading {
   z-index: 1;
 }
 
-.weard-loader__dragon { width: min(72vw, 520px); max-height: 56vh; object-fit: contain; mix-blend-mode: screen; }
-.weard-loader__logo { width: min(62vw, 330px); max-height: 112px; object-fit: contain; filter: grayscale(1) invert(1) contrast(1.3); mix-blend-mode: screen; }
+.weard-loader__logo {
+  width: min(74vw, 430px);
+  max-height: 150px;
+  object-fit: contain;
+  filter: grayscale(1) invert(1) contrast(1.15);
+  mix-blend-mode: screen;
+  opacity: .92;
+  animation: weard-logo-breathe 2.4s ease-in-out infinite;
+}
 
 .weard-loader__rig {
   position: relative;
@@ -689,16 +696,15 @@ body.weard-loading {
   gap: 10px;
   align-items: center;
   justify-items: center;
-  margin-top: 14px;
+  margin-top: 4px;
 }
 
 .weard-loader__track {
   position: relative;
-  width: min(340px, 78vw);
-  height: 10px;
+  width: min(260px, 62vw);
+  height: 2px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.12);
-  box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.16);
   overflow: visible;
 }
 
@@ -706,21 +712,45 @@ body.weard-loading {
   height: 100%;
   width: var(--loader-progress);
   border-radius: inherit;
-  background: linear-gradient(90deg, #d9ff5a, #7dd3fc, #a855f7);
-  box-shadow: 0 0 18px rgba(217, 255, 90, 0.35);
+  background: rgba(255, 255, 255, 0.88);
   transition: width 0.25s ease-out;
 }
 
 .weard-loader__percent {
-  font-size: 0.75rem;
-  letter-spacing: 0.22em;
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: rgba(244, 246, 233, 0.7);
 }
 
-.roster-promise { display: grid; gap: .15rem; padding-block: clamp(2rem, 5vw, 4rem); border-block: 1px solid rgba(115,115,115,.28); text-align: center; text-transform: uppercase; }
-.roster-promise p:first-child { color: #6366f1; font-size: .72rem; font-weight: 900; letter-spacing: .42em; text-indent: .42em; }
-.roster-promise p:last-child { font-size: clamp(2.8rem, 8vw, 7rem); font-weight: 950; line-height: .9; letter-spacing: -.065em; }
+.roster-promise { display: grid; grid-template-columns: 1.45fr .55fr; gap: clamp(2rem, 6vw, 6rem); align-items: end; padding: clamp(2rem, 5vw, 4.5rem); border-radius: 2rem; background: #0a0a0c; color: #fff; box-shadow: 0 26px 70px rgba(0,0,0,.2); }
+.roster-promise > div:first-child > p { margin-bottom: 1.1rem; color: #a5b4fc; font-size: .68rem; font-weight: 800; letter-spacing: .3em; text-transform: uppercase; }
+.roster-promise h2 { max-width: 850px; font-size: clamp(2.8rem, 6.5vw, 6.5rem); font-weight: 950; line-height: .88; letter-spacing: -.065em; text-transform: uppercase; }
+.roster-promise__aside { padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,.22); }
+.roster-promise__aside > p { color: rgba(255,255,255,.65); font-size: .95rem; line-height: 1.65; }
+.roster-promise__aside button, .brand-proof__cta { display: inline-flex; align-items: center; gap: .6rem; margin-top: 1.5rem; font-size: .74rem; font-weight: 850; letter-spacing: .14em; text-transform: uppercase; transition: gap .2s ease; }
+.roster-promise__aside button:hover, .brand-proof__cta:hover { gap: .9rem; }
+
+.brand-proof { padding: clamp(4rem, 8vw, 8rem) 1rem; background: #f4f4f1; color: #111; }
+.brand-proof__inner { width: min(1180px, 100%); margin-inline: auto; }
+.brand-proof__heading { display: grid; grid-template-columns: .42fr 1.15fr .65fr; gap: 2rem; align-items: start; padding-bottom: clamp(2.5rem, 5vw, 4.5rem); border-bottom: 1px solid rgba(0,0,0,.2); }
+.brand-proof__heading > p:first-child { color: #5b5bd6; font-size: .68rem; font-weight: 850; letter-spacing: .28em; text-transform: uppercase; }
+.brand-proof__heading h2 { font-size: clamp(2.5rem, 5vw, 5rem); font-weight: 950; line-height: .92; letter-spacing: -.055em; text-transform: uppercase; }
+.brand-proof__heading > p:last-child { color: #656565; font-size: .95rem; line-height: 1.65; }
+.brand-proof__logos { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid rgba(0,0,0,.2); }
+.brand-proof__logo-card { display: grid; min-height: 150px; place-items: center; padding: 2rem; }
+.brand-proof__logo-card + .brand-proof__logo-card { border-left: 1px solid rgba(0,0,0,.16); }
+.brand-proof__logo-card img { width: 100%; height: 44px; object-fit: contain; filter: grayscale(1); }
+.brand-proof__cta { margin-top: 2rem; }
+
+@media (max-width: 720px) {
+  .roster-promise, .brand-proof__heading { grid-template-columns: 1fr; }
+  .brand-proof__heading { gap: 1.25rem; }
+  .brand-proof__logos { grid-template-columns: repeat(2, 1fr); }
+  .brand-proof__logo-card { min-height: 110px; padding: 1.5rem; }
+  .brand-proof__logo-card:nth-child(3) { border-left: 0; border-top: 1px solid rgba(0,0,0,.16); }
+  .brand-proof__logo-card:nth-child(4) { border-top: 1px solid rgba(0,0,0,.16); }
+}
 
 .footer-dragon-mark { width: 104px; height: 46px; object-fit: contain; object-position: left center; filter: grayscale(1); mix-blend-mode: multiply; opacity: .66; margin-bottom: .45rem; }
 .dark .footer-dragon-mark { filter: grayscale(1) invert(1); mix-blend-mode: screen; }
@@ -856,6 +886,11 @@ body.weard-loading {
   }
 }
 
+@keyframes weard-logo-breathe {
+  0%, 100% { opacity: .82; transform: scale(.99); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
 @keyframes weard-orbit-spin {
   from {
     transform: rotate(0deg);
@@ -989,6 +1024,7 @@ body.weard-loading {
   .weard-loader__glow,
   .weard-loader__ring,
   .weard-loader__sparkle,
+  .weard-loader__logo,
   .asiancy-orb,
   .weard-hero__glass {
     animation: none;
