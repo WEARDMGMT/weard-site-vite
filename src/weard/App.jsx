@@ -782,10 +782,10 @@ const PAGE_PATHS = {
   privacy: "/privacy",
   terms: "/terms",
   asiancy: "/asiancy",
-  "influencer-marketing-agency": "/influencer-marketing-agency",
 };
 
 const RETIRED_SEO_PATHS = new Set([
+  "/influencer-marketing-agency",
   "/apac-influencer-marketing",
   "/asia-to-uk-influencer-marketing",
   "/diverse-creators",
@@ -1072,11 +1072,6 @@ useEffect(() => {
         description:
           "Meet Asiancy, WEARD's culture-first agency division helping APAC brands launch, establish, and grow in the UK through creative strategy and creator campaigns.",
       },
-      "influencer-marketing-agency": {
-        title: "Influencer Marketing Agency Services | WEARD Management",
-        description:
-          "Full-service influencer marketing agency support from strategy and creator discovery to onboarding, campaign management, and reporting.",
-      },
       "not-found": {
         title: "Page Not Found | WEARD Management",
         description: "The requested page could not be found. Return to the WEARD Management homepage.",
@@ -1236,11 +1231,6 @@ useEffect(() => {
     />
   </motion.section>
 )}
-          {activePage === "influencer-marketing-agency" && (
-            <motion.section key="influencer-marketing-agency" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
-              <InfluencerMarketingAgencyPage onNav={navigate} />
-            </motion.section>
-          )}
           {activePage === "not-found" && (
             <motion.section key="not-found" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
               <NotFound onNav={navigate} />
@@ -2078,9 +2068,17 @@ function Asiancy({ onNav }) {
     "Campaign production",
     "Measurement & learning",
   ];
+  const campaignServices = [
+    "Strategy and creative direction",
+    "Creator discovery and shortlist presentation",
+    "Outreach, negotiation, contracts, and onboarding",
+    "Briefing, approvals, schedules, and delivery management",
+    "Live campaign tracking and creator communication",
+    "Reporting, insights, and recommendations",
+  ];
 
   return (
-    <section className="asiancy-page culture-page">
+    <section className="dark asiancy-page culture-page">
       <div className="asiancy-noise" aria-hidden="true" />
       <div className="asiancy-orb asiancy-orb--one" aria-hidden="true" />
       <div className="asiancy-orb asiancy-orb--two" aria-hidden="true" />
@@ -2129,6 +2127,25 @@ function Asiancy({ onNav }) {
             </motion.article>
           ))}
         </div>
+
+        <motion.section
+          className="asiancy-deliverables"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.25 }}
+          aria-labelledby="asiancy-campaigns-title"
+        >
+          <div>
+            <p className="asiancy-section-label">Full-service influencer marketing</p>
+            <h2 id="asiancy-campaigns-title">Creator campaigns.<br />Managed end to end.</h2>
+          </div>
+          <div>
+            <p className="asiancy-deliverables__intro">From the first audience insight to the final performance report, Asiancy brings strategy, creators, production, and measurement together in one connected campaign team.</p>
+            <ul>
+              {campaignServices.map((service) => <li key={service}>{service}</li>)}
+            </ul>
+          </div>
+        </motion.section>
 
         <motion.section
           className="asiancy-deliverables"
@@ -2226,7 +2243,7 @@ function Home({ onExploreRoster, onWorkWithUs, onNav }) {
           the UK and Asia.
         </p>
         <h2 className="mt-8 max-w-3xl text-xl font-bold sm:text-2xl">
-          Talent management and influencer marketing, built differently.
+          Talent management and influencer marketing.
         </h2>
         <div className="mt-6 grid w-full max-w-5xl gap-4 text-left sm:gap-5">
           <button
@@ -2250,17 +2267,10 @@ function Home({ onExploreRoster, onWorkWithUs, onNav }) {
             <div className="mt-5 flex flex-wrap gap-x-6 gap-y-3">
               <button
                 type="button"
-                onClick={() => onNav?.("influencer-marketing-agency")}
-                className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-neutral-500 transition hover:text-neutral-950 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
-              >
-                Explore campaign services <ArrowRight size={16} />
-              </button>
-              <button
-                type="button"
                 onClick={() => onNav?.("asiancy")}
                 className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-indigo-600 transition hover:text-indigo-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
               >
-                Enter Asiancy <ArrowRight size={16} />
+                Explore campaign services with Asiancy <ArrowRight size={16} />
               </button>
             </div>
           </article>
@@ -2621,7 +2631,7 @@ function About({ onNav }) {
   ];
 
   return (
-    <section className="about-page culture-page">
+    <section className="dark about-page culture-page">
       <div className="about-shell">
         <div className="about-hero">
           <div className="about-hero__eyebrow"><span>Independent. International. Intentionally different.</span><span>Est. in London</span></div>
@@ -2740,98 +2750,6 @@ function WhereWeWork() {
   );
 }
 
-
-function InfluencerMarketingAgencyPage({ onNav }) {
-  const services = [
-    {
-      title: "Strategy",
-      body: "We define the audience, campaign angle, channel mix, creator brief, budget plan, and success metrics before outreach begins.",
-    },
-    {
-      title: "Discovery",
-      body: "We build creator shortlists around audience fit, culture fit, content quality, brand safety, and commercial relevance.",
-    },
-    {
-      title: "Onboarding",
-      body: "We manage outreach, negotiation, contracts, usage rights, posting requirements, timelines, and creator briefing.",
-    },
-    {
-      title: "Campaign management",
-      body: "We coordinate content production, feedback, approvals, go-live tracking, deliverables, and day-to-day creator comms.",
-    },
-    {
-      title: "Reporting",
-      body: "We turn performance data into clear campaign reporting with results, learnings, and practical recommendations for what to do next.",
-    },
-  ];
-
-  return (
-    <section className="max-w-7xl mx-auto px-4 py-10 sm:py-14">
-      <div className="overflow-hidden rounded-[2rem] border border-neutral-200 bg-neutral-950 text-white shadow-2xl dark:border-neutral-800">
-        <div className="px-5 py-8 sm:px-8 sm:py-12 lg:px-10">
-          <p className="text-xs font-semibold uppercase tracking-[0.38em] text-white/50">
-            Full-service influencer marketing agency
-          </p>
-          <h1 className="mt-5 max-w-5xl text-[clamp(3rem,10vw,8rem)] font-black uppercase leading-[0.88] tracking-[-0.08em]">
-            We build creator campaigns end to end
-          </h1>
-          <p className="mt-6 max-w-3xl text-base leading-7 text-white/70 sm:text-lg">
-            WEARD plans and manages influencer marketing campaigns from strategy through reporting.
-            We help brands find the right creators, onboard them smoothly, manage every moving part,
-            and report back with clear performance learnings.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <button
-              onClick={() => onNav?.("contact")}
-              className={`inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white ${GRADIENT}`}
-            >
-              Start a campaign <ArrowRight size={16} />
-            </button>
-            <button
-              onClick={() => onNav?.("roster")}
-              className="inline-flex items-center gap-2 rounded-full border border-white/25 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-neutral-950"
-            >
-              View our talent <ArrowRight size={16} />
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-5">
-        {services.map((service, index) => (
-          <article
-            key={service.title}
-            className="rounded-3xl border border-neutral-200 bg-white/90 p-5 shadow-sm dark:border-neutral-800 dark:bg-neutral-950"
-          >
-            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-neutral-400">
-              0{index + 1}
-            </p>
-            <h2 className="mt-4 text-2xl font-black uppercase tracking-[-0.04em]">{service.title}</h2>
-            <p className="mt-3 text-sm leading-6 text-neutral-600 dark:text-neutral-300">{service.body}</p>
-          </article>
-        ))}
-      </div>
-
-      <div className="mt-8 rounded-3xl border border-neutral-200 bg-white/90 p-5 dark:border-neutral-800 dark:bg-neutral-950 sm:p-8">
-        <p className="text-xs font-semibold uppercase tracking-[0.32em] text-neutral-400">What full campaign management includes</p>
-        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {[
-            "Campaign strategy and creative direction",
-            "Creator discovery and shortlist presentation",
-            "Creator outreach, negotiation, and onboarding",
-            "Briefing, approvals, posting schedules, and delivery management",
-            "Live campaign tracking and creator communication",
-            "Post-campaign reporting with insights and recommendations",
-          ].map((item) => (
-            <div key={item} className="rounded-2xl bg-neutral-100 p-4 text-sm font-medium dark:bg-neutral-900">
-              {item}
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 function MarketingLanding({
   title,
@@ -3070,7 +2988,7 @@ function Roster({ creators, onNav }) {
   }, [tab, region, followingRange, socialPlatform, visibleCreators, search]);
 
   return (
-    <section className="culture-page roster-page weard-section max-w-7xl mx-auto px-4 pt-12 sm:pt-16 pb-28 md:pb-20">
+    <section className="dark culture-page roster-page weard-section max-w-7xl mx-auto px-4 pt-12 sm:pt-16 pb-28 md:pb-20">
       <div className="relative z-10 flex items-center justify-between flex-wrap gap-3 sm:gap-4">
         <div>
           <p className="text-xs uppercase tracking-[0.35em] text-neutral-400">Talent</p>
@@ -3518,7 +3436,7 @@ function CreatorCard({ p }) {
       <div className="mt-3 grid grid-cols-2 md:grid-cols-3 gap-2">
   {ig > 0 && (
     <div className="rounded-xl border border-neutral-200 dark:border-neutral-800 p-2.5">
-      <div className="text-xs text-neutral-500">Instagram</div>
+      <div className="text-xs text-neutral-500 dark:text-neutral-400">Instagram</div>
       <div className="text-base font-semibold">
         <CountTo to={ig} format={shortFormat} />
       </div>
@@ -3526,7 +3444,7 @@ function CreatorCard({ p }) {
   )}
   {tt > 0 && (
     <div className="rounded-xl border border-neutral-200 dark:border-neutral-800 p-2.5">
-      <div className="text-xs text-neutral-500">TikTok</div>
+      <div className="text-xs text-neutral-500 dark:text-neutral-400">TikTok</div>
       <div className="text-base font-semibold">
         <CountTo to={tt} format={shortFormat} />
       </div>
@@ -3534,7 +3452,7 @@ function CreatorCard({ p }) {
   )}
   {yts > 0 && (
     <div className="rounded-xl border border-neutral-200 dark:border-neutral-800 p-2.5">
-      <div className="text-xs text-neutral-500">YouTube</div>
+      <div className="text-xs text-neutral-500 dark:text-neutral-400">YouTube</div>
       <div className="text-base font-semibold">
         <CountTo to={yts} format={shortFormat} />
       </div>
@@ -3542,7 +3460,7 @@ function CreatorCard({ p }) {
   )}
 </div>
 
-        <div className="mt-2 text-xs text-neutral-500">
+        <div className="mt-2 text-xs text-neutral-500 dark:text-neutral-400">
           Combined Following:{" "}
           <span className="font-semibold text-neutral-700 dark:text-neutral-200">
 <CountTo to={total} format={(x) => x.toLocaleString()} />
@@ -4041,7 +3959,7 @@ function Contact({ creatorName = "" }) {
   }
 
   return (
-    <section className="culture-page contact-page max-w-7xl mx-auto px-4 pt-14 pb-24 sm:pt-20 sm:pb-28" id="contact">
+    <section className="dark culture-page contact-page max-w-7xl mx-auto px-4 pt-14 pb-24 sm:pt-20 sm:pb-28" id="contact">
       <div className="rounded-2xl bg-transparent">
         <div className="px-4 pt-4 pb-8 sm:px-8 sm:pt-8 sm:pb-12 lg:px-10">
           <div className="text-[10px] sm:text-xs uppercase tracking-[0.35em] text-neutral-500">
@@ -4196,7 +4114,7 @@ function Contact({ creatorName = "" }) {
                 </label>
               </div>
 
-              <div className="rounded-3xl border border-neutral-200/80 bg-white/85 p-5 shadow-sm">
+              <div className="rounded-3xl border border-neutral-200/80 bg-white/85 p-5 shadow-sm dark:border-neutral-800 dark:bg-neutral-950">
                 <div className="flex items-start gap-3">
                   <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-neutral-950 text-white">
                     <UploadCloud size={18} aria-hidden="true" />
@@ -4221,7 +4139,7 @@ function Contact({ creatorName = "" }) {
                     maxLength={1500}
                   />
                 </label>
-                <label className="mt-4 grid gap-2 rounded-2xl border border-dashed border-neutral-300 bg-neutral-50 p-4 text-sm text-neutral-600">
+                <label className="mt-4 grid gap-2 rounded-2xl border border-dashed border-neutral-300 bg-neutral-50 p-4 text-sm text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300">
                   <span className="font-medium text-neutral-900">Upload stats screenshots</span>
                   <input
                     type="file"
