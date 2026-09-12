@@ -146,6 +146,7 @@ body.weard-loading {
   background: linear-gradient(180deg, rgba(5, 5, 5, 0.25), #050505 92%);
   pointer-events: none;
 }
+.asiancy-dragon-mark { position: absolute; z-index: 1; top: 5rem; right: -8rem; width: min(54vw, 720px); opacity: .12; filter: grayscale(1) invert(1) contrast(1.25); mix-blend-mode: screen; transform: rotate(-7deg); pointer-events: none; }
 
 .asiancy-noise { position: absolute; inset: 0; opacity: .12; background: repeating-linear-gradient(115deg, transparent 0 8px, rgba(255,255,255,.025) 9px); }
 .asiancy-shell { position: relative; z-index: 2; width: min(1180px, calc(100% - 32px)); margin: auto; padding: clamp(5rem, 10vw, 9rem) 0 6rem; }
@@ -241,7 +242,9 @@ body.weard-loading {
 .about-manifesto h2 { font-size: clamp(2.6rem,5.4vw,5.2rem); font-weight: 900; line-height: .95; letter-spacing: -.055em; }
 .about-manifesto > div { grid-column: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
 .about-manifesto > div p { color: rgba(255,255,255,.64); line-height: 1.75; }
-.about-pillars-intro, .about-approach { display: grid; grid-template-columns: minmax(130px,.5fr) 1.5fr; gap: 3rem; padding: clamp(4rem,8vw,7rem) 0; border-block: 1px solid rgba(255,255,255,.18); }
+.about-pillars-intro, .about-approach { position: relative; display: grid; grid-template-columns: minmax(130px,.5fr) 1.5fr; gap: 3rem; padding: clamp(4rem,8vw,7rem) 0; border-block: 1px solid rgba(255,255,255,.18); }
+.about-dragon-mark { position: absolute; right: -18%; top: 50%; width: min(66vw, 820px); opacity: .1; filter: grayscale(1) invert(1) contrast(1.35); mix-blend-mode: screen; transform: translateY(-50%) rotate(-8deg); pointer-events: none; }
+.about-pillars-intro > *:not(.about-dragon-mark) { position: relative; z-index: 1; }
 .about-pillars-intro > div, .about-approach > div { max-width: 800px; }
 .about-pillars-intro h2, .about-approach h2 { font-size: clamp(2.8rem,6vw,5.8rem); font-weight: 950; line-height: .9; letter-spacing: -.055em; text-transform: uppercase; }
 .about-pillars-intro p, .about-approach p { max-width: 690px; margin-top: 1.25rem; color: rgba(255,255,255,.66); font-size: 1rem; line-height: 1.75; }
@@ -500,11 +503,7 @@ body.weard-loading {
   z-index: 60;
   display: grid;
   place-items: center;
-  background:
-    radial-gradient(1200px 700px at 15% 15%, rgba(217, 255, 90, 0.16), transparent 55%),
-    radial-gradient(900px 600px at 85% 20%, rgba(67, 56, 202, 0.22), transparent 60%),
-    radial-gradient(800px 520px at 70% 85%, rgba(16, 185, 129, 0.18), transparent 65%),
-    linear-gradient(135deg, rgba(8, 8, 12, 0.98), rgba(3, 3, 6, 0.98));
+  background: #050505;
   color: #f4f6e9;
   overflow: hidden;
 }
@@ -555,6 +554,9 @@ body.weard-loading {
   position: relative;
   z-index: 1;
 }
+
+.weard-loader__dragon { width: min(72vw, 520px); max-height: 56vh; object-fit: contain; mix-blend-mode: screen; }
+.weard-loader__logo { width: min(62vw, 330px); max-height: 112px; object-fit: contain; filter: grayscale(1) invert(1) contrast(1.3); mix-blend-mode: screen; }
 
 .weard-loader__rig {
   position: relative;
@@ -715,6 +717,13 @@ body.weard-loading {
   text-transform: uppercase;
   color: rgba(244, 246, 233, 0.7);
 }
+
+.roster-promise { display: grid; gap: .15rem; padding-block: clamp(2rem, 5vw, 4rem); border-block: 1px solid rgba(115,115,115,.28); text-align: center; text-transform: uppercase; }
+.roster-promise p:first-child { color: #6366f1; font-size: .72rem; font-weight: 900; letter-spacing: .42em; text-indent: .42em; }
+.roster-promise p:last-child { font-size: clamp(2.8rem, 8vw, 7rem); font-weight: 950; line-height: .9; letter-spacing: -.065em; }
+
+.footer-dragon-mark { width: 104px; height: 46px; object-fit: contain; object-position: left center; filter: grayscale(1); mix-blend-mode: multiply; opacity: .66; margin-bottom: .45rem; }
+.dark .footer-dragon-mark { filter: grayscale(1) invert(1); mix-blend-mode: screen; }
 
 .weard-logo-carousel {
   position: relative;
