@@ -603,19 +603,19 @@ video: MEDIA.creators.OliveTreeFamily.video,
   tags: ["Food", "Lifestyle", "Travel"],
   bio: "Jenna is London’s go-to guide for where to eat, what to do, and what’s worth discovering next. Through I’m Hungry In London, she curates the city’s best restaurants, new openings, hidden neighbourhood gems, and must-visit experiences into highly trusted recommendations that her audience actively saves, shares, and books. Her content naturally extends into travel, lifestyle, and destination discovery, giving brands access to a warm, high-intent London audience that looks to her for inspiration and genuinely values her recommendations.",
   seoDescription: "I'm Hungry In London (Jenna), London food, travel and lifestyle creator represented by WEARD Management. 28K+ engaged UK audience for hospitality, restaurant and destination campaigns.",
-  top_audience: ["UK", "Travel"],
+  top_audience: ["United Kingdom"],
   audience_insights: {
     top_location: { name: "UK", pct: 81.4 },
-    second_location: { name: "Travel", pct: 18.6 },
     gender_split: { female: 69, male: 31 },
     top_city: "London",
     age_range: "25-35",
+    top_countries: [{ name: "United Kingdom", pct: 81.4 }],
   },
   recent_campaigns: [
-    { brand: "Hospitality & restaurants", category: "Featured partnership category", year: "2026" },
-    { brand: "Food & drink brands", category: "Featured partnership category", year: "2026" },
-    { brand: "Tourism & destination marketing", category: "Featured partnership category", year: "2026" },
-    { brand: "Experiences & lifestyle retail", category: "Featured partnership category", year: "2026" },
+    { brand: "Hospitality & restaurants", category: "Ideal partnership category", year: "2026" },
+    { brand: "Food & drink brands", category: "Ideal partnership category", year: "2026" },
+    { brand: "Tourism & destination marketing", category: "Ideal partnership category", year: "2026" },
+    { brand: "Experiences & lifestyle retail", category: "Ideal partnership category", year: "2026" },
   ],
 },
 {
@@ -660,7 +660,9 @@ const CATEGORIES = [
   { key: "Finance", label: "Finance" },
   { key: "Food", label: "Food" },
   { key: "Lifestyle", label: "Lifestyle" },
+  { key: "Sport", label: "Sport" },
   { key: "Travel", label: "Travel" },
+  { key: "Other", label: "Other" },
 ];
 
 const FOLLOWER_RANGES = [
@@ -681,7 +683,9 @@ const CREATOR_ARCHETYPE_FILTERS = [
   "Finance",
   "Food",
   "Lifestyle",
+  "Sport",
   "Travel",
+  "Other",
 ];
 
 const REGION_FILTERS = ["All", "UK", "Asia"];
@@ -832,7 +836,7 @@ function getUsernameFromUrl(url) {
     if (/youtube\.com$/i.test(u.hostname)) {
       const first = parts[0];
       if (first.startsWith("@")) return first.slice(1).toLowerCase();
-      return first.toLowerCase();
+      return null;
     }
 
     // IG/TikTok (strip leading @)
@@ -885,6 +889,7 @@ export default function App() {
   const [activePage, setActivePage] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedCreator, setSelectedCreator] = useState(null);
+  const [enquiryCreator, setEnquiryCreator] = useState("");
   const [cookieConsent, setCookieConsent] = useState(() => {
     if (typeof window === "undefined") return null;
     return window.localStorage.getItem(CONSENT_STORAGE_KEY);
@@ -924,6 +929,7 @@ export default function App() {
     setActivePage(k);
     if (k !== "profile") setSelectedCreator(null);
     setMenuOpen(false);
+    if (k === "contact") setEnquiryCreator(options.creatorName || "");
     if (!options.replace) {
       window.history.pushState({}, "", path);
     }
@@ -1196,7 +1202,7 @@ useEffect(() => {
           )}
           {activePage === "contact" && (
             <motion.section key="contact" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
-              <Contact />
+              <Contact creatorName={enquiryCreator} />
             </motion.section>
           )}
           {activePage === "asiancy" && (
@@ -1226,6 +1232,7 @@ useEffect(() => {
     <CreatorProfile
       creator={selectedCreator}
       onBack={() => navigate("roster")}
+      onEnquire={(creatorName) => navigate("contact", { creatorName })}
     />
   </motion.section>
 )}
@@ -1545,7 +1552,7 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
     </header>
   );
 }
-function CreatorProfile({ creator, onBack }) {
+function CreatorProfile({ creator, onBack, onEnquire }) {
   // Set document title for SEO/nice browser tab text
   useEffect(() => {
     const name = creator?.name;
@@ -1832,7 +1839,7 @@ function CreatorProfile({ creator, onBack }) {
           <div className="mt-6 flex flex-wrap items-center gap-3">
             <button
               className={BTN_PRIMARY_CLS}
-              onClick={() => window.weardNav?.("contact")}
+              onClick={() => onEnquire?.(collabName)}
             >
               {primaryCollabCta} <ArrowRight size={16} />
             </button>
@@ -1896,7 +1903,9 @@ function CreatorProfile({ creator, onBack }) {
                 <p className="mt-2 text-2xl font-medium leading-tight tracking-tight">{audience_insights?.top_location?.name || top_audience[0] || "UK"}</p>
                 <div className="mt-4 space-y-1.5 text-sm text-neutral-500">
                   <p><span className="text-neutral-400">Top City:</span> <span className="text-neutral-700 dark:text-neutral-200">{audience_insights?.top_city || "-"}</span></p>
-                  <p><span className="text-neutral-400">Secondary audience:</span> <span className="text-neutral-700 dark:text-neutral-200">{audience_insights?.second_location?.name || top_audience[1] || "APAC"}</span></p>
+                  {(audience_insights?.second_location?.name || top_audience[1]) && (
+                    <p><span className="text-neutral-400">Secondary audience:</span> <span className="text-neutral-700 dark:text-neutral-200">{audience_insights?.second_location?.name || top_audience[1]}</span></p>
+                  )}
                   <p><span className="text-neutral-400">Age:</span> <span className="text-neutral-700 dark:text-neutral-200">{audience_insights?.age_range || "-"}</span></p>
                 </div>
               </div>
@@ -1915,7 +1924,7 @@ function CreatorProfile({ creator, onBack }) {
                 {(audience_insights?.top_countries || [
                   { name: audience_insights?.second_location?.name || top_audience[1] || "APAC", pct: audience_insights?.second_location?.pct || 0 },
                   { name: top_audience[2] || "Global", pct: Math.max(0, 100 - ((audience_insights?.top_location?.pct || 0) + (audience_insights?.second_location?.pct || 0))) },
-                ]).map((market) => (
+                ]).filter((market) => market.name && Number(market.pct) > 0).map((market) => (
                   <div key={market.name} className="flex items-center justify-between rounded-full bg-neutral-100/80 dark:bg-neutral-900/70 px-4 py-2 text-sm">
                     <span>{market.name}</span>
                     <span className="font-medium">{Number(market.pct).toFixed(2).replace(/\.00$/, "")}%</span>
@@ -1926,7 +1935,9 @@ function CreatorProfile({ creator, onBack }) {
             </div>
 
             <div className="px-1">
-              <div className="text-[11px] uppercase tracking-[0.32em] text-neutral-500">Featured Partnerships</div>
+              <div className="text-[11px] uppercase tracking-[0.32em] text-neutral-500">
+                {name === "I'm Hungry In London" ? "Ideal Brand Partnerships" : "Featured Partnerships"}
+              </div>
               {collaboration_groups.length > 0 && (
                 <div className="mt-4 space-y-5">
                   {collaboration_groups.map((group) => (
@@ -2324,6 +2335,17 @@ function Home({ onExploreRoster, onWorkWithUs, onNav }) {
       </div>
 
       <div className="mt-8">
+        <section className="mx-auto max-w-6xl px-4 py-10 text-center" aria-labelledby="home-brand-proof">
+          <p className="text-xs font-semibold uppercase tracking-[0.32em] text-neutral-500">Trusted partnerships</p>
+          <h2 id="home-brand-proof" className="mt-3 text-3xl font-black tracking-tight sm:text-4xl">Creators trusted by leading brands</h2>
+          <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {["Amazon", "Disney", "Monzo", "The Ordinary"].map((brand) => (
+              <div key={brand} className="rounded-2xl border border-neutral-200 bg-white/80 px-4 py-5 text-sm font-bold text-neutral-900 shadow-sm dark:border-neutral-800">
+                {brand}
+              </div>
+            ))}
+          </div>
+        </section>
         <BrandPartnerships onNav={onNav} />
       </div>
 
@@ -2354,7 +2376,7 @@ function Home({ onExploreRoster, onWorkWithUs, onNav }) {
   );
 }
 
-function HeroCarousel() {
+function HeroCarousel({ onExploreRoster, onWorkWithUs }) {
   const trackRefs = useRef([]);
   const containerRef = useRef(null);
   const shuffleSeed = useMemo(() => Math.floor(Math.random() * 10_000), []);
@@ -2470,7 +2492,11 @@ function HeroCarousel() {
             <span className="weard-hero__brand">WEARD</span>
             <span className="weard-hero__descriptor">Talent Management Agency</span>
           </div>
-          <p>WE • ARE • DIFFERENT</p>
+          <p>Distinctive creators. Culturally sharp campaigns. UK to Asia.</p>
+          <div className="weard-hero__actions">
+            <button type="button" onClick={onExploreRoster}>Meet our creators <ArrowRight size={16} /></button>
+            <button type="button" onClick={onWorkWithUs}>Brief us <ArrowRight size={16} /></button>
+          </div>
         </div>
       </div>
     </section>
@@ -3087,7 +3113,7 @@ function Roster({ creators, onNav }) {
         {filtersOpen && (
           <div id="roster-filters" className="mt-4 grid gap-5 lg:grid-cols-4">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-neutral-400">Creator Architypes</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-neutral-400">Content category</p>
               <div className="mt-2 flex flex-wrap gap-2">
                 {archetypeOptions.map((option) => (
                   <FilterPill key={option} active={tab === option} onClick={() => setTab(option)}>
@@ -3100,7 +3126,7 @@ function Roster({ creators, onNav }) {
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.25em] text-neutral-400">Following size</p>
               <div className="mt-2 flex flex-wrap gap-2">
-                {availableFollowerRanges.map((range) => (
+                {FOLLOWER_RANGES.map((range) => (
                   <FilterPill key={range.label} active={followingRange === range.label} onClick={() => setFollowingRange(range.label)}>
                     {range.label}
                   </FilterPill>
@@ -3229,16 +3255,8 @@ function CreatorDirectory({ creators = [], onNav }) {
         Search WEARD, WEARDMGMT, and every creator name or handle
       </h3>
       <p className="mt-3 text-sm text-neutral-600 dark:text-neutral-400">
-        Discover WEARD influencer management talent by full professional names and exact social usernames.
-        This includes Emily Uddman (@emily.uddman) and every creator represented
-        by WEARD across Asia, APAC, Thailand, Hong Kong, and the UK.
+        Discover every creator currently represented by WEARD, with one consistent profile per talent.
       </p>
-      <ul className="mt-3 grid gap-1 text-sm text-neutral-600 dark:text-neutral-400">
-        <li>Sophia Price - sophiapriceyyy, XsophiapriceyX, xsophiapriceyx</li>
-        <li>Emily Uddman - emily.uddman, Emily Janrawee Uddman</li>
-        <li>Josefine Uddman - josefine.ku.ud, Josefine Kuanroethai Uddman, Bakhamnoi</li>
-        <li>The Olive Tree Family - theolivetreefamily, TheOliveTreeFamily, W Ken | Lynsay | Chung Family</li>
-      </ul>
       <div className="mt-4 flex flex-wrap gap-2 text-xs text-neutral-500">
         <SiteLink to="apac-influencer-marketing" onNav={onNav} className="underline">
           APAC influencer talent management
@@ -3809,7 +3827,7 @@ function Terms() {
   );
 }
 // ======= CONTACT =======
-function Contact() {
+function Contact({ creatorName = "" }) {
   const [mode, setMode] = useState("default");
   const [isSendingBrand, setIsSendingBrand] = useState(false);
   const [isSendingTalent, setIsSendingTalent] = useState(false);
@@ -3823,12 +3841,13 @@ function Contact() {
     number: "",
     budget: "",
     timeline: "",
-    outline: "",
+    outline: creatorName ? `I'm interested in collaborating with ${creatorName}.` : "",
   });
   const [talent, setTalent] = useState({
     name: "",
     email: "",
     number: "",
+    primaryProfile: "",
     ig: "",
     tt: "",
     other: "",
@@ -3879,13 +3898,14 @@ function Contact() {
       return;
     }
     setBrandNotice("");
-    const subject = `WEARD Brief - ${safeForm.brand}`;
+    const subject = `${creatorName ? `Enquiry about ${creatorName}` : "WEARD Brief"} - ${safeForm.brand}`;
     const body =
       `Brand: ${safeForm.brand}\n` +
       `Role: ${safeForm.role}\n` +
       `Email: ${safeForm.email}\n` +
       `Number: ${safeForm.number}\n` +
       `Budget: ${safeForm.budget}\n\n` +
+      `Creator: ${creatorName || "Open brief"}\n` +
       `Timeline: ${safeForm.timeline}\n\n` +
       `Outline:\n${safeForm.outline}`;
 
@@ -3898,6 +3918,7 @@ function Contact() {
           email: safeForm.email,
           number: safeForm.number,
           budget: safeForm.budget,
+          creator: creatorName,
           timeline: safeForm.timeline,
           outline: safeForm.outline,
           message: body,
@@ -3944,15 +3965,15 @@ function Contact() {
     const safeTalent = Object.fromEntries(
       Object.entries(talent).map(([key, value]) => [key, normalizeTextField(value, ["audience", "statsSummary", "whyWeard", "notes"].includes(key) ? 3000 : 300)])
     );
-    if (!safeTalent.name || !safeTalent.email || !safeTalent.ig || !safeTalent.category) {
-      alert("Please complete name, email, Instagram URL, and category.");
+    if (!safeTalent.name || !safeTalent.email || !safeTalent.primaryProfile || !safeTalent.category) {
+      alert("Please complete name, email, a primary social profile, and category.");
       return;
     }
     if (!isValidEmail(safeTalent.email)) {
       alert("Please enter a valid email address.");
       return;
     }
-    if (![safeTalent.ig, safeTalent.tt, safeTalent.other].every(isValidHttpUrl)) {
+    if (![safeTalent.primaryProfile, safeTalent.ig, safeTalent.tt, safeTalent.other].every(isValidHttpUrl)) {
       alert("Please use secure https:// links for social profiles.");
       return;
     }
@@ -3962,6 +3983,7 @@ function Contact() {
       `Name: ${safeTalent.name}\n` +
       `Email: ${safeTalent.email}\n` +
       `Number: ${safeTalent.number}\n` +
+      `Primary social profile: ${safeTalent.primaryProfile}\n` +
       `Instagram: ${safeTalent.ig}\n` +
       `TikTok: ${safeTalent.tt}\n` +
       `Other: ${safeTalent.other}\n` +
@@ -3981,6 +4003,7 @@ function Contact() {
           name: safeTalent.name,
           email: safeTalent.email,
           number: safeTalent.number,
+          primary_profile: safeTalent.primaryProfile,
           instagram: safeTalent.ig,
           tiktok: safeTalent.tt,
           other: safeTalent.other,
@@ -4025,7 +4048,7 @@ function Contact() {
             UK ↔ APAC · CREATOR CAMPAIGNS · TALENT MANAGEMENT
           </div>
           <h1 className="mt-4 text-5xl sm:text-7xl font-black uppercase leading-[0.92] tracking-tight text-neutral-900 dark:text-white whitespace-pre-line">
-            {mode === "talent" ? "WANT TO JOIN\nTHE ROSTER?" : "LET’S BUILD\nSOMETHING"}
+            {mode === "talent" ? "WANT TO JOIN\nTHE ROSTER?" : creatorName ? `ENQUIRE ABOUT\n${creatorName}` : "LET’S BUILD\nSOMETHING"}
           </h1>
           <p className="mt-5 max-w-2xl text-sm sm:text-base text-neutral-600 dark:text-neutral-300">
             {mode === "talent"
@@ -4103,10 +4126,23 @@ function Contact() {
               <div className="grid sm:grid-cols-2 gap-4">
                 <label className="grid gap-1">
                   <span className="text-sm font-medium">
-                    Instagram URL <span className="text-red-500">*</span>
+                    Primary social profile <span className="text-red-500">*</span>
                   </span>
                   <input
                     required
+                    type="url"
+                    placeholder="https://tiktok.com/@username"
+                    className={INPUT_CLS}
+                    name="primaryProfile"
+                    value={talent.primaryProfile}
+                    onChange={(e) => setTalent({ ...talent, primaryProfile: e.target.value })}
+                  />
+                </label>
+
+                <label className="grid gap-1">
+                  <span className="text-sm font-medium">Instagram URL (optional)</span>
+                  <input
+                    type="url"
                     placeholder="https://instagram.com/username"
                     className={INPUT_CLS}
                     name="ig"
@@ -4114,16 +4150,16 @@ function Contact() {
                     onChange={(e) => setTalent({ ...talent, ig: e.target.value })}
                   />
                 </label>
+              </div>
 
+              <div className="grid sm:grid-cols-2 gap-4">
                 <label className="grid gap-1">
-                  <span className="text-sm font-medium">TikTok URL</span>
-                  <input
-                    placeholder="https://tiktok.com/@username"
-                    className={INPUT_CLS}
-                    name="tt"
-                    value={talent.tt}
-                    onChange={(e) => setTalent({ ...talent, tt: e.target.value })}
-                  />
+                  <span className="text-sm font-medium">TikTok URL (optional)</span>
+                  <input type="url" placeholder="https://tiktok.com/@username" className={INPUT_CLS} name="tt" value={talent.tt} onChange={(e) => setTalent({ ...talent, tt: e.target.value })} />
+                </label>
+                <label className="grid gap-1">
+                  <span className="text-sm font-medium">Other platform (optional)</span>
+                  <input type="url" placeholder="https://youtube.com/@username" className={INPUT_CLS} name="other" value={talent.other} onChange={(e) => setTalent({ ...talent, other: e.target.value })} />
                 </label>
               </div>
 
@@ -4318,6 +4354,10 @@ function Contact() {
                     onChange={(e) => setForm({ ...form, budget: e.target.value })}
                   >
                     <option value="">Select…</option>
+                    <option value="Under £1,000">Under £1,000</option>
+                    <option value="£1,000–£2,500">£1,000–£2,500</option>
+                    <option value="£2,500–£5,000">£2,500–£5,000</option>
+                    <option value="Not sure yet">Not sure yet</option>
                     <option value="£5k-£10k">£5k-£10k</option>
                     <option value="£10k-£25k">£10k-£25k</option>
                     <option value="£25k-£50k">£25k-£50k</option>
