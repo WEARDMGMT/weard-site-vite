@@ -60,15 +60,6 @@ const LoadingScreen = ({ progress = 0 }) => (
     exit={{ opacity: 0, transition: { duration: 0.6 } }}
   >
     <div className="weard-loader__core">
-      <video
-        className="weard-loader__dragon"
-        src="/media/Animation/WEARD_dragon_logo_animation_smooth_v3_fixed_D.mp4"
-        autoPlay
-        muted
-        playsInline
-        preload="auto"
-        aria-label="WEARD dragon logo animation"
-      />
       <img
         className="weard-loader__logo"
         src="/media/WEARD SEOCONDARY LOGO/ChatGPT Image Sep 12, 2026, 06_54_23 PM.png"
@@ -2189,30 +2180,6 @@ function Asiancy({ onNav }) {
 }
 
 function Home({ onExploreRoster, onWorkWithUs, onNav }) {
-  const serviceBento = [
-    {
-      title: "Creator representation",
-      body: "Long-term representation for creators with a point of view, a story to tell, and somewhere meaningful to go.",
-      label: "Talent growth",
-    },
-    {
-      title: "Brand partnership strategy",
-      body: "Distinctive creator matches chosen for cultural fit—not pulled from an interchangeable database.",
-      label: "Commercial planning",
-    },
-    {
-      title: "Cross-border execution",
-      body: "We localise campaigns for UK and Asian audiences so content feels native, not translated.",
-      label: "UK ↔ Asia",
-      featured: true,
-    },
-    {
-      title: "Campaign production",
-      body: "One close-knit team keeps the brief, creator voice, approvals and delivery moving without losing the idea.",
-      label: "Done-for-you",
-    },
-  ];
-
   return (
     <section className="relative overflow-hidden">
       <HeroCarousel onExploreRoster={onExploreRoster} onWorkWithUs={onWorkWithUs} />
@@ -2262,104 +2229,22 @@ function Home({ onExploreRoster, onWorkWithUs, onNav }) {
           </article>
         </div>
       </div>
-      <div className="max-w-7xl mx-auto px-4 pb-24 md:pb-16 space-y-10">
-        <div className="roster-promise" aria-label="A curated boutique roster">
-          <p>Curated</p>
-          <p>Boutique Roster</p>
-        </div>
-        <div className="hidden grid gap-4 sm:grid-cols-2" aria-hidden="true">
-          <div className="rounded-3xl border border-neutral-200 bg-white/90 p-5 shadow-sm">
-            <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">Core markets</p>
-            <p className="mt-2 text-3xl font-bold text-neutral-900">UK + Asia</p>
+      <div className="mx-auto max-w-7xl px-4 pb-16">
+        <div className="roster-promise">
+          <div>
+            <p>Curated by WEARD</p>
+            <h2>A boutique roster,<br />built with intention.</h2>
           </div>
-          <div className="rounded-3xl border border-neutral-200 bg-white/90 p-5 shadow-sm">
-            <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">Service model</p>
-            <p className="mt-2 text-3xl font-bold text-neutral-900">End-to-end</p>
-          </div>
-        </div>
-
-        <div className="hidden grid gap-4 md:grid-cols-4 auto-rows-fr" aria-hidden="true">
-          {serviceBento.map((item) => (
-            <motion.article
-              key={item.title}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.35 }}
-              className={cn(
-                "group rounded-3xl border border-neutral-200 bg-white/95 p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl",
-                item.featured && "md:col-span-2 bg-neutral-900 text-white border-neutral-800"
-              )}
-            >
-              <p className={cn("text-xs uppercase tracking-[0.28em]", item.featured ? "text-white/60" : "text-neutral-400")}>
-                {item.label}
-              </p>
-              <h3 className="mt-3 text-2xl font-semibold">{item.title}</h3>
-              <p className={cn("mt-3 text-sm leading-6", item.featured ? "text-white/75" : "text-neutral-600")}>{item.body}</p>
-              <div className={cn("mt-5 inline-flex items-center gap-2 text-xs font-semibold", item.featured ? "text-white/80" : "text-neutral-500")}>
-                Built by WEARD <ArrowRight size={12} className="transition group-hover:translate-x-1" />
-              </div>
-            </motion.article>
-          ))}
-        </div>
-
-      <div className="hidden grid gap-6 lg:grid-cols-[1.1fr_minmax(0,1fr)]" aria-hidden="true">
-          <div className="rounded-3xl border border-neutral-200 bg-white/95 p-6 shadow-sm">
-            <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">How to work with WEARD</p>
-            <ol className="mt-4 space-y-3 text-sm text-neutral-700">
-              <li><strong>1. Share your brief:</strong> goals, budget, timeline, and market focus.</li>
-              <li><strong>2. Get matched talent:</strong> curated creators with rationale and rates.</li>
-              <li><strong>3. Launch with confidence:</strong> production, approvals, and reporting handled.</li>
-            </ol>
-            <button
-              onClick={onWorkWithUs}
-              className={`mt-6 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-white ${GRADIENT}`}
-            >
-              Enquire now <ArrowRight size={14} />
+          <div className="roster-promise__aside">
+            <p>Distinct voices. Long-term careers. Partnerships that make sense for the person, not just the platform.</p>
+            <button type="button" onClick={onExploreRoster}>
+              Meet our creators <ArrowRight size={16} />
             </button>
           </div>
         </div>
-
       </div>
 
-      <div className="mt-8">
-        <section className="mx-auto max-w-6xl px-4 py-10 text-center" aria-labelledby="home-brand-proof">
-          <p className="text-xs font-semibold uppercase tracking-[0.32em] text-neutral-500">Chosen company</p>
-          <h2 id="home-brand-proof" className="mt-3 text-3xl font-black tracking-tight sm:text-4xl">Creators trusted by leading brands</h2>
-          <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-4">
-            {["Amazon", "Disney", "Monzo", "The Ordinary"].map((brand) => (
-              <div key={brand} className="rounded-2xl border border-neutral-200 bg-white/80 px-4 py-5 text-sm font-bold text-neutral-900 shadow-sm dark:border-neutral-800">
-                {brand}
-              </div>
-            ))}
-          </div>
-        </section>
-        <BrandPartnerships onNav={onNav} />
-      </div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 18, scale: 0.98 }}
-        whileInView={{ opacity: 1, y: 0, scale: 1 }}
-        viewport={{ once: true, amount: 0.4 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="mx-auto mb-24 mt-2 max-w-5xl px-4 text-center"
-      >
-        <div className="relative overflow-hidden rounded-[2rem] border border-neutral-200 bg-neutral-950 px-6 py-10 text-white shadow-2xl sm:px-10 sm:py-14">
-          <motion.span
-            className="pointer-events-none absolute left-1/2 top-0 h-40 w-40 -translate-x-1/2 rounded-full bg-fuchsia-500/30 blur-3xl"
-            animate={{ scale: [1, 1.25, 1], opacity: [0.55, 0.9, 0.55] }}
-            transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut" }}
-            aria-hidden="true"
-          />
-          <motion.p
-            className="relative mx-auto max-w-3xl text-3xl font-black uppercase tracking-tight sm:text-5xl"
-            animate={{ y: [0, -4, 0] }}
-            transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
-          >
-            Because normal doesn&apos;t trend.
-          </motion.p>
-        </div>
-      </motion.div>
+      <BrandPartnerships onNav={onNav} />
     </section>
   );
 }
@@ -2814,14 +2699,30 @@ function MarketingLanding({
 }
 
 function BrandPartnerships({ onNav }) {
+  const featuredBrands = [
+    { name: "Amazon", logo: "/media/logos/amazon.png" },
+    { name: "Disney", logo: "/media/logos/disney.png" },
+    { name: "Monzo", logo: "/media/logos/monzo.svg" },
+    { name: "The Ordinary", logo: "/media/logos/the-ordinary.svg" },
+  ];
+
   return (
-    <section className="max-w-6xl mx-auto px-4 py-10 sm:py-12">
-      <div className="rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white/90 dark:bg-neutral-950 p-5 sm:p-8">
-        <button
-          onClick={() => onNav?.("contact")}
-          className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm text-white ${GRADIENT}`}
-        >
-          Work with WEARD <ArrowRight size={14} />
+    <section className="brand-proof" aria-labelledby="home-brand-proof">
+      <div className="brand-proof__inner">
+        <div className="brand-proof__heading">
+          <p>Chosen company</p>
+          <h2 id="home-brand-proof">Trusted by brands<br />that shape culture.</h2>
+          <p>Our creators build considered partnerships across beauty, entertainment, lifestyle and beyond.</p>
+        </div>
+        <div className="brand-proof__logos">
+          {featuredBrands.map((brand) => (
+            <div key={brand.name} className="brand-proof__logo-card">
+              <img src={brand.logo} alt={brand.name} loading="lazy" decoding="async" />
+            </div>
+          ))}
+        </div>
+        <button type="button" onClick={() => onNav?.("contact")} className="brand-proof__cta">
+          Start a partnership <ArrowRight size={16} />
         </button>
       </div>
     </section>
