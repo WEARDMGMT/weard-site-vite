@@ -35,4 +35,13 @@
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
+  <url><loc>https://weardmgmt.com/creators/alissa-eady</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://weardmgmt.com/creators/sophia-price</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://weardmgmt.com/creators/josefine-uddman</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://weardmgmt.com/creators/the-olive-tree-family</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://weardmgmt.com/creators/very-british-korean</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://weardmgmt.com/creators/yen</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://weardmgmt.com/creators/jno-pwnr</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://weardmgmt.com/creators/imhungryinlondon</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://weardmgmt.com/creators/very-british-problems</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>

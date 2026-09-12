@@ -59,29 +59,21 @@ const LoadingScreen = ({ progress = 0 }) => (
     animate={{ opacity: 1 }}
     exit={{ opacity: 0, transition: { duration: 0.6 } }}
   >
-    <div className="weard-loader__fx" aria-hidden="true">
-      <span className="weard-loader__glow weard-loader__glow--a" />
-      <span className="weard-loader__glow weard-loader__glow--b" />
-      <span className="weard-loader__glow weard-loader__glow--c" />
-    </div>
     <div className="weard-loader__core">
-      <div className="weard-loader__rig" aria-hidden="true">
-        <div className="weard-loader__ring weard-loader__ring--outer" />
-        <div className="weard-loader__ring weard-loader__ring--inner" />
-        <div className="weard-loader__orbit">
-          <span className="weard-loader__dot weard-loader__dot--a" />
-          <span className="weard-loader__dot weard-loader__dot--b" />
-          <span className="weard-loader__dot weard-loader__dot--c" />
-        </div>
-        <div className="weard-loader__sparkles">
-          <span className="weard-loader__sparkle weard-loader__sparkle--a" />
-          <span className="weard-loader__sparkle weard-loader__sparkle--b" />
-          <span className="weard-loader__sparkle weard-loader__sparkle--c" />
-          <span className="weard-loader__sparkle weard-loader__sparkle--d" />
-        </div>
-      </div>
-      <div className="weard-loader__mark">WEARD</div>
-      <div className="weard-loader__tagline">Because normal doesn't trend</div>
+      <video
+        className="weard-loader__dragon"
+        src="/media/Animation/WEARD_dragon_logo_animation_smooth_v3_fixed_D.mp4"
+        autoPlay
+        muted
+        playsInline
+        preload="auto"
+        aria-label="WEARD dragon logo animation"
+      />
+      <img
+        className="weard-loader__logo"
+        src="/media/WEARD SEOCONDARY LOGO/ChatGPT Image Sep 12, 2026, 06_54_23 PM.png"
+        alt="WEARD Management"
+      />
       <div
         className="weard-loader__progress"
         style={{ "--loader-progress": `${Math.min(Math.max(progress, 0), 1) * 100}%` }}
@@ -967,7 +959,7 @@ useEffect(() => {
     let minPassed = false;
     let loaded = document.readyState === "complete";
     let rafId;
-    const minDuration = 700;
+    const minDuration = 1800;
     const start = performance.now();
 
     const updateProgress = () => {
@@ -1068,9 +1060,9 @@ useEffect(() => {
         description: "Terms governing use of the WEARD Management website.",
       },
       asiancy: {
-        title: "Asiancy | The Agency Division of WEARD",
+        title: "Asiancy by WEARD | Talent. Culture. Markets.",
         description:
-          "Meet Asiancy, WEARD's culture-first agency division helping APAC brands launch, establish, and grow in the UK through creative strategy and creator campaigns.",
+          "Asiancy is WEARD’s UK–Asia market capability, connecting APAC brands, British audiences, and Asian diaspora communities through culture-first influencer marketing.",
       },
       "not-found": {
         title: "Page Not Found | WEARD Management",
@@ -1089,7 +1081,7 @@ useEffect(() => {
       "diverse-creators": {
         title: "Diverse Creators & Inclusive Influencer Talent | WEARD Management",
         description:
-          "Hire diverse creators and inclusive influencer talent through WEARD Management. We build premium campaigns with multicultural creators across the UK and Asia.",
+          "Hire distinctive, inclusive creator talent through WEARD Management for culturally fluent work across the UK and Asia.",
       },
       "asian-influencers-uk": {
         title: "Asian Influencers UK & British Asian Creators | WEARD Management",
@@ -1285,7 +1277,7 @@ useEffect(() => {
               <DiscoveryLanding
                 eyebrow="Inclusive talent"
                 title="Diverse creators for commercially strong, culturally intelligent campaigns"
-                intro="WEARD represents multicultural talent with proven performance across beauty, fashion, lifestyle, family, and culture-first storytelling. We help brands hire diverse creators that deliver both relevance and measurable results."
+                intro="WEARD represents multicultural talent across beauty, fashion, lifestyle, family, and culture-first storytelling. We help brands find distinctive creators whose perspective fits the audience and the idea."
                 points={[
                   "Creator shortlists built for inclusion goals, not token casting",
                   "Campaign planning across UK, Asian, and cross-border audiences",
@@ -2082,6 +2074,7 @@ function Asiancy({ onNav }) {
       <div className="asiancy-noise" aria-hidden="true" />
       <div className="asiancy-orb asiancy-orb--one" aria-hidden="true" />
       <div className="asiancy-orb asiancy-orb--two" aria-hidden="true" />
+      <img className="asiancy-dragon-mark" src="/media/WEARD SEOCONDARY LOGO/ChatGPT Image Sep 12, 2026, 06_54_23 PM.png" alt="" aria-hidden="true" />
       <div className="asiancy-shell">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -2089,13 +2082,13 @@ function Asiancy({ onNav }) {
           transition={{ duration: 0.7 }}
           className="asiancy-hero"
         >
-          <div className="asiancy-kicker"><span /> The cross-cultural agency by WEARD</div>
+          <div className="asiancy-kicker"><span /> Talent. Culture. Markets.</div>
           <div className="asiancy-hero__stamp" aria-hidden="true">APAC<br />↔ UK</div>
           <h1 className="asiancy-wordmark" aria-label="Asiancy">Asiancy<span>.</span></h1>
           <div className="asiancy-intro">
-            <p>Born in Asia.<br />Built for what’s next.</p>
+            <p>UK ↔ Asia.<br />Culture travels both ways.</p>
             <div className="asiancy-intro__copy">
-              <p>We help ambitious APAC brands launch, establish, and grow in the UK with the cultural intelligence, creator networks, and creative firepower to build lasting relevance.</p>
+              <p>We connect UK and Asian culture: helping APAC brands reach UK audiences, UK brands move into Hong Kong, China, Thailand and wider APAC, and both speak meaningfully to Asian diaspora audiences in Britain.</p>
               <button type="button" onClick={() => onNav("contact")}>Plan your next stage <ArrowRight size={16} /></button>
             </div>
           </div>
@@ -2196,22 +2189,15 @@ function Asiancy({ onNav }) {
 }
 
 function Home({ onExploreRoster, onWorkWithUs, onNav }) {
-  const visibleCreators = STARTER_CREATORS.filter((creator) => creator.rosterVisible !== false);
-  const totalReach = visibleCreators.reduce((sum, creator) => {
-    const ig = cleanNum(creator.instagram_followers) ?? 0;
-    const tt = cleanNum(creator.tiktok_followers) ?? 0;
-    const yt = cleanNum(creator.youtube_subscribers) ?? 0;
-    return sum + ig + tt + yt;
-  }, 0);
   const serviceBento = [
     {
       title: "Creator representation",
-      body: "Long-term management, commercial negotiation, and premium deal flow for creators ready to scale.",
+      body: "Long-term representation for creators with a point of view, a story to tell, and somewhere meaningful to go.",
       label: "Talent growth",
     },
     {
       title: "Brand partnership strategy",
-      body: "Clear creator shortlists, smart budget allocation, and campaign structures that prioritise outcomes.",
+      body: "Distinctive creator matches chosen for cultural fit—not pulled from an interchangeable database.",
       label: "Commercial planning",
     },
     {
@@ -2222,7 +2208,7 @@ function Home({ onExploreRoster, onWorkWithUs, onNav }) {
     },
     {
       title: "Campaign production",
-      body: "From brief to approvals and final delivery, we run the operational heavy lifting end to end.",
+      body: "One close-knit team keeps the brief, creator voice, approvals and delivery moving without losing the idea.",
       label: "Done-for-you",
     },
   ];
@@ -2232,7 +2218,7 @@ function Home({ onExploreRoster, onWorkWithUs, onNav }) {
       <HeroCarousel onExploreRoster={onExploreRoster} onWorkWithUs={onWorkWithUs} />
       <div className="min-h-[82vh] sm:min-h-screen flex flex-col items-center justify-center px-4 text-center">
         <p className="rounded-full border border-neutral-200/70 bg-white/80 px-4 py-1 text-[11px] font-semibold uppercase tracking-[0.3em] text-neutral-500 shadow-sm">
-          Influencer management for ambitious brands
+          Influencer marketing for ambitious brands
         </p>
         <h1 className="mt-5 text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-tight">
           WE ARE <RotatingWords words={WEARE_WORDS} />
@@ -2243,7 +2229,7 @@ function Home({ onExploreRoster, onWorkWithUs, onNav }) {
           the UK and Asia.
         </p>
         <h2 className="mt-8 max-w-3xl text-xl font-bold sm:text-2xl">
-          Talent management and influencer marketing.
+          Talent management for creators who have a story to tell.
         </h2>
         <div className="mt-6 grid w-full max-w-5xl gap-4 text-left sm:gap-5">
           <button
@@ -2277,19 +2263,11 @@ function Home({ onExploreRoster, onWorkWithUs, onNav }) {
         </div>
       </div>
       <div className="max-w-7xl mx-auto px-4 pb-24 md:pb-16 space-y-10">
-        <div className="hidden grid gap-4 sm:grid-cols-2 lg:grid-cols-4" aria-hidden="true">
-          <div className="rounded-3xl border border-neutral-200 bg-white/90 p-5 shadow-sm">
-            <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">Creator reach</p>
-            <p className="mt-2 text-3xl font-bold text-neutral-900">
-              <CountTo to={totalReach} format={shortFormat} />+
-            </p>
-          </div>
-          <div className="rounded-3xl border border-neutral-200 bg-white/90 p-5 shadow-sm">
-            <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">Managed talent</p>
-            <p className="mt-2 text-3xl font-bold text-neutral-900">
-              7+
-            </p>
-          </div>
+        <div className="roster-promise" aria-label="A curated boutique roster">
+          <p>Curated</p>
+          <p>Boutique Roster</p>
+        </div>
+        <div className="hidden grid gap-4 sm:grid-cols-2" aria-hidden="true">
           <div className="rounded-3xl border border-neutral-200 bg-white/90 p-5 shadow-sm">
             <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">Core markets</p>
             <p className="mt-2 text-3xl font-bold text-neutral-900">UK + Asia</p>
@@ -2346,7 +2324,7 @@ function Home({ onExploreRoster, onWorkWithUs, onNav }) {
 
       <div className="mt-8">
         <section className="mx-auto max-w-6xl px-4 py-10 text-center" aria-labelledby="home-brand-proof">
-          <p className="text-xs font-semibold uppercase tracking-[0.32em] text-neutral-500">Trusted partnerships</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.32em] text-neutral-500">Chosen company</p>
           <h2 id="home-brand-proof" className="mt-3 text-3xl font-black tracking-tight sm:text-4xl">Creators trusted by leading brands</h2>
           <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-4">
             {["Amazon", "Disney", "Monzo", "The Ordinary"].map((brand) => (
@@ -2642,6 +2620,7 @@ function About({ onNav }) {
         </div>
 
         <div className="about-pillars-intro">
+          <img className="about-dragon-mark" src="/media/WEARD SEOCONDARY LOGO/ChatGPT Image Sep 12, 2026, 06_54_23 PM.png" alt="" aria-hidden="true" />
           <p className="about-label">Our pillars</p>
           <div>
             <h2>We. Are. Different.</h2>
@@ -4368,12 +4347,13 @@ function Footer({ onNav }) {
     <footer className="border-t border-neutral-200 dark:border-neutral-800">
       <div className="max-w-7xl mx-auto px-4 py-8 grid md:grid-cols-3 gap-6 items-start">
         <div>
+          <img className="footer-dragon-mark" src="/media/WEARD SEOCONDARY LOGO/ChatGPT Image Sep 12, 2026, 06_54_23 PM.png" alt="WEARD dragon mark" />
           <div className={cn("inline-block font-black tracking-widest", TEXT_GRAD)}>WEARD</div>
           <div className="text-xs uppercase tracking-[0.25em] text-neutral-500">Management</div>
         </div>
         <div className="text-sm text-neutral-600 dark:text-neutral-400 text-center md:text-left">
           <div>© {new Date().getFullYear()} WEARD Management Limited. All rights reserved.</div>
-          <div className="mt-1">Built for premium campaigns, trusted partnerships, and measurable growth.</div>
+          <div className="mt-1">Distinctive talent. Culturally fluent work. UK ↔ Asia.</div>
         </div>
         <div className="flex gap-4 text-sm justify-start md:justify-end">
           <SiteLink to="contact" onNav={onNav} className="underline">Contact</SiteLink>
