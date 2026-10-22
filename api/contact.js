@@ -36,11 +36,20 @@ function sameOrigin(req) {
   }
 }
 
+function isSecureProfile(value) {
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" && Boolean(url.hostname) && !url.username && !url.password;
+  } catch {
+    return false;
+  }
+}
+
 function cleanFields(kind, fields) {
   const common = ["subject", "email", "number", "message"];
   const allowed = kind === "brand"
-    ? [...common, "brand", "role", "budget", "timeline", "outline"]
-    : [...common, "name", "instagram", "tiktok", "other", "category", "location", "availability", "audience", "stats_summary", "stats_screenshot_names", "why_weard", "notes"];
+    ? [...common, "brand", "creator", "role", "budget", "timeline", "outline"]
+    : [...common, "name", "primary_profile", "instagram", "tiktok", "other", "category", "location", "availability", "audience", "stats_summary", "stats_screenshot_names", "why_weard", "notes"];
   const cleaned = Object.fromEntries(allowed.map((key) => [key, text(fields?.[key]) ]));
   if (kind === "talent" && Array.isArray(fields.stats_screenshots)) {
     cleaned.stats_screenshots = fields.stats_screenshots.slice(0, 3).flatMap((file) => {
@@ -86,7 +95,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Invalid submission" });
   }
   if (kind === "brand" && (!cleaned.brand || !cleaned.outline)) return res.status(400).json({ error: "Invalid submission" });
-  if (kind === "talent" && (!cleaned.name || !cleaned.instagram || !cleaned.category)) return res.status(400).json({ error: "Invalid submission" });
+  if (kind === "talent" && (!cleaned.name || !isSecureProfile(cleaned.primary_profile || cleaned.instagram) || !cleaned.category)) return res.status(400).json({ error: "Invalid submission" });
 
   const templateId = kind === "brand" ? process.env.EMAILJS_BRAND_TEMPLATE_ID : process.env.EMAILJS_TALENT_TEMPLATE_ID;
   const { EMAILJS_SERVICE_ID: serviceId, EMAILJS_PUBLIC_KEY: publicKey, EMAILJS_PRIVATE_KEY: privateKey } = process.env;

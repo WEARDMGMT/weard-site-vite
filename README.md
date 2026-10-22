@@ -27,3 +27,10 @@ Create a `.env` file with:
 ```
 VITE_SHEET_URL=https://docs.google.com/spreadsheets/d/e/2PACX-.../pub?output=csv
 ```
+
+## Contact forms
+GitHub Pages builds set `VITE_CONTACT_MODE=mailto`: forms prepare an email draft that the visitor must send. Screenshots must be attached manually. For other static hosts, set the same variable at build time.
+
+Server-backed deployments leave this variable unset and must serve `api/contact.js` (for example, on Vercel) with the server-only EmailJS variables listed in `.env.example`. A failed API request offers an email draft without claiming the message was delivered.
+
+Run contact validation regression checks with `node --test scripts/contact.test.mjs`.

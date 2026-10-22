@@ -109,6 +109,7 @@ const ScrollToTopButton = ({ elevated = false }) => {
 };
 // ======= CONFIG =======
 const CONTACT_API_URL = "/api/contact";
+const EMAIL_HANDOFF = import.meta.env.VITE_CONTACT_MODE === "mailto";
 
 // Accurate country flags
 const FLAG_SRC = {
@@ -3658,14 +3659,12 @@ function Contact({ creatorName = "" }) {
     whyWeard: "",
   });
 
-  function sendMailto(subject, body, fallbackMessage) {
+  function sendMailto(subject, body) {
     try {
-      window.location.href = `mailto:info@weardmgmt.com?subject=${encodeURIComponent(
-        subject
-      )}&body=${encodeURIComponent(body)}`;
+      window.location.href = `mailto:info@weardmgmt.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      return "Your enquiry has not been sent yet. Send it from your email app. If no draft opens, email info@weardmgmt.com directly. Attach any screenshots manually.";
     } catch {
-      navigator.clipboard?.writeText(`${subject}\n\n${body}`);
-      alert(fallbackMessage);
+      return "Your enquiry has not been sent. Please email info@weardmgmt.com directly and attach any screenshots manually.";
     }
   }
 
@@ -3707,6 +3706,11 @@ function Contact({ creatorName = "" }) {
       `Timeline: ${safeForm.timeline}\n\n` +
       `Outline:\n${safeForm.outline}`;
 
+    if (EMAIL_HANDOFF) {
+      setBrandNotice(sendMailto(subject, body));
+      return;
+    }
+
     try {
       setIsSendingBrand(true);
       await sendEmail("brand", {
@@ -3723,14 +3727,7 @@ function Contact({ creatorName = "" }) {
       });
       setBrandNotice("Submission completed.");
     } catch {
-      sendMailto(
-        subject,
-        body,
-        "We’ve copied your brief to the clipboard. Please paste it into an email to info@weardmgmt.com."
-      );
-      setBrandNotice(
-        "Submission completed. We couldn’t auto-send, so we opened your email client."
-      );
+      setBrandNotice(sendMailto(subject, body));
     } finally {
       setIsSendingBrand(false);
     }
@@ -3794,6 +3791,11 @@ function Contact({ creatorName = "" }) {
       `Why WEARD:\n${safeTalent.whyWeard}\n\n` +
       `Notes:\n${safeTalent.notes}`;
 
+    if (EMAIL_HANDOFF) {
+      setTalentNotice(sendMailto(subject, body));
+      return;
+    }
+
     try {
       setIsSendingTalent(true);
       await sendEmail("talent", {
@@ -3825,14 +3827,7 @@ function Contact({ creatorName = "" }) {
       });
       setTalentNotice("Submission completed.");
     } catch {
-      sendMailto(
-        subject,
-        body,
-        "We’ve copied your message to the clipboard. Please paste it into an email to info@weardmgmt.com."
-      );
-      setTalentNotice(
-        "Submission completed. We couldn’t auto-send, so we opened your email client."
-      );
+      setTalentNotice(sendMailto(subject, body));
     } finally {
       setIsSendingTalent(false);
     }
@@ -3855,6 +3850,7 @@ function Contact({ creatorName = "" }) {
               ? "Creator campaigns shaped by strategy, culture, and creators voices."
               : "Campaigns, partnerships, and creative collaborations built to connect with your audience."}
           </p>
+          {EMAIL_HANDOFF && <p className="mt-4 text-sm text-neutral-500">This form prepares an email draft. You must send it from your email app; attach screenshots there.</p>}
           <div className="mt-8 flex flex-wrap gap-6 sm:gap-10 text-xl sm:text-2xl font-semibold uppercase tracking-[0.08em]" role="tablist" aria-label="Contact mode">
             <button
               onClick={() => setMode("brand")}
@@ -4071,7 +4067,7 @@ function Contact({ creatorName = "" }) {
               </label>
               <div className="flex items-center gap-3">
                 <button className={`${BTN_PRIMARY_CLS} disabled:opacity-60 disabled:cursor-not-allowed`} disabled={isSendingTalent}>
-                  {isSendingTalent ? "Sending..." : "Submit"}
+                  {isSendingTalent ? "Sending..." : EMAIL_HANDOFF ? "Open email draft" : "Submit"}
                 </button>
               </div>
               {talentNotice ? <p className="text-sm text-neutral-500">{talentNotice}</p> : null}
@@ -4202,7 +4198,7 @@ function Contact({ creatorName = "" }) {
                   className={`${BTN_PRIMARY_CLS} disabled:opacity-60 disabled:cursor-not-allowed`}
                   disabled={isSendingBrand}
                 >
-                  {isSendingBrand ? "Sending..." : "Send Brief"}
+                  {isSendingBrand ? "Sending..." : EMAIL_HANDOFF ? "Open email draft" : "Send Brief"}
                 </button>
                 <a href="mailto:info@weardmgmt.com" className="text-sm underline">
                   Email instead
