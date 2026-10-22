@@ -1,3 +1,4 @@
+import { createPortal } from "react-dom";
 
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
@@ -41,7 +42,7 @@ const VideoHover = ({ src, poster, className }) => {
       playsInline
       muted
       loop
-      preload="metadata"
+      preload="none"
       onMouseEnter={() => ref.current?.play()}
       onMouseLeave={() => ref.current?.pause()}
       className={`${className} scale-[0.85] transition-transform`}
@@ -51,32 +52,6 @@ const VideoHover = ({ src, poster, className }) => {
     />
   );
 };
-
-const LoadingScreen = ({ progress = 0 }) => (
-  <motion.div
-    className="weard-loader"
-    initial={{ opacity: 1 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0, transition: { duration: 0.6 } }}
-  >
-    <div className="weard-loader__core">
-      <img
-        className="weard-loader__logo"
-        src="/media/WEARD SEOCONDARY LOGO/ChatGPT Image Sep 12, 2026, 06_54_23 PM.png"
-        alt="WEARD Management"
-      />
-      <div
-        className="weard-loader__progress"
-        style={{ "--loader-progress": `${Math.min(Math.max(progress, 0), 1) * 100}%` }}
-      >
-        <div className="weard-loader__track">
-          <div className="weard-loader__fill" />
-        </div>
-        <div className="weard-loader__percent">{Math.round(progress * 100)}%</div>
-      </div>
-    </div>
-  </motion.div>
-);
 
 const ScrollToTopButton = ({ elevated = false }) => {
   const [visible, setVisible] = useState(false);
@@ -109,7 +84,8 @@ const ScrollToTopButton = ({ elevated = false }) => {
 };
 // ======= CONFIG =======
 const CONTACT_API_URL = "/api/contact";
-const EMAIL_HANDOFF = import.meta.env.VITE_CONTACT_MODE === "mailto";
+const FORMSPREE_ENDPOINT = import.meta.env.VITE_FORMSPREE_ENDPOINT || "";
+const EMAIL_HANDOFF = !FORMSPREE_ENDPOINT && import.meta.env.VITE_CONTACT_MODE === "mailto";
 
 // Accurate country flags
 const FLAG_SRC = {
@@ -125,10 +101,9 @@ const INPUT_CLS =
   "w-full px-4 py-2 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 placeholder-neutral-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500";
 const BTN_PRIMARY_CLS = `${GRADIENT} inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500`;
 const TALENT_STATS_MAX_FILES = 3;
-const TALENT_STATS_MAX_FILE_SIZE = 2 * 1024 * 1024;
+const TALENT_STATS_MAX_FILE_SIZE = 1024 * 1024;
 const TALENT_STATS_ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 const CONSENT_STORAGE_KEY = "weard-cookie-consent";
-const LOADER_SESSION_KEY = "weard-loader-played";
 const HUBSPOT_SCRIPT_ID = "hs-script-loader";
 const HUBSPOT_SCRIPT_SRC = "https://js-eu1.hs-scripts.com/147478125.js";
 const APOLLO_SCRIPT_ID = "apollo-website-tracker";
@@ -868,15 +843,13 @@ function NotFound({ onNav }) {
 // ======= APP =======
 export default function App() {
   const creators = STARTER_CREATORS;
-  const [isLoading, setIsLoading] = useState(true);
-  const [loadProgress, setLoadProgress] = useState(0);
   const [activePage, setActivePage] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedCreator, setSelectedCreator] = useState(null);
   const [enquiryCreator, setEnquiryCreator] = useState("");
   const [cookieConsent, setCookieConsent] = useState(() => {
     if (typeof window === "undefined") return null;
-    return window.localStorage.getItem(CONSENT_STORAGE_KEY);
+    try { return window.localStorage.getItem(CONSENT_STORAGE_KEY); } catch { return null; }
   });
   const creatorSlugMap = useMemo(() => {
     const map = new Map();
@@ -940,70 +913,6 @@ useEffect(() => {
   }, [creatorSlugMap]);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    const hasPlayed = window.sessionStorage.getItem(LOADER_SESSION_KEY) === "1";
-    if (hasPlayed) {
-      setLoadProgress(1);
-      setIsLoading(false);
-      return;
-    }
-
-    let minPassed = false;
-    let loaded = document.readyState === "complete";
-    let rafId;
-    const minDuration = 1800;
-    const start = performance.now();
-
-    const updateProgress = () => {
-      const elapsed = performance.now() - start;
-      const timeProgress = Math.min(elapsed / minDuration, 1);
-      const readyState = document.readyState;
-      const readyProgress =
-        readyState === "complete" ? 1 : readyState === "interactive" ? 0.6 : 0.3;
-      let target = Math.min(0.95, Math.max(timeProgress, readyProgress));
-
-      if (loaded) target = 1;
-
-      setLoadProgress((prev) => (target > prev ? target : prev));
-
-      if (!loaded || target < 1) {
-        rafId = requestAnimationFrame(updateProgress);
-      }
-    };
-
-    const Loading = () => {
-      window.sessionStorage.setItem(LOADER_SESSION_KEY, "1");
-      setIsLoading(false);
-    };
-
-    const handleLoad = () => {
-      loaded = true;
-      setLoadProgress(1);
-      if (minPassed) Loading();
-    };
-
-    const timer = setTimeout(() => {
-      minPassed = true;
-      if (loaded) Loading();
-    }, minDuration);
-
-    window.addEventListener("load", handleLoad);
-    if (loaded) handleLoad();
-    rafId = requestAnimationFrame(updateProgress);
-
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener("load", handleLoad);
-      if (rafId) cancelAnimationFrame(rafId);
-    };
-  }, []);
-
-  useEffect(() => {
-    document.body.classList.toggle("weard-loading", isLoading);
-    return () => document.body.classList.remove("weard-loading");
-  }, [isLoading]);
-
-  useEffect(() => {
     const handlePopState = () => resolveRoute(window.location.pathname);
     window.addEventListener("popstate", handlePopState);
     return () => window.removeEventListener("popstate", handlePopState);
@@ -1017,7 +926,7 @@ useEffect(() => {
 
   const handleCookieConsent = (value) => {
     setCookieConsent(value);
-    window.localStorage.setItem(CONSENT_STORAGE_KEY, value);
+    try { window.localStorage.setItem(CONSENT_STORAGE_KEY, value); } catch { /* Consent still applies for this visit. */ }
   };
 
   useEffect(() => {
@@ -1156,7 +1065,6 @@ useEffect(() => {
   }, [creators]);
   return (
     <div className="min-h-screen bg-white text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100 transition-colors">
-      <AnimatePresence>{isLoading ? <LoadingScreen progress={loadProgress} /> : null}</AnimatePresence>
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
@@ -1375,7 +1283,19 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
       return undefined;
     }
 
+    const drawer = document.getElementById("mobile-nav");
+    const previousFocus = document.activeElement;
+    const focusable = () => [...drawer.querySelectorAll('a[href], button:not([disabled])')];
+    focusable()[0]?.focus();
+    const appRoot = document.getElementById("root");
+    if (appRoot) appRoot.inert = true;
     const handleKeyDown = (event) => {
+      if (event.key === "Tab") {
+        const elements = focusable();
+        const first = elements[0], last = elements[elements.length - 1];
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+      }
       if (event.key === "Escape") {
         setMenuOpen(false);
       }
@@ -1386,6 +1306,8 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
     return () => {
       document.body.style.overflow = "";
       window.removeEventListener("keydown", handleKeyDown);
+      if (appRoot) appRoot.inert = false;
+      previousFocus?.focus();
     };
   }, [menuOpen, setMenuOpen]);
 
@@ -1408,7 +1330,7 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
       <div className={cn("max-w-7xl mx-auto px-4 flex items-center justify-between transition-all duration-300", isScrolled ? "py-2.5" : "py-3.5")}>
         <div className="flex items-center gap-3">
           <span className={cn("font-black tracking-widest text-xl sm:text-2xl", TEXT_GRAD)}>WEARD</span>
-          <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-neutral-400">Management</span>
+          <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-neutral-600">Management</span>
         </div>
         <nav className="hidden md:flex items-center gap-6" aria-label="Primary">
           {nav.map((n) => (
@@ -1468,7 +1390,7 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
           </button>
         </div>
       </div>
-      <AnimatePresence>
+      {createPortal(<AnimatePresence>
         {menuOpen && (
           <motion.div
             key="drawer"
@@ -1522,7 +1444,7 @@ function Header({ onNav, active, menuOpen, setMenuOpen }) {
             </div>
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence>, document.body)}
     </header>
   );
 }
@@ -1702,7 +1624,7 @@ function CreatorProfile({ creator, onBack, onEnquire }) {
                   muted
                   loop
                   playsInline
-                  preload="metadata"
+                  preload="none"
                   className="absolute inset-0 h-full w-full object-cover opacity-100 transition duration-700 ease-out hover:scale-[1.03]"
                   onError={() => setVideoUnavailable(true)}
                 />
@@ -1717,7 +1639,7 @@ function CreatorProfile({ creator, onBack, onEnquire }) {
                 <div className="text-3xl sm:text-4xl font-extrabold">
                   <CountTo to={tt} format={shortFormat} />
                 </div>
-                <div className="mt-2 text-sm sm:text-base font-semibold text-neutral-400">TikTok Followers</div>
+                <div className="mt-2 text-sm sm:text-base font-semibold text-neutral-600 dark:text-neutral-300">TikTok Followers</div>
               </div>
             )}
 
@@ -1726,7 +1648,7 @@ function CreatorProfile({ creator, onBack, onEnquire }) {
                 <div className="text-3xl sm:text-4xl font-extrabold">
                   <CountTo to={ig} format={shortFormat} />
                 </div>
-                <div className="mt-2 text-sm sm:text-base font-semibold text-neutral-400">Instagram Followers</div>
+                <div className="mt-2 text-sm sm:text-base font-semibold text-neutral-600 dark:text-neutral-300">Instagram Followers</div>
               </div>
             )}
 
@@ -1735,7 +1657,7 @@ function CreatorProfile({ creator, onBack, onEnquire }) {
                 <div className="text-3xl sm:text-4xl font-extrabold">
                   <CountTo to={yt} format={shortFormat} />
                 </div>
-                <div className="mt-2 text-sm sm:text-base font-semibold text-neutral-400">YouTube Subscribers</div>
+                <div className="mt-2 text-sm sm:text-base font-semibold text-neutral-600 dark:text-neutral-300">YouTube Subscribers</div>
               </div>
             )}
           </div>
@@ -1876,11 +1798,11 @@ function CreatorProfile({ creator, onBack, onEnquire }) {
                 <p className="mt-1 text-xs uppercase tracking-[0.18em] text-neutral-500">of audience from</p>
                 <p className="mt-2 text-2xl font-medium leading-tight tracking-tight">{audience_insights?.top_location?.name || top_audience[0] || "UK"}</p>
                 <div className="mt-4 space-y-1.5 text-sm text-neutral-500">
-                  <p><span className="text-neutral-400">Top City:</span> <span className="text-neutral-700 dark:text-neutral-200">{audience_insights?.top_city || "-"}</span></p>
+                  <p><span className="text-neutral-600 dark:text-neutral-300">Top City:</span> <span className="text-neutral-700 dark:text-neutral-200">{audience_insights?.top_city || "-"}</span></p>
                   {(audience_insights?.second_location?.name || top_audience[1]) && (
-                    <p><span className="text-neutral-400">Secondary audience:</span> <span className="text-neutral-700 dark:text-neutral-200">{audience_insights?.second_location?.name || top_audience[1]}</span></p>
+                    <p><span className="text-neutral-600 dark:text-neutral-300">Secondary audience:</span> <span className="text-neutral-700 dark:text-neutral-200">{audience_insights?.second_location?.name || top_audience[1]}</span></p>
                   )}
-                  <p><span className="text-neutral-400">Age:</span> <span className="text-neutral-700 dark:text-neutral-200">{audience_insights?.age_range || "-"}</span></p>
+                  <p><span className="text-neutral-600 dark:text-neutral-300">Age:</span> <span className="text-neutral-700 dark:text-neutral-200">{audience_insights?.age_range || "-"}</span></p>
                 </div>
               </div>
               <div className="mt-5">
@@ -2212,7 +2134,7 @@ function Home({ onExploreRoster, onWorkWithUs, onNav }) {
             </span>
           </button>
           <article className="group relative overflow-hidden rounded-[1.6rem] border border-neutral-200 bg-white px-5 py-5 text-neutral-950 shadow-xl transition hover:-translate-y-1 hover:border-neutral-950 dark:bg-neutral-100 sm:px-7 sm:py-6">
-            <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.28em] text-neutral-400">
+            <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.28em] text-neutral-600 dark:text-neutral-300">
               Introducing our agency division · <span className="text-indigo-600">Asiancy</span>
             </p>
             <span className="block text-[clamp(2.5rem,9vw,6.2rem)] font-black uppercase leading-[0.9] tracking-[-0.08em]">
@@ -2263,6 +2185,7 @@ function HeroCarousel({ onExploreRoster, onWorkWithUs }) {
   );
 
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || navigator.connection?.saveData) return;
     const state = HERO_LANES.map((lane, index) => {
       const track = trackRefs.current[index];
       const startOffset = ((lane.seed * 179) % 900) + Math.random() * 320;
@@ -2387,7 +2310,7 @@ function HeroCard({ src }) {
 
   useEffect(() => {
     const card = cardRef.current;
-    if (!card) return undefined;
+    if (!card || window.matchMedia("(prefers-reduced-motion: reduce)").matches || navigator.connection?.saveData) return undefined;
 
     if (!window.IntersectionObserver) {
       setShouldLoad(true);
@@ -2636,11 +2559,11 @@ function MarketingLanding({
         </p>
         <div className="mt-6 grid gap-4 sm:grid-cols-2">
           <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4">
-            <p className="text-xs uppercase tracking-[0.25em] text-neutral-400">Market focus</p>
+            <p className="text-xs uppercase tracking-[0.25em] text-neutral-600">Market focus</p>
             <p className="mt-2 text-sm font-semibold">{regionFocus}</p>
           </div>
           <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4">
-            <p className="text-xs uppercase tracking-[0.25em] text-neutral-400">What we deliver</p>
+            <p className="text-xs uppercase tracking-[0.25em] text-neutral-600">What we deliver</p>
             <ul className="mt-2 text-sm text-neutral-600 dark:text-neutral-400 space-y-1">
               {marketPoints.map((point) => (
                 <li key={point}>{point}</li>
@@ -2649,7 +2572,7 @@ function MarketingLanding({
           </div>
         </div>
         <div className="mt-6 rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4">
-          <p className="text-xs uppercase tracking-[0.25em] text-neutral-400">How we work</p>
+          <p className="text-xs uppercase tracking-[0.25em] text-neutral-600">How we work</p>
           <ul className="mt-2 text-sm text-neutral-600 dark:text-neutral-400 space-y-1">
             {approachPoints.map((point) => (
               <li key={point}>{point}</li>
@@ -2912,7 +2835,7 @@ function Roster({ creators, onNav }) {
         {filtersOpen && (
           <div id="roster-filters" className="mt-4 grid gap-5 lg:grid-cols-4">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-neutral-400">Content category</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-neutral-600">Content category</p>
               <div className="mt-2 flex flex-wrap gap-2">
                 {archetypeOptions.map((option) => (
                   <FilterPill key={option} active={tab === option} onClick={() => setTab(option)}>
@@ -2923,7 +2846,7 @@ function Roster({ creators, onNav }) {
             </div>
 
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-neutral-400">Following size</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-neutral-600">Following size</p>
               <div className="mt-2 flex flex-wrap gap-2">
                 {FOLLOWER_RANGES.map((range) => (
                   <FilterPill key={range.label} active={followingRange === range.label} onClick={() => setFollowingRange(range.label)}>
@@ -2935,7 +2858,7 @@ function Roster({ creators, onNav }) {
             </div>
 
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-neutral-400">Region</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-neutral-600">Region</p>
               <div className="mt-2 flex flex-wrap gap-2">
                 {availableRegions.map((option) => (
                   <FilterPill key={option} active={region === option} onClick={() => setRegion(option)}>
@@ -2946,7 +2869,7 @@ function Roster({ creators, onNav }) {
             </div>
 
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-neutral-400">Social platform</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-neutral-600">Social platform</p>
               <div className="mt-2 flex flex-wrap gap-2">
                 {availableSocialPlatforms.map((option) => (
                   <FilterPill key={option} active={socialPlatform === option} onClick={() => setSocialPlatform(option)}>
@@ -3117,7 +3040,7 @@ function CreatorCard({ p }) {
     `https://api.dicebear.com/8.x/initials/svg?seed=${encodeURIComponent(p.name)}&backgroundType=gradientLinear`;
   const hasVideo = Boolean(p.video);
   const videoRef = useRef(null);
-  const [mediaRef, mediaInView] = useInView({ rootMargin: "180px" });
+  const [mediaRef] = useInView({ rootMargin: "180px" });
   const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
   const [isTouchPlaying, setIsTouchPlaying] = useState(false);
   const [isCoarsePointer, setIsCoarsePointer] = useState(false);
@@ -3131,22 +3054,8 @@ function CreatorCard({ p }) {
     return () => mediaQuery.removeEventListener("change", update);
   }, []);
 
-  useEffect(() => {
-    if (mediaInView && hasVideo) setShouldLoadVideo(true);
-  }, [mediaInView, hasVideo]);
-
-  useEffect(() => {
-    if (!hasVideo || !isCoarsePointer || !mediaInView) return;
-    setShouldLoadVideo(true);
-    setIsTouchPlaying(true);
-    const playPromise = videoRef.current?.play();
-    if (playPromise && typeof playPromise.catch === "function") {
-      playPromise.catch(() => setIsTouchPlaying(false));
-    }
-  }, [hasVideo, isCoarsePointer, mediaInView]);
-
   const handleEnter = () => {
-    if (!hasVideo) return;
+    if (!hasVideo || window.matchMedia("(prefers-reduced-motion: reduce)").matches || navigator.connection?.saveData) return;
     setShouldLoadVideo(true);
     setIsTouchPlaying(true);
     const playPromise = videoRef.current?.play();
@@ -3192,7 +3101,8 @@ function CreatorCard({ p }) {
         className="relative block aspect-[4/5] sm:aspect-[3/5] bg-neutral-100 dark:bg-neutral-900"
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
-        onTouchStart={handleEnter}
+        onFocus={handleEnter}
+        onBlur={handleLeave}
       >
         {/* Base photo */}
         <img
@@ -3389,7 +3299,7 @@ function HoverMedia({ photo, video, alt }) {
         muted
         loop
         playsInline
-        preload="metadata"
+        preload="none"
         controls={false}
         disablePictureInPicture
         className={cn(
@@ -3669,6 +3579,24 @@ function Contact({ creatorName = "" }) {
   }
 
   async function sendEmail(kind, templateParams) {
+    if (FORMSPREE_ENDPOINT) {
+      const endpoint = new URL(FORMSPREE_ENDPOINT);
+      if (endpoint.origin !== "https://formspree.io" || !/^\/f\/[a-zA-Z0-9]+$/.test(endpoint.pathname)) {
+        throw new Error("Invalid form endpoint");
+      }
+      const data = new FormData();
+      data.set("kind", kind);
+      for (const [key, value] of Object.entries(templateParams)) {
+        if (key !== "stats_screenshots") data.set(key, String(value ?? ""));
+      }
+      data.set("_subject", templateParams.subject);
+      if (kind === "talent") {
+        for (const file of talentStatsFiles) data.append("attachment", file, file.name);
+      }
+      const response = await fetch(endpoint.href, { method: "POST", headers: { Accept: "application/json" }, body: data });
+      if (!response.ok) throw new Error("Email send failed");
+      return;
+    }
     const response = await fetch(CONTACT_API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -3727,7 +3655,7 @@ function Contact({ creatorName = "" }) {
       });
       setBrandNotice("Submission completed.");
     } catch {
-      setBrandNotice(sendMailto(subject, body));
+      setBrandNotice("Your enquiry has not been sent. Please try again, or email info@weardmgmt.com directly.");
     } finally {
       setIsSendingBrand(false);
     }
@@ -3812,7 +3740,7 @@ function Contact({ creatorName = "" }) {
           availability: safeTalent.availability,
           audience: safeTalent.audience,
           stats_summary: safeTalent.statsSummary,
-          stats_screenshots: talentStatsFiles.length
+          stats_screenshots: !FORMSPREE_ENDPOINT && talentStatsFiles.length
             ? await Promise.all(talentStatsFiles.map(async (file) => ({
                 name: file.name.replace(/[^a-zA-Z0-9._-]/g, "_"),
                 type: file.type,
@@ -3827,7 +3755,7 @@ function Contact({ creatorName = "" }) {
       });
       setTalentNotice("Submission completed.");
     } catch {
-      setTalentNotice(sendMailto(subject, body));
+      setTalentNotice("Your application has not been sent. Please try again, or email info@weardmgmt.com directly with your screenshots.");
     } finally {
       setIsSendingTalent(false);
     }
@@ -3851,7 +3779,7 @@ function Contact({ creatorName = "" }) {
               : "Campaigns, partnerships, and creative collaborations built to connect with your audience."}
           </p>
           {EMAIL_HANDOFF && <p className="mt-4 text-sm text-neutral-500">This form prepares an email draft. You must send it from your email app; attach screenshots there.</p>}
-          <div className="mt-8 flex flex-wrap gap-6 sm:gap-10 text-xl sm:text-2xl font-semibold uppercase tracking-[0.08em]" role="tablist" aria-label="Contact mode">
+          <div className="mt-8 flex flex-wrap gap-6 sm:gap-10 text-xl sm:text-2xl font-semibold uppercase tracking-[0.08em]" role="group" aria-label="Contact mode">
             <button
               onClick={() => setMode("brand")}
               className={`pb-1 border-b transition-colors ${
@@ -3859,8 +3787,7 @@ function Contact({ creatorName = "" }) {
                   ? "border-neutral-900 text-neutral-900 dark:text-white dark:border-white"
                   : "border-transparent text-neutral-500 hover:text-neutral-900 dark:hover:text-white"
               }`}
-              role="tab"
-              aria-selected={mode === "brand"}
+              aria-pressed={mode === "brand"}
             >
               FOR BRANDS / AGENCIES
             </button>
@@ -3871,8 +3798,7 @@ function Contact({ creatorName = "" }) {
                   ? "border-neutral-900 text-neutral-900 dark:text-white dark:border-white"
                   : "border-transparent text-neutral-500 hover:text-neutral-900 dark:hover:text-white"
               }`}
-              role="tab"
-              aria-selected={mode === "talent"}
+              aria-pressed={mode === "talent"}
             >
               WANT TO JOIN THE ROSTER?
             </button>
@@ -4000,7 +3926,7 @@ function Contact({ creatorName = "" }) {
                       Audience demographic / stats
                     </p>
                     <p className="mt-1 text-xs leading-5 text-neutral-500">
-                      Add screenshots from Instagram, TikTok, or YouTube analytics so we can review audience fit. JPG, PNG, or WebP only. Up to 3 files, max 2 MB each.
+                      Add screenshots from Instagram, TikTok, or YouTube analytics so we can review audience fit. JPG, PNG, or WebP only. Up to 3 files, max 1 MB each.
                     </p>
                   </div>
                 </div>
@@ -4070,7 +3996,7 @@ function Contact({ creatorName = "" }) {
                   {isSendingTalent ? "Sending..." : EMAIL_HANDOFF ? "Open email draft" : "Submit"}
                 </button>
               </div>
-              {talentNotice ? <p className="text-sm text-neutral-500">{talentNotice}</p> : null}
+              {talentNotice ? <p role="status" className="text-sm text-neutral-500">{talentNotice}</p> : null}
               </form>
             ) : (
               <form className="grid gap-4 max-w-2xl" onSubmit={handleBrandSubmit}>
@@ -4205,7 +4131,7 @@ function Contact({ creatorName = "" }) {
                 </a>
               </div>
               {brandNotice ? (
-                <p className="text-sm text-neutral-500">{brandNotice}</p>
+                <p role="status" className="text-sm text-neutral-500">{brandNotice}</p>
               ) : null}
 
               </form>

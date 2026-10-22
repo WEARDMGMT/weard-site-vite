@@ -1,7 +1,7 @@
 const EMAILJS_URL = "https://api.emailjs.com/api/v1.0/email/send";
 const WINDOW_MS = 10 * 60 * 1000;
 const MAX_REQUESTS = 5;
-const MAX_BODY_BYTES = 4 * 1024 * 1024;
+const MAX_BODY_BYTES = 4_500_000;
 const buckets = new Map();
 
 const text = (value, limit = 3000) =>
