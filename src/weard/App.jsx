@@ -264,6 +264,7 @@ const BRAND_LOGOS = [
   { src: "/media/logos/lothian-buses.png", alt: "Lothian Buses" },
   { src: "/media/logos/safetywing.png", alt: "SafetyWing" },
   { alt: "Nomad eSIM" },
+  { src: "/media/logos/on-running.png", alt: "On" },
   { src: "/media/logos/wondershare.svg", alt: "Wondershare" },
   { src: "/media/logos/singha.png", alt: "Singha" },
   { src: "/media/logos/central.svg", alt: "Central Department Store" },
