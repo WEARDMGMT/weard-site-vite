@@ -251,7 +251,7 @@ const BRAND_LOGOS = [
   { src: "/media/logos/vinted.png", alt: "Vinted" },
   { src: "/media/logos/vita-coco.png", alt: "Vita Coco" },
   { src: "/media/logos/yfood.png", alt: "yfood" },
-  // Added from Monday signed/complete deals (Nov 2026). Kling AI and Nomad have no usable logo file, so show as wordmarks.
+  // Added from Monday signed/complete deals (Nov 2026). Nomad has no usable logo file, so it shows as a wordmark.
   { src: "/media/logos/surfshark.svg", alt: "Surfshark" },
   { src: "/media/logos/oral-b.svg", alt: "Oral-B" },
   { src: "/media/logos/klook.svg", alt: "Klook" },
@@ -265,7 +265,6 @@ const BRAND_LOGOS = [
   { src: "/media/logos/safetywing.png", alt: "SafetyWing" },
   { alt: "Nomad eSIM" },
   { src: "/media/logos/wondershare.svg", alt: "Wondershare" },
-  { alt: "Kling AI" },
   { src: "/media/logos/singha.png", alt: "Singha" },
   { src: "/media/logos/central.svg", alt: "Central Department Store" },
   { src: "/media/logos/12go.png", alt: "12Go" },
@@ -2345,6 +2344,14 @@ function RotatingWords({ words }) {
 
 // ======= ABOUT =======
 function About({ onNav }) {
+  const [activePillar, setActivePillar] = useState(0);
+  // On phones the list reflows when a pillar opens, so bring the chosen one back into view.
+  const openPillar = (i) => {
+    setActivePillar(i);
+    if (window.matchMedia("(max-width: 860px)").matches) {
+      requestAnimationFrame(() => document.getElementById(`pillar-tab-${i}`)?.scrollIntoView({ block: "start", behavior: "smooth" }));
+    }
+  };
   const pillars = [
     {
       label: "01",
@@ -2398,18 +2405,52 @@ function About({ onNav }) {
           </div>
         </div>
 
-        <div className="about-pillars">
-          {pillars.map((pillar) => (
-            <article key={pillar.label} className="about-pillar">
-              <span>{pillar.label}</span>
-              <div>
-                <h3>{pillar.title}</h3>
-                <h4>{pillar.subtitle}</h4>
-                {pillar.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-                <strong>{pillar.signoff}</strong>
-              </div>
-            </article>
-          ))}
+        {/* Pillars: pick one on the left (desktop) or tap to open in place (phones) */}
+        <div className="pillars-ui">
+          {pillars.map((pillar, i) => {
+            const open = i === activePillar;
+            return (
+              <React.Fragment key={pillar.label}>
+                <button
+                  type="button"
+                  id={`pillar-tab-${i}`}
+                  className="pillars-ui__tab"
+                  aria-expanded={open}
+                  aria-controls={`pillar-panel-${i}`}
+                  onClick={() => openPillar(i)}
+                >
+                  <span className="pillars-ui__num">{pillar.label}</span>
+                  <span className="pillars-ui__name">{pillar.title}</span>
+                  <span className="pillars-ui__sub">{pillar.subtitle}</span>
+                </button>
+                {open && (
+                  <motion.article
+                    key={pillar.label}
+                    id={`pillar-panel-${i}`}
+                    role="region"
+                    aria-labelledby={`pillar-tab-${i}`}
+                    className="pillars-ui__panel"
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    <span className="pillars-ui__bignum" aria-hidden="true">{pillar.label}</span>
+                    <h3>{pillar.title}</h3>
+                    <h4>{pillar.subtitle}</h4>
+                    {pillar.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                    <strong>{pillar.signoff}</strong>
+                    <button
+                      type="button"
+                      className="pillars-ui__next"
+                      onClick={() => openPillar((i + 1) % pillars.length)}
+                    >
+                      {i + 1 < pillars.length ? `Next: ${pillars[i + 1].title}` : `Back to ${pillars[0].title}`} <ArrowRight size={16} />
+                    </button>
+                  </motion.article>
+                )}
+              </React.Fragment>
+            );
+          })}
         </div>
 
         <div className="about-approach">

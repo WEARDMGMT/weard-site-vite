@@ -226,7 +226,7 @@ body.weard-loading {
 }
 
 /* ABOUT — editorial, confident, human */
-.about-page { overflow: hidden; color: #f8f8fb; }
+.about-page { overflow: hidden; overflow: clip; color: #f8f8fb; } /* clip: the wide dragon mark can never shift the page sideways */
 .about-shell { width: min(1240px, calc(100% - 32px)); margin: auto; padding: clamp(4rem,8vw,7rem) 0; }
 .about-hero { position: relative; padding: 2rem 0 5rem; border-top: 1px solid rgba(255,255,255,.5); }
 .about-hero__eyebrow { display: flex; justify-content: space-between; gap: 1rem; padding-top: 1rem; font-size: .68rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
@@ -1093,3 +1093,36 @@ body.weard-loading {
 /* Creator profile follower cards: three per row, centred when there are fewer */
 .profile-stats { display: flex; flex-wrap: wrap; justify-content: center; gap: .75rem; }
 .profile-stats > * { flex: 0 1 calc((100% - 1.5rem) / 3); min-width: 0; }
+
+/* About: pillars as a pick-one panel (desktop) / tap-to-open list (phones) */
+.pillars-ui { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.35fr); column-gap: clamp(2rem, 5vw, 5rem); align-items: start; padding: clamp(3rem, 6vw, 5rem) 0; border-bottom: 1px solid rgba(255,255,255,.18); }
+.pillars-ui__tab { grid-column: 1; display: grid; grid-template-columns: 3rem 1fr; column-gap: .75rem; row-gap: .35rem; width: 100%; padding: 1.4rem 1rem 1.4rem 0; border-top: 1px solid rgba(255,255,255,.14); text-align: left; color: rgba(255,255,255,.45); transition: color .25s ease, padding .35s cubic-bezier(.22,1,.36,1); }
+.pillars-ui__tab:last-of-type { border-bottom: 1px solid rgba(255,255,255,.14); }
+.pillars-ui__tab:hover { color: rgba(255,255,255,.8); }
+.pillars-ui__tab[aria-expanded="true"] { color: #fff; padding-left: .75rem; box-shadow: inset 3px 0 0 #b8ff36; }
+.pillars-ui__tab:focus-visible { outline: 2px solid #67e8f9; outline-offset: 2px; }
+.pillars-ui__num { grid-row: span 2; padding-top: .3rem; color: #67e8f9; font-size: .76rem; font-weight: 900; letter-spacing: .18em; }
+.pillars-ui__name { font-size: clamp(1.5rem, 2.6vw, 2.3rem); font-weight: 950; line-height: .95; letter-spacing: -.04em; text-transform: uppercase; }
+.pillars-ui__sub { font-size: .95rem; font-weight: 600; color: inherit; opacity: .8; }
+.pillars-ui__panel { grid-column: 2; grid-row: 1 / span 8; position: relative; overflow: hidden; padding: clamp(2rem, 4vw, 3.25rem); border-radius: 2rem; border: 1px solid rgba(255,255,255,.14); background: radial-gradient(circle at 100% 0%, rgba(103,232,249,.12), transparent 45%), radial-gradient(circle at 0% 100%, rgba(184,255,54,.08), transparent 45%), rgba(255,255,255,.03); }
+.pillars-ui__bignum { position: absolute; right: -.05em; top: -.18em; font-size: clamp(8rem, 16vw, 13rem); font-weight: 950; line-height: 1; letter-spacing: -.06em; color: rgba(255,255,255,.05); pointer-events: none; }
+.pillars-ui__panel h3 { position: relative; font-size: clamp(2.2rem, 4.4vw, 4rem); font-weight: 950; line-height: .92; letter-spacing: -.05em; text-transform: uppercase; }
+.pillars-ui__panel h4 { position: relative; margin: 1.1rem 0 1.4rem; color: #fff; font-size: clamp(1.1rem, 1.8vw, 1.4rem); font-weight: 750; }
+.pillars-ui__panel p { position: relative; max-width: 640px; margin-top: .9rem; color: rgba(255,255,255,.66); line-height: 1.7; }
+.pillars-ui__panel strong { display: block; margin-top: 1.8rem; color: #b8ff36; font-size: .86rem; letter-spacing: .08em; text-transform: uppercase; }
+.pillars-ui__next { display: inline-flex; align-items: center; gap: .6rem; margin-top: 2rem; padding: .7rem 1.1rem; border-radius: 999px; border: 1px solid rgba(255,255,255,.2); color: #fff; font-size: .72rem; font-weight: 850; letter-spacing: .14em; text-transform: uppercase; transition: gap .2s ease, background .2s ease; }
+.pillars-ui__next:hover { gap: .9rem; background: rgba(255,255,255,.08); }
+
+@media (max-width: 860px) {
+  .pillars-ui { grid-template-columns: 1fr; }
+  .pillars-ui__tab, .pillars-ui__panel { grid-column: 1; grid-row: auto; }
+  .pillars-ui__panel { margin: .25rem 0 1.25rem; padding: 1.75rem 1.4rem; border-radius: 1.5rem; }
+  .pillars-ui__panel h3 { display: none; } /* title is already on the tab right above */
+  .pillars-ui__panel h4 { margin-top: 0; }
+  .pillars-ui__bignum { font-size: 7rem; }
+}
+@media (max-width: 860px) {
+  .pillars-ui__panel h4 { display: none; } /* subtitle already shows on the tab above */
+  .pillars-ui__panel p:first-of-type { margin-top: 0; }
+}
+.pillars-ui__tab { scroll-margin-top: 84px; }
