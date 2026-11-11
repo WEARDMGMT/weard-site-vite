@@ -731,6 +731,56 @@ body.weard-loading {
 .roster-promise__aside button, .brand-proof__cta { display: inline-flex; align-items: center; gap: .6rem; margin-top: 1.5rem; font-size: .74rem; font-weight: 850; letter-spacing: .14em; text-transform: uppercase; transition: gap .2s ease; }
 .roster-promise__aside button:hover, .brand-proof__cta:hover { gap: .9rem; }
 
+/* Fanned creator cards inside the roster block */
+.roster-spotlight { grid-column: 1 / -1; min-width: 0; margin-top: clamp(.5rem, 2vw, 1.5rem); }
+.roster-spotlight__hand { display: flex; justify-content: center; padding: 2.5rem 0 1.5rem; }
+.spotlight-card {
+  --rot: calc((var(--i) - 2.5) * 5deg);
+  --lift: calc((var(--i) - 2.5) * (var(--i) - 2.5) * 5px);
+  position: relative; flex: 0 0 auto; width: clamp(150px, 15vw, 200px); aspect-ratio: 3 / 4;
+  margin-inline: -14px; overflow: hidden; border-radius: 22px; background: #1c1c22;
+  border: 1px solid rgba(255,255,255,.14); box-shadow: 0 22px 45px rgba(0,0,0,.45);
+  transform: translateY(var(--lift)) rotate(var(--rot)); transform-origin: 50% 120%;
+  transition: transform .45s cubic-bezier(.22,1,.36,1), box-shadow .45s ease, filter .3s ease;
+  cursor: pointer; text-align: left; color: #fff; z-index: 1;
+}
+.spotlight-card img, .spotlight-card video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.spotlight-card video { opacity: 0; transition: opacity .3s ease; }
+.spotlight-card:hover video, .spotlight-card:focus-visible video { opacity: 1; }
+.spotlight-card__shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.05) 35%, rgba(0,0,0,.82)); }
+.spotlight-card__count {
+  position: absolute; top: 12px; left: 12px; display: inline-flex; align-items: baseline; gap: .35rem;
+  padding: 5px 10px; border-radius: 999px; background: rgba(255,255,255,.92); color: #0a0a0c;
+  font-size: .95rem; font-weight: 900; letter-spacing: -.02em;
+}
+.spotlight-card__count small { font-size: .58rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: #5b5bd6; }
+.spotlight-card__name { position: absolute; left: 14px; right: 14px; bottom: 14px; display: grid; font-size: 1.35rem; font-weight: 950; line-height: 1; letter-spacing: -.04em; text-transform: uppercase; }
+.spotlight-card__name small { margin-top: .35rem; font-size: .6rem; font-weight: 800; letter-spacing: .2em; color: rgba(255,255,255,.7); }
+.roster-spotlight__hand:hover .spotlight-card { filter: saturate(.6) brightness(.7); }
+.roster-spotlight__hand .spotlight-card:hover,
+.roster-spotlight__hand .spotlight-card:focus-visible {
+  z-index: 5; filter: none; outline: none;
+  transform: translateY(calc(var(--lift) - 28px)) rotate(0deg) scale(1.08);
+  box-shadow: 0 30px 70px rgba(91,91,214,.45), 0 0 0 2px #a5b4fc;
+}
+.roster-spotlight__meta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding-top: 1.25rem; border-top: 1px solid rgba(255,255,255,.22); color: rgba(255,255,255,.65); font-size: .95rem; }
+.roster-spotlight__meta strong { color: #fff; font-size: 1.6rem; font-weight: 950; letter-spacing: -.04em; margin-right: .25rem; }
+.roster-spotlight__meta button { display: inline-flex; align-items: center; gap: .6rem; color: #fff; font-size: .74rem; font-weight: 850; letter-spacing: .14em; text-transform: uppercase; transition: gap .2s ease; }
+.roster-spotlight__meta button:hover { gap: .9rem; }
+
+@media (max-width: 720px) {
+  /* on phones the hand becomes a swipeable row */
+  .roster-spotlight__hand { justify-content: flex-start; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 1.25rem 2px 1rem; margin-inline: -4px; scrollbar-width: none; }
+  .roster-spotlight__hand::-webkit-scrollbar { display: none; }
+  .spotlight-card { width: 62vw; max-width: 240px; margin-inline: 0; transform: none; scroll-snap-align: center; }
+  .roster-spotlight__hand:hover .spotlight-card { filter: none; }
+  .roster-spotlight__hand .spotlight-card:hover { transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spotlight-card { transition: none; }
+}
+
 .brand-proof { padding: clamp(4rem, 8vw, 8rem) 1rem; background: #f4f4f1; color: #111; }
 .brand-proof__inner { width: min(1180px, 100%); margin-inline: auto; }
 .brand-proof__heading { display: grid; grid-template-columns: .42fr 1.15fr .65fr; gap: 2rem; align-items: start; padding-bottom: clamp(2.5rem, 5vw, 4.5rem); border-bottom: 1px solid rgba(0,0,0,.2); }
@@ -838,14 +888,16 @@ body.weard-loading {
 }
 
 .weard-logo-carousel__logo {
-  width: 100%;
-  height: 100%;
+  display: block;
+  width: auto;
+  height: auto;
   max-width: 100%;
-  max-height: calc(var(--logo-row-height, 56px) - 24px);
+  max-height: min(40px, calc(var(--logo-row-height, 56px) - 32px));
   object-fit: contain;
   opacity: 0.95;
   filter: none;
-  mix-blend-mode: normal;
+  /* drops the white boxes some logo files have baked in */
+  mix-blend-mode: multiply;
   transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease;
 }
 
@@ -859,14 +911,16 @@ body.weard-loading {
   align-items: center;
   justify-content: center;
   text-align: center;
-  font-size: 0.78rem;
-  line-height: 1.1;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 1.02rem;
+  line-height: 1.05;
+  font-weight: 850;
+  letter-spacing: -0.02em;
   color: #111827;
   padding-inline: 4px;
+  text-wrap: balance;
 }
+
+.weard-logo-carousel__fallback[hidden] { display: none; }
 
 .weard-logo-carousel__card:hover {
   transform: translateY(-3px);

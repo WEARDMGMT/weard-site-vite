@@ -224,6 +224,11 @@ const MEDIA = {
       poster: "/media/creators/Hungry/jenna-posted.jpg",
       video: "/media/creators/Hungry/Jenna-hover.mp4",
     },
+    Immi: {
+      hero: "/media/creators/immi/immi-hero.jpg",
+      poster: "/media/creators/immi/immi-hero.jpg",
+      video: "",
+    },
     JNO: {
       hero: "/media/creators/JNO/JNO-poster-hero.jpg",
       poster: "/media/creators/JNO/JNO-poster.jpg",
@@ -259,17 +264,35 @@ const BRAND_LOGOS = [
   { src: "/media/logos/simify.png", alt: "simify" },
   { src: "/media/logos/ikea.png", alt: "IKEA" },
   { src: "/media/logos/autorader.png", alt: "Auto Trader" },
-  { src: "/media/logos/BYD.png", alt: "BYD" },
-  { src: "/media/logos/FUSSY.png", alt: "Fussy" },
+  { src: "/media/logos/byd.png", alt: "BYD" },
+  { src: "/media/logos/fussy.png", alt: "Fussy" },
   { src: "/media/logos/hellofresh.png", alt: "HelloFresh" },
-  { src: "/media/logos/HEYTEA.png", alt: "HEYTEA" },
-  { src: "/media/logos/KITCHEN JOY.png", alt: "Kitchen Joy" },
-  { src: "/media/logos/NOUS.png", alt: "NOUS" },
-  { src: "/media/logos/STENA LINE.png", alt: "Stena Line" },
-  { src: "/media/logos/TES.jpeg", alt: "TES" },
-  { src: "/media/logos/VINTED.png", alt: "Vinted" },
-  { src: "/media/logos/VITA COCO.jpeg", alt: "Vita Coco" },
-  { src: "/media/logos/YFOOD.png", alt: "yfood" },
+  { src: "/media/logos/heytea.png", alt: "HEYTEA" },
+  { src: "/media/logos/kitchen-joy.png", alt: "Kitchen Joy" },
+  { src: "/media/logos/nous.png", alt: "NOUS" },
+  { src: "/media/logos/stena-line.png", alt: "Stena Line" },
+  { src: "/media/logos/transpennine-express.png", alt: "TransPennine Express" },
+  { src: "/media/logos/vinted.png", alt: "Vinted" },
+  { src: "/media/logos/vita-coco.png", alt: "Vita Coco" },
+  { src: "/media/logos/yfood.png", alt: "yfood" },
+  // Added from Monday signed/complete deals (Nov 2026). No logo file yet, so these show as wordmarks.
+  { alt: "Surfshark" },
+  { alt: "Oral-B" },
+  { alt: "Klook" },
+  { alt: "KatKin" },
+  { alt: "Huckleberry" },
+  { alt: "E45" },
+  { alt: "Universal Pictures" },
+  { alt: "Darry Ring" },
+  { alt: "Burger & Beyond" },
+  { alt: "Lothian Buses" },
+  { alt: "SafetyWing" },
+  { alt: "Nomad eSIM" },
+  { alt: "Wondershare" },
+  { alt: "Kling AI" },
+  { alt: "Singha" },
+  { alt: "Central Department Store" },
+  { alt: "12Go" },
 ];
 
 const WEARE_WORDS = ["DIFFERENT", "DISRUPTIVE", "DYNAMIC", "DISTINCT", "DRIVEN", "DECISIVE", "DEFIANT"];
@@ -321,6 +344,7 @@ const CREATOR_ALIASES = {
     "Josefine Kuanroethai Uddman",
     "Bakhamnoi",
   ],
+  "immi-faith": ["immifaith", "imogenfaith__", "Imogen Faith", "Imogen Faith Reid", "Immi"],
   "the-olive-tree-family": ["theolivetreefamily", "W Ken | Lynsay | Chung Family", "TheOliveTreeFamily"],
 };
 
@@ -334,8 +358,8 @@ const STARTER_CREATORS = [
     tiktok: "https://www.tiktok.com/@justalissahere",
     email: "Alissa@weardmgmt.com",
     location: "UK",
-    instagram_followers: 53300,
-    tiktok_followers: 20700,
+    instagram_followers: 54000,
+    tiktok_followers: 20900,
     profile_image: MEDIA.creators.Alissa.hero,
     photo: MEDIA.creators.Alissa.poster,
     video: MEDIA.creators.Alissa.video,
@@ -376,8 +400,8 @@ const STARTER_CREATORS = [
   youtube: "https://www.youtube.com/channel/UCKDFGIM9V-KRGxlISDODpPQ", 
   email: "sophia@weardmgmt.com",
 location: "Thailand",
-  instagram_followers: 696000,
-  tiktok_followers: 700100,
+  instagram_followers: 682000,
+  tiktok_followers: 680600,
   youtube_subscribers: 8390,                       
   profile_image: MEDIA.creators.Sophia.hero,   // static profile image
   photo: MEDIA.creators.Sophia.poster,         // still frame before hover
@@ -405,8 +429,8 @@ location: "Thailand",
   tiktok: "https://www.tiktok.com/@josefine.ku.ud",
   email: "josefine@weardmgmt.com",
   location: "Thailand",
-  instagram_followers: 15300,
-  tiktok_followers: 87700,
+  instagram_followers: 17000,
+  tiktok_followers: 91600,
   profile_image: MEDIA.creators.Josefine.hero, // static profile image
   photo: MEDIA.creators.Josefine.poster,          // still frame before hover
   tags: ["Beauty", "Lifestyle"],
@@ -433,8 +457,8 @@ location: "Thailand",
   youtube: "https://www.youtube.com/@theolivetreefamily", 
   email: "theolivetreefamily@weardmgmt.com",
   location: "UK",
-  instagram_followers: 72600,
-  tiktok_followers: 72400,
+  instagram_followers: 78000,
+  tiktok_followers: 77700,
   youtube_subscribers: 9890,                       
  profile_image: MEDIA.creators.OliveTreeFamily.hero,
 photo: MEDIA.creators.OliveTreeFamily.poster,
@@ -457,13 +481,13 @@ video: MEDIA.creators.OliveTreeFamily.video,
 {
   name: "Very British Korean",
   rosterName: "Sumin",
-  rosterHandle: "Very British Korean",
+  rosterHandle: "verybritishkorean",
   category: "Lifestyle",
   instagram: "https://www.instagram.com/verybritishkorean/?hl=en",
   tiktok: "https://www.tiktok.com/@verybritishkorean",
   location: "UK",
-  instagram_followers: 111000,
-  tiktok_followers: 14700,
+  instagram_followers: 124000,
+  tiktok_followers: 17100,
   profile_image: MEDIA.creators.VeryBritishKorean.hero,
   photo: MEDIA.creators.VeryBritishKorean.poster,
   video: MEDIA.creators.VeryBritishKorean.video,
@@ -490,8 +514,8 @@ video: MEDIA.creators.OliveTreeFamily.video,
   tiktok: "https://www.tiktok.com/@lochyen",
   email: "yen@weardmgmt.com",
   location: "UK",
-  instagram_followers: 47100,
-  tiktok_followers: 21200,
+  instagram_followers: 46000,
+  tiktok_followers: 21000,
   profile_image: MEDIA.creators.Yen.hero,
   photo: MEDIA.creators.Yen.poster,
   video: MEDIA.creators.Yen.video,
@@ -514,27 +538,33 @@ video: MEDIA.creators.OliveTreeFamily.video,
   name: "JNO PWR",
   slug: "jno-pwnr",
   rosterName: "JNO",
-  rosterHandle: "JNO_PWNR",
+  rosterHandle: "jno_pwnr",
   category: "Finance",
   instagram: "https://www.instagram.com/jno_pwnr/",
   tiktok: "https://www.tiktok.com/@jno_pwnr/",
   location: "UK",
   email: "JNO@weardmgmt.com",
-  instagram_followers: 17500,
-  tiktok_followers: 41800,
+  instagram_followers: 56000,
+  tiktok_followers: 49100,
   profile_image: MEDIA.creators.JNO.hero,
   photo: MEDIA.creators.JNO.poster,
   video: MEDIA.creators.JNO.video,
   tags: ["Finance", "Budgeting", "Lifestyle"],
   bio: "JNO makes money make sense. Through sharp, entertaining budgeting challenges, how far £30 really stretches in London, where the value actually is, what's worth it and what isn't, he's built a young UK audience that trusts him on spending decisions. It's finance without the lecture: practical, funny and genuinely useful, with TikTok-led reach and strong engagement.",
-  seoDescription: "JNO (@JNO_PWNR), UK finance and budgeting creator represented by WEARD Management. 59K+ engaged audience for fintech, banking, retail and value-brand campaigns.",
-  top_audience: ["UK", "Global"],
+  seoDescription: "JNO (@JNO_PWNR), UK finance and budgeting creator represented by WEARD Management. 105K+ engaged audience for fintech, banking, retail and value-brand campaigns.",
+  top_audience: ["Singapore", "UK", "Indonesia"],
   audience_insights: {
-    top_location: { name: "UK", pct: 36 },
-    second_location: { name: "Global", pct: 64 },
-    gender_split: { female: 43.5, male: 56.5 },
+    // TikTok audience, 28 days to 2 Sep 2026 (from the WEARD hub)
+    top_location: { name: "UK & Singapore", pct: 73 },
+    second_location: { name: "Indonesia", pct: 6 },
+    gender_split: { female: 59, male: 40 },
     top_city: "London",
     age_range: "25-34",
+    top_countries: [
+      { name: "Singapore", pct: 41.2 },
+      { name: "United Kingdom", pct: 31.7 },
+      { name: "Indonesia", pct: 6 },
+    ],
   },
   recent_campaigns: [
     { brand: "Fintech & banking", category: "Featured partnership category", year: "2026" },
@@ -548,20 +578,20 @@ video: MEDIA.creators.OliveTreeFamily.video,
   name: "I'm Hungry In London",
   slug: "imhungryinlondon",
   rosterName: "Jenna",
-  rosterHandle: "Imhungryinlondon",
+  rosterHandle: "imhungryinlondon",
   category: "Food",
   instagram: "https://www.instagram.com/imhungryinlondon/",
   tiktok: "https://www.tiktok.com/@imhungryinlondon/",
   location: "UK",
   email: "jenna@weardmgmt.com",
-  instagram_followers: 14000,
-  tiktok_followers: 14400,
+  instagram_followers: 19000,
+  tiktok_followers: 16500,
   profile_image: MEDIA.creators.Hungry.hero,
   photo: MEDIA.creators.Hungry.poster,
   video: MEDIA.creators.Hungry.video,
   tags: ["Food", "Lifestyle", "Travel"],
   bio: "Jenna is London’s go-to guide for where to eat, what to do, and what’s worth discovering next. Through I’m Hungry In London, she curates the city’s best restaurants, new openings, hidden neighbourhood gems, and must-visit experiences into highly trusted recommendations that her audience actively saves, shares, and books. Her content naturally extends into travel, lifestyle, and destination discovery, giving brands access to a warm, high-intent London audience that looks to her for inspiration and genuinely values her recommendations.",
-  seoDescription: "I'm Hungry In London (Jenna), London food, travel and lifestyle creator represented by WEARD Management. 28K+ engaged UK audience for hospitality, restaurant and destination campaigns.",
+  seoDescription: "I'm Hungry In London (Jenna), London food, travel and lifestyle creator represented by WEARD Management. 35K+ engaged UK audience for hospitality, restaurant and destination campaigns.",
   top_audience: ["United Kingdom"],
   audience_insights: {
     top_location: { name: "UK", pct: 81.4 },
@@ -578,9 +608,34 @@ video: MEDIA.creators.OliveTreeFamily.video,
   ],
 },
 {
+  name: "Immi Faith",
+  slug: "immi-faith",
+  rosterName: "Immi",
+  rosterHandle: "immifaith",
+  category: "Entertainment",
+  instagram: "https://www.instagram.com/imogenfaith__/",
+  tiktok: "https://www.tiktok.com/@immifaith",
+  location: "UK",
+  instagram_followers: 119000,
+  tiktok_followers: 2400000,
+  profile_image: MEDIA.creators.Immi.hero,
+  photo: MEDIA.creators.Immi.poster,
+  video: MEDIA.creators.Immi.video,
+  tags: ["Entertainment", "Music", "Beauty", "Lifestyle"],
+  bio: "Immi is a London-based actress, singer and creator with 2.4 million followers and more than 41 million likes on TikTok. Best known as the lead in Hulu's Good American Family, she brings audiences behind the scenes of her acting life alongside singing, soft ASMR, makeup and \"what's in my bag\" moments. Her content feels intimate and unpolished in the best way, giving brands a warm, highly engaged audience across entertainment, music, beauty and lifestyle.",
+  seoDescription: "Immi Faith (@immifaith), London actress, singer and creator with 2.4M TikTok followers, represented by WEARD Management for entertainment, music, beauty and lifestyle campaigns.",
+  top_audience: ["UK"],
+  recent_campaigns: [
+    { brand: "Entertainment & streaming", category: "Ideal partnership category", year: "2026" },
+    { brand: "Music & audio", category: "Ideal partnership category", year: "2026" },
+    { brand: "Beauty & makeup", category: "Ideal partnership category", year: "2026" },
+    { brand: "Lifestyle & accessories", category: "Ideal partnership category", year: "2026" },
+  ],
+},
+{
   name: "Very British Problems",
   rosterName: "Rob",
-  rosterHandle: "Very British Problems",
+  rosterHandle: "verybritishproblemsofficial",
   category: "Lifestyle",
   instagram: "https://www.instagram.com/verybritishproblemsofficial/?hl=en",
   tiktok: "https://www.tiktok.com/@verybritishproblems",
@@ -588,8 +643,8 @@ video: MEDIA.creators.OliveTreeFamily.video,
   email: "verybritishproblems@weardmgmt.com",
   facebook: "https://www.facebook.com/soverybritish/?locale=en_GB",
   location: "UK",
-  instagram_followers: 1242892,
-  tiktok_followers: 237900,
+  instagram_followers: 1000000,
+  tiktok_followers: 251200,
   youtube_subscribers: 47300,
   facebook_followers: 1200000,
   profile_image: MEDIA.creators.VeryBritishProblems.hero,
@@ -614,6 +669,7 @@ video: MEDIA.creators.OliveTreeFamily.video,
 
 const CATEGORIES = [
   { key: "Beauty", label: "Beauty" },
+  { key: "Entertainment", label: "Entertainment" },
   { key: "Family", label: "Family" },
   { key: "Fashion", label: "Fashion" },
   { key: "Finance", label: "Finance" },
@@ -637,6 +693,7 @@ const FOLLOWER_RANGES = [
 
 const CREATOR_ARCHETYPE_FILTERS = [
   "Beauty",
+  "Entertainment",
   "Family",
   "Fashion",
   "Finance",
@@ -841,11 +898,26 @@ function NotFound({ onNav }) {
 }
 
 // ======= APP =======
+// Work out the page from the URL on first render, so a direct link (e.g. /creators/jno-pwnr)
+// never renders Home first and then gets stuck waiting on Home's exit animation.
+const initialRoute = (creators) => {
+  if (typeof window === "undefined") return { page: "home", creator: null };
+  const normalized = window.location.pathname.replace(/\/+$/, "") || "/";
+  if (normalized.startsWith("/creators/")) {
+    const slug = normalized.split("/")[2];
+    const creator = creators.find((c) => c?.name && creatorSlug(c) === slug);
+    if (creator) return { page: "profile", creator };
+  }
+  if (RETIRED_SEO_PATHS.has(normalized)) return { page: "asiancy", creator: null };
+  const match = Object.entries(PAGE_PATHS).find(([, p]) => p === normalized);
+  return { page: match?.[0] || "not-found", creator: null };
+};
+
 export default function App() {
   const creators = STARTER_CREATORS;
-  const [activePage, setActivePage] = useState("home");
+  const [activePage, setActivePage] = useState(() => initialRoute(creators).page);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [selectedCreator, setSelectedCreator] = useState(null);
+  const [selectedCreator, setSelectedCreator] = useState(() => initialRoute(creators).creator);
   const [enquiryCreator, setEnquiryCreator] = useState("");
   const [cookieConsent, setCookieConsent] = useState(() => {
     if (typeof window === "undefined") return null;
@@ -1572,11 +1644,17 @@ function CreatorProfile({ creator, onBack, onEnquire }) {
       "Premium visual storytelling with a consistent, appetising brand tone that makes venues and products look their best.",
       "Valuable 25 to 35 demographic, female-led (69%), strong fit for hospitality, food & drink, travel and lifestyle launches.",
     ],
+    Immi: [
+      "Massive TikTok reach, 2.4M followers and 41M+ likes, with the scale to put a brand in front of millions in a single post.",
+      "Screen credibility as the lead in Hulu's Good American Family, a rare mix of actress, singer and creator in one partner.",
+      "Intimate, low-key formats (singing, ASMR, get-ready-with-me, what's in my bag) that make product moments feel personal rather than scripted.",
+      "Strong fit for entertainment and streaming launches, music, beauty, makeup and lifestyle brands.",
+    ],
     JNO: [
       "Trusted money voice - real credibility on value and spending, the hardest kind of influence to fake.",
-      "TikTok-led reach with high engagement, 41.8K on TikTok driving a 59K+ combined following that watches to the end.",
+      "Fast-growing reach, 105K+ combined following across Instagram and TikTok, with more than half his TikTok audience aged 25 to 34.",
       "Purchase-decision framing, his \"is it worth it?\" format naturally showcases value, making him a strong fit for pricing-led and challenger brands.",
-      "Young UK audience, ideal for fintech, banking, budgeting apps, retail and value-driven food, drink and travel.",
+      "UK and Southeast Asian audience (UK and Singapore make up 73% of TikTok viewers), ideal for fintech, banking, budgeting apps, retail, travel and value-driven food and drink.",
     ],
   };
   const whyBrandsCollabTitle = collabName === "The Olives" ? "The Olives" : collabName;
@@ -1791,6 +1869,15 @@ function CreatorProfile({ creator, onBack, onEnquire }) {
           )}
 
           <div className="mt-10 grid gap-8 md:grid-cols-2">
+            {!audience_insights?.top_location ? (
+              <div className="px-1">
+                <div className="text-[11px] uppercase tracking-[0.32em] text-neutral-500">Audience Insights</div>
+                <div className="mt-4 rounded-2xl border border-black/5 bg-white/60 px-5 py-5 shadow-[0_8px_28px_-20px_rgba(0,0,0,0.6)] dark:border-white/10 dark:bg-white/[0.03]">
+                  <p className="text-base font-medium">Full audience breakdown available on request.</p>
+                  <p className="mt-2 text-sm text-neutral-500">Ask us for {collabName}'s latest demographics, top markets and campaign results.</p>
+                </div>
+              </div>
+            ) : (
             <div className="px-1">
               <div className="text-[11px] uppercase tracking-[0.32em] text-neutral-500">Audience Insights</div>
               <div className="mt-4 rounded-2xl border border-black/5 bg-white/60 px-5 py-5 shadow-[0_8px_28px_-20px_rgba(0,0,0,0.6)] backdrop-blur-[2px] dark:border-white/10 dark:bg-white/[0.03]">
@@ -1829,6 +1916,7 @@ function CreatorProfile({ creator, onBack, onEnquire }) {
                 </div>
               </div>
             </div>
+            )}
 
             <div className="px-1">
               <div className="text-[11px] uppercase tracking-[0.32em] text-neutral-500">
@@ -2110,9 +2198,9 @@ function Home({ onExploreRoster, onWorkWithUs, onNav }) {
         <p className="rounded-full border border-neutral-200/70 bg-white/80 px-4 py-1 text-[11px] font-semibold uppercase tracking-[0.3em] text-neutral-500 shadow-sm">
           Influencer marketing for ambitious brands
         </p>
-        <h1 className="mt-5 text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-tight">
+        <h2 className="mt-5 text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-tight">
           WE ARE <RotatingWords words={WEARE_WORDS} />
-        </h1>
+        </h2>
         <p className="mt-5 text-base sm:text-lg leading-7 text-neutral-700 dark:text-neutral-200 max-w-3xl">
           WEARD is a modern influencer management and brand partnership agency connecting diverse
           creators with ambitious brands. We build culturally sharp campaigns that perform across
@@ -2164,11 +2252,91 @@ function Home({ onExploreRoster, onWorkWithUs, onNav }) {
               Meet our creators <ArrowRight size={16} />
             </button>
           </div>
+          <RosterSpotlight onExploreRoster={onExploreRoster} />
         </div>
       </div>
 
       <BrandPartnerships onNav={onNav} />
     </section>
+  );
+}
+
+// ======= HOME: ROSTER SPOTLIGHT =======
+// A fanned hand of creator cards inside the "boutique roster" block. Hover (or focus) lifts a
+// card and plays its clip; click opens the profile.
+const SPOTLIGHT_SLUGS = ["immi-faith", "very-british-problems", "sophia-price", "very-british-korean", "the-olive-tree-family", "jno-pwnr"];
+
+const creatorReach = (c) =>
+  SOCIAL_FOLLOWER_FIELDS.reduce((sum, field) => sum + (cleanNum(c[field]) ?? 0), 0);
+
+const biggestPlatform = (c) => {
+  const options = [
+    ["TikTok", cleanNum(c.tiktok_followers)],
+    ["Instagram", cleanNum(c.instagram_followers)],
+    ["YouTube", cleanNum(c.youtube_subscribers)],
+  ].filter(([, n]) => n);
+  return options.sort((a, b) => b[1] - a[1])[0] || ["", 0];
+};
+
+function SpotlightCard({ creator, index }) {
+  const videoRef = useRef(null);
+  const [platform, count] = biggestPlatform(creator);
+  const name = creator.rosterName || creator.name;
+  const play = () => {
+    const v = videoRef.current;
+    if (!v || !creator.video) return;
+    if (!v.src) v.src = creator.video;
+    v.play().catch(() => {});
+  };
+  const stop = () => videoRef.current?.pause();
+
+  return (
+    <button
+      type="button"
+      className="spotlight-card"
+      style={{ "--i": index }}
+      onMouseEnter={play}
+      onMouseLeave={stop}
+      onFocus={play}
+      onBlur={stop}
+      onClick={() => window.weardOpenProfile?.(creator)}
+      aria-label={`${creator.name}: ${shortFormat(count)} ${platform} followers. View profile`}
+    >
+      <img src={creator.photo || creator.profile_image} alt="" loading="lazy" decoding="async" />
+      {creator.video && <video ref={videoRef} muted loop playsInline preload="none" aria-hidden="true" />}
+      <span className="spotlight-card__shade" aria-hidden="true" />
+      <span className="spotlight-card__count" aria-hidden="true">
+        {shortFormat(count)}
+        <small>{platform}</small>
+      </span>
+      <span className="spotlight-card__name" aria-hidden="true">
+        {name}
+        <small>{creator.category}</small>
+      </span>
+    </button>
+  );
+}
+
+function RosterSpotlight({ onExploreRoster }) {
+  const picks = SPOTLIGHT_SLUGS.map((slug) => STARTER_CREATORS.find((c) => creatorSlug(c) === slug)).filter(Boolean);
+  const totalReach = STARTER_CREATORS.reduce((sum, c) => sum + creatorReach(c), 0);
+
+  return (
+    <div className="roster-spotlight">
+      <div className="roster-spotlight__hand">
+        {picks.map((creator, i) => (
+          <SpotlightCard key={creatorSlug(creator)} creator={creator} index={i} />
+        ))}
+      </div>
+      <div className="roster-spotlight__meta">
+        <p>
+          <strong>{shortFormat(totalReach)}+</strong> combined followers across {STARTER_CREATORS.length} creators
+        </p>
+        <button type="button" onClick={onExploreRoster}>
+          See the full roster <ArrowRight size={16} />
+        </button>
+      </div>
+    </div>
   );
 }
 
@@ -2285,10 +2453,11 @@ function HeroCarousel({ onExploreRoster, onWorkWithUs }) {
 
       <div className="weard-hero__overlay">
         <div className="weard-hero__glass">
-          <div className="weard-hero__title">
+          <h1 className="weard-hero__title">
             <span className="weard-hero__brand">WEARD</span>
             <span className="weard-hero__descriptor">Talent Management Agency</span>
-          </div>
+            <span className="sr-only"> for creators and brands in the UK and Asia</span>
+          </h1>
           <p>Distinctive creators. Culturally sharp campaigns. UK to Asia.</p>
           <div className="weard-hero__actions">
             <button type="button" onClick={onExploreRoster}>Meet our creators <ArrowRight size={16} /></button>
@@ -3324,23 +3493,26 @@ function LogoCarousel({ rowHeight = 76 }) {
     <div className="weard-logo-carousel__set" aria-hidden={duplicate || undefined}>
       {uniqueLogos.map((logo) => (
         <div
-          key={`${duplicate ? "duplicate-" : ""}${logo.src}`}
+          key={`${duplicate ? "duplicate-" : ""}${logo.alt}`}
           className="weard-logo-carousel__card"
+          role={duplicate ? undefined : "img"}
           aria-label={duplicate ? undefined : logo.alt}
         >
-          <img
-            src={logo.src}
-            alt=""
-            loading="lazy"
-            decoding="async"
-            className="weard-logo-carousel__logo"
-            onError={(event) => {
-              event.currentTarget.style.display = "none";
-              const fallback = event.currentTarget.nextElementSibling;
-              if (fallback) fallback.hidden = false;
-            }}
-          />
-          <span className="weard-logo-carousel__fallback" hidden>
+          {logo.src && (
+            <img
+              src={logo.src}
+              alt=""
+              loading="lazy"
+              decoding="async"
+              className="weard-logo-carousel__logo"
+              onError={(event) => {
+                event.currentTarget.style.display = "none";
+                const fallback = event.currentTarget.nextElementSibling;
+                if (fallback) fallback.hidden = false;
+              }}
+            />
+          )}
+          <span className="weard-logo-carousel__fallback" hidden={Boolean(logo.src)}>
             {logo.alt}
           </span>
         </div>

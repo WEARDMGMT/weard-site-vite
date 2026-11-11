@@ -16,6 +16,7 @@ const creators = [
   ["josefine-uddman", "Josefine Uddman"], ["the-olive-tree-family", "The Olive Tree Family"],
   ["very-british-korean", "Very British Korean"], ["yen", "Yen"],
   ["jno-pwnr", "JNO PWR"], ["imhungryinlondon", "I'm Hungry In London"],
+  ["immi-faith", "Immi Faith"],
   ["very-british-problems", "Very British Problems"],
 ].map(([slug, name]) => [
   `creators/${slug}`,
