@@ -201,9 +201,9 @@ const MEDIA = {
       video: "/media/creators/Hungry/Jenna-hover.mp4",
     },
     Immi: {
-      hero: "/media/creators/immi/immi-hero.jpg",
-      poster: "/media/creators/immi/immi-hero.jpg",
-      video: "",
+      hero: "/media/creators/immi/immi-poster.jpg",
+      poster: "/media/creators/immi/immi-poster.jpg",
+      video: "/media/creators/immi/immi-hover.mp4",
     },
     JNO: {
       hero: "/media/creators/JNO/JNO-poster-hero.jpg",
