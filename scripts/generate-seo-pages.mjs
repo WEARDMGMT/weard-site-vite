@@ -11,33 +11,40 @@ const pages = [
   ["terms", "Website Terms | WEARD Management", "Read the terms governing use of the WEARD Management website.", "Terms governing the use of the WEARD Management website."],
 ];
 
-const creators = [
-  ["alissa-eady", "Alissa Eady"], ["sophia-price", "Sophia Price"],
-  ["josefine-uddman", "Josefine Uddman"], ["the-olive-tree-family", "The Olive Tree Family"],
-  ["very-british-korean", "Very British Korean"], ["yen", "Yen"],
-  ["jno-pwnr", "JNO PWR"], ["imhungryinlondon", "I'm Hungry In London"],
-  ["immi-faith", "Immi Faith"],
-  ["very-british-problems", "Very British Problems"],
-].map(([slug, name]) => [
-  `creators/${slug}`,
-  `${name} | WEARD Creator Roster`,
-  `Meet ${name}, represented by WEARD Management. Explore their profile, audience, content, and brand partnership opportunities.`,
-  `${name} is part of WEARD’s curated boutique creator roster.`,
+// One entry per creator in src/weard/creator-share.json; the preview image comes from
+// scripts/make-share-cards.mjs (public/og/<slug>.jpg).
+const creators = JSON.parse(await readFile("src/weard/creator-share.json", "utf8")).map((c) => [
+  `creators/${c.slug}`,
+  `${c.name} | WEARD Creator Roster`,
+  `${c.name} (${c.handle}): ${c.summary} Represented by WEARD Management.`,
+  `${c.name} is part of WEARD’s curated boutique creator roster.`,
+  { image: `/og/${c.slug}.jpg`, alt: `${c.name}, ${c.category}, represented by WEARD Management` },
 ]);
 
 const escapeHtml = (value) => value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
 const template = await readFile("dist/index.html", "utf8");
 
-for (const [path, title, description, body] of [...pages, ...creators]) {
+for (const [path, title, description, body, share] of [...pages, ...creators]) {
   const url = `${origin}/${path}`;
-  const html = template
+  let html = template
     .replace(/<title>.*?<\/title>/, `<title>${escapeHtml(title)}</title>`)
     .replace(/(<meta\s+name="description"\s+content=")[^"]*("\s*\/?>)/s, `$1${escapeHtml(description)}$2`)
     .replace(/(<link\s+rel="canonical"\s+href=")[^"]*("\s*\/?>)/, `$1${url}$2`)
     .replace(/(<meta\s+property="og:title"\s+content=")[^"]*("\s*\/?>)/, `$1${escapeHtml(title)}$2`)
     .replace(/(<meta\s+property="og:description"\s+content=")[^"]*("\s*\/?>)/s, `$1${escapeHtml(description)}$2`)
     .replace(/(<meta\s+property="og:url"\s+content=")[^"]*("\s*\/?>)/, `$1${url}$2`)
+    .replace(/(<meta\s+name="twitter:title"\s+content=")[^"]*("\s*\/?>)/, `$1${escapeHtml(title)}$2`)
+    .replace(/(<meta\s+name="twitter:description"\s+content=")[^"]*("\s*\/?>)/s, `$1${escapeHtml(description)}$2`)
     .replace('<div id="root"></div>', `<div id="root"><main class="seo-fallback"><h1>${escapeHtml(title)}</h1><p>${escapeHtml(body)}</p></main></div>`);
+  if (share) {
+    const image = `${origin}${share.image}`;
+    html = html
+      .replace(/(<meta\s+property="og:image"\s+content=")[^"]*("\s*\/?>)/, `$1${image}$2`)
+      .replace(/(<meta\s+name="twitter:image"\s+content=")[^"]*("\s*\/?>)/, `$1${image}$2`)
+      .replace(/(<meta\s+property="og:image:alt"\s+content=")[^"]*("\s*\/?>)/, `$1${escapeHtml(share.alt)}$2`)
+      .replace(/(<meta\s+name="twitter:image:alt"\s+content=")[^"]*("\s*\/?>)/, `$1${escapeHtml(share.alt)}$2`)
+      .replace(/(<meta\s+property="og:type"\s+content=")[^"]*("\s*\/?>)/, `$1profile$2`);
+  }
   const output = join("dist", path, "index.html");
   await mkdir(dirname(output), { recursive: true });
   await writeFile(output, html);

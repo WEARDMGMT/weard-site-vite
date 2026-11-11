@@ -1,0 +1,50 @@
+{
+  "updated": "2026-11-11",
+  "source": "Public Instagram and TikTok profiles",
+  "creators": {
+    "alissa-eady": {
+      "instagram_followers": 54000,
+      "tiktok_followers": 20900
+    },
+    "sophia-price": {
+      "instagram_followers": 682000,
+      "tiktok_followers": 680600,
+      "youtube_subscribers": 8390
+    },
+    "josefine-uddman": {
+      "instagram_followers": 17000,
+      "tiktok_followers": 91600
+    },
+    "the-olive-tree-family": {
+      "instagram_followers": 78000,
+      "tiktok_followers": 77700,
+      "youtube_subscribers": 9890
+    },
+    "very-british-korean": {
+      "instagram_followers": 124000,
+      "tiktok_followers": 17100
+    },
+    "yen": {
+      "instagram_followers": 46000,
+      "tiktok_followers": 21000
+    },
+    "jno-pwnr": {
+      "instagram_followers": 56000,
+      "tiktok_followers": 49100
+    },
+    "imhungryinlondon": {
+      "instagram_followers": 19000,
+      "tiktok_followers": 16500
+    },
+    "immi-faith": {
+      "instagram_followers": 119000,
+      "tiktok_followers": 2400000
+    },
+    "very-british-problems": {
+      "instagram_followers": 1000000,
+      "tiktok_followers": 251200,
+      "youtube_subscribers": 47300,
+      "facebook_followers": 1200000
+    }
+  }
+}

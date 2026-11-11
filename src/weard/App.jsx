@@ -3,7 +3,8 @@ import { createPortal } from "react-dom";
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Instagram, Mail, ArrowRight, ArrowUp, Globe, Menu, X, Sparkles, Youtube, UploadCloud, ShieldCheck } from "lucide-react";
+import ROSTER_STATS from "./roster-stats.json";
+import { Instagram, Mail, ArrowRight, ArrowUp, Menu, X, Youtube, UploadCloud, ShieldCheck } from "lucide-react";
 // Simple TikTok icon (outline) to match lucide style
 const TikTokIcon = ({ size = 16, className = "" }) => (
   <svg
@@ -32,26 +33,6 @@ const TikTokIcon = ({ size = 16, className = "" }) => (
  * - Brands intro update
  * - Contact forms -> mailto prefill
  */
-const VideoHover = ({ src, poster, className }) => {
-  const ref = useRef(null);
-  return (
-    <video
-      ref={ref}
-      src={src}
-      poster={poster}
-      playsInline
-      muted
-      loop
-      preload="none"
-      onMouseEnter={() => ref.current?.play()}
-      onMouseLeave={() => ref.current?.pause()}
-      className={`${className} scale-[0.85] transition-transform`}
-
-
-
-    />
-  );
-};
 
 const ScrollToTopButton = ({ elevated = false }) => {
   const [visible, setVisible] = useState(false);
@@ -188,11 +169,6 @@ const MEDIA = {
       poster: "/media/creators/sophia/sophia-poster.jpg", // still frame before hover
       video:  "/media/creators/sophia/sophia-hover.mp4",  // hover video
     },
-    Amy: {
-      hero:   "/og-image.jpg", // main profile image
-      poster: "/og-image.jpg",// still frame before hover
-      video:  "",  // hover video
-    },
     Josefine: {
     hero:   "/media/creators/josefine/josefine-hero-v2.jpg",
     poster: "/media/creators/josefine/josefine-poster-v2.jpg",
@@ -275,57 +251,43 @@ const BRAND_LOGOS = [
   { src: "/media/logos/vinted.png", alt: "Vinted" },
   { src: "/media/logos/vita-coco.png", alt: "Vita Coco" },
   { src: "/media/logos/yfood.png", alt: "yfood" },
-  // Added from Monday signed/complete deals (Nov 2026). No logo file yet, so these show as wordmarks.
-  { alt: "Surfshark" },
-  { alt: "Oral-B" },
-  { alt: "Klook" },
-  { alt: "KatKin" },
-  { alt: "Huckleberry" },
-  { alt: "E45" },
-  { alt: "Universal Pictures" },
-  { alt: "Darry Ring" },
-  { alt: "Burger & Beyond" },
-  { alt: "Lothian Buses" },
-  { alt: "SafetyWing" },
+  // Added from Monday signed/complete deals (Nov 2026). Kling AI and Nomad have no usable logo file, so show as wordmarks.
+  { src: "/media/logos/surfshark.svg", alt: "Surfshark" },
+  { src: "/media/logos/oral-b.svg", alt: "Oral-B" },
+  { src: "/media/logos/klook.svg", alt: "Klook" },
+  { src: "/media/logos/katkin.png", alt: "KatKin" },
+  { src: "/media/logos/huckleberry.png", alt: "Huckleberry" },
+  { src: "/media/logos/e45.png", alt: "E45" },
+  { src: "/media/logos/universal-pictures.svg", alt: "Universal Pictures" },
+  { src: "/media/logos/darry-ring.svg", alt: "Darry Ring" },
+  { src: "/media/logos/burger-beyond.svg", alt: "Burger & Beyond" },
+  { src: "/media/logos/lothian-buses.png", alt: "Lothian Buses" },
+  { src: "/media/logos/safetywing.png", alt: "SafetyWing" },
   { alt: "Nomad eSIM" },
-  { alt: "Wondershare" },
+  { src: "/media/logos/wondershare.svg", alt: "Wondershare" },
   { alt: "Kling AI" },
-  { alt: "Singha" },
-  { alt: "Central Department Store" },
-  { alt: "12Go" },
+  { src: "/media/logos/singha.png", alt: "Singha" },
+  { src: "/media/logos/central.svg", alt: "Central Department Store" },
+  { src: "/media/logos/12go.png", alt: "12Go" },
 ];
 
 const WEARE_WORDS = ["DIFFERENT", "DISRUPTIVE", "DYNAMIC", "DISTINCT", "DRIVEN", "DECISIVE", "DEFIANT"];
+// 15 lightest clips (about 11 MB in total) so the home page loads quickly on phones.
 const HERO_VIDEOS = [
-  "/assets/videos/video-01.mp4",
-  "/assets/videos/video-02.mp4",
-  "/assets/videos/video-03.mp4",
-  "/assets/videos/video-04.mp4",
-  "/assets/videos/video-05.mp4",
-  "/assets/videos/video-06.mp4",
-  "/assets/videos/video-07.mp4",
-  "/assets/videos/video-08.mp4",
-  "/assets/videos/video-09.mp4",
-  "/assets/videos/video-10.mp4",
-  "/assets/videos/video-11.mp4",
-  "/assets/videos/video-12.mp4",
-  "/assets/videos/video-13.mp4",
-  "/assets/videos/video-14.mp4",
-  "/assets/videos/video-15.mp4",
-  "/assets/videos/video-16.mp4",
-  "/assets/videos/video-17.mp4",
-  "/assets/videos/video-18.mp4",
-  "/assets/videos/video-19.mp4",
-  "/assets/videos/video-20.mp4",
-  "/assets/videos/video-21.mp4",
-  "/assets/videos/video-22.mp4",
-  "/assets/videos/video-23.mp4",
-  "/assets/videos/video-24.mp4",
-  "/assets/videos/video-25.mp4",
-  "/assets/videos/video-26.mp4",
-  "/assets/videos/video-27.mp4",
   "/assets/videos/video-28.VBP.mp4",
+  "/assets/videos/video-17.mp4",
+  "/assets/videos/video-02.mp4",
+  "/assets/videos/video-11.mp4",
+  "/assets/videos/video-27.mp4",
+  "/assets/videos/video-24.mp4",
+  "/assets/videos/video-19.mp4",
   "/assets/videos/video-29.VBP.mp4",
+  "/assets/videos/video-25.mp4",
+  "/assets/videos/video-14.mp4",
+  "/assets/videos/video-10.mp4",
+  "/assets/videos/video-26.mp4",
+  "/assets/videos/video-06.mp4",
+  "/assets/videos/video-09.mp4",
   "/assets/videos/video-30.VBK.mp4",
 ];
 const HERO_LANES = [
@@ -337,7 +299,6 @@ const HERO_LANES = [
 const CREATOR_ALIASES = {
   "alissa-eady": ["justalissahere", "JustAlissaHere", "Alissa Eady"],
   "sophia-price": ["sophiapriceyyy", "XsophiapriceyX", "xsophiapriceyx", "Sophia Price"],
-  "emily-uddman": ["emily.uddman", "Emily Janrawee Uddman"],
   "josefine-uddman": [
     "josefine.ku.ud",
     "Josefine uddman",
@@ -358,8 +319,6 @@ const STARTER_CREATORS = [
     tiktok: "https://www.tiktok.com/@justalissahere",
     email: "Alissa@weardmgmt.com",
     location: "UK",
-    instagram_followers: 54000,
-    tiktok_followers: 20900,
     profile_image: MEDIA.creators.Alissa.hero,
     photo: MEDIA.creators.Alissa.poster,
     video: MEDIA.creators.Alissa.video,
@@ -400,9 +359,6 @@ const STARTER_CREATORS = [
   youtube: "https://www.youtube.com/channel/UCKDFGIM9V-KRGxlISDODpPQ", 
   email: "sophia@weardmgmt.com",
 location: "Thailand",
-  instagram_followers: 682000,
-  tiktok_followers: 680600,
-  youtube_subscribers: 8390,                       
   profile_image: MEDIA.creators.Sophia.hero,   // static profile image
   photo: MEDIA.creators.Sophia.poster,         // still frame before hover
   tags: ["Fashion", "Beauty", "Travel"],
@@ -429,8 +385,6 @@ location: "Thailand",
   tiktok: "https://www.tiktok.com/@josefine.ku.ud",
   email: "josefine@weardmgmt.com",
   location: "Thailand",
-  instagram_followers: 17000,
-  tiktok_followers: 91600,
   profile_image: MEDIA.creators.Josefine.hero, // static profile image
   photo: MEDIA.creators.Josefine.poster,          // still frame before hover
   tags: ["Beauty", "Lifestyle"],
@@ -457,9 +411,6 @@ location: "Thailand",
   youtube: "https://www.youtube.com/@theolivetreefamily", 
   email: "theolivetreefamily@weardmgmt.com",
   location: "UK",
-  instagram_followers: 78000,
-  tiktok_followers: 77700,
-  youtube_subscribers: 9890,                       
  profile_image: MEDIA.creators.OliveTreeFamily.hero,
 photo: MEDIA.creators.OliveTreeFamily.poster,
 video: MEDIA.creators.OliveTreeFamily.video,
@@ -486,8 +437,6 @@ video: MEDIA.creators.OliveTreeFamily.video,
   instagram: "https://www.instagram.com/verybritishkorean/?hl=en",
   tiktok: "https://www.tiktok.com/@verybritishkorean",
   location: "UK",
-  instagram_followers: 124000,
-  tiktok_followers: 17100,
   profile_image: MEDIA.creators.VeryBritishKorean.hero,
   photo: MEDIA.creators.VeryBritishKorean.poster,
   video: MEDIA.creators.VeryBritishKorean.video,
@@ -514,8 +463,6 @@ video: MEDIA.creators.OliveTreeFamily.video,
   tiktok: "https://www.tiktok.com/@lochyen",
   email: "yen@weardmgmt.com",
   location: "UK",
-  instagram_followers: 46000,
-  tiktok_followers: 21000,
   profile_image: MEDIA.creators.Yen.hero,
   photo: MEDIA.creators.Yen.poster,
   video: MEDIA.creators.Yen.video,
@@ -535,7 +482,7 @@ video: MEDIA.creators.OliveTreeFamily.video,
 },
 
 {
-  name: "JNO PWR",
+  name: "JNO PWNR",
   slug: "jno-pwnr",
   rosterName: "JNO",
   rosterHandle: "jno_pwnr",
@@ -544,8 +491,6 @@ video: MEDIA.creators.OliveTreeFamily.video,
   tiktok: "https://www.tiktok.com/@jno_pwnr/",
   location: "UK",
   email: "JNO@weardmgmt.com",
-  instagram_followers: 56000,
-  tiktok_followers: 49100,
   profile_image: MEDIA.creators.JNO.hero,
   photo: MEDIA.creators.JNO.poster,
   video: MEDIA.creators.JNO.video,
@@ -584,8 +529,6 @@ video: MEDIA.creators.OliveTreeFamily.video,
   tiktok: "https://www.tiktok.com/@imhungryinlondon/",
   location: "UK",
   email: "jenna@weardmgmt.com",
-  instagram_followers: 19000,
-  tiktok_followers: 16500,
   profile_image: MEDIA.creators.Hungry.hero,
   photo: MEDIA.creators.Hungry.poster,
   video: MEDIA.creators.Hungry.video,
@@ -615,9 +558,8 @@ video: MEDIA.creators.OliveTreeFamily.video,
   category: "Entertainment",
   instagram: "https://www.instagram.com/imogenfaith__/",
   tiktok: "https://www.tiktok.com/@immifaith",
+  email: "jade@weardmgmt.com",
   location: "UK",
-  instagram_followers: 119000,
-  tiktok_followers: 2400000,
   profile_image: MEDIA.creators.Immi.hero,
   photo: MEDIA.creators.Immi.poster,
   video: MEDIA.creators.Immi.video,
@@ -643,10 +585,6 @@ video: MEDIA.creators.OliveTreeFamily.video,
   email: "verybritishproblems@weardmgmt.com",
   facebook: "https://www.facebook.com/soverybritish/?locale=en_GB",
   location: "UK",
-  instagram_followers: 1000000,
-  tiktok_followers: 251200,
-  youtube_subscribers: 47300,
-  facebook_followers: 1200000,
   profile_image: MEDIA.creators.VeryBritishProblems.hero,
   photo: MEDIA.creators.VeryBritishProblems.poster,
   video: MEDIA.creators.VeryBritishProblems.video,
@@ -789,6 +727,9 @@ const slugify = (value = "") =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 const creatorSlug = (creator = {}) => creator.slug || slugify(creator.name || "creator");
+
+// Follower counts live in roster-stats.json, refreshed by scripts/refresh-followers.mjs.
+STARTER_CREATORS.forEach((creator) => Object.assign(creator, ROSTER_STATS.creators[creatorSlug(creator)] || {}));
 
 const PAGE_PATHS = {
   home: "/",
@@ -1041,31 +982,6 @@ useEffect(() => {
         title: "Page Not Found | WEARD Management",
         description: "The requested page could not be found. Return to the WEARD Management homepage.",
       },
-      "apac-influencer-marketing": {
-        title: "APAC Influencer Marketing | WEARD Management",
-        description:
-          "APAC influencer marketing and talent management agency delivering creator campaigns across Asia-Pacific markets.",
-      },
-      "asia-to-uk-influencer-marketing": {
-        title: "Asia to UK Influencer Marketing Agency | WEARD Management",
-        description:
-          "UK influencer marketing built on cross-border creator campaigns connecting Asian brands with British audiences.",
-      },
-      "diverse-creators": {
-        title: "Diverse Creators & Inclusive Influencer Talent | WEARD Management",
-        description:
-          "Hire distinctive, inclusive creator talent through WEARD Management for culturally fluent work across the UK and Asia.",
-      },
-      "asian-influencers-uk": {
-        title: "Asian Influencers UK & British Asian Creators | WEARD Management",
-        description:
-          "Discover Asian influencers in the UK, British Asian creators, and cross-cultural talent for premium brand campaigns with WEARD Management.",
-      },
-      "cultural-campaign-creators": {
-        title: "Lunar New Year, Ramadan & Diwali Campaign Creators | WEARD",
-        description:
-          "Plan cultural campaigns with creators who understand Lunar New Year, Ramadan, Diwali, Mid-Autumn Festival, and multicultural audience moments.",
-      },
     };
     const metaConfig = meta[activePage] || meta["not-found"];
     document.title = metaConfig.title;
@@ -1198,98 +1114,6 @@ useEffect(() => {
           {activePage === "not-found" && (
             <motion.section key="not-found" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
               <NotFound onNav={navigate} />
-            </motion.section>
-          )}
-          {activePage === "apac-influencer-marketing" && (
-            <motion.section key="apac-influencer-marketing" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
-              <MarketingLanding
-                title="APAC Influencer Marketing"
-                regionFocus="APAC"
-                overview="WeARD plans and delivers APAC influencer campaigns that feel native to each market. We combine local creator insight, clear campaign structure, and measurable reporting so brands can grow consistently across Asia-Pacific."
-                marketPoints={[
-                  "Country-specific creator shortlists",
-                  "Localized briefs and cultural review",
-                  "Paid + organic campaign planning",
-                  "Transparent performance reporting",
-                ]}
-                approachPoints={[
-                  "Start with market goals, audience, and budget alignment",
-                  "Match creators by brand fit, not only by follower size",
-                  "Manage production, approvals, and delivery end-to-end",
-                  "Turn learnings into a repeatable growth playbook",
-                ]}
-                onNav={navigate}
-              />
-            </motion.section>
-          )}
-          {activePage === "asia-to-uk-influencer-marketing" && (
-            <motion.section key="asia-to-uk-influencer-marketing" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
-              <MarketingLanding
-                title="UK Influencer Marketing"
-                regionFocus="the UK"
-                overview="WEARD helps brands launch and scale in the UK through strategic creator partnerships. From briefing to reporting, we build campaigns that are culturally relevant, commercially focused, and easy for teams to execute."
-                marketPoints={[
-                  "UK-first creator partnerships",
-                  "Campaign concepts designed for British audiences",
-                  "Full management across briefing, contracts, and delivery",
-                  "Performance tracking tied to clear business outcomes",
-                ]}
-                approachPoints={[
-                  "Define the audience and message for the UK market",
-                  "Select creators with authentic brand-to-audience fit",
-                  "Coordinate content, timelines, and approvals in one workflow",
-                  "Report results with practical next-step recommendations",
-                ]}
-                onNav={navigate}
-              />
-            </motion.section>
-          )}
-          {activePage === "diverse-creators" && (
-            <motion.section key="diverse-creators" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
-              <DiscoveryLanding
-                eyebrow="Inclusive talent"
-                title="Diverse creators for commercially strong, culturally intelligent campaigns"
-                intro="WEARD represents multicultural talent across beauty, fashion, lifestyle, family, and culture-first storytelling. We help brands find distinctive creators whose perspective fits the audience and the idea."
-                points={[
-                  "Creator shortlists built for inclusion goals, not token casting",
-                  "Campaign planning across UK, Asian, and cross-border audiences",
-                  "Premium production, creator management, and delivery from brief to reporting",
-                ]}
-                links={["roster", "asian-influencers-uk", "cultural-campaign-creators", "contact"]}
-                onNav={navigate}
-              />
-            </motion.section>
-          )}
-          {activePage === "asian-influencers-uk" && (
-            <motion.section key="asian-influencers-uk" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
-              <DiscoveryLanding
-                eyebrow="Asian creator talent"
-                title="Asian influencers in the UK and British Asian creators for modern brands"
-                intro="From British Asian creators to pan-Asian voices based in the UK, WEARD builds partnerships that feel native to audience culture while staying premium, brand-safe, and commercially persuasive."
-                points={[
-                  "Access to Asian and multicultural creator profiles in beauty, food, travel, and lifestyle",
-                  "Cross-cultural strategy for Asia-to-UK campaign adaptation",
-                  "Fast campaign execution for launches, seasonal pushes, and always-on creator programmes",
-                ]}
-                links={["roster", "asia-to-uk-influencer-marketing", "contact"]}
-                onNav={navigate}
-              />
-            </motion.section>
-          )}
-          {activePage === "cultural-campaign-creators" && (
-            <motion.section key="cultural-campaign-creators" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
-              <DiscoveryLanding
-                eyebrow="Cultural campaign creators"
-                title="Creators for Lunar New Year, Ramadan, Diwali, and Mid-Autumn Festival campaigns"
-                intro="WEARD helps brands move beyond generic seasonal content by matching creators with lived cultural context. We design campaigns that respect audience nuance while driving awareness, engagement, and conversion."
-                points={[
-                  "Cultural brief review and creator matching for key festival moments",
-                  "Content guardrails that protect tone, relevance, and inclusivity",
-                  "Amplification options across paid social and creator whitelisting",
-                ]}
-                links={["roster", "diverse-creators", "contact"]}
-                onNav={navigate}
-              />
             </motion.section>
           )}
         </AnimatePresence>
@@ -1614,7 +1438,7 @@ function CreatorProfile({ creator, onBack, onEnquire }) {
           ? "The Olives"
           : name === "I'm Hungry In London"
             ? "Jenna"
-            : name === "JNO PWR"
+            : name === "JNO PWNR"
               ? "JNO"
               : name.split(" ")[0];
   const whyBrandsCollabCopy = {
@@ -1708,10 +1532,15 @@ function CreatorProfile({ creator, onBack, onEnquire }) {
                 />
               )}
               <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/45 via-black/15 to-transparent" />
+              {/* phones: name sits on the photo so it's visible without scrolling */}
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 p-5 text-white lg:hidden" aria-hidden="true">
+                <p className="text-4xl font-semibold leading-none tracking-tight drop-shadow-md">{name}</p>
+                {location && <p className="mt-2 text-xs uppercase tracking-[0.18em] text-white/80">{location}</p>}
+              </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-3">
+          <div className="profile-stats">
             {tt > 0 && (
               <div className="stat-card rounded-2xl border border-neutral-200 p-4 text-center dark:border-neutral-800">
                 <div className="text-3xl sm:text-4xl font-extrabold">
@@ -2000,45 +1829,6 @@ function StickyMobileCta({ onNav }) {
   );
 }
 
-function DiscoveryLanding({ eyebrow, title, intro, points = [], links = [], onNav }) {
-  const labels = {
-    roster: "Explore roster",
-    contact: "Contact WEARD",
-    "diverse-creators": "Diverse creators",
-    "asian-influencers-uk": "Asian influencers UK",
-    "cultural-campaign-creators": "Cultural campaign creators",
-    "asia-to-uk-influencer-marketing": "Asia to UK influencer marketing",
-  };
-
-  return (
-    <section className="max-w-6xl mx-auto px-4 py-10 sm:py-12">
-      <div className="rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white/90 dark:bg-neutral-950 p-5 sm:p-8">
-        <p className="text-xs uppercase tracking-[0.35em] text-neutral-400">{eyebrow}</p>
-        <h1 className="mt-3 text-3xl sm:text-4xl font-bold leading-tight">{title}</h1>
-        <p className="mt-4 text-base leading-7 text-neutral-600 dark:text-neutral-300 max-w-4xl">{intro}</p>
-        <ul className="mt-6 grid gap-3 text-sm sm:text-base">
-          {points.map((point) => (
-            <li key={point} className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4">
-              {point}
-            </li>
-          ))}
-        </ul>
-        <div className="mt-6 flex flex-wrap gap-3">
-          {links.map((link) => (
-            <SiteLink
-              key={link}
-              to={link}
-              onNav={onNav}
-              className="inline-flex items-center gap-2 rounded-full border border-neutral-300 px-4 py-2 text-sm dark:border-neutral-700"
-            >
-              {labels[link] || link} <ArrowRight size={14} />
-            </SiteLink>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 // ======= HOME =======
 function Asiancy({ onNav }) {
@@ -2708,88 +2498,6 @@ function WhereWeWork() {
 }
 
 
-function MarketingLanding({
-  title,
-  regionFocus,
-  overview,
-  marketPoints = [],
-  approachPoints = [],
-  onNav,
-}) {
-  return (
-    <section className="max-w-6xl mx-auto px-4 py-10 sm:py-12">
-      <div className="rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white/90 dark:bg-neutral-950 p-5 sm:p-8">
-        <p className="text-xs uppercase tracking-[0.35em] text-neutral-400">
-          Regional influencer marketing
-        </p>
-        <h1 className="mt-4 text-4xl sm:text-5xl font-bold">{title}</h1>
-        <p className="mt-4 text-sm text-neutral-600 dark:text-neutral-400 max-w-3xl">
-          {overview}
-        </p>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2">
-          <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4">
-            <p className="text-xs uppercase tracking-[0.25em] text-neutral-600">Market focus</p>
-            <p className="mt-2 text-sm font-semibold">{regionFocus}</p>
-          </div>
-          <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4">
-            <p className="text-xs uppercase tracking-[0.25em] text-neutral-600">What we deliver</p>
-            <ul className="mt-2 text-sm text-neutral-600 dark:text-neutral-400 space-y-1">
-              {marketPoints.map((point) => (
-                <li key={point}>{point}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
-        <div className="mt-6 rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4">
-          <p className="text-xs uppercase tracking-[0.25em] text-neutral-600">How we work</p>
-          <ul className="mt-2 text-sm text-neutral-600 dark:text-neutral-400 space-y-1">
-            {approachPoints.map((point) => (
-              <li key={point}>{point}</li>
-            ))}
-          </ul>
-        </div>
-        <div className="mt-6 grid gap-3 sm:grid-cols-2 text-sm text-neutral-600 dark:text-neutral-400">
-          <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4">
-            <p className="font-semibold">End-to-end influencer management</p>
-            <p className="mt-2">
-              Campaign ideation to execution, paid social amplification, whitelisted content,
-              and ROI-focused creator campaigns for global brand expansion.
-            </p>
-          </div>
-          <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4">
-            <p className="font-semibold">Always-on influencer strategy</p>
-            <p className="mt-2">
-              Localised creator strategy, multi-market activations, and performance reporting
-              aligned with international influencer management goals.
-            </p>
-          </div>
-        </div>
-        <div className="mt-8 flex flex-wrap gap-3">
-          <SiteLink
-            to="roster"
-            onNav={onNav}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-neutral-300 dark:border-neutral-700 text-sm"
-          >
-            Explore roster <ArrowRight size={14} />
-          </SiteLink>
-          <SiteLink
-            to="brands"
-            onNav={onNav}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-neutral-300 dark:border-neutral-700 text-sm"
-          >
-            Brand partnerships <ArrowRight size={14} />
-          </SiteLink>
-          <button
-            onClick={() => onNav?.("contact")}
-            className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm text-white ${GRADIENT}`}
-          >
-            Work with WEARD <ArrowRight size={14} />
-          </button>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 function BrandPartnerships({ onNav }) {
   const featuredBrands = [
@@ -3149,11 +2857,11 @@ function CreatorDirectory({ creators = [], onNav }) {
         Discover every creator currently represented by WEARD, with one consistent profile per talent.
       </p>
       <div className="mt-4 flex flex-wrap gap-2 text-xs text-neutral-500">
-        <SiteLink to="apac-influencer-marketing" onNav={onNav} className="underline">
-          APAC influencer talent management
+        <SiteLink to="asiancy" onNav={onNav} className="underline">
+          UK and APAC influencer marketing with Asiancy
         </SiteLink>
-                <SiteLink to="asia-to-uk-influencer-marketing" onNav={onNav} className="underline">
-          UK influencer marketing
+        <SiteLink to="contact" onNav={onNav} className="underline">
+          Brief us on a campaign
         </SiteLink>
       </div>
       <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 text-sm">
@@ -3182,26 +2890,6 @@ function CreatorDirectory({ creators = [], onNav }) {
   );
 }
 
-function SocialStat({ label, icon: Icon, url, value }) {
-  const safeUrl = getSafeExternalUrl(url);
-  const isLink = !!safeUrl;
-  const Cmp = isLink ? "a" : "div";
-  return (
-    <Cmp
-      href={isLink ? safeUrl : undefined}
-      target={isLink ? "_blank" : undefined}
-      rel={isLink ? "noopener noreferrer" : undefined}
-      className="p-3 rounded-xl bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 hover:border-indigo-400/60 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition block"
-      aria-label={isLink ? `${label} - open profile` : label}
-    >
-      <div className="flex items-center gap-2">
-        <Icon size={14} aria-hidden="true" />
-        <span className="font-medium">{label}</span>
-      </div>
-      <div className="mt-1 text-lg font-semibold">{value}</div>
-    </Cmp>
-  );
-}
 
 function CreatorCard({ p }) {
   const avatar =
@@ -3427,55 +3115,6 @@ function CreatorCard({ p }) {
           </span>
         </div>
       </div>
-    </div>
-  );
-}
-function HoverMedia({ photo, video, alt }) {
-  const [playing, setPlaying] = useState(false);
-  const vidRef = useRef(null);
-  useEffect(() => {
-    if (!vidRef.current) return;
-    try {
-      if (playing) {
-        vidRef.current.currentTime = 0;
-        const p = vidRef.current.play();
-        if (p && typeof p.catch === "function") p.catch(() => {});
-      } else {
-        vidRef.current.pause();
-      }
-    } catch {}
-  }, [playing]);
-  return (
-    <div
-      className="absolute inset-0"
-      onMouseEnter={() => setPlaying(true)}
-      onMouseLeave={() => setPlaying(false)}
-      onTouchStart={() => setPlaying((v) => !v)}
-    >
-      <img
-        src={photo}
-        alt={alt}
-        className={cn(
-          "absolute inset-0 h-full w-full object-cover transition-opacity duration-300",
-          playing ? "opacity-0" : "opacity-100"
-        )}
-        loading="lazy"
-        decoding="async"
-      />
-      <video
-        ref={vidRef}
-        src={video}
-        muted
-        loop
-        playsInline
-        preload="none"
-        controls={false}
-        disablePictureInPicture
-        className={cn(
-          "absolute inset-0 h-full w-full object-cover transition-opacity duration-300",
-          playing ? "opacity-100" : "opacity-0"
-        )}
-      />
     </div>
   );
 }

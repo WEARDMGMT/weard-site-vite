@@ -1066,6 +1066,11 @@ body.weard-loading {
   .weard-hero__glass {
     animation: none;
   }
+
+  /* darken the clips behind the headline so their captions don't fight with it */
+  .weard-hero__overlay {
+    background: radial-gradient(ellipse 95% 55% at 50% 50%, rgba(5, 5, 8, .78), rgba(5, 5, 8, .35) 70%, transparent);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1084,3 +1089,7 @@ body.weard-loading {
     animation: none;
   }
 }
+
+/* Creator profile follower cards: three per row, centred when there are fewer */
+.profile-stats { display: flex; flex-wrap: wrap; justify-content: center; gap: .75rem; }
+.profile-stats > * { flex: 0 1 calc((100% - 1.5rem) / 3); min-width: 0; }
