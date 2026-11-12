@@ -272,7 +272,7 @@ const BRAND_LOGOS = [
 ];
 
 const WEARE_WORDS = ["DIFFERENT", "DISRUPTIVE", "DYNAMIC", "DISTINCT", "DRIVEN", "DECISIVE", "DEFIANT"];
-// 15 lightest clips (about 11 MB in total) so the home page loads quickly on phones.
+// Short 480px clips (10s each); cards only load a clip once it scrolls into view.
 const HERO_VIDEOS = [
   "/assets/videos/video-28.VBP.mp4",
   "/assets/videos/video-17.mp4",
@@ -289,6 +289,14 @@ const HERO_VIDEOS = [
   "/assets/videos/video-06.mp4",
   "/assets/videos/video-09.mp4",
   "/assets/videos/video-30.VBK.mp4",
+  "/assets/videos/video-31.alissa.mp4",
+  "/assets/videos/video-32.otf.mp4",
+  "/assets/videos/video-33.jenna.mp4",
+  "/assets/videos/video-34.jenna.mp4",
+  "/assets/videos/video-35.jenna.mp4",
+  "/assets/videos/video-36.jenna.mp4",
+  "/assets/videos/video-37.jenna.mp4",
+  "/assets/videos/video-38.jenna.mp4",
 ];
 const HERO_LANES = [
   { seed: 0, speed: 54, pulse: 0.18 },
