@@ -293,7 +293,6 @@ const HERO_VIDEOS = [
   "/assets/videos/video-32.otf.mp4",
   "/assets/videos/video-33.jenna.mp4",
   "/assets/videos/video-34.jenna.mp4",
-  "/assets/videos/video-35.jenna.mp4",
   "/assets/videos/video-36.jenna.mp4",
   "/assets/videos/video-37.jenna.mp4",
   "/assets/videos/video-38.jenna.mp4",
