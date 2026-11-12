@@ -2267,7 +2267,9 @@ function HeroCarousel({ onExploreRoster, onWorkWithUs }) {
   );
 }
 
-const HERO_VIDEO_POSTER = "/og-image.jpg";
+// Each clip has a still at /assets/videos/posters/<name>.jpg (scripts/make-video-posters.mjs),
+// shown straight away so the wall never sits black while a clip loads.
+const heroPoster = (src) => src.replace("/assets/videos/", "/assets/videos/posters/").replace(/\.mp4$/, ".jpg");
 
 function HeroCard({ src }) {
   const cardRef = useRef(null);
@@ -2314,15 +2316,13 @@ function HeroCard({ src }) {
           loop
           playsInline
           preload="none"
-          poster={HERO_VIDEO_POSTER}
+          poster={heroPoster(src)}
           onError={() => setHasError(true)}
         />
       ) : (
-        <img src={HERO_VIDEO_POSTER} alt="" loading="lazy" decoding="async" />
+        <img src={heroPoster(src)} alt="" loading="lazy" decoding="async" />
       )}
-      {hasError && (
-        <div className="weard-hero__fallback">Add MP4 at: {src}</div>
-      )}
+      {hasError && <img className="weard-hero__fallback-still" src={heroPoster(src)} alt="" />}
     </div>
   );
 }
