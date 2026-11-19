@@ -24,8 +24,52 @@ const creators = JSON.parse(await readFile("src/weard/creator-share.json", "utf8
 const escapeHtml = (value) => value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
 const template = await readFile("dist/index.html", "utf8");
 
-for (const [path, title, description, body, share] of [...pages, ...creators]) {
+// Real page content for crawlers. React replaces #root as soon as the app starts, so visitors
+// see the full design; Google and link previews get readable HTML and links without running JS.
+const share = JSON.parse(await readFile("src/weard/creator-share.json", "utf8"));
+const stats = JSON.parse(await readFile("src/weard/roster-stats.json", "utf8")).creators;
+const appSource = await readFile("src/weard/App.jsx", "utf8");
+const rosterBlock = appSource.slice(appSource.indexOf("const STARTER_CREATORS"), appSource.indexOf("\n];", appSource.indexOf("const STARTER_CREATORS")));
+const bioFor = (name) => {
+  const at = rosterBlock.search(new RegExp(`name:\\s*"${name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`));
+  const match = at < 0 ? null : rosterBlock.slice(at).match(/bio:\s*"((?:[^"\\]|\\.)*)"/);
+  return match ? JSON.parse(`"${match[1]}"`) : "";
+};
+const compact = (n) => (n >= 1e6 ? `${+(n / 1e6).toFixed(1)}M` : n >= 1e3 ? `${Math.round(n / 1e3)}K` : String(n));
+const navHtml = `<nav aria-label="Primary"><a href="/">Home</a> <a href="/about">About Us</a> <a href="/roster">Roster</a> <a href="/asiancy">Asiancy</a> <a href="/contact">Contact</a></nav>`;
+const rosterLinks = `<h2>Our creators</h2><ul>${share.map((c) => `<li><a href="/creators/${c.slug}">${escapeHtml(c.name)}</a>: ${escapeHtml(c.category)}. ${escapeHtml(c.summary)}</li>`).join("")}</ul>`;
+const footerHtml = `<footer><p><a href="/contact">Contact</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:info@weardmgmt.com">info@weardmgmt.com</a></p><p>© WEARD Management Limited</p></footer>`;
+const creatorHtml = (c) => {
+  const s = stats[c.slug] || {};
+  const reach = [
+    s.instagram_followers && `<li><a href="https://www.instagram.com/${c.instagram}/" rel="noopener">Instagram</a>: ${compact(s.instagram_followers)} followers</li>`,
+    s.tiktok_followers && `<li><a href="https://www.tiktok.com/@${c.tiktok}" rel="noopener">TikTok</a>: ${compact(s.tiktok_followers)} followers</li>`,
+    s.youtube_subscribers && `<li>YouTube: ${compact(s.youtube_subscribers)} subscribers</li>`,
+  ].filter(Boolean).join("");
+  return `<article><h1>${escapeHtml(c.name)}</h1><p>${escapeHtml(c.category)} creator (${escapeHtml(c.handle)}), represented by WEARD Management.</p>`
+    + `<p>${escapeHtml(bioFor(c.name) || c.summary)}</p>${reach ? `<ul>${reach}</ul>` : ""}`
+    + `<p><a href="/contact">Work with ${escapeHtml(c.name)}</a> · <a href="/roster">See the full roster</a></p></article>`
+    + `<h2>More WEARD creators</h2><ul>${share.filter((o) => o.slug !== c.slug).map((o) => `<li><a href="/creators/${o.slug}">${escapeHtml(o.name)}</a></li>`).join("")}</ul>`;
+};
+const fallback = (inner) => `<div id="root"><div class="seo-fallback">${navHtml}<main>${inner}</main>${footerHtml}</div></div>`;
+
+const write = async (file, html) => {
+  await mkdir(dirname(file), { recursive: true });
+  await writeFile(file, html);
+};
+
+// Home page: keep its own meta, add content and links.
+await write("dist/index.html", template.replace('<div id="root"></div>', fallback(
+  `<h1>WEARD Management: creator talent management, UK and Asia</h1><p>WEARD is a highly curated, culturally fluent talent company representing distinctive creators and building brand partnerships across the UK and Asia.</p>${rosterLinks}`
+)));
+
+const creatorPages = new Map(share.map((c) => [`creators/${c.slug}`, c]));
+for (const [path, title, description, body, card] of [...pages, ...creators]) {
   const url = `${origin}/${path}`;
+  const creator = creatorPages.get(path);
+  const inner = creator
+    ? creatorHtml(creator)
+    : `<h1>${escapeHtml(title.split(" | ")[0])}</h1><p>${escapeHtml(description)}</p><p>${escapeHtml(body)}</p>${["about", "roster", "asiancy"].includes(path) ? rosterLinks : ""}`;
   let html = template
     .replace(/<title>.*?<\/title>/, `<title>${escapeHtml(title)}</title>`)
     .replace(/(<meta\s+name="description"\s+content=")[^"]*("\s*\/?>)/s, `$1${escapeHtml(description)}$2`)
@@ -35,18 +79,17 @@ for (const [path, title, description, body, share] of [...pages, ...creators]) {
     .replace(/(<meta\s+property="og:url"\s+content=")[^"]*("\s*\/?>)/, `$1${url}$2`)
     .replace(/(<meta\s+name="twitter:title"\s+content=")[^"]*("\s*\/?>)/, `$1${escapeHtml(title)}$2`)
     .replace(/(<meta\s+name="twitter:description"\s+content=")[^"]*("\s*\/?>)/s, `$1${escapeHtml(description)}$2`)
-    .replace('<div id="root"></div>', `<div id="root"><main class="seo-fallback"><h1>${escapeHtml(title)}</h1><p>${escapeHtml(body)}</p></main></div>`);
-  if (share) {
-    const image = `${origin}${share.image}`;
+    .replace('<div id="root"></div>', fallback(inner));
+  if (card) {
+    const image = `${origin}${card.image}`;
     html = html
       .replace(/(<meta\s+property="og:image"\s+content=")[^"]*("\s*\/?>)/, `$1${image}$2`)
       .replace(/(<meta\s+name="twitter:image"\s+content=")[^"]*("\s*\/?>)/, `$1${image}$2`)
-      .replace(/(<meta\s+property="og:image:alt"\s+content=")[^"]*("\s*\/?>)/, `$1${escapeHtml(share.alt)}$2`)
-      .replace(/(<meta\s+name="twitter:image:alt"\s+content=")[^"]*("\s*\/?>)/, `$1${escapeHtml(share.alt)}$2`)
+      .replace(/(<meta\s+property="og:image:alt"\s+content=")[^"]*("\s*\/?>)/, `$1${escapeHtml(card.alt)}$2`)
+      .replace(/(<meta\s+name="twitter:image:alt"\s+content=")[^"]*("\s*\/?>)/, `$1${escapeHtml(card.alt)}$2`)
       .replace(/(<meta\s+property="og:type"\s+content=")[^"]*("\s*\/?>)/, `$1profile$2`);
   }
-  const output = join("dist", path, "index.html");
-  await mkdir(dirname(output), { recursive: true });
-  await writeFile(output, html);
+  // Written as dist/<path>.html (not <path>/index.html): GitHub Pages then serves /about directly,
+  // matching the canonical tag and sitemap, instead of 301-redirecting to /about/.
+  await write(join("dist", `${path}.html`), html);
 }
-

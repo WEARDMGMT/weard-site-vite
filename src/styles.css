@@ -1116,3 +1116,12 @@ body.weard-loading {
 .weard-logo-carousel__card:has(.weard-logo-carousel__label) { gap: .5rem; }
 .weard-logo-carousel__card:has(.weard-logo-carousel__label) .weard-logo-carousel__logo { max-height: 30px; width: auto; }
 .weard-logo-carousel__label { color: #111827; font-size: 1.15rem; font-weight: 800; letter-spacing: -.02em; }
+
+/* Static page content written by scripts/generate-seo-pages.mjs; shown only until React starts. */
+.seo-fallback { max-width: 48rem; margin: 0 auto; padding: 2rem 1rem; font-family: system-ui, sans-serif; line-height: 1.6; color: #171717; }
+.seo-fallback nav, .seo-fallback footer { display: flex; flex-wrap: wrap; gap: 1rem; font-size: .9rem; }
+.seo-fallback main { margin: 2rem 0; }
+.seo-fallback h1 { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; }
+.seo-fallback h2 { font-size: 1.25rem; font-weight: 700; margin: 1.5rem 0 .5rem; }
+.seo-fallback p, .seo-fallback li { margin-bottom: .5rem; }
+.seo-fallback a { text-decoration: underline; }
