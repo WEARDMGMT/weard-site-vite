@@ -166,13 +166,13 @@ const MEDIA = {
     },
     Sophia: {
       hero:   "/media/creators/sophia/sophia-hero.jpg",   // main profile image
-      poster: "/media/creators/sophia/sophia-poster.jpg", // still frame before hover
-      video:  "/media/creators/sophia/sophia-hover.mp4",  // hover video
+      poster: "/media/creators/sophia/sophia-poster-v2.jpg", // still frame before hover
+      video:  "/media/creators/sophia/sophia-hover-v2.mp4",  // hover video (sunset clip, Nov 2026)
     },
     Josefine: {
     hero:   "/media/creators/josefine/josefine-hero-v2.jpg",
-    poster: "/media/creators/josefine/josefine-poster-v2.jpg",
-    video:  "/media/creators/josefine/josefine-hover-v2.mp4",
+    poster: "/media/creators/josefine/josefine-poster-v3.jpg",
+    video:  "/media/creators/josefine/josefine-hover-v3.mp4", // autumn outfit clip, Nov 2026
    },
 
     OliveTreeFamily: {
@@ -251,7 +251,7 @@ const BRAND_LOGOS = [
   { src: "/media/logos/vinted.png", alt: "Vinted" },
   { src: "/media/logos/vita-coco.png", alt: "Vita Coco" },
   { src: "/media/logos/yfood.png", alt: "yfood" },
-  // Added from Monday signed/complete deals (Nov 2026). Nomad has no usable logo file, so it shows as a wordmark.
+  // Added from Monday signed/complete deals (Nov 2026). Nomad only has an icon, so its name sits beside it (label).
   { src: "/media/logos/surfshark.svg", alt: "Surfshark" },
   { src: "/media/logos/oral-b.svg", alt: "Oral-B" },
   { src: "/media/logos/klook.svg", alt: "Klook" },
@@ -263,7 +263,7 @@ const BRAND_LOGOS = [
   { src: "/media/logos/burger-beyond.svg", alt: "Burger & Beyond" },
   { src: "/media/logos/lothian-buses.png", alt: "Lothian Buses" },
   { src: "/media/logos/safetywing.png", alt: "SafetyWing" },
-  { alt: "Nomad eSIM" },
+  { src: "/media/logos/nomad.png", alt: "Nomad eSIM", label: "Nomad" },
   { src: "/media/logos/on-running.png", alt: "On" },
   { src: "/media/logos/wondershare.svg", alt: "Wondershare" },
   { src: "/media/logos/singha.png", alt: "Singha" },
@@ -296,6 +296,8 @@ const HERO_VIDEOS = [
   "/assets/videos/video-36.jenna.mp4",
   "/assets/videos/video-37.jenna.mp4",
   "/assets/videos/video-38.jenna.mp4",
+  "/assets/videos/video-39.sophia.mp4",
+  "/assets/videos/video-40.josefine.mp4",
 ];
 const HERO_LANES = [
   { seed: 0, speed: 54, pulse: 0.18 },
@@ -782,7 +784,16 @@ function useInView(options) {
       });
     }, options);
 
-    if (ref.current) observer.observe(ref.current);
+    if (ref.current) {
+      observer.observe(ref.current);
+      // The observer can miss an element that is already on screen while the page fades in,
+      // so check once shortly after mounting as well.
+      const check = setTimeout(() => {
+        const r = ref.current?.getBoundingClientRect();
+        if (r && r.top < window.innerHeight + 200 && r.bottom > -200) setInView(true);
+      }, 60);
+      return () => { clearTimeout(check); observer.disconnect(); };
+    }
     return () => observer.disconnect();
   }, [options]);
 
@@ -3202,6 +3213,7 @@ function LogoCarousel({ rowHeight = 76 }) {
               }}
             />
           )}
+          {logo.label && <span className="weard-logo-carousel__label" aria-hidden="true">{logo.label}</span>}
           <span className="weard-logo-carousel__fallback" hidden={Boolean(logo.src)}>
             {logo.alt}
           </span>

@@ -1113,3 +1113,6 @@ body.weard-loading {
   .pillars-ui__panel p:first-of-type { margin-top: 0; }
 }
 .pillars-ui__tab { scroll-margin-top: 84px; }
+.weard-logo-carousel__card:has(.weard-logo-carousel__label) { gap: .5rem; }
+.weard-logo-carousel__card:has(.weard-logo-carousel__label) .weard-logo-carousel__logo { max-height: 30px; width: auto; }
+.weard-logo-carousel__label { color: #111827; font-size: 1.15rem; font-weight: 800; letter-spacing: -.02em; }
